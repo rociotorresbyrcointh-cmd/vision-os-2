@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* ─── Design tokens Vision OS ─────────────────────────────────── */
+:root {
+  --vision-bg: #07070f;        /* fondo profundo */
+  --vision-blue: #2563ff;      /* azul Vision */
+  --vision-blue-light: #3b82f6;
+  --vision-blue-soft: #60a5fa;
+  --background: var(--vision-bg);
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+/* ─── Animaciones de marca (login/register/logo) ──────────────── */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes gridScroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 55px; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes dim4ring1 {
+  0% { transform: perspective(700px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: perspective(700px) rotateX(360deg) rotateY(180deg) rotateZ(90deg); }
+}
+@keyframes dim4ring2 {
+  0% { transform: perspective(700px) rotateX(90deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: perspective(700px) rotateX(90deg) rotateY(360deg) rotateZ(180deg); }
+}
+@keyframes dim4ring3 {
+  0% { transform: perspective(700px) rotateX(45deg) rotateY(45deg) rotateZ(0deg); }
+  100% { transform: perspective(700px) rotateX(45deg) rotateY(45deg) rotateZ(360deg); }
+}
