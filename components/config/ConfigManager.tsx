@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Settings, FileHeart, Store, Check, Sparkles } from 'lucide-react'
 import { setOrgFlag, saveOrgData, type OrgData } from '@/services/org-settings'
 
@@ -15,6 +16,7 @@ export function ConfigManager({
   socialEnabled: boolean
   orgData: OrgData
 }) {
+  const router = useRouter()
   const [clinical, setClinical] = useState(clinicalEnabled)
   const [social, setSocial] = useState(socialEnabled)
   const [saving, setSaving] = useState(false)
@@ -22,8 +24,10 @@ export function ConfigManager({
   const toggleSocial = async () => {
     const next = !social
     setSocial(next); setSaving(true)
-    try { await setOrgFlag(organizationId, 'social_enabled', next) }
-    catch { setSocial(!next) }
+    try {
+      await setOrgFlag(organizationId, 'social_enabled', next)
+      router.refresh() // actualiza el menú lateral al instante
+    } catch { setSocial(!next) }
     finally { setSaving(false) }
   }
 
