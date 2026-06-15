@@ -13,6 +13,46 @@ export type AppointmentInput = {
   notes: string | null
   capacity_consumed: number
   blocks_overlap: boolean
+  recurrence_group_id?: string | null
+  recurrence_rule?: { freq: 'weekly' | 'monthly'; count: number } | null
+}
+
+export type RecurFreq = 'weekly' | 'biweekly' | 'monthly'
+
+// Crea una serie de turnos repetidos (semanal / quincenal / mensual).
+// Cada ocurrencia se intenta por separado; las que choquen con otro turno se informan.
+export async function createRecurringAppointments(
+  organizationId: string,
+  base: AppointmentInput,
+  freq: RecurFreq,
+  count: number
+): Promise<{ created: Appointment[]; failed: string[] }> {
+  const groupId = crypto.randomUUID()
+  const rule = { freq: (freq === 'monthly' ? 'monthly' : 'weekly') as 'weekly' | 'monthly', count }
+  const start0 = new Date(base.start_time)
+  const end0 = new Date(base.end_time)
+  const created: Appointment[] = []
+  const failed: string[] = []
+
+  for (let i = 0; i < count; i++) {
+    const s = new Date(start0), e = new Date(end0)
+    if (freq === 'weekly') { s.setDate(s.getDate() + 7 * i); e.setDate(e.getDate() + 7 * i) }
+    else if (freq === 'biweekly') { s.setDate(s.getDate() + 14 * i); e.setDate(e.getDate() + 14 * i) }
+    else { s.setMonth(s.getMonth() + i); e.setMonth(e.getMonth() + i) }
+    try {
+      const appt = await createAppointment(organizationId, {
+        ...base,
+        start_time: s.toISOString(),
+        end_time: e.toISOString(),
+        recurrence_group_id: groupId,
+        recurrence_rule: rule,
+      })
+      created.push(appt)
+    } catch {
+      failed.push(s.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }))
+    }
+  }
+  return { created, failed }
 }
 
 // Turnos de un día concreto (rango [desde, hasta)) de toda la organización.

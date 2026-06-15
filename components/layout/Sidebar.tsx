@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, LogOut } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, LogOut } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
   { href: '/agenda', label: 'Agenda', icon: Calendar },
+  { href: '/espera', label: 'Lista de espera', icon: Clock },
   { href: '/pacientes', label: 'Pacientes', icon: UserRound },
   { href: '/pagos', label: 'Caja', icon: Wallet },
   { href: '/reportes', label: 'Reportes', icon: BarChart3 },

@@ -5,7 +5,7 @@ import { X, Trash2, MessageCircle, Wallet, UserPlus, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime, Payment, PaymentMethod, PaymentKind } from '@/types/database'
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
-import { createAppointment, updateAppointment, deleteAppointment } from '@/services/appointments'
+import { createAppointment, updateAppointment, deleteAppointment, createRecurringAppointments, type RecurFreq } from '@/services/appointments'
 import { expandBlocksForDay } from '@/services/blocked-times'
 import { searchPatients, fullName } from '@/services/patients'
 import { createPayment, listPaymentsByAppointment, deletePayment, METHOD_LABELS } from '@/services/payments'
@@ -49,6 +49,7 @@ export function AppointmentModal({
   blocks,
   onClose,
   onSaved,
+  onSavedMany,
   onDeleted,
   onPaid,
 }: {
@@ -61,6 +62,7 @@ export function AppointmentModal({
   blocks: BlockedTime[]
   onClose: () => void
   onSaved: (a: Appointment) => void
+  onSavedMany: () => void
   onDeleted: (id: string) => void
   onPaid: () => void
 }) {
@@ -102,6 +104,8 @@ export function AppointmentModal({
   const [status, setStatus] = useState<AppointmentStatus>(editing?.status ?? 'pending')
   const [notes, setNotes] = useState(editing?.notes ?? '')
   const [capacity, setCapacity] = useState(editing?.capacity_consumed ?? 1)
+  const [recur, setRecur] = useState<'none' | RecurFreq>('none')
+  const [recurCount, setRecurCount] = useState(4)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -214,6 +218,19 @@ export function AppointmentModal({
       blocks_overlap: maxCapacity === 1,
     }
     try {
+      // Turno recurrente (solo al crear): genera la serie
+      if (!editing && recur !== 'none') {
+        const { created, failed } = await createRecurringAppointments(organizationId, payload, recur, recurCount)
+        if (created.length === 0) {
+          setError('No se pudo crear ningún turno (los horarios estaban ocupados).')
+          setSaving(false); return
+        }
+        if (failed.length) {
+          alert(`Se crearon ${created.length} turnos. No se pudieron crear ${failed.length} porque el horario ya estaba ocupado: ${failed.join(', ')}.`)
+        }
+        onSavedMany()
+        return
+      }
       const saved = editing
         ? await updateAppointment(editing.id, payload)
         : await createAppointment(organizationId, payload)
@@ -336,6 +353,32 @@ export function AppointmentModal({
               {STATUSES.map((s) => <option key={s.value} value={s.value} style={opt}>{s.label}</option>)}
             </select>
           </Field>
+
+          {!editing && (
+            <Field label="Repetir este turno">
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                <select value={recur} onChange={(e) => setRecur(e.target.value as 'none' | RecurFreq)} style={{ ...input, flex: 1, minWidth: 150 }}>
+                  <option value="none" style={opt}>No repetir</option>
+                  <option value="weekly" style={opt}>Cada semana</option>
+                  <option value="biweekly" style={opt}>Cada 2 semanas</option>
+                  <option value="monthly" style={opt}>Cada mes</option>
+                </select>
+                {recur !== 'none' && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <input type="number" min={2} max={52} value={recurCount}
+                      onChange={(e) => setRecurCount(Math.max(2, Math.min(52, Number(e.target.value))))}
+                      style={{ ...input, width: 70 }} />
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>veces</span>
+                  </div>
+                )}
+              </div>
+              {recur !== 'none' && (
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '7px 0 0' }}>
+                  Se crearán {recurCount} turnos {recur === 'weekly' ? 'semanales' : recur === 'biweekly' ? 'cada 2 semanas' : 'mensuales'}, a partir de la fecha elegida.
+                </p>
+              )}
+            </Field>
+          )}
 
           {maxCapacity > 1 && (
             <Field label={`¿Cuántos lugares ocupa este turno? (de ${maxCapacity} disponibles)`}>

@@ -264,6 +264,7 @@ export function CalendarContainer({
           blocks={blocks}
           onClose={() => setModal(null)}
           onSaved={onSaved}
+          onSavedMany={() => { setModal(null); refetch(view, date) }}
           onDeleted={onDeleted}
           onPaid={refreshPaid}
         />
