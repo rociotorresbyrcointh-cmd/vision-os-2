@@ -63,3 +63,26 @@ export async function deleteProfessional(id: string): Promise<void> {
     .eq('id', id)
   if (error) throw error
 }
+
+export async function listDeletedProfessionals(): Promise<Professional[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('professionals')
+    .select('*')
+    .eq('is_active', false)
+    .order('name', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
+export async function restoreProfessional(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase.from('professionals').update({ is_active: true }).eq('id', id)
+  if (error) throw error
+}
+
+export async function hardDeleteProfessional(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase.from('professionals').delete().eq('id', id)
+  if (error) throw error
+}

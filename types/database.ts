@@ -103,6 +103,7 @@ export interface Appointment {
   notes: string | null
   source: 'admin' | 'public' | 'whatsapp'
   reminder_sent_at: string | null
+  deleted_at: string | null
   created_at: string
   updated_at: string
 }

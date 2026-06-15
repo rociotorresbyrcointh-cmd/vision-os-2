@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, LogOut } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, LogOut } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 
@@ -18,6 +18,7 @@ const NAV = [
   { href: '/bloqueos', label: 'Bloqueos', icon: Ban },
   { href: '/whatsapp', label: 'WhatsApp', icon: MessageCircle },
   { href: '/recordatorios', label: 'Recordatorios', icon: BellRing },
+  { href: '/papelera', label: 'Papelera', icon: Trash2 },
   { href: '/configuracion', label: 'Configuración', icon: Settings },
 ]
 

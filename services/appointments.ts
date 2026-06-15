@@ -24,6 +24,7 @@ export async function listAppointmentsBetween(
   const { data, error } = await supabase
     .from('appointments')
     .select('*')
+    .is('deleted_at', null)
     .gte('start_time', fromISO)
     .lt('start_time', toISO)
     .neq('status', 'cancelled')
@@ -61,10 +62,40 @@ export async function updateAppointment(
   return data
 }
 
+// Borrado SUAVE: va a la papelera (libera el horario, se puede recuperar)
 export async function deleteAppointment(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('appointments')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) throw error
+}
+
+export async function restoreAppointment(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('appointments')
+    .update({ deleted_at: null })
+    .eq('id', id)
+  if (error) throw mapError(error)
+}
+
+export async function hardDeleteAppointment(id: string): Promise<void> {
   const supabase = createClient()
   const { error } = await supabase.from('appointments').delete().eq('id', id)
   if (error) throw error
+}
+
+export async function listDeletedAppointments(): Promise<Appointment[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .not('deleted_at', 'is', null)
+    .order('deleted_at', { ascending: false })
+  if (error) throw error
+  return data ?? []
 }
 
 // Busca turnos por nombre/teléfono del turno, o por DNI/nombre del paciente.
@@ -77,6 +108,7 @@ export async function searchAppointmentsByClient(query: string): Promise<Appoint
   const directReq = supabase
     .from('appointments')
     .select('*')
+    .is('deleted_at', null)
     .or(`client_name.ilike.%${q}%,client_phone.ilike.%${q}%`)
     .order('start_time', { ascending: false })
     .limit(50)
@@ -95,6 +127,7 @@ export async function searchAppointmentsByClient(query: string): Promise<Appoint
     const { data } = await supabase
       .from('appointments')
       .select('*')
+      .is('deleted_at', null)
       .in('patient_id', ids)
       .order('start_time', { ascending: false })
       .limit(50)

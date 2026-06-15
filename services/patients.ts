@@ -119,6 +119,7 @@ export async function listPatientAppointments(patientId: string) {
     .from('appointments')
     .select('*')
     .eq('patient_id', patientId)
+    .is('deleted_at', null)
     .order('start_time', { ascending: false })
   if (error) throw error
   return data ?? []
