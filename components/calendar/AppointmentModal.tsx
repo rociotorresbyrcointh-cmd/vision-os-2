@@ -338,7 +338,7 @@ export function AppointmentModal({
           </Field>
 
           {maxCapacity > 1 && (
-            <Field label={`Capacidad que ocupa (de ${maxCapacity})`}>
+            <Field label={`¿Cuántos lugares ocupa este turno? (de ${maxCapacity} disponibles)`}>
               <select value={capacity} onChange={(e) => setCapacity(Number(e.target.value))} style={input}>
                 {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((n) => (
                   <option key={n} value={n} style={opt}>{n} {n === 1 ? 'lugar' : 'lugares'}</option>

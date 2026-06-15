@@ -189,7 +189,7 @@ export function ProfessionalsManager({
               </Field>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <Field label="Capacidad por hora">
+                <Field label="¿Cuántos atiende a la vez?">
                   <input type="number" min={1} max={20} value={form.max_capacity_per_hour}
                     onChange={(e) => setForm((f) => ({ ...f, max_capacity_per_hour: Math.max(1, Number(e.target.value)) }))} style={input} />
                 </Field>
@@ -200,6 +200,11 @@ export function ProfessionalsManager({
                   </button>
                 </Field>
               </div>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '-4px 0 0', lineHeight: 1.5 }}>
+                Cuántos pacientes puede atender <b>al mismo tiempo</b> en una misma franja horaria.
+                Poné <b>1</b> si atiende de a uno (lo más común). Poné más si atiende a varios a la vez
+                (ej: un kinesiólogo con 3 camillas, o una clase grupal).
+              </p>
 
               {error && <p style={{ color: '#f87171', fontSize: 12, margin: 0 }}>{error}</p>}
 
