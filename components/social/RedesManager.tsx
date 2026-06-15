@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2 } from 'lucide-react'
+import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2, ImageIcon } from 'lucide-react'
 import { saveBrand, type Brand } from '@/services/org-settings'
 import { generateIdeas, suggestHashtags } from '@/lib/content-ideas'
 import { saveContent, listSavedContent, deleteSavedContent, type SavedContent } from '@/services/ai-content'
+import { PlacasTab } from './PlacasTab'
 
-type Tab = 'marca' | 'ia' | 'guardados' | 'ideas' | 'auditoria'
+type Tab = 'marca' | 'ia' | 'placas' | 'guardados' | 'ideas' | 'auditoria'
 
 const KIND_LABEL: Record<string, string> = { ideas: '💡 Ideas', calendario: '📅 Calendario', analisis: '🔍 Análisis' }
 
@@ -44,7 +45,7 @@ export function RedesManager({
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24, width: 'fit-content' }}>
-        {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['guardados', 'Guardados', Bookmark], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
+        {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['placas', 'Placas', ImageIcon], ['guardados', 'Guardados', Bookmark], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
               background: tab === t ? 'rgba(34,211,238,0.18)' : 'transparent', color: tab === t ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
@@ -129,6 +130,7 @@ export function RedesManager({
       )}
 
       {tab === 'ia' && <AITab brand={brand} organizationId={organizationId} />}
+      {tab === 'placas' && <PlacasTab brand={brand} />}
       {tab === 'guardados' && <SavedTab />}
       {tab === 'ideas' && <IdeasTab brand={brand} />}
       {tab === 'auditoria' && <AuditTab />}
