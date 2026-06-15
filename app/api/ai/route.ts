@@ -98,6 +98,15 @@ ${input || '(vacío)'}
 """
 
 Devolvé SOLO el texto mejorado, listo para publicar (sin explicaciones).`
+    case 'caption':
+      return `${base}
+
+Voy a publicar en Instagram una placa/imagen que dice:
+"""
+${input || '(vacío)'}
+"""
+
+Escribí el texto (caption) que acompaña esa publicación. Que sea atractivo, en el tono de la marca, con un llamado a la acción para reservar, y al final 4-6 hashtags relevantes. Devolvé SOLO el caption listo para publicar.`
     default: // analisis
       return `${base}
 

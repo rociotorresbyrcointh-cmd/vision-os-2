@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import { Download, ImagePlus, X } from 'lucide-react'
+import { Download, ImagePlus, X, Wand2, Copy, Check } from 'lucide-react'
 import type { Brand } from '@/services/org-settings'
 
 type Preset = { key: string; label: string; label2: string; title: string; subtitle: string }
@@ -36,7 +36,7 @@ function drawWrapped(ctx: CanvasRenderingContext2D, text: string, x: number, y: 
   return cursorY
 }
 
-export function PlacasTab({ brand }: { brand: Brand }) {
+export function PlacasTab({ brand, seed }: { brand: Brand; seed?: { text: string; n: number } | null }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ps = presets(brand)
   const [label, setLabel] = useState(ps[0].label2)
@@ -44,6 +44,31 @@ export function PlacasTab({ brand }: { brand: Brand }) {
   const [subtitle, setSubtitle] = useState(ps[0].subtitle)
   const [logo, setLogo] = useState<HTMLImageElement | null>(null)
   const [photo, setPhoto] = useState<HTMLImageElement | null>(null)
+  const [caption, setCaption] = useState('')
+  const [capLoading, setCapLoading] = useState(false)
+  const [capCopied, setCapCopied] = useState(false)
+
+  // Cuando llega texto desde la IA ("Crear placa con esto")
+  useEffect(() => {
+    if (!seed) return
+    const lines = seed.text.trim().split('\n').filter(Boolean)
+    setLabel('')
+    setTitle((lines[0] ?? '').slice(0, 60))
+    setSubtitle(lines.slice(1).join('\n').slice(0, 200))
+  }, [seed?.n])
+
+  const genCaption = async () => {
+    setCapLoading(true); setCaption('')
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind: 'caption', brand, input: `${title}\n${subtitle}` }),
+      })
+      const data = await res.json()
+      setCaption(res.ok ? data.text : (data.error ?? 'No se pudo generar.'))
+    } catch { setCaption('No se pudo generar.') }
+    finally { setCapLoading(false) }
+  }
   const color = brand.color || '#2563FF'
   const color2 = brand.color2 || color
   const handle = brand.instagram?.trim() ? (brand.instagram.startsWith('@') ? brand.instagram : '@' + brand.instagram) : (brand.name || '')
@@ -198,6 +223,21 @@ export function PlacasTab({ brand }: { brand: Brand }) {
         <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11.5, margin: '-2px 0 0' }}>Los colores los toma de tu marca. Cambialos en “Mi Marca”.</p>
 
         <button onClick={download} style={btnDl}><Download size={16} /> Descargar placa (PNG)</button>
+
+        {/* Caption con IA */}
+        <button onClick={genCaption} disabled={capLoading} style={{ ...btnDl, background: 'rgba(34,211,238,0.12)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.4)' }}>
+          <Wand2 size={16} /> {capLoading ? 'Escribiendo…' : 'Escribir el texto del posteo con IA'}
+        </button>
+        {caption && (
+          <div style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: 11, padding: 14 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ color: '#22d3ee', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>Texto del posteo</span>
+              <button onClick={() => { navigator.clipboard.writeText(caption); setCapCopied(true); setTimeout(() => setCapCopied(false), 1500) }}
+                style={chip}>{capCopied ? <Check size={13} /> : <Copy size={13} />}</button>
+            </div>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{caption}</p>
+          </div>
+        )}
       </div>
 
       {/* Vista previa */}

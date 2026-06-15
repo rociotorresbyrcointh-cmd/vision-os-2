@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2, ImageIcon } from 'lucide-react'
+import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2, ImageIcon, RefreshCw } from 'lucide-react'
 import { saveBrand, type Brand } from '@/services/org-settings'
 import { generateIdeas, suggestHashtags } from '@/lib/content-ideas'
 import { saveContent, listSavedContent, deleteSavedContent, type SavedContent } from '@/services/ai-content'
@@ -26,7 +26,14 @@ export function RedesManager({
   const [brand, setBrand] = useState<Brand>({ ...initialBrand, name: initialBrand.name || businessName })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [placaSeed, setPlacaSeed] = useState<{ text: string; n: number } | null>(null)
   const set = (k: keyof Brand, v: string) => setBrand((b) => ({ ...b, [k]: v }))
+
+  // Llevar un texto de la IA a la pestaña Placas
+  const createPlaca = (text: string) => {
+    setPlacaSeed({ text, n: Date.now() })
+    setTab('placas')
+  }
 
   const persist = async () => {
     setSaving(true); setSaved(false)
@@ -135,8 +142,8 @@ export function RedesManager({
         </div>
       )}
 
-      {tab === 'ia' && <AITab brand={brand} organizationId={organizationId} />}
-      {tab === 'placas' && <PlacasTab brand={brand} />}
+      {tab === 'ia' && <AITab brand={brand} organizationId={organizationId} onCreatePlaca={createPlaca} />}
+      {tab === 'placas' && <PlacasTab brand={brand} seed={placaSeed} />}
       {tab === 'guardados' && <SavedTab />}
       {tab === 'ideas' && <IdeasTab brand={brand} />}
       {tab === 'auditoria' && <AuditTab />}
@@ -184,9 +191,10 @@ function SavedTab() {
 }
 
 // ─── Asistente IA ────────────────────────────────────────────────
-function AITab({ brand, organizationId }: { brand: Brand; organizationId: string }) {
+function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organizationId: string; onCreatePlaca: (text: string) => void }) {
   const [result, setResult] = useState('')
   const [resultKind, setResultKind] = useState('')
+  const [lastInput, setLastInput] = useState('')
   const [loading, setLoading] = useState<string>('')
   const [error, setError] = useState('')
   const [profile, setProfile] = useState('')
@@ -194,7 +202,7 @@ function AITab({ brand, organizationId }: { brand: Brand; organizationId: string
   const [saved, setSaved] = useState(false)
 
   const run = async (kind: string, input = '') => {
-    setLoading(kind); setError(''); setResult(''); setSaved(false)
+    setLoading(kind); setError(''); setResult(''); setSaved(false); setLastInput(input)
     try {
       const res = await fetch('/api/ai', {
         method: 'POST',
@@ -268,6 +276,14 @@ function AITab({ brand, organizationId }: { brand: Brand; organizationId: string
             </div>
           </div>
           <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{result}</p>
+          <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
+            <button onClick={() => run(resultKind, lastInput)} disabled={busy} style={{ ...aiBtnGhost, opacity: busy ? 0.5 : 1 }}>
+              <RefreshCw size={14} /> {busy ? 'Generando…' : 'Otra versión'}
+            </button>
+            <button onClick={() => onCreatePlaca(result)} style={aiBtnGhost}>
+              <ImageIcon size={14} /> Crear placa con esto
+            </button>
+          </div>
         </div>
       )}
     </div>
