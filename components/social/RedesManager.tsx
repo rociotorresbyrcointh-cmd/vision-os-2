@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save } from 'lucide-react'
+import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search } from 'lucide-react'
 import { saveBrand, type Brand } from '@/services/org-settings'
 import { generateIdeas, suggestHashtags } from '@/lib/content-ideas'
 
-type Tab = 'marca' | 'ideas' | 'auditoria'
+type Tab = 'marca' | 'ideas' | 'ia' | 'auditoria'
 
 const RUBROS = ['Estética', 'Kinesiología', 'Peluquería / Barbería', 'Nutrición', 'Psicología', 'Spa / Masajes', 'Consultorio médico', 'Uñas', 'Otro']
 
@@ -41,7 +41,7 @@ export function RedesManager({
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24, width: 'fit-content' }}>
-        {([['marca', 'Mi Marca', Palette], ['ideas', 'Ideas de contenido', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
+        {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
               background: tab === t ? 'rgba(34,211,238,0.18)' : 'transparent', color: tab === t ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
@@ -100,8 +100,86 @@ export function RedesManager({
         </div>
       )}
 
+      {tab === 'ia' && <AITab brand={brand} />}
       {tab === 'ideas' && <IdeasTab brand={brand} />}
       {tab === 'auditoria' && <AuditTab />}
+    </div>
+  )
+}
+
+// ─── Asistente IA ────────────────────────────────────────────────
+function AITab({ brand }: { brand: Brand }) {
+  const [result, setResult] = useState('')
+  const [loading, setLoading] = useState<string>('')
+  const [error, setError] = useState('')
+  const [profile, setProfile] = useState('')
+  const [copied, setCopied] = useState(false)
+
+  const run = async (kind: 'ideas' | 'calendario' | 'analisis', input = '') => {
+    setLoading(kind); setError(''); setResult('')
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind, brand, input }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Error')
+      setResult(data.text)
+    } catch (e: any) {
+      setError(e.message ?? 'No se pudo generar.')
+    } finally {
+      setLoading('')
+    }
+  }
+
+  const copy = () => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 1500) }
+  const busy = !!loading
+
+  return (
+    <div style={{ maxWidth: 680 }}>
+      <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.6 }}>
+        La IA crea contenido <b>único y a medida de tu marca</b> (no plantillas). Cargá bien tu marca en la primera pestaña para mejores resultados. ✨
+      </p>
+
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 18 }}>
+        <button onClick={() => run('ideas')} disabled={busy} style={aiBtn}>
+          <Lightbulb size={16} /> {loading === 'ideas' ? 'Generando…' : 'Generar ideas'}
+        </button>
+        <button onClick={() => run('calendario')} disabled={busy} style={aiBtn}>
+          <CalendarDays size={16} /> {loading === 'calendario' ? 'Generando…' : 'Calendario semanal'}
+        </button>
+      </div>
+
+      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
+        <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, color: 'white' }}>🔍 Analizar mi perfil</p>
+        <textarea value={profile} onChange={(e) => setProfile(e.target.value)} rows={3}
+          placeholder="Pegá tu bio actual o contá cómo es tu perfil de Instagram (qué publicás, cuántos seguidores, etc.)"
+          style={{ ...input, resize: 'vertical', lineHeight: 1.5, marginBottom: 10 }} />
+        <button onClick={() => run('analisis', profile)} disabled={busy || !profile.trim()} style={{ ...aiBtn, opacity: busy || !profile.trim() ? 0.5 : 1 }}>
+          <Search size={16} /> {loading === 'analisis' ? 'Analizando…' : 'Analizar perfil'}
+        </button>
+      </div>
+
+      {error && (
+        <div style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: 11, padding: '14px 16px', color: '#f87171', fontSize: 13.5, lineHeight: 1.5 }}>
+          {error.includes('ANTHROPIC') || error.includes('clave de IA')
+            ? '⚙️ Todavía falta conectar la IA. Seguí los pasos para cargar la clave (te los pasó tu desarrolladora) y volvé a probar.'
+            : `Ups: ${error}`}
+        </div>
+      )}
+
+      {result && (
+        <div style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: 13, padding: 18 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <span style={{ color: '#22d3ee', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Wand2 size={14} /> Generado con IA
+            </span>
+            <button onClick={copy} style={copyBtn}>{copied ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}</button>
+          </div>
+          <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{result}</p>
+        </div>
+      )}
     </div>
   )
 }
@@ -215,6 +293,11 @@ const input: React.CSSProperties = {
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
   color: '#062a30', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 800,
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+const aiBtn: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  color: '#062a30', border: 'none', borderRadius: 10, padding: '11px 18px', fontSize: 14, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const copyBtn: React.CSSProperties = {
