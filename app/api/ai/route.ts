@@ -32,8 +32,9 @@ function brandBlock(b: Brand): string {
 
 function buildPrompt(kind: string, b: Brand, input: string): string {
   const base = brandBlock(b)
-  if (kind === 'ideas') {
-    return `${base}
+  switch (kind) {
+    case 'ideas':
+      return `${base}
 
 Generá 6 ideas de publicaciones para Instagram, originales y específicas para este negocio (no genéricas).
 Para CADA idea usá exactamente este formato:
@@ -43,9 +44,8 @@ Para CADA idea usá exactamente este formato:
 💡 Tip: [un consejo breve y concreto para esa publicación]
 
 Separá cada idea con una línea en blanco.`
-  }
-  if (kind === 'calendario') {
-    return `${base}
+    case 'calendario':
+      return `${base}
 
 Armá un calendario de contenido para una semana (Lunes a Domingo) para Instagram.
 Para cada día indicá: el tipo de contenido y un título/tema concreto y específico para este negocio.
@@ -56,10 +56,50 @@ Formato:
 **Martes** — ...
 (y así hasta el Domingo)
 
-Al final agregá una línea con: "🎯 Recordá: poné siempre el link de reservas en la bio."`
-  }
-  // analisis
-  return `${base}
+Al final agregá: "🎯 Recordá: poné siempre el link de reservas en la bio."`
+    case 'reel':
+      return `${base}
+
+Escribí un guión para un Reel de Instagram (15 a 30 segundos) para este negocio.
+Estructura:
+🎬 **Gancho** (primeros 3 segundos, para que no sigan de largo)
+🎥 **Escenas** (paso a paso: qué se muestra en pantalla + qué texto o voz en off)
+✅ **Cierre** (llamado a la acción para reservar)
+🎵 Sugerencia de tipo de música o audio en tendencia.
+Que sea fácil de grabar con un celular.`
+    case 'historias':
+      return `${base}
+
+Dame 5 ideas de Historias (stories) de Instagram para este negocio, fáciles de hacer y que generen interacción.
+Incluí al menos: una encuesta, una caja de preguntas, una cuenta regresiva, un "antes/después" y una con link de reservas.
+Para cada una: **[Título]** y una explicación breve de cómo hacerla.`
+    case 'bio':
+      return `${base}
+
+Escribí 3 opciones de biografía para el perfil de Instagram de este negocio.
+Cada una: máximo 150 caracteres, clara, que diga qué ofrece y la ciudad, con un llamado a la acción y emojis con buen gusto.
+Numerá las opciones (1, 2, 3) y debajo de cada una poné entre paréntesis la cantidad de caracteres.`
+    case 'resena':
+      return `${base}
+
+Un cliente escribió este comentario o reseña:
+"""
+${input || '(vacío)'}
+"""
+
+Escribí una respuesta en nombre del negocio: profesional, cálida y breve (2-4 líneas).
+Si es positiva, agradecé con calidez. Si es negativa, mostrá empatía, hacete cargo y ofrecé solucionarlo por privado, sin sonar a la defensiva.`
+    case 'mejorar':
+      return `${base}
+
+Mejorá este texto para redes sociales, manteniendo la idea pero haciéndolo más atractivo y en el tono de la marca:
+"""
+${input || '(vacío)'}
+"""
+
+Devolvé SOLO el texto mejorado, listo para publicar (sin explicaciones).`
+    default: // analisis
+      return `${base}
 
 El dueño describe así su perfil de Instagram actual:
 """
@@ -72,6 +112,7 @@ Hacé un análisis profesional y devolvé:
 3. **3 acciones para esta semana** (pasos simples y específicos)
 
 Sé directo y práctico. Enfocá todo en conseguir más clientes/reservas.`
+  }
 }
 
 export async function POST(req: Request) {

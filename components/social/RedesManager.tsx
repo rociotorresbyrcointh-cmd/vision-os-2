@@ -193,7 +193,7 @@ function AITab({ brand, organizationId }: { brand: Brand; organizationId: string
   const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
 
-  const run = async (kind: 'ideas' | 'calendario' | 'analisis', input = '') => {
+  const run = async (kind: string, input = '') => {
     setLoading(kind); setError(''); setResult(''); setSaved(false)
     try {
       const res = await fetch('/api/ai', {
@@ -221,23 +221,31 @@ function AITab({ brand, organizationId }: { brand: Brand; organizationId: string
         La IA crea contenido <b>único y a medida de tu marca</b> (no plantillas). Cargá bien tu marca en la primera pestaña para mejores resultados. ✨
       </p>
 
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 18 }}>
-        <button onClick={() => run('ideas')} disabled={busy} style={aiBtn}>
-          <Lightbulb size={16} /> {loading === 'ideas' ? 'Generando…' : 'Generar ideas'}
-        </button>
-        <button onClick={() => run('calendario')} disabled={busy} style={aiBtn}>
-          <CalendarDays size={16} /> {loading === 'calendario' ? 'Generando…' : 'Calendario semanal'}
-        </button>
+      <p style={lbl2}>Generá al instante</p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
+        {([['ideas', 'Ideas', Lightbulb], ['calendario', 'Calendario', CalendarDays], ['reel', 'Guión de Reel', Wand2], ['historias', 'Ideas de Historias', Sparkles], ['bio', 'Bio optimizada', Search]] as [string, string, any][]).map(([k, label, Icon]) => (
+          <button key={k} onClick={() => run(k)} disabled={busy} style={{ ...aiBtn, opacity: busy && loading !== k ? 0.5 : 1 }}>
+            <Icon size={15} /> {loading === k ? 'Generando…' : label}
+          </button>
+        ))}
       </div>
 
+      <p style={lbl2}>Pegá un texto y la IA te ayuda</p>
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
-        <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, color: 'white' }}>🔍 Analizar mi perfil</p>
         <textarea value={profile} onChange={(e) => setProfile(e.target.value)} rows={3}
-          placeholder="Pegá tu bio actual o contá cómo es tu perfil de Instagram (qué publicás, cuántos seguidores, etc.)"
+          placeholder="Pegá acá: tu bio actual, una reseña/comentario de un cliente, o un texto que querés mejorar…"
           style={{ ...input, resize: 'vertical', lineHeight: 1.5, marginBottom: 10 }} />
-        <button onClick={() => run('analisis', profile)} disabled={busy || !profile.trim()} style={{ ...aiBtn, opacity: busy || !profile.trim() ? 0.5 : 1 }}>
-          <Search size={16} /> {loading === 'analisis' ? 'Analizando…' : 'Analizar perfil'}
-        </button>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button onClick={() => run('analisis', profile)} disabled={busy || !profile.trim()} style={{ ...aiBtnGhost, opacity: busy || !profile.trim() ? 0.5 : 1 }}>
+            {loading === 'analisis' ? 'Analizando…' : '🔍 Analizar mi perfil'}
+          </button>
+          <button onClick={() => run('resena', profile)} disabled={busy || !profile.trim()} style={{ ...aiBtnGhost, opacity: busy || !profile.trim() ? 0.5 : 1 }}>
+            {loading === 'resena' ? 'Escribiendo…' : '💬 Responder reseña'}
+          </button>
+          <button onClick={() => run('mejorar', profile)} disabled={busy || !profile.trim()} style={{ ...aiBtnGhost, opacity: busy || !profile.trim() ? 0.5 : 1 }}>
+            {loading === 'mejorar' ? 'Mejorando…' : '✨ Mejorar este texto'}
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -379,9 +387,15 @@ const btnPrimary: React.CSSProperties = {
 }
 const aiBtn: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
-  color: '#062a30', border: 'none', borderRadius: 10, padding: '11px 18px', fontSize: 14, fontWeight: 800,
+  color: '#062a30', border: 'none', borderRadius: 10, padding: '10px 15px', fontSize: 13.5, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
+const aiBtnGhost: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,211,238,0.1)', color: '#22d3ee',
+  border: '1px solid rgba(34,211,238,0.35)', borderRadius: 9, padding: '9px 14px', fontSize: 13, fontWeight: 700,
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+const lbl2: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px', fontFamily: "'Orbitron', sans-serif" }
 const copyBtn: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)',
   border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
