@@ -43,17 +43,20 @@ export function PlacasTab({ brand }: { brand: Brand }) {
   const [title, setTitle] = useState(ps[0].title)
   const [subtitle, setSubtitle] = useState(ps[0].subtitle)
   const [logo, setLogo] = useState<HTMLImageElement | null>(null)
+  const [photo, setPhoto] = useState<HTMLImageElement | null>(null)
   const color = brand.color || '#2563FF'
+  const color2 = brand.color2 || color
   const handle = brand.instagram?.trim() ? (brand.instagram.startsWith('@') ? brand.instagram : '@' + brand.instagram) : (brand.name || '')
 
   const applyPreset = (p: Preset) => { setLabel(p.label2); setTitle(p.title); setSubtitle(p.subtitle) }
 
-  const onLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const loadImg = (setter: (img: HTMLImageElement) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = () => { const img = new Image(); img.onload = () => setLogo(img); img.src = reader.result as string }
+    reader.onload = () => { const img = new Image(); img.onload = () => setter(img); img.src = reader.result as string }
     reader.readAsDataURL(file)
+    e.target.value = ''
   }
 
   // Redibuja la placa cada vez que cambia algo
@@ -64,19 +67,38 @@ export function PlacasTab({ brand }: { brand: Brand }) {
     const S = 1080
     ctx.clearRect(0, 0, S, S)
 
-    // Fondo oscuro
-    const bg = ctx.createLinearGradient(0, 0, S, S)
-    bg.addColorStop(0, '#0d0d18'); bg.addColorStop(1, '#07070F')
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, S, S)
-
-    // Acentos de color de marca (círculos suaves)
-    ctx.save(); ctx.globalAlpha = 0.16; ctx.fillStyle = color
-    ctx.beginPath(); ctx.arc(S - 120, S - 100, 420, 0, Math.PI * 2); ctx.fill()
-    ctx.globalAlpha = 0.1; ctx.beginPath(); ctx.arc(120, 140, 260, 0, Math.PI * 2); ctx.fill(); ctx.restore()
+    if (photo) {
+      // Foto de fondo (cover) + capa oscura para que se lea el texto
+      const scale = Math.max(S / photo.width, S / photo.height)
+      const w = photo.width * scale, h = photo.height * scale
+      ctx.drawImage(photo, (S - w) / 2, (S - h) / 2, w, h)
+      ctx.fillStyle = 'rgba(7,7,15,0.5)'; ctx.fillRect(0, 0, S, S)
+      const ov = ctx.createLinearGradient(0, 0, 0, S)
+      ov.addColorStop(0, 'rgba(7,7,15,0.35)'); ov.addColorStop(0.55, 'rgba(7,7,15,0.15)'); ov.addColorStop(1, 'rgba(7,7,15,0.85)')
+      ctx.fillStyle = ov; ctx.fillRect(0, 0, S, S)
+      // Barra de color de marca abajo
+      const bar = ctx.createLinearGradient(0, 0, S, 0)
+      bar.addColorStop(0, color); bar.addColorStop(1, color2)
+      ctx.fillStyle = bar; ctx.fillRect(0, S - 14, S, 14)
+    } else {
+      // Fondo oscuro con acentos de los 2 colores de marca
+      const bg = ctx.createLinearGradient(0, 0, S, S)
+      bg.addColorStop(0, '#0d0d18'); bg.addColorStop(1, '#07070F')
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, S, S)
+      ctx.save()
+      ctx.globalAlpha = 0.18; ctx.fillStyle = color
+      ctx.beginPath(); ctx.arc(S - 120, S - 100, 420, 0, Math.PI * 2); ctx.fill()
+      ctx.globalAlpha = 0.16; ctx.fillStyle = color2
+      ctx.beginPath(); ctx.arc(120, 150, 300, 0, Math.PI * 2); ctx.fill()
+      ctx.restore()
+    }
 
     // Marco
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 3
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 3
     ctx.strokeRect(48, 48, S - 96, S - 96)
+
+    // Sombra para que el texto se lea bien sobre fotos
+    if (photo) { ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 2 }
 
     const cx = S / 2
     let y = 200
@@ -115,11 +137,12 @@ export function PlacasTab({ brand }: { brand: Brand }) {
 
     // Pie: handle / nombre
     if (handle) {
-      ctx.fillStyle = color; ctx.textAlign = 'center'
+      ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'
       ctx.font = '700 38px Inter, Arial, sans-serif'
       ctx.fillText(handle, cx, S - 110)
     }
-  }, [label, title, subtitle, logo, color, handle])
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0
+  }, [label, title, subtitle, logo, photo, color, color2, handle])
 
   const download = () => {
     const canvas = canvasRef.current
@@ -150,17 +173,29 @@ export function PlacasTab({ brand }: { brand: Brand }) {
         <Field label="Título"><textarea value={title} onChange={(e) => setTitle(e.target.value)} rows={2} style={{ ...input, resize: 'vertical' }} /></Field>
         <Field label="Texto"><textarea value={subtitle} onChange={(e) => setSubtitle(e.target.value)} rows={3} style={{ ...input, resize: 'vertical' }} /></Field>
 
-        <div>
-          <p style={lbl}>Logo (opcional)</p>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <label style={{ ...chip, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <ImagePlus size={14} /> Subir logo
-              <input type="file" accept="image/*" onChange={onLogo} style={{ display: 'none' }} />
-            </label>
-            {logo && <button onClick={() => setLogo(null)} style={{ ...chip, color: '#f87171', display: 'flex', alignItems: 'center', gap: 5 }}><X size={13} /> Quitar</button>}
+        <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
+          <div>
+            <p style={lbl}>Logo (opcional)</p>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <label style={{ ...chip, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <ImagePlus size={14} /> Subir logo
+                <input type="file" accept="image/*" onChange={loadImg(setLogo)} style={{ display: 'none' }} />
+              </label>
+              {logo && <button onClick={() => setLogo(null)} style={{ ...chip, color: '#f87171', display: 'flex', alignItems: 'center', gap: 5 }}><X size={13} /> Quitar</button>}
+            </div>
           </div>
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11.5, margin: '8px 0 0' }}>El color lo toma de tu marca ({color}). Cambialo en la pestaña “Mi Marca”.</p>
+          <div>
+            <p style={lbl}>Foto de fondo (opcional)</p>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <label style={{ ...chip, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <ImagePlus size={14} /> Subir foto
+                <input type="file" accept="image/*" onChange={loadImg(setPhoto)} style={{ display: 'none' }} />
+              </label>
+              {photo && <button onClick={() => setPhoto(null)} style={{ ...chip, color: '#f87171', display: 'flex', alignItems: 'center', gap: 5 }}><X size={13} /> Quitar</button>}
+            </div>
+          </div>
         </div>
+        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11.5, margin: '-2px 0 0' }}>Los colores los toma de tu marca. Cambialos en “Mi Marca”.</p>
 
         <button onClick={download} style={btnDl}><Download size={16} /> Descargar placa (PNG)</button>
       </div>

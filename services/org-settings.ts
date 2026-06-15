@@ -31,7 +31,8 @@ export type Brand = {
   rubro: string
   tone: 'cercano' | 'profesional' | 'divertido'
   audience: string
-  color: string
+  color: string           // color principal
+  color2: string          // color secundario
   instagram: string
   facebook: string
   city: string            // ciudad / zona
@@ -43,7 +44,7 @@ export type Brand = {
 
 export const EMPTY_BRAND: Brand = {
   name: '', description: '', rubro: '', tone: 'cercano',
-  audience: '', color: '#2563FF', instagram: '', facebook: '',
+  audience: '', color: '#2563FF', color2: '#22d3ee', instagram: '', facebook: '',
   city: '', services: '', differentiator: '', goal: '', extra: '',
 }
 

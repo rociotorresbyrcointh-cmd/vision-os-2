@@ -115,6 +115,12 @@ export function RedesManager({
                 <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color}</span>
               </div>
             </Field>
+            <Field label="Color secundario">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <input type="color" value={brand.color2} onChange={(e) => set('color2', e.target.value)} style={{ width: 48, height: 42, border: 'none', borderRadius: 9, background: 'transparent', cursor: 'pointer' }} />
+                <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color2}</span>
+              </div>
+            </Field>
             <Field label="Instagram (usuario o link)"><input value={brand.instagram} onChange={(e) => set('instagram', e.target.value)} placeholder="@tucuenta" style={input} /></Field>
             <Field label="Facebook (opcional)"><input value={brand.facebook} onChange={(e) => set('facebook', e.target.value)} style={input} /></Field>
           </div>
