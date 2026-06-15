@@ -1,20 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-import { Settings, FileHeart, Store, Check } from 'lucide-react'
+import { Settings, FileHeart, Store, Check, Sparkles } from 'lucide-react'
 import { setOrgFlag, saveOrgData, type OrgData } from '@/services/org-settings'
 
 export function ConfigManager({
   organizationId,
   clinicalEnabled,
+  socialEnabled,
   orgData,
 }: {
   organizationId: string
   clinicalEnabled: boolean
+  socialEnabled: boolean
   orgData: OrgData
 }) {
   const [clinical, setClinical] = useState(clinicalEnabled)
+  const [social, setSocial] = useState(socialEnabled)
   const [saving, setSaving] = useState(false)
+
+  const toggleSocial = async () => {
+    const next = !social
+    setSocial(next); setSaving(true)
+    try { await setOrgFlag(organizationId, 'social_enabled', next) }
+    catch { setSocial(!next) }
+    finally { setSaving(false) }
+  }
 
   // Datos del negocio
   const [data, setData] = useState<OrgData>(orgData)
@@ -77,16 +88,28 @@ export function ConfigManager({
 
       <h2 style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '24px 0 12px' }}>Funciones</h2>
 
-      <ToggleRow
-        icon={<FileHeart size={20} color="#f472b6" />}
-        title="Historia clínica"
-        desc={clinical
-          ? 'Activada: vas a ver la historia clínica en la ficha de cada paciente.'
-          : 'Desactivada: ideal para negocios que no la necesitan (peluquería, barbería…).'}
-        on={clinical}
-        disabled={saving}
-        onToggle={toggleClinical}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <ToggleRow
+          icon={<FileHeart size={20} color="#f472b6" />}
+          title="Historia clínica"
+          desc={clinical
+            ? 'Activada: vas a ver la historia clínica en la ficha de cada paciente.'
+            : 'Desactivada: ideal para negocios que no la necesitan (peluquería, barbería…).'}
+          on={clinical}
+          disabled={saving}
+          onToggle={toggleClinical}
+        />
+        <ToggleRow
+          icon={<Sparkles size={20} color="#22d3ee" />}
+          title="Redes sociales"
+          desc={social
+            ? 'Activada: aparece la sección "Redes" con tu marca, ideas de contenido y auditoría.'
+            : 'Desactivada: activala si querés ayuda para tus redes (Instagram, etc.).'}
+          on={social}
+          disabled={saving}
+          onToggle={toggleSocial}
+        />
+      </div>
     </div>
   )
 }

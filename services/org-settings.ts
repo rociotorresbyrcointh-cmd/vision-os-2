@@ -24,10 +24,38 @@ export async function saveOrgData(organizationId: string, data: OrgData): Promis
   if (error) throw error
 }
 
-// Activar/desactivar una feature booleana del negocio (ej: historia clínica)
+// ─── Marca (Brand Kit) ───────────────────────────────────────────
+export type Brand = {
+  name: string
+  description: string
+  rubro: string
+  tone: 'cercano' | 'profesional' | 'divertido'
+  audience: string
+  color: string
+  instagram: string
+  facebook: string
+}
+
+export const EMPTY_BRAND: Brand = {
+  name: '', description: '', rubro: '', tone: 'cercano',
+  audience: '', color: '#2563FF', instagram: '', facebook: '',
+}
+
+export function resolveBrand(raw: unknown): Brand {
+  if (raw && typeof raw === 'object') return { ...EMPTY_BRAND, ...(raw as Partial<Brand>) }
+  return EMPTY_BRAND
+}
+
+export async function saveBrand(organizationId: string, brand: Brand): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase.from('organizations').update({ brand }).eq('id', organizationId)
+  if (error) throw error
+}
+
+// Activar/desactivar una feature booleana del negocio (ej: historia clínica, redes)
 export async function setOrgFlag(
   organizationId: string,
-  field: 'clinical_history_enabled',
+  field: 'clinical_history_enabled' | 'social_enabled',
   value: boolean
 ): Promise<void> {
   const supabase = createClient()

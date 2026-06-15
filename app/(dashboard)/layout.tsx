@@ -11,12 +11,12 @@ export default async function DashboardLayout({
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('name')
+    .select('name, social_enabled')
     .single()
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#07070F' }}>
-      <Sidebar businessName={org?.name ?? 'Mi Negocio'} />
+      <Sidebar businessName={org?.name ?? 'Mi Negocio'} socialEnabled={org?.social_enabled ?? false} />
       <main style={{ flex: 1, minWidth: 0 }}>{children}</main>
     </div>
   )

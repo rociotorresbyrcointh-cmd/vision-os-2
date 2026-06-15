@@ -5,13 +5,14 @@ export default async function ConfiguracionPage() {
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('id, name, phone, address, hours_note, clinical_history_enabled')
+    .select('id, name, phone, address, hours_note, clinical_history_enabled, social_enabled')
     .single()
 
   return (
     <ConfigManager
       organizationId={org?.id ?? ''}
       clinicalEnabled={org?.clinical_history_enabled ?? false}
+      socialEnabled={org?.social_enabled ?? false}
       orgData={{
         name: org?.name ?? '',
         phone: org?.phone ?? null,

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, LogOut } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, LogOut } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 
@@ -22,8 +22,12 @@ const NAV = [
   { href: '/configuracion', label: 'Configuración', icon: Settings },
 ]
 
-export function Sidebar({ businessName }: { businessName: string }) {
+export function Sidebar({ businessName, socialEnabled }: { businessName: string; socialEnabled?: boolean }) {
   const pathname = usePathname()
+  // "Redes" aparece solo si el negocio activó la función
+  const nav = socialEnabled
+    ? [...NAV.slice(0, -1), { href: '/redes', label: 'Redes', icon: Sparkles }, NAV[NAV.length - 1]]
+    : NAV
 
   return (
     <aside
@@ -49,7 +53,7 @@ export function Sidebar({ businessName }: { businessName: string }) {
 
       {/* Navegación */}
       <nav style={{ flex: 1, padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {NAV.map(({ href, label, icon: Icon }) => {
+        {nav.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href)
           return (
             <Link
