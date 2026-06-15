@@ -23,6 +23,7 @@ export async function listPatients(): Promise<Patient[]> {
   const { data, error } = await supabase
     .from('patients')
     .select('*')
+    .is('deleted_at', null)
     .order('first_name', { ascending: true })
   if (error) throw error
   return data ?? []
@@ -36,8 +37,21 @@ export async function searchPatients(query: string): Promise<Patient[]> {
   const { data, error } = await supabase
     .from('patients')
     .select('*')
+    .is('deleted_at', null)
     .or(`first_name.ilike.%${q}%,last_name.ilike.%${q}%,dni.ilike.%${q}%`)
     .limit(6)
+  if (error) throw error
+  return data ?? []
+}
+
+// Pacientes en la papelera (borrados, recuperables)
+export async function listDeletedPatients(): Promise<Patient[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('patients')
+    .select('*')
+    .not('deleted_at', 'is', null)
+    .order('deleted_at', { ascending: false })
   if (error) throw error
   return data ?? []
 }
@@ -71,7 +85,28 @@ export async function updatePatient(
   return data
 }
 
+// Borrado SUAVE: lo manda a la papelera (no se pierde, se puede recuperar)
 export async function deletePatient(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('patients')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) throw error
+}
+
+// Recuperar un paciente de la papelera
+export async function restorePatient(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('patients')
+    .update({ deleted_at: null })
+    .eq('id', id)
+  if (error) throw error
+}
+
+// Borrado DEFINITIVO (desde la papelera) — esto sí elimina de verdad
+export async function hardDeletePatient(id: string): Promise<void> {
   const supabase = createClient()
   const { error } = await supabase.from('patients').delete().eq('id', id)
   if (error) throw error

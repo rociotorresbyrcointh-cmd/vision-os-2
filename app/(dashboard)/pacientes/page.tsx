@@ -9,6 +9,7 @@ export default async function PacientesPage() {
   const { data: patients } = await supabase
     .from('patients')
     .select('*')
+    .is('deleted_at', null)
     .order('first_name', { ascending: true })
 
   return (

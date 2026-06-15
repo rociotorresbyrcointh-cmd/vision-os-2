@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart, RotateCcw } from 'lucide-react'
 import type { Patient, ClinicalNote } from '@/types/database'
-import { deletePatient, fullName, listPatientAppointments } from '@/services/patients'
+import { deletePatient, restorePatient, hardDeletePatient, listDeletedPatients, fullName, listPatientAppointments } from '@/services/patients'
 import { listNotes, createNote, deleteNote } from '@/services/clinical-notes'
 import { PatientFormModal } from './PatientFormModal'
 
@@ -21,6 +21,7 @@ export function PatientsManager({
   const [formOpen, setFormOpen] = useState(false)
   const [editingPatient, setEditingPatient] = useState<Patient | null>(null)
   const [detail, setDetail] = useState<Patient | null>(null)
+  const [trashOpen, setTrashOpen] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -41,11 +42,13 @@ export function PatientsManager({
   }
 
   const remove = async (p: Patient) => {
-    if (!confirm(`¿Eliminar a ${fullName(p)}?`)) return
+    if (!confirm(`¿Mover a ${fullName(p)} a la papelera? Vas a poder recuperarlo.`)) return
     await deletePatient(p.id)
     setList((l) => l.filter((x) => x.id !== p.id))
     setDetail(null)
   }
+
+  const onRestored = (p: Patient) => setList((l) => [...l, p])
 
   return (
     <div style={{ padding: '28px 32px' }}>
@@ -54,7 +57,10 @@ export function PatientsManager({
           <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Pacientes</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>{list.length} {list.length === 1 ? 'paciente' : 'pacientes'} registrados</p>
         </div>
-        <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo paciente</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => setTrashOpen(true)} style={btnGhost2} title="Papelera"><Trash2 size={15} /> Papelera</button>
+          <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo paciente</button>
+        </div>
       </div>
 
       {/* Búsqueda */}
@@ -102,6 +108,64 @@ export function PatientsManager({
       {detail && (
         <PatientDetail patient={detail} organizationId={organizationId} clinicalEnabled={clinicalEnabled} onClose={() => setDetail(null)} onEdit={() => openEdit(detail)} />
       )}
+
+      {trashOpen && (
+        <TrashModal onClose={() => setTrashOpen(false)} onRestored={onRestored} />
+      )}
+    </div>
+  )
+}
+
+// ─── Papelera de pacientes ───────────────────────────────────────
+function TrashModal({ onClose, onRestored }: { onClose: () => void; onRestored: (p: Patient) => void }) {
+  const [items, setItems] = useState<Patient[] | null>(null)
+  useEffect(() => { listDeletedPatients().then(setItems).catch(() => setItems([])) }, [])
+
+  const restore = async (p: Patient) => {
+    await restorePatient(p.id)
+    setItems((l) => (l ?? []).filter((x) => x.id !== p.id))
+    onRestored({ ...p, deleted_at: null })
+  }
+  const hardDelete = async (p: Patient) => {
+    if (!confirm(`¿Eliminar a ${fullName(p)} DEFINITIVAMENTE? Esto no se puede deshacer.`)) return
+    await hardDeletePatient(p.id)
+    setItems((l) => (l ?? []).filter((x) => x.id !== p.id))
+  }
+
+  return (
+    <div style={overlay} onClick={onClose}>
+      <div style={{ ...modal, maxWidth: 520 }} onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Trash2 size={17} color="rgba(255,255,255,0.6)" /> Papelera
+          </h2>
+          <button onClick={onClose} style={iconBtn}><X size={18} /></button>
+        </div>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, margin: '0 0 16px' }}>
+          Pacientes borrados. Podés recuperarlos o eliminarlos para siempre.
+        </p>
+
+        {items === null ? (
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Cargando…</p>
+        ) : items.length === 0 ? (
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>La papelera está vacía. ✨</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: '60vh', overflowY: 'auto' }}>
+            {items.map((p) => (
+              <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, padding: '11px 14px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14 }}>{fullName(p)}</p>
+                  <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>
+                    {[p.dni && `DNI ${p.dni}`, p.phone].filter(Boolean).join(' · ') || 'sin datos extra'}
+                  </p>
+                </div>
+                <button onClick={() => restore(p)} style={{ ...btnGhost2, color: '#34d399', borderColor: 'rgba(52,211,153,0.35)' }}><RotateCcw size={13} /> Recuperar</button>
+                <button onClick={() => hardDelete(p)} style={{ ...btnGhost2, color: '#f87171', borderColor: 'rgba(248,113,113,0.3)' }}><Trash2 size={13} /></button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -234,6 +298,11 @@ const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
   color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
   padding: '7px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+}
+const btnGhost2: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.05)',
+  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  padding: '9px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
 }
 const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
 const row: React.CSSProperties = {

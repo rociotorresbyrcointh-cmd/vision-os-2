@@ -85,6 +85,7 @@ export async function searchAppointmentsByClient(query: string): Promise<Appoint
   const pats = await supabase
     .from('patients')
     .select('id')
+    .is('deleted_at', null)
     .or(`dni.ilike.%${q}%,first_name.ilike.%${q}%,last_name.ilike.%${q}%`)
     .limit(20)
 

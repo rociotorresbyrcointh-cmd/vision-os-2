@@ -79,6 +79,7 @@ export interface Patient {
   membership_number: string | null
   notes: string | null
   tags: string[]
+  deleted_at: string | null
   created_at: string
   updated_at: string
 }
