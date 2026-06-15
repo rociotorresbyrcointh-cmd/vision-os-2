@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart, Download } from 'lucide-react'
 import type { Patient, ClinicalNote } from '@/types/database'
 import { deletePatient, fullName, listPatientAppointments } from '@/services/patients'
 import { listNotes, createNote, deleteNote } from '@/services/clinical-notes'
+import { exportToExcel } from '@/lib/excel'
 import { PatientFormModal } from './PatientFormModal'
 
 export function PatientsManager({
@@ -47,6 +48,22 @@ export function PatientsManager({
     setDetail(null)
   }
 
+  const exportExcel = () => {
+    const rows = list.map((p) => ({
+      Nombre: p.first_name,
+      Apellido: p.last_name ?? '',
+      DNI: p.dni ?? '',
+      Teléfono: p.phone ?? '',
+      WhatsApp: p.whatsapp ?? '',
+      Email: p.email ?? '',
+      'Fecha nac.': p.date_of_birth ?? '',
+      'Obra social': p.health_insurance ?? '',
+      'N° afiliado': p.membership_number ?? '',
+      Notas: p.notes ?? '',
+    }))
+    exportToExcel('pacientes.xlsx', 'Pacientes', rows)
+  }
+
   return (
     <div style={{ padding: '28px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
@@ -54,7 +71,12 @@ export function PatientsManager({
           <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Pacientes</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>{list.length} {list.length === 1 ? 'paciente' : 'pacientes'} registrados</p>
         </div>
-        <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo paciente</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={exportExcel} disabled={list.length === 0} style={{ ...btnGhost, padding: '10px 14px', fontSize: 13, opacity: list.length === 0 ? 0.4 : 1 }} title="Descargar la lista de pacientes en Excel">
+            <Download size={15} /> Exportar
+          </button>
+          <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo paciente</button>
+        </div>
       </div>
 
       {/* Búsqueda */}

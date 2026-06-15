@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Plus, Trash2, ChevronLeft, ChevronRight, Wallet, X, Search } from 'lucide-react'
+import { Plus, Trash2, ChevronLeft, ChevronRight, Wallet, X, Search, Download } from 'lucide-react'
 import type { Payment, PaymentMethod, PaymentKind, Patient } from '@/types/database'
 import { createPayment, deletePayment, listPaymentsBetween, METHOD_LABELS, type PaymentInput } from '@/services/payments'
 import { searchPatients, fullName } from '@/services/patients'
 import { getDateKey } from '@/lib/date-utils'
+import { exportToExcel } from '@/lib/excel'
 
 const money = (n: number) =>
   n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
@@ -49,6 +50,19 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
     setPayments((l) => l.filter((x) => x.id !== p.id))
   }
 
+  const exportExcel = () => {
+    const rows = payments.map((p) => ({
+      Fecha: new Date(p.paid_at).toLocaleDateString('es-AR'),
+      Hora: new Date(p.paid_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
+      Monto: Number(p.amount),
+      Método: METHOD_LABELS[p.method],
+      Tipo: p.kind === 'seña' ? 'Seña' : 'Pago',
+      Detalle: p.notes ?? '',
+    }))
+    rows.push({ Fecha: '', Hora: '', Monto: total, Método: '', Tipo: 'TOTAL', Detalle: '' })
+    exportToExcel(`caja-${getDateKey(date)}.xlsx`, 'Caja', rows)
+  }
+
   return (
     <div style={{ padding: '28px 32px', maxWidth: 880 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, flexWrap: 'wrap', gap: 12 }}>
@@ -58,7 +72,12 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5 }}>Pagos y señas del día.</p>
         </div>
-        <button onClick={() => setOpen(true)} style={btnPrimary}><Plus size={16} /> Registrar pago</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={exportExcel} disabled={payments.length === 0} style={{ ...btnGhost, opacity: payments.length === 0 ? 0.4 : 1 }} title="Descargar los pagos del día en Excel">
+            <Download size={15} /> Exportar
+          </button>
+          <button onClick={() => setOpen(true)} style={btnPrimary}><Plus size={16} /> Registrar pago</button>
+        </div>
       </div>
 
       {/* Navegación de día */}
@@ -250,6 +269,11 @@ const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+}
+const btnGhost: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
+  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  padding: '10px 15px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const navBtn: React.CSSProperties = {
   width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center',

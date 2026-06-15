@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { TrendingUp, CalendarDays, Receipt, UserX } from 'lucide-react'
+import { TrendingUp, CalendarDays, Receipt, UserX, Download } from 'lucide-react'
 import type { Professional, Service, Appointment, Payment, PaymentMethod } from '@/types/database'
 import { listAppointmentsBetween } from '@/services/appointments'
 import { listPaymentsBetween, METHOD_LABELS } from '@/services/payments'
+import { exportToExcel } from '@/lib/excel'
 
 const money = (n: number) =>
   n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
@@ -106,6 +107,23 @@ export function ReportsManager({
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? '—'
   const maxSvc = m.topServices[0]?.[1] ?? 1
 
+  const exportExcel = () => {
+    const rows: Record<string, string | number>[] = []
+    rows.push({ Sección: 'RESUMEN', Detalle: 'Ingresos', Valor: m.ingresos })
+    rows.push({ Sección: 'RESUMEN', Detalle: 'Turnos', Valor: m.turnos })
+    rows.push({ Sección: 'RESUMEN', Detalle: 'Ticket promedio', Valor: Math.round(m.ticket) })
+    rows.push({ Sección: 'RESUMEN', Detalle: 'Ausentismo %', Valor: Math.round(m.ausentismo) })
+    rows.push({ Sección: '', Detalle: '', Valor: '' })
+    for (const [id, s] of [...m.profStats.entries()].sort((a, b) => b[1].ingresos - a[1].ingresos)) {
+      rows.push({ Sección: 'PROFESIONAL', Detalle: `${profName(id)} (${s.turnos} turnos)`, Valor: s.ingresos })
+    }
+    rows.push({ Sección: '', Detalle: '', Valor: '' })
+    for (const [id, count] of m.topServices) {
+      rows.push({ Sección: 'SERVICIO', Detalle: svcName(id), Valor: count })
+    }
+    exportToExcel(`reporte-${label.replace(/\s+/g, '-').toLowerCase()}.xlsx`, 'Reporte', rows)
+  }
+
   return (
     <div style={{ padding: '28px 32px', maxWidth: 960 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, flexWrap: 'wrap', gap: 12 }}>
@@ -113,6 +131,10 @@ export function ReportsManager({
           <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Reportes</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5 }}>{label} · {loading ? 'cargando…' : `${m.turnos} turnos`}</p>
         </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <button onClick={exportExcel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          <Download size={15} /> Exportar
+        </button>
         <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 9, padding: 3, border: '1px solid rgba(255,255,255,0.08)' }}>
           {(['mes', 'mesPasado', 'dias30'] as Period[]).map((p) => (
             <button key={p} onClick={() => setPeriod(p)}
@@ -122,6 +144,7 @@ export function ReportsManager({
               {p === 'mes' ? 'Este mes' : p === 'mesPasado' ? 'Mes pasado' : 'Últimos 30 días'}
             </button>
           ))}
+        </div>
         </div>
       </div>
 
