@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, Trash2, MessageCircle, Wallet, UserPlus } from 'lucide-react'
+import { X, Trash2, MessageCircle, Wallet, UserPlus, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime, Payment, PaymentMethod, PaymentKind } from '@/types/database'
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
@@ -257,6 +257,11 @@ export function AppointmentModal({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+          {editing?.source === 'public' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, fontWeight: 700, color: '#22d3ee', background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.3)', borderRadius: 9, padding: '9px 12px' }}>
+              <Globe size={15} /> Este turno lo reservó el cliente desde el link online
+            </div>
+          )}
           <Field label="Cliente">
             <div style={{ position: 'relative' }}>
               <input

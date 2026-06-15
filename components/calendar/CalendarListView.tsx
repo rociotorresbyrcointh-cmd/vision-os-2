@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Clock, User, Ban } from 'lucide-react'
+import { Clock, User, Ban, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus } from '@/types/database'
 import type { BlockInstance } from '@/services/blocked-times'
 import { payStatus, money } from '@/lib/pay-status'
@@ -117,8 +117,13 @@ export function CalendarListView({
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 8 }}>
                         {a.client_name}
+                        {a.source === 'public' && (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 700, color: '#22d3ee', background: 'rgba(34,211,238,0.12)', border: '1px solid rgba(34,211,238,0.35)', borderRadius: 6, padding: '2px 8px' }}>
+                            <Globe size={11} /> Reserva online
+                          </span>
+                        )}
                       </p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
                         <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)' }}>{serviceName(a.service_id)}</span>

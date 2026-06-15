@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { Globe } from 'lucide-react'
 import type { Professional, Service, Appointment } from '@/types/database'
 import type { BlockInstance } from '@/services/blocked-times'
 import { minutesToTime } from '@/lib/date-utils'
@@ -217,7 +218,10 @@ export function CalendarDayView({
                           {ps === 'paid' ? '$' : '½'}
                         </span>
                       )}
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.25, paddingRight: ps !== 'none' ? 18 : 0 }}>{a.client_name}</p>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.25, paddingRight: ps !== 'none' ? 18 : 0 }}>
+                        {a.source === 'public' && <Globe size={11} color="#22d3ee" style={{ marginRight: 4, verticalAlign: 'middle' }} />}
+                        {a.client_name}
+                      </p>
                       {showService && (
                         <p style={{ margin: '2px 0 0', fontSize: 11.5, color: 'rgba(255,255,255,0.65)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>{serviceName(a.service_id)}</p>
                       )}
