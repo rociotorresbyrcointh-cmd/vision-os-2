@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
+import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2 } from 'lucide-react'
 import { saveBrand, type Brand } from '@/services/org-settings'
 import { generateIdeas, suggestHashtags } from '@/lib/content-ideas'
+import { saveContent, listSavedContent, deleteSavedContent, type SavedContent } from '@/services/ai-content'
 
-type Tab = 'marca' | 'ideas' | 'ia' | 'auditoria'
+type Tab = 'marca' | 'ia' | 'guardados' | 'ideas' | 'auditoria'
+
+const KIND_LABEL: Record<string, string> = { ideas: '💡 Ideas', calendario: '📅 Calendario', analisis: '🔍 Análisis' }
 
 const RUBROS = ['Estética', 'Kinesiología', 'Peluquería / Barbería', 'Nutrición', 'Psicología', 'Spa / Masajes', 'Consultorio médico', 'Uñas', 'Otro']
 
@@ -41,7 +44,7 @@ export function RedesManager({
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24, width: 'fit-content' }}>
-        {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
+        {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['guardados', 'Guardados', Bookmark], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
               background: tab === t ? 'rgba(34,211,238,0.18)' : 'transparent', color: tab === t ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
@@ -125,23 +128,65 @@ export function RedesManager({
         </div>
       )}
 
-      {tab === 'ia' && <AITab brand={brand} />}
+      {tab === 'ia' && <AITab brand={brand} organizationId={organizationId} />}
+      {tab === 'guardados' && <SavedTab />}
       {tab === 'ideas' && <IdeasTab brand={brand} />}
       {tab === 'auditoria' && <AuditTab />}
     </div>
   )
 }
 
+// ─── Guardados ───────────────────────────────────────────────────
+function SavedTab() {
+  const [items, setItems] = useState<SavedContent[] | null>(null)
+  const [copied, setCopied] = useState('')
+  useEffect(() => { listSavedContent().then(setItems).catch(() => setItems([])) }, [])
+
+  const remove = async (id: string) => {
+    if (!confirm('¿Eliminar este contenido guardado?')) return
+    await deleteSavedContent(id)
+    setItems((l) => (l ?? []).filter((x) => x.id !== id))
+  }
+  const copy = (id: string, text: string) => { navigator.clipboard.writeText(text); setCopied(id); setTimeout(() => setCopied(''), 1500) }
+
+  if (items === null) return <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
+  if (items.length === 0) return (
+    <div style={{ padding: 40, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 14, maxWidth: 680 }}>
+      Todavía no guardaste contenido. Generá algo en <b>Asistente IA</b> y tocá <b>Guardar</b>. 📌
+    </div>
+  )
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 680 }}>
+      {items.map((it) => (
+        <div key={it.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#22d3ee' }}>
+              {KIND_LABEL[it.kind] ?? it.kind} · <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{new Date(it.created_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+            </span>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button onClick={() => copy(it.id, it.content)} style={copyBtn}>{copied === it.id ? <Check size={13} /> : <Copy size={13} />}</button>
+              <button onClick={() => remove(it.id)} style={{ ...copyBtn, color: '#f87171' }}><Trash2 size={13} /></button>
+            </div>
+          </div>
+          <p style={{ margin: 0, color: 'rgba(255,255,255,0.85)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{it.content}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ─── Asistente IA ────────────────────────────────────────────────
-function AITab({ brand }: { brand: Brand }) {
+function AITab({ brand, organizationId }: { brand: Brand; organizationId: string }) {
   const [result, setResult] = useState('')
+  const [resultKind, setResultKind] = useState('')
   const [loading, setLoading] = useState<string>('')
   const [error, setError] = useState('')
   const [profile, setProfile] = useState('')
   const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   const run = async (kind: 'ideas' | 'calendario' | 'analisis', input = '') => {
-    setLoading(kind); setError(''); setResult('')
+    setLoading(kind); setError(''); setResult(''); setSaved(false)
     try {
       const res = await fetch('/api/ai', {
         method: 'POST',
@@ -150,7 +195,7 @@ function AITab({ brand }: { brand: Brand }) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Error')
-      setResult(data.text)
+      setResult(data.text); setResultKind(kind)
     } catch (e: any) {
       setError(e.message ?? 'No se pudo generar.')
     } finally {
@@ -159,6 +204,7 @@ function AITab({ brand }: { brand: Brand }) {
   }
 
   const copy = () => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 1500) }
+  const save = async () => { await saveContent(organizationId, resultKind, result); setSaved(true); setTimeout(() => setSaved(false), 2000) }
   const busy = !!loading
 
   return (
@@ -200,7 +246,10 @@ function AITab({ brand }: { brand: Brand }) {
             <span style={{ color: '#22d3ee', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Wand2 size={14} /> Generado con IA
             </span>
-            <button onClick={copy} style={copyBtn}>{copied ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}</button>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button onClick={save} style={copyBtn}>{saved ? <><Check size={13} /> Guardado</> : <><Bookmark size={13} /> Guardar</>}</button>
+              <button onClick={copy} style={copyBtn}>{copied ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}</button>
+            </div>
           </div>
           <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{result}</p>
         </div>
