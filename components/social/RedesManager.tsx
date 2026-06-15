@@ -67,8 +67,28 @@ export function RedesManager({
           <Field label="¿Qué ofrecés? (descripción corta)">
             <textarea value={brand.description} onChange={(e) => set('description', e.target.value)} rows={2} placeholder="Ej: Tratamientos de kinesiología deportiva y rehabilitación." style={{ ...input, resize: 'vertical' }} />
           </Field>
-          <Field label="¿A quién le hablás? (público)">
-            <input value={brand.audience} onChange={(e) => set('audience', e.target.value)} placeholder="Ej: Deportistas amateurs de 20 a 45 años" style={input} />
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Field label="¿A quién le hablás? (público)">
+              <input value={brand.audience} onChange={(e) => set('audience', e.target.value)} placeholder="Ej: Deportistas amateurs de 20 a 45 años" style={input} />
+            </Field>
+            <Field label="Ciudad / zona">
+              <input value={brand.city} onChange={(e) => set('city', e.target.value)} placeholder="Ej: Palermo, CABA" style={input} />
+            </Field>
+          </div>
+          <Field label="Servicios o productos principales">
+            <textarea value={brand.services} onChange={(e) => set('services', e.target.value)} rows={2} placeholder="Ej: Masaje descontracturante, drenaje linfático, rehabilitación post-lesión…" style={{ ...input, resize: 'vertical' }} />
+          </Field>
+          <Field label="¿Qué te hace diferente? (tu valor)">
+            <textarea value={brand.differentiator} onChange={(e) => set('differentiator', e.target.value)} rows={2} placeholder="Ej: Atención personalizada, +10 años de experiencia, primera sesión de evaluación gratis…" style={{ ...input, resize: 'vertical' }} />
+          </Field>
+          <Field label="Objetivo en redes">
+            <select value={brand.goal} onChange={(e) => set('goal', e.target.value)} style={input}>
+              <option value="" style={opt}>Elegí…</option>
+              <option value="Conseguir más turnos/clientes nuevos" style={opt}>Conseguir más turnos/clientes nuevos</option>
+              <option value="Que me conozcan más (posicionarme)" style={opt}>Que me conozcan más (posicionarme)</option>
+              <option value="Fidelizar a mis clientes actuales" style={opt}>Fidelizar a mis clientes actuales</option>
+              <option value="Vender productos" style={opt}>Vender productos</option>
+            </select>
           </Field>
           <Field label="Tono de comunicación">
             <div style={{ display: 'flex', gap: 8 }}>
@@ -94,6 +114,11 @@ export function RedesManager({
             <Field label="Instagram (usuario o link)"><input value={brand.instagram} onChange={(e) => set('instagram', e.target.value)} placeholder="@tucuenta" style={input} /></Field>
             <Field label="Facebook (opcional)"><input value={brand.facebook} onChange={(e) => set('facebook', e.target.value)} style={input} /></Field>
           </div>
+          <Field label="Contanos más (todo lo que quieras — la IA lo usa)">
+            <textarea value={brand.extra} onChange={(e) => set('extra', e.target.value)} rows={4}
+              placeholder="Escribí libremente: tu historia, promociones actuales, lo que querés transmitir, palabras o frases que te gustan, lo que NO querés decir, tus horarios especiales, etc. Cuanto más le cuentes, mejor sale el contenido."
+              style={{ ...input, resize: 'vertical', lineHeight: 1.5 }} />
+          </Field>
           <button onClick={persist} disabled={saving} style={{ ...btnPrimary, alignSelf: 'flex-start', opacity: saving ? 0.6 : 1 }}>
             {saved ? <><Check size={16} /> Guardado</> : <><Save size={15} /> {saving ? 'Guardando…' : 'Guardar marca'}</>}
           </button>

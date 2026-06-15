@@ -15,12 +15,19 @@ Tu objetivo es ayudar al dueño del negocio a publicar contenido que atraiga cli
 Devolvés todo listo para copiar y pegar. Usás emojis con moderación y buen gusto.`
 
 function brandBlock(b: Brand): string {
-  return `DATOS DE LA MARCA:
-- Nombre: ${b.name || 'sin especificar'}
-- Rubro: ${b.rubro || 'sin especificar'}
-- Qué ofrece: ${b.description || 'sin especificar'}
-- Público objetivo: ${b.audience || 'sin especificar'}
-- Tono: ${b.tone}`
+  const lines = [
+    `- Nombre: ${b.name || 'sin especificar'}`,
+    `- Rubro: ${b.rubro || 'sin especificar'}`,
+    `- Qué ofrece: ${b.description || 'sin especificar'}`,
+    b.services && `- Servicios/productos principales: ${b.services}`,
+    `- Público objetivo: ${b.audience || 'sin especificar'}`,
+    b.city && `- Ciudad/zona: ${b.city}`,
+    b.differentiator && `- Lo que lo hace diferente: ${b.differentiator}`,
+    b.goal && `- Objetivo en redes: ${b.goal}`,
+    `- Tono: ${b.tone}`,
+    b.extra && `- Info adicional importante: ${b.extra}`,
+  ].filter(Boolean)
+  return 'DATOS DE LA MARCA:\n' + lines.join('\n')
 }
 
 function buildPrompt(kind: string, b: Brand, input: string): string {

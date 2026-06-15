@@ -34,11 +34,17 @@ export type Brand = {
   color: string
   instagram: string
   facebook: string
+  city: string            // ciudad / zona
+  services: string        // servicios o productos principales
+  differentiator: string  // qué lo hace diferente
+  goal: string            // objetivo en redes
+  extra: string           // notas libres (todo lo que quiera contar)
 }
 
 export const EMPTY_BRAND: Brand = {
   name: '', description: '', rubro: '', tone: 'cercano',
   audience: '', color: '#2563FF', instagram: '', facebook: '',
+  city: '', services: '', differentiator: '', goal: '', extra: '',
 }
 
 export function resolveBrand(raw: unknown): Brand {
