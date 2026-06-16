@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import type { Professional, Service, Appointment } from '@/types/database'
 import { minutesToTime, getDateKey } from '@/lib/date-utils'
 
@@ -8,6 +8,17 @@ const PX_PER_MIN = 1.0
 const SLOT = 60
 const GUTTER = 52
 const HEADER_H = 52
+
+function useIsMobile(): boolean {
+  const [m, setM] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const u = () => setM(mq.matches); u()
+    mq.addEventListener('change', u)
+    return () => mq.removeEventListener('change', u)
+  }, [])
+  return m
+}
 
 function localMinutes(iso: string): number {
   const d = new Date(iso)
@@ -55,6 +66,7 @@ export function CalendarWeekView({
   onApptClick: (appt: Appointment) => void
   onShowDay: (day: Date) => void
 }) {
+  const isMobile = useIsMobile()
   const totalMin = closeMin - openMin
   const bodyH = totalMin * PX_PER_MIN
   const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
@@ -91,7 +103,7 @@ export function CalendarWeekView({
 
   return (
     <div style={{ flex: 1, overflow: 'auto' }}>
-      <div style={{ display: 'flex', minWidth: GUTTER + 7 * 120 }}>
+      <div style={{ display: 'flex', minWidth: isMobile ? '100%' : GUTTER + 7 * 120 }}>
         {/* Gutter horas */}
         <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#07070F' }}>
           <div style={{ height: HEADER_H }} />
@@ -111,7 +123,7 @@ export function CalendarWeekView({
           const clusters = clusterize(appts)
           const isToday = k === todayKey
           return (
-            <div key={k} style={{ flex: 1, minWidth: 120, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
               <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: '#0a0a14', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{day.toLocaleDateString('es-AR', { weekday: 'short' })}</span>
                 <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#60a5fa' : 'white', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>

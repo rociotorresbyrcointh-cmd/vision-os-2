@@ -300,7 +300,7 @@ export function AppointmentModal({
 
   return (
     <div style={overlay} onClick={onClose}>
-      <div style={modal} onClick={(e) => e.stopPropagation()}>
+      <div className="v-modal" style={modal} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
           <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>
             {editing ? 'Editar turno' : 'Nuevo turno'}

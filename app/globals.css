@@ -56,4 +56,6 @@ body {
   /* Deja lugar para la barra superior del menú móvil y contiene el ancho */
   .vision-main { padding-top: 56px; max-width: 100vw; overflow-x: clip; }
   .agenda-shell { height: calc(100dvh - 56px); }
+  /* Modales más compactos en celular */
+  .v-modal { padding: 16px !important; border-radius: 14px !important; max-height: 88vh !important; }
 }
