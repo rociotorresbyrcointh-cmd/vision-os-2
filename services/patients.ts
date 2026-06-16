@@ -112,6 +112,37 @@ export async function hardDeletePatient(id: string): Promise<void> {
   if (error) throw error
 }
 
+// Clientes que NO vienen hace más de X días (para reactivar).
+// Devuelve los pacientes cuyo último turno (incluyendo futuros) es anterior al corte.
+export async function getInactivePatients(days: number): Promise<{ patient: Patient; lastVisit: string }[]> {
+  const supabase = createClient()
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - days)
+
+  const { data: appts } = await supabase
+    .from('appointments')
+    .select('patient_id, start_time')
+    .not('patient_id', 'is', null)
+    .is('deleted_at', null)
+    .neq('status', 'cancelled')
+    .order('start_time', { ascending: false })
+
+  const last = new Map<string, string>()
+  for (const a of appts ?? []) {
+    if (a.patient_id && !last.has(a.patient_id)) last.set(a.patient_id, a.start_time)
+  }
+
+  const { data: patients } = await supabase
+    .from('patients').select('*').is('deleted_at', null)
+
+  const result: { patient: Patient; lastVisit: string }[] = []
+  for (const p of (patients as Patient[]) ?? []) {
+    const lv = last.get(p.id)
+    if (lv && new Date(lv) < cutoff) result.push({ patient: p, lastVisit: lv })
+  }
+  result.sort((a, b) => new Date(a.lastVisit).getTime() - new Date(b.lastVisit).getTime())
+  return result
+}
+
 // Turnos de un paciente (para su ficha / historial)
 export async function listPatientAppointments(patientId: string) {
   const supabase = createClient()

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, Menu, X, LogOut } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 
@@ -14,6 +14,7 @@ const NAV = [
   { href: '/pacientes', label: 'Pacientes', icon: UserRound },
   { href: '/pagos', label: 'Caja', icon: Wallet },
   { href: '/reportes', label: 'Reportes', icon: BarChart3 },
+  { href: '/crecimiento', label: 'Crecimiento', icon: TrendingUp },
   { href: '/reservas', label: 'Reservas online', icon: Globe },
   { href: '/profesionales', label: 'Profesionales', icon: Users },
   { href: '/servicios', label: 'Servicios', icon: Tag },

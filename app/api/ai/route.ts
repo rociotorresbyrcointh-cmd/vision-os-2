@@ -107,6 +107,22 @@ ${input || '(vacío)'}
 """
 
 Escribí el texto (caption) que acompaña esa publicación. Que sea atractivo, en el tono de la marca, con un llamado a la acción para reservar, y al final 4-6 hashtags relevantes. Devolvé SOLO el caption listo para publicar.`
+    case 'reactivacion':
+      return `${base}
+
+Escribí un mensaje de WhatsApp cálido y breve para reactivar a un cliente que hace tiempo no viene al negocio.
+IMPORTANTE: usá literalmente la variable {nombre} donde iría el nombre del cliente (no inventes un nombre).
+Incluí un incentivo suave para que vuelva a reservar y un llamado a la acción claro. Sin sonar desesperado.
+Devolvé SOLO el mensaje, listo para enviar (con la variable {nombre} adentro).`
+    case 'promo_huecos':
+      return `${base}
+
+Para mañana tenemos estos horarios libres que queremos llenar:
+"""
+${input || '(sin datos)'}
+"""
+
+Escribí un texto corto y atractivo para publicar en redes / mandar por WhatsApp que invite a reservar esos horarios libres de mañana. Generá urgencia suave (cupos limitados / solo por mañana) sin sonar desesperado. Cerrá con un llamado a la acción para reservar. Devolvé SOLO el texto listo para publicar.`
     default: // analisis
       return `${base}
 
