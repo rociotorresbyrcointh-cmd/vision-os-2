@@ -5,7 +5,7 @@ import { X, Trash2, MessageCircle, Wallet, UserPlus, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime, Payment, PaymentMethod, PaymentKind } from '@/types/database'
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
-import { createAppointment, updateAppointment, deleteAppointment, createRecurringAppointments, createWeekdayRecurringAppointments, type RecurFreq } from '@/services/appointments'
+import { createAppointment, updateAppointment, deleteAppointment, deleteRecurrenceGroup, createRecurringAppointments, createWeekdayRecurringAppointments, type RecurFreq } from '@/services/appointments'
 import { expandBlocksForDay } from '@/services/blocked-times'
 import { searchPatients, fullName } from '@/services/patients'
 import { createPayment, listPaymentsByAppointment, deletePayment, METHOD_LABELS } from '@/services/payments'
@@ -107,6 +107,7 @@ export function AppointmentModal({
   const [recur, setRecur] = useState<'none' | RecurFreq | 'weekdays'>('none')
   const [recurCount, setRecurCount] = useState(4)
   const [recurDays, setRecurDays] = useState<number[]>([])
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -276,9 +277,22 @@ export function AppointmentModal({
   }
 
   const remove = async () => {
-    if (!editing || !confirm('¿Eliminar este turno?')) return
+    if (!editing) return
+    // Si es parte de una serie repetida, ofrecer elegir
+    if (editing.recurrence_group_id) { setConfirmDelete(true); return }
+    if (!confirm('¿Eliminar este turno?')) return
     await deleteAppointment(editing.id)
     onDeleted(editing.id)
+  }
+  const deleteOne = async () => {
+    if (!editing) return
+    await deleteAppointment(editing.id)
+    onDeleted(editing.id)
+  }
+  const deleteSeries = async () => {
+    if (!editing?.recurrence_group_id) return
+    await deleteRecurrenceGroup(editing.recurrence_group_id)
+    onSavedMany()
   }
 
   return (
@@ -509,14 +523,27 @@ export function AppointmentModal({
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-            {editing && (
-              <button onClick={remove} style={{ ...btnGhost, color: '#f87171', padding: '11px 14px' }}><Trash2 size={15} /></button>
-            )}
-            <button onClick={save} disabled={saving} style={{ ...btnPrimary, flex: 1, justifyContent: 'center', opacity: saving ? 0.6 : 1 }}>
-              {saving ? 'Guardando…' : editing ? 'Guardar cambios' : 'Crear turno'}
-            </button>
-          </div>
+          {confirmDelete ? (
+            <div style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: 11, padding: 14 }}>
+              <p style={{ margin: '0 0 10px', color: 'white', fontSize: 13.5, fontWeight: 600 }}>
+                Este turno se repite (es una serie). ¿Qué querés eliminar?
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button onClick={deleteOne} style={{ ...btnGhost, flex: 1, justifyContent: 'center', color: '#f87171' }}>Solo este turno</button>
+                <button onClick={deleteSeries} style={{ ...btnGhost, flex: 1, justifyContent: 'center', color: '#f87171', borderColor: 'rgba(248,113,113,0.4)', background: 'rgba(248,113,113,0.12)' }}>Toda la serie</button>
+              </div>
+              <button onClick={() => setConfirmDelete(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 12.5, marginTop: 8, fontFamily: 'inherit' }}>Cancelar</button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+              {editing && (
+                <button onClick={remove} style={{ ...btnGhost, color: '#f87171', padding: '11px 14px' }}><Trash2 size={15} /></button>
+              )}
+              <button onClick={save} disabled={saving} style={{ ...btnPrimary, flex: 1, justifyContent: 'center', opacity: saving ? 0.6 : 1 }}>
+                {saving ? 'Guardando…' : editing ? 'Guardar cambios' : 'Crear turno'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

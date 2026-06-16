@@ -168,6 +168,17 @@ export async function deleteAppointment(id: string): Promise<void> {
   if (error) throw error
 }
 
+// Borra (suave) todos los turnos futuros de una serie recurrente
+export async function deleteRecurrenceGroup(groupId: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('appointments')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('recurrence_group_id', groupId)
+    .is('deleted_at', null)
+  if (error) throw error
+}
+
 export async function restoreAppointment(id: string): Promise<void> {
   const supabase = createClient()
   const { error } = await supabase
