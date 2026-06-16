@@ -114,6 +114,13 @@ Escribí un mensaje de WhatsApp cálido y breve para reactivar a un cliente que 
 IMPORTANTE: usá literalmente la variable {nombre} donde iría el nombre del cliente (no inventes un nombre).
 Incluí un incentivo suave para que vuelva a reservar y un llamado a la acción claro. Sin sonar desesperado.
 Devolvé SOLO el mensaje, listo para enviar (con la variable {nombre} adentro).`
+    case 'pedir_resena':
+      return `${base}
+
+Escribí un mensaje de WhatsApp corto y cálido para pedirle a un cliente que ya fue atendido que deje una reseña (en Google).
+IMPORTANTE: usá literalmente la variable {nombre} donde iría el nombre del cliente.
+Agradecé la visita, pedí la reseña de forma amable explicando que ayuda mucho al negocio. NO incluyas el link (se agrega aparte).
+Devolvé SOLO el mensaje, listo para enviar.`
     case 'promo_huecos':
       return `${base}
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { TrendingUp, HeartHandshake, CalendarClock, MessageCircle, Wand2, Copy, Check, RefreshCw } from 'lucide-react'
+import { TrendingUp, HeartHandshake, CalendarClock, MessageCircle, Wand2, Copy, Check, Star } from 'lucide-react'
 import type { Professional, Service, Appointment, Patient } from '@/types/database'
 import type { Brand } from '@/services/org-settings'
 import { getInactivePatients } from '@/services/patients'
@@ -11,14 +11,15 @@ import { computeSlots, type Interval } from '@/lib/slots'
 import { timeToMinutes } from '@/lib/date-utils'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 
-type Tab = 'reactivar' | 'huecos'
+type Tab = 'reactivar' | 'huecos' | 'resenas'
 
 const DEFAULT_REACT = '¡Hola {nombre}! 😊 Hace un tiempo que no te vemos. Tenemos lugar esta semana, ¿querés reservar tu turno? ¡Te esperamos! 💙'
+const DEFAULT_REVIEW = '¡Hola {nombre}! 😊 Gracias por tu visita. ¿Nos dejarías una reseña? Nos ayuda muchísimo a seguir creciendo. ¡Mil gracias! 🙏'
 
 export function CrecimientoManager({
-  businessName, brand, professionals, services,
+  businessName, brand, reviewLink, professionals, services,
 }: {
-  businessName: string; brand: Brand; professionals: Professional[]; services: Service[]
+  businessName: string; brand: Brand; reviewLink: string; professionals: Professional[]; services: Service[]
 }) {
   const [tab, setTab] = useState<Tab>('reactivar')
   return (
@@ -31,7 +32,7 @@ export function CrecimientoManager({
       </p>
 
       <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24, width: 'fit-content', flexWrap: 'wrap' }}>
-        {([['reactivar', 'Reactivar clientes', HeartHandshake], ['huecos', 'Llenar huecos', CalendarClock]] as [Tab, string, any][]).map(([t, label, Icon]) => (
+        {([['reactivar', 'Reactivar clientes', HeartHandshake], ['huecos', 'Llenar huecos', CalendarClock], ['resenas', 'Pedir reseñas', Star]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
               background: tab === t ? 'rgba(52,211,153,0.18)' : 'transparent', color: tab === t ? '#34d399' : 'rgba(255,255,255,0.5)' }}>
@@ -42,6 +43,99 @@ export function CrecimientoManager({
 
       {tab === 'reactivar' && <ReactivarTab businessName={businessName} brand={brand} />}
       {tab === 'huecos' && <HuecosTab brand={brand} professionals={professionals} />}
+      {tab === 'resenas' && <ResenasTab brand={brand} reviewLink={reviewLink} />}
+    </div>
+  )
+}
+
+// ─── Pedir reseñas ───────────────────────────────────────────────
+function ResenasTab({ brand, reviewLink }: { brand: Brand; reviewLink: string }) {
+  const [days, setDays] = useState(15)
+  const [list, setList] = useState<Appointment[] | null>(null)
+  const [msg, setMsg] = useState(DEFAULT_REVIEW)
+  const [aiLoading, setAiLoading] = useState(false)
+
+  useEffect(() => {
+    const to = new Date(); const from = new Date(); from.setDate(from.getDate() - days)
+    listAppointmentsBetween(from.toISOString(), to.toISOString())
+      .then((a) => {
+        // atendidos, con teléfono, sin repetir cliente
+        const seen = new Set<string>()
+        const out: Appointment[] = []
+        for (const x of a) {
+          if (x.status !== 'completed' || !x.client_phone?.trim()) continue
+          const key = x.patient_id || x.client_phone!
+          if (seen.has(key)) continue
+          seen.add(key); out.push(x)
+        }
+        setList(out)
+      })
+      .catch(() => setList([]))
+  }, [days])
+
+  const genMsg = async () => {
+    setAiLoading(true)
+    try {
+      const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'pedir_resena', brand, input: '' }) })
+      const data = await res.json()
+      if (res.ok && data.text) setMsg(data.text)
+    } finally { setAiLoading(false) }
+  }
+
+  const send = (a: Appointment) => {
+    if (!a.client_phone) return
+    let text = msg.replaceAll('{nombre}', a.client_name)
+    if (reviewLink.trim()) text += `\n\n👉 ${reviewLink.trim()}`
+    window.open(buildWhatsAppLink(a.client_phone, text), '_blank')
+  }
+
+  return (
+    <div>
+      {!reviewLink.trim() && (
+        <div style={{ background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.35)', borderRadius: 11, padding: '13px 16px', marginBottom: 16, color: '#fbbf24', fontSize: 13.5, lineHeight: 1.5 }}>
+          💡 Cargá tu <b>link de reseñas de Google</b> en <b>Configuración → Datos del negocio</b> para que se agregue automático al mensaje.
+        </div>
+      )}
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13.5 }}>Atendidos en los últimos</span>
+        <select value={days} onChange={(e) => setDays(Number(e.target.value))} style={{ ...input, width: 'auto' }}>
+          <option value={7} style={opt}>7 días</option>
+          <option value={15} style={opt}>15 días</option>
+          <option value={30} style={opt}>30 días</option>
+        </select>
+      </div>
+
+      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+          <span style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>Mensaje <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>(usá <code style={{ color: '#34d399' }}>{'{nombre}'}</code>; el link se agrega solo)</span></span>
+          <button onClick={genMsg} disabled={aiLoading} style={aiBtn}><Wand2 size={14} /> {aiLoading ? 'Escribiendo…' : 'Escribir con IA'}</button>
+        </div>
+        <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={3} style={{ ...input, resize: 'vertical', lineHeight: 1.5 }} />
+      </div>
+
+      {list === null ? (
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Buscando…</p>
+      ) : list.length === 0 ? (
+        <div style={emptyBox}>No hay clientes atendidos (con teléfono) en este período.</div>
+      ) : (
+        <>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 12px' }}>{list.length} clientes para pedirles reseña:</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {list.map((a) => (
+              <div key={a.id} style={row}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14.5 }}>{a.client_name}</p>
+                  <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5 }}>
+                    Atendido el {new Date(a.start_time).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })} · {a.client_phone}
+                  </p>
+                </div>
+                <button onClick={() => send(a)} style={waBtn}><MessageCircle size={15} /> Pedir reseña</button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }
