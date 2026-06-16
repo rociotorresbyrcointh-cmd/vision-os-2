@@ -41,9 +41,11 @@ export async function createWeekdayRecurringAppointments(
   const sow = new Date(start0.getFullYear(), start0.getMonth(), start0.getDate())
   sow.setDate(sow.getDate() - sow.getDay())
 
+  // Cantidad objetivo: días elegidos × semanas. Generamos semanas de más para garantizarla.
+  const target = Math.max(1, weekdays.length) * weeks
   const occ: Date[] = []
-  for (let w = 0; w < weeks; w++) {
-    for (const wd of weekdays) {
+  for (let w = 0; w < weeks + 12; w++) {
+    for (const wd of [...weekdays].sort((a, b) => a - b)) {
       const d = new Date(sow)
       d.setDate(sow.getDate() + w * 7 + wd)
       d.setHours(start0.getHours(), start0.getMinutes(), 0, 0)
@@ -51,10 +53,10 @@ export async function createWeekdayRecurringAppointments(
     }
   }
   occ.sort((a, b) => a.getTime() - b.getTime())
-  return runSeries(organizationId, base, occ, durationMs, groupId, rule, shouldSkip)
+  return runSeries(organizationId, base, occ, durationMs, groupId, rule, target, shouldSkip)
 }
 
-// Crea cada ocurrencia, saltando las bloqueadas e informando las que chocan.
+// Crea ocurrencias hasta llegar a 'target', salteando bloqueadas/ocupadas y corriendo a futuro.
 async function runSeries(
   organizationId: string,
   base: AppointmentInput,
@@ -62,14 +64,15 @@ async function runSeries(
   durationMs: number,
   groupId: string,
   rule: { freq: 'weekly' | 'monthly'; count: number },
+  target: number,
   shouldSkip?: SkipCheck
 ): Promise<{ created: Appointment[]; failed: string[]; skipped: string[] }> {
   const created: Appointment[] = []
-  const failed: string[] = []
-  const skipped: string[] = []
+  const moved: string[] = [] // fechas que se saltaron (bloqueo/día no laborable/ocupado) y se corrieron
   for (const s of occ) {
+    if (created.length >= target) break
     const e = new Date(s.getTime() + durationMs)
-    if (shouldSkip && shouldSkip(s, e)) { skipped.push(fmtDay(s)); continue }
+    if (shouldSkip && shouldSkip(s, e)) { moved.push(fmtDay(s)); continue }
     try {
       const appt = await createAppointment(organizationId, {
         ...base, start_time: s.toISOString(), end_time: e.toISOString(),
@@ -77,10 +80,10 @@ async function runSeries(
       })
       created.push(appt)
     } catch {
-      failed.push(fmtDay(s))
+      moved.push(fmtDay(s))
     }
   }
-  return { created, failed, skipped }
+  return { created, failed: [], skipped: moved }
 }
 
 // Crea una serie de turnos repetidos (semanal / quincenal / mensual).
@@ -96,15 +99,16 @@ export async function createRecurringAppointments(
   const rule = { freq: (freq === 'monthly' ? 'monthly' : 'weekly') as 'weekly' | 'monthly', count }
   const start0 = new Date(base.start_time)
   const durationMs = new Date(base.end_time).getTime() - start0.getTime()
+  // Generamos candidatos de más; runSeries crea hasta llegar a 'count', corriendo a futuro.
   const occ: Date[] = []
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count + 40; i++) {
     const s = new Date(start0)
     if (freq === 'weekly') s.setDate(s.getDate() + 7 * i)
     else if (freq === 'biweekly') s.setDate(s.getDate() + 14 * i)
     else s.setMonth(s.getMonth() + i)
     occ.push(s)
   }
-  return runSeries(organizationId, base, occ, durationMs, groupId, rule, shouldSkip)
+  return runSeries(organizationId, base, occ, durationMs, groupId, rule, count, shouldSkip)
 }
 
 // Turnos de un día concreto (rango [desde, hasta)) de toda la organización.

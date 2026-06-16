@@ -240,10 +240,12 @@ export function AppointmentModal({
           setError('No se creó ningún turno (todos caían en bloqueos, días no laborables u horarios ocupados).')
           setSaving(false); return
         }
-        const notes: string[] = []
-        if (r.skipped.length) notes.push(`${r.skipped.length} se saltaron por bloqueo o día no laborable (${r.skipped.join(', ')})`)
-        if (r.failed.length) notes.push(`${r.failed.length} ya estaban ocupados (${r.failed.join(', ')})`)
-        if (notes.length) alert(`Se crearon ${r.created.length} turnos.\nNo se crearon: ${notes.join('; ')}.`)
+        const expected = recur === 'weekdays' ? (recurDays.length || 1) * recurCount : recurCount
+        if (r.skipped.length && r.created.length >= expected) {
+          alert(`✅ Listo: se crearon los ${r.created.length} turnos.\nAlgunas fechas se corrieron a futuro porque caían en bloqueos, días no laborables u horarios ocupados (${r.skipped.join(', ')}).`)
+        } else if (r.created.length < expected) {
+          alert(`Se crearon ${r.created.length} de ${expected} turnos. No se pudieron completar todos (demasiados bloqueos/ocupados seguidos). Revisá la agenda y completá los que falten a mano.`)
+        }
         onSavedMany()
         return
       }
