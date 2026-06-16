@@ -5,7 +5,7 @@ export default async function ConfiguracionPage() {
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('id, name, phone, address, hours_note, clinical_history_enabled, social_enabled')
+    .select('id, name, phone, address, hours_note, review_link, clinical_history_enabled, social_enabled')
     .single()
 
   return (
@@ -18,6 +18,7 @@ export default async function ConfiguracionPage() {
         phone: org?.phone ?? null,
         address: org?.address ?? null,
         hours_note: org?.hours_note ?? null,
+        review_link: org?.review_link ?? null,
       }}
     />
   )

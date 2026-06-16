@@ -12,6 +12,7 @@ export type OrgData = {
   phone: string | null
   address: string | null
   hours_note: string | null
+  review_link: string | null
 }
 
 // Guardar los datos editables del negocio

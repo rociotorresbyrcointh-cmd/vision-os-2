@@ -46,6 +46,7 @@ export function ConfigManager({
         phone: data.phone?.trim() || null,
         address: data.address?.trim() || null,
         hours_note: data.hours_note?.trim() || null,
+        review_link: data.review_link?.trim() || null,
       })
       setSavedData(true); setTimeout(() => setSavedData(false), 2500)
     } finally { setSavingData(false) }
@@ -83,6 +84,9 @@ export function ConfigManager({
           </div>
           <Field label="Horarios de atención">
             <input value={data.hours_note ?? ''} onChange={(e) => setField('hours_note', e.target.value)} placeholder="Ej: Lunes a Viernes de 9 a 18 hs · Sábados de 9 a 13 hs" style={input} />
+          </Field>
+          <Field label="Link de reseñas (Google)">
+            <input value={data.review_link ?? ''} onChange={(e) => setField('review_link', e.target.value)} placeholder="Pegá el link para que tus clientes te dejen reseña" style={input} />
           </Field>
           <button onClick={persistData} disabled={savingData || !data.name.trim()} style={{ ...btnPrimary, alignSelf: 'flex-start', opacity: savingData || !data.name.trim() ? 0.5 : 1 }}>
             {savedData ? <><Check size={15} /> Guardado</> : savingData ? 'Guardando…' : 'Guardar datos'}

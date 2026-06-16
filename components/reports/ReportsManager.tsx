@@ -29,6 +29,23 @@ function rangeFor(p: Period): { from: Date; to: Date; label: string } {
   return { from, to, label: 'Últimos 30 días' }
 }
 
+// KPIs base de un período (para comparar contra el anterior)
+function kpisOf(appts: Appointment[], payments: Payment[]) {
+  const ingresos = payments.reduce((s, p) => s + Number(p.amount), 0)
+  const completados = appts.filter((a) => a.status === 'completed').length
+  const noShow = appts.filter((a) => a.status === 'no_show').length
+  const ausentismo = completados + noShow > 0 ? (noShow / (completados + noShow)) * 100 : 0
+  const paidAppts = new Set(payments.map((p) => p.appointment_id).filter(Boolean) as string[])
+  const ticket = paidAppts.size > 0 ? ingresos / paidAppts.size : 0
+  return { ingresos, turnos: appts.length, ticket, ausentismo }
+}
+
+// Variación porcentual contra el período anterior
+function delta(curr: number, prev: number): number | null {
+  if (prev <= 0) return curr > 0 ? 100 : null
+  return Math.round(((curr - prev) / prev) * 100)
+}
+
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pendientes', color: '#fbbf24' },
   confirmed: { label: 'Confirmados', color: '#34d399' },
@@ -47,18 +64,26 @@ export function ReportsManager({
   const [period, setPeriod] = useState<Period>('mes')
   const [appts, setAppts] = useState<Appointment[]>([])
   const [payments, setPayments] = useState<Payment[]>([])
+  const [prevAppts, setPrevAppts] = useState<Appointment[]>([])
+  const [prevPayments, setPrevPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
 
   const { from, to, label } = useMemo(() => rangeFor(period), [period])
 
   const load = useCallback(async () => {
     setLoading(true)
+    // Período anterior de igual duración (para comparar)
+    const dur = to.getTime() - from.getTime()
+    const prevTo = new Date(from)
+    const prevFrom = new Date(from.getTime() - dur)
     try {
-      const [a, p] = await Promise.all([
+      const [a, p, pa, pp] = await Promise.all([
         listAppointmentsBetween(from.toISOString(), to.toISOString()),
         listPaymentsBetween(from.toISOString(), to.toISOString()),
+        listAppointmentsBetween(prevFrom.toISOString(), prevTo.toISOString()),
+        listPaymentsBetween(prevFrom.toISOString(), prevTo.toISOString()),
       ])
-      setAppts(a); setPayments(p)
+      setAppts(a); setPayments(p); setPrevAppts(pa); setPrevPayments(pp)
     } finally { setLoading(false) }
   }, [from, to])
 
@@ -102,6 +127,8 @@ export function ReportsManager({
 
     return { ingresos, byMethod, byStatus, ausentismo, ticket, profStats, topServices, turnos: appts.length }
   }, [appts, payments])
+
+  const prev = useMemo(() => kpisOf(prevAppts, prevPayments), [prevAppts, prevPayments])
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? '—'
@@ -150,10 +177,10 @@ export function ReportsManager({
 
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12, marginBottom: 26 }}>
-        <Kpi icon={<TrendingUp size={18} />} color="#34d399" label="Ingresos" value={money(m.ingresos)} />
-        <Kpi icon={<CalendarDays size={18} />} color="#60a5fa" label="Turnos" value={String(m.turnos)} />
-        <Kpi icon={<Receipt size={18} />} color="#a78bfa" label="Ticket promedio" value={money(m.ticket)} />
-        <Kpi icon={<UserX size={18} />} color="#f87171" label="Ausentismo" value={`${m.ausentismo.toFixed(0)}%`} />
+        <Kpi icon={<TrendingUp size={18} />} color="#34d399" label="Ingresos" value={money(m.ingresos)} pct={delta(m.ingresos, prev.ingresos)} goodUp />
+        <Kpi icon={<CalendarDays size={18} />} color="#60a5fa" label="Turnos" value={String(m.turnos)} pct={delta(m.turnos, prev.turnos)} goodUp />
+        <Kpi icon={<Receipt size={18} />} color="#a78bfa" label="Ticket promedio" value={money(m.ticket)} pct={delta(m.ticket, prev.ticket)} goodUp />
+        <Kpi icon={<UserX size={18} />} color="#f87171" label="Ausentismo" value={`${m.ausentismo.toFixed(0)}%`} pct={delta(m.ausentismo, prev.ausentismo)} goodUp={false} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
@@ -208,13 +235,24 @@ export function ReportsManager({
   )
 }
 
-function Kpi({ icon, color, label, value }: { icon: React.ReactNode; color: string; label: string; value: string }) {
+function Kpi({ icon, color, label, value, pct, goodUp }: { icon: React.ReactNode; color: string; label: string; value: string; pct?: number | null; goodUp?: boolean }) {
+  const showPct = pct !== null && pct !== undefined && pct !== 0
+  const isGood = goodUp ? (pct ?? 0) > 0 : (pct ?? 0) < 0
+  const pctColor = showPct ? (isGood ? '#34d399' : '#f87171') : 'rgba(255,255,255,0.4)'
   return (
     <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '16px 18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, color, marginBottom: 8 }}>
         {icon}<span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
       </div>
-      <span style={{ fontSize: 26, fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 26, fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+        {showPct && (
+          <span style={{ fontSize: 13, fontWeight: 700, color: pctColor }}>
+            {(pct ?? 0) > 0 ? '▲' : '▼'} {Math.abs(pct ?? 0)}%
+          </span>
+        )}
+      </div>
+      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>vs. período anterior</span>
     </div>
   )
 }

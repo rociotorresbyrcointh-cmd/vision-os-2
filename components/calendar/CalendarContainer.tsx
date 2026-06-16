@@ -204,10 +204,8 @@ export function CalendarContainer({
         </div>
       </header>
 
-      {!professionals.length ? (
-        <Empty msg="Cargá profesionales para ver el calendario." />
-      ) : !services.length ? (
-        <Empty msg="Cargá al menos un servicio para poder crear turnos." />
+      {!ready ? (
+        <AgendaSetup needProf={!professionals.length} needSvc={!services.length} />
       ) : view === 'list' ? (
         <CalendarListView
           professionals={professionals}
@@ -293,10 +291,24 @@ export function CalendarContainer({
   )
 }
 
-function Empty({ msg }: { msg: string }) {
+function AgendaSetup({ needProf, needSvc }: { needProf: boolean; needSvc: boolean }) {
+  const link: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 7, padding: '10px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, textDecoration: 'none' }
   return (
-    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 15 }}>
-      {msg}
+    <div style={{ flex: 1, overflow: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 16, padding: 28, maxWidth: 480, textAlign: 'center' }}>
+        <div style={{ fontSize: 40, marginBottom: 8 }}>📅</div>
+        <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: '0 0 8px' }}>Configurá tu agenda</h2>
+        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
+          Para ver el calendario y crear turnos, primero cargá {needProf ? 'tus profesionales' : ''}{needProf && needSvc ? ' y ' : ''}{needSvc ? 'tus servicios' : ''}.
+        </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
+          {needProf && <a href="/profesionales" style={{ ...link, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white' }}>Cargar profesionales</a>}
+          {needSvc && <a href="/servicios" style={{ ...link, background: needProf ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#3b82f6,#2563FF)', color: needProf ? 'rgba(255,255,255,0.75)' : 'white', border: needProf ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>Cargar servicios</a>}
+        </div>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, margin: '18px 0 0' }}>
+          ¿Querés probar primero? Cargá <a href="/inicio" style={{ color: '#60a5fa', textDecoration: 'none' }}>datos de ejemplo</a> desde el Inicio.
+        </p>
+      </div>
     </div>
   )
 }
