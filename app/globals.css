@@ -45,3 +45,13 @@ body {
   0% { transform: perspective(700px) rotateX(45deg) rotateY(45deg) rotateZ(0deg); }
   100% { transform: perspective(700px) rotateX(45deg) rotateY(45deg) rotateZ(360deg); }
 }
+
+/* ─── Agenda: alto completo (descontando la barra móvil) ──────── */
+.agenda-shell { height: 100vh; }
+
+/* ─── Responsive móvil ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Deja lugar para la barra superior del menú móvil */
+  .vision-main { padding-top: 56px; }
+  .agenda-shell { height: calc(100dvh - 56px); }
+}
