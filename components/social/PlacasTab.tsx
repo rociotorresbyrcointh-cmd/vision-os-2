@@ -244,7 +244,7 @@ export function PlacasTab({ brand, seed }: { brand: Brand; seed?: { text: string
       <div style={{ flex: '0 0 auto' }}>
         <p style={lbl}>Vista previa (1080×1080)</p>
         <canvas ref={canvasRef} width={1080} height={1080}
-          style={{ width: 340, height: 340, borderRadius: 14, border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)' }} />
+          style={{ width: '100%', maxWidth: 340, height: 'auto', aspectRatio: '1 / 1', borderRadius: 14, border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)' }} />
       </div>
     </div>
   )
