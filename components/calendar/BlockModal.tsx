@@ -48,13 +48,16 @@ export function BlockModal({
   const [startTime, setStartTime] = useState(editing ? hhmm(editing.start_time) : '13:00')
   const [endTime, setEndTime] = useState(editing ? hhmm(editing.end_time) : '14:00')
   const [dateKey, setDateKey] = useState(getDateKey(editing ? new Date(editing.start_time) : date))
+  const [allDay, setAllDay] = useState(editing ? (hhmm(editing.start_time) === '00:00' && hhmm(editing.end_time) === '23:59') : false)
   const [repeat, setRepeat] = useState<Repeat>(ruleToRepeat(editing?.recurring_rule))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
   const save = async () => {
     if (!title.trim()) { setError('Poné un título (ej: Almuerzo).'); return }
-    if (timeToMinutes(endTime) <= timeToMinutes(startTime)) { setError('La hora de fin debe ser posterior al inicio.'); return }
+    const sTime = allDay ? '00:00' : startTime
+    const eTime = allDay ? '23:59' : endTime
+    if (!allDay && timeToMinutes(eTime) <= timeToMinutes(sTime)) { setError('La hora de fin debe ser posterior al inicio.'); return }
     setSaving(true); setError('')
 
     const recurring_rule: RecurringRule =
@@ -67,8 +70,8 @@ export function BlockModal({
     const payload = {
       title: title.trim(),
       professional_id: professionalId || null,
-      start_time: buildISO(baseDate, startTime),
-      end_time: buildISO(baseDate, endTime),
+      start_time: buildISO(baseDate, sTime),
+      end_time: buildISO(baseDate, eTime),
       recurring_rule,
     }
 
@@ -102,10 +105,20 @@ export function BlockModal({
             </select>
           </Field>
 
-          <div style={{ display: 'flex', gap: 12 }}>
-            <Field label="Desde"><input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} style={input} /></Field>
-            <Field label="Hasta"><input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} style={input} /></Field>
-          </div>
+          <button onClick={() => setAllDay((v) => !v)}
+            style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit' }}>
+            <span style={{ width: 44, height: 26, borderRadius: 13, position: 'relative', flexShrink: 0, transition: 'background 0.2s', background: allDay ? '#2563FF' : 'rgba(255,255,255,0.15)' }}>
+              <span style={{ position: 'absolute', top: 3, left: allDay ? 21 : 3, width: 20, height: 20, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
+            </span>
+            <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>Todo el día</span>
+          </button>
+
+          {!allDay && (
+            <div style={{ display: 'flex', gap: 12 }}>
+              <Field label="Desde"><input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} style={input} /></Field>
+              <Field label="Hasta"><input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} style={input} /></Field>
+            </div>
+          )}
 
           <Field label="Repetición">
             <div style={{ display: 'flex', gap: 6 }}>

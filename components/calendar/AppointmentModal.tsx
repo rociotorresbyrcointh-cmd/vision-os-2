@@ -6,7 +6,7 @@ import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
 import { createAppointment, updateAppointment, deleteAppointment, deleteRecurrenceGroup, createRecurringAppointments, createWeekdayRecurringAppointments, type RecurFreq } from '@/services/appointments'
-import { expandBlocksForDay } from '@/services/blocked-times'
+import { expandBlocksForDay, listAllBlocks } from '@/services/blocked-times'
 import { searchPatients, fullName } from '@/services/patients'
 import { createPayment, listPaymentsByAppointment, deletePayment, METHOD_LABELS } from '@/services/payments'
 import { payStatus } from '@/lib/pay-status'
@@ -190,8 +190,11 @@ export function AppointmentModal({
       }
     }
 
-    // Validar que no caiga sobre un bloqueo (almuerzo, vacaciones…)
-    const dayBlocks = expandBlocksForDay(blocks, selectedDate)
+    // Validar que no caiga sobre un bloqueo (almuerzo, vacaciones…).
+    // Consultamos TODOS los bloqueos (no solo los del día abierto) para que valga
+    // aunque el turno sea para otra fecha elegida con el selector.
+    const allBlocks = await listAllBlocks().catch(() => blocks)
+    const dayBlocks = expandBlocksForDay(allBlocks, selectedDate)
     const clash = dayBlocks.find((b) => {
       if (b.professional_id && b.professional_id !== professionalId) return false
       const bs = new Date(b.start_time).getHours() * 60 + new Date(b.start_time).getMinutes()
@@ -226,7 +229,7 @@ export function AppointmentModal({
           if (professional && !professional.days_of_week.includes(s.getDay())) return 'no atiende'
           const sMin = s.getHours() * 60 + s.getMinutes()
           const eMin = e.getHours() * 60 + e.getMinutes()
-          const clash = expandBlocksForDay(blocks, s).some((b) => {
+          const clash = expandBlocksForDay(allBlocks, s).some((b) => {
             if (b.professional_id && b.professional_id !== professionalId) return false
             const bs = new Date(b.start_time).getHours() * 60 + new Date(b.start_time).getMinutes()
             const be = new Date(b.end_time).getHours() * 60 + new Date(b.end_time).getMinutes()
