@@ -219,18 +219,31 @@ export function AppointmentModal({
       blocks_overlap: maxCapacity === 1,
     }
     try {
-      // Turno recurrente (solo al crear): genera la serie
+      // Turno recurrente (solo al crear): genera la serie, saltando bloqueos y días no laborables
       if (!editing && recur !== 'none') {
+        const shouldSkip = (s: Date, e: Date): string | false => {
+          if (professional && !professional.days_of_week.includes(s.getDay())) return 'no atiende'
+          const sMin = s.getHours() * 60 + s.getMinutes()
+          const eMin = e.getHours() * 60 + e.getMinutes()
+          const clash = expandBlocksForDay(blocks, s).some((b) => {
+            if (b.professional_id && b.professional_id !== professionalId) return false
+            const bs = new Date(b.start_time).getHours() * 60 + new Date(b.start_time).getMinutes()
+            const be = new Date(b.end_time).getHours() * 60 + new Date(b.end_time).getMinutes()
+            return sMin < be && eMin > bs
+          })
+          return clash ? 'bloqueo' : false
+        }
         const r = recur === 'weekdays'
-          ? await createWeekdayRecurringAppointments(organizationId, payload, recurDays.length ? recurDays : [selectedDate.getDay()], recurCount)
-          : await createRecurringAppointments(organizationId, payload, recur, recurCount)
+          ? await createWeekdayRecurringAppointments(organizationId, payload, recurDays.length ? recurDays : [selectedDate.getDay()], recurCount, shouldSkip)
+          : await createRecurringAppointments(organizationId, payload, recur, recurCount, shouldSkip)
         if (r.created.length === 0) {
-          setError('No se pudo crear ningún turno (los horarios estaban ocupados).')
+          setError('No se creó ningún turno (todos caían en bloqueos, días no laborables u horarios ocupados).')
           setSaving(false); return
         }
-        if (r.failed.length) {
-          alert(`Se crearon ${r.created.length} turnos. No se pudieron crear ${r.failed.length} porque el horario ya estaba ocupado: ${r.failed.join(', ')}.`)
-        }
+        const notes: string[] = []
+        if (r.skipped.length) notes.push(`${r.skipped.length} se saltaron por bloqueo o día no laborable (${r.skipped.join(', ')})`)
+        if (r.failed.length) notes.push(`${r.failed.length} ya estaban ocupados (${r.failed.join(', ')})`)
+        if (notes.length) alert(`Se crearon ${r.created.length} turnos.\nNo se crearon: ${notes.join('; ')}.`)
         onSavedMany()
         return
       }

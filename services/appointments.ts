@@ -19,14 +19,20 @@ export type AppointmentInput = {
 
 export type RecurFreq = 'weekly' | 'biweekly' | 'monthly'
 
+// Devuelve un motivo (string) si esa fecha/hora hay que saltarla, o false si está OK.
+export type SkipCheck = (start: Date, end: Date) => string | false
+
+const fmtDay = (d: Date) => d.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' })
+
 // Repetición por días de la semana: ej "Lun, Mié, Vie durante 4 semanas".
 // weekdays: 0=domingo … 6=sábado. Genera todas las ocurrencias desde la fecha base.
 export async function createWeekdayRecurringAppointments(
   organizationId: string,
   base: AppointmentInput,
   weekdays: number[],
-  weeks: number
-): Promise<{ created: Appointment[]; failed: string[] }> {
+  weeks: number,
+  shouldSkip?: SkipCheck
+): Promise<{ created: Appointment[]; failed: string[]; skipped: string[] }> {
   const groupId = crypto.randomUUID()
   const rule = { freq: 'weekly' as const, count: weeks }
   const start0 = new Date(base.start_time)
@@ -45,25 +51,36 @@ export async function createWeekdayRecurringAppointments(
     }
   }
   occ.sort((a, b) => a.getTime() - b.getTime())
+  return runSeries(organizationId, base, occ, durationMs, groupId, rule, shouldSkip)
+}
 
+// Crea cada ocurrencia, saltando las bloqueadas e informando las que chocan.
+async function runSeries(
+  organizationId: string,
+  base: AppointmentInput,
+  occ: Date[],
+  durationMs: number,
+  groupId: string,
+  rule: { freq: 'weekly' | 'monthly'; count: number },
+  shouldSkip?: SkipCheck
+): Promise<{ created: Appointment[]; failed: string[]; skipped: string[] }> {
   const created: Appointment[] = []
   const failed: string[] = []
+  const skipped: string[] = []
   for (const s of occ) {
     const e = new Date(s.getTime() + durationMs)
+    if (shouldSkip && shouldSkip(s, e)) { skipped.push(fmtDay(s)); continue }
     try {
       const appt = await createAppointment(organizationId, {
-        ...base,
-        start_time: s.toISOString(),
-        end_time: e.toISOString(),
-        recurrence_group_id: groupId,
-        recurrence_rule: rule,
+        ...base, start_time: s.toISOString(), end_time: e.toISOString(),
+        recurrence_group_id: groupId, recurrence_rule: rule,
       })
       created.push(appt)
     } catch {
-      failed.push(s.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' }))
+      failed.push(fmtDay(s))
     }
   }
-  return { created, failed }
+  return { created, failed, skipped }
 }
 
 // Crea una serie de turnos repetidos (semanal / quincenal / mensual).
@@ -72,34 +89,22 @@ export async function createRecurringAppointments(
   organizationId: string,
   base: AppointmentInput,
   freq: RecurFreq,
-  count: number
-): Promise<{ created: Appointment[]; failed: string[] }> {
+  count: number,
+  shouldSkip?: SkipCheck
+): Promise<{ created: Appointment[]; failed: string[]; skipped: string[] }> {
   const groupId = crypto.randomUUID()
   const rule = { freq: (freq === 'monthly' ? 'monthly' : 'weekly') as 'weekly' | 'monthly', count }
   const start0 = new Date(base.start_time)
-  const end0 = new Date(base.end_time)
-  const created: Appointment[] = []
-  const failed: string[] = []
-
+  const durationMs = new Date(base.end_time).getTime() - start0.getTime()
+  const occ: Date[] = []
   for (let i = 0; i < count; i++) {
-    const s = new Date(start0), e = new Date(end0)
-    if (freq === 'weekly') { s.setDate(s.getDate() + 7 * i); e.setDate(e.getDate() + 7 * i) }
-    else if (freq === 'biweekly') { s.setDate(s.getDate() + 14 * i); e.setDate(e.getDate() + 14 * i) }
-    else { s.setMonth(s.getMonth() + i); e.setMonth(e.getMonth() + i) }
-    try {
-      const appt = await createAppointment(organizationId, {
-        ...base,
-        start_time: s.toISOString(),
-        end_time: e.toISOString(),
-        recurrence_group_id: groupId,
-        recurrence_rule: rule,
-      })
-      created.push(appt)
-    } catch {
-      failed.push(s.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }))
-    }
+    const s = new Date(start0)
+    if (freq === 'weekly') s.setDate(s.getDate() + 7 * i)
+    else if (freq === 'biweekly') s.setDate(s.getDate() + 14 * i)
+    else s.setMonth(s.getMonth() + i)
+    occ.push(s)
   }
-  return { created, failed }
+  return runSeries(organizationId, base, occ, durationMs, groupId, rule, shouldSkip)
 }
 
 // Turnos de un día concreto (rango [desde, hasta)) de toda la organización.
