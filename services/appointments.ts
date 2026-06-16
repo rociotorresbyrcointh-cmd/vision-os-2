@@ -19,6 +19,53 @@ export type AppointmentInput = {
 
 export type RecurFreq = 'weekly' | 'biweekly' | 'monthly'
 
+// Repetición por días de la semana: ej "Lun, Mié, Vie durante 4 semanas".
+// weekdays: 0=domingo … 6=sábado. Genera todas las ocurrencias desde la fecha base.
+export async function createWeekdayRecurringAppointments(
+  organizationId: string,
+  base: AppointmentInput,
+  weekdays: number[],
+  weeks: number
+): Promise<{ created: Appointment[]; failed: string[] }> {
+  const groupId = crypto.randomUUID()
+  const rule = { freq: 'weekly' as const, count: weeks }
+  const start0 = new Date(base.start_time)
+  const durationMs = new Date(base.end_time).getTime() - start0.getTime()
+  // Domingo de la semana de la fecha base
+  const sow = new Date(start0.getFullYear(), start0.getMonth(), start0.getDate())
+  sow.setDate(sow.getDate() - sow.getDay())
+
+  const occ: Date[] = []
+  for (let w = 0; w < weeks; w++) {
+    for (const wd of weekdays) {
+      const d = new Date(sow)
+      d.setDate(sow.getDate() + w * 7 + wd)
+      d.setHours(start0.getHours(), start0.getMinutes(), 0, 0)
+      if (d.getTime() >= start0.getTime()) occ.push(d)
+    }
+  }
+  occ.sort((a, b) => a.getTime() - b.getTime())
+
+  const created: Appointment[] = []
+  const failed: string[] = []
+  for (const s of occ) {
+    const e = new Date(s.getTime() + durationMs)
+    try {
+      const appt = await createAppointment(organizationId, {
+        ...base,
+        start_time: s.toISOString(),
+        end_time: e.toISOString(),
+        recurrence_group_id: groupId,
+        recurrence_rule: rule,
+      })
+      created.push(appt)
+    } catch {
+      failed.push(s.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' }))
+    }
+  }
+  return { created, failed }
+}
+
 // Crea una serie de turnos repetidos (semanal / quincenal / mensual).
 // Cada ocurrencia se intenta por separado; las que choquen con otro turno se informan.
 export async function createRecurringAppointments(

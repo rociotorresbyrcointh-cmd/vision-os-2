@@ -5,7 +5,7 @@ import { X, Trash2, MessageCircle, Wallet, UserPlus, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime, Payment, PaymentMethod, PaymentKind } from '@/types/database'
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
-import { createAppointment, updateAppointment, deleteAppointment, createRecurringAppointments, type RecurFreq } from '@/services/appointments'
+import { createAppointment, updateAppointment, deleteAppointment, createRecurringAppointments, createWeekdayRecurringAppointments, type RecurFreq } from '@/services/appointments'
 import { expandBlocksForDay } from '@/services/blocked-times'
 import { searchPatients, fullName } from '@/services/patients'
 import { createPayment, listPaymentsByAppointment, deletePayment, METHOD_LABELS } from '@/services/payments'
@@ -104,8 +104,9 @@ export function AppointmentModal({
   const [status, setStatus] = useState<AppointmentStatus>(editing?.status ?? 'pending')
   const [notes, setNotes] = useState(editing?.notes ?? '')
   const [capacity, setCapacity] = useState(editing?.capacity_consumed ?? 1)
-  const [recur, setRecur] = useState<'none' | RecurFreq>('none')
+  const [recur, setRecur] = useState<'none' | RecurFreq | 'weekdays'>('none')
   const [recurCount, setRecurCount] = useState(4)
+  const [recurDays, setRecurDays] = useState<number[]>([])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -220,13 +221,15 @@ export function AppointmentModal({
     try {
       // Turno recurrente (solo al crear): genera la serie
       if (!editing && recur !== 'none') {
-        const { created, failed } = await createRecurringAppointments(organizationId, payload, recur, recurCount)
-        if (created.length === 0) {
+        const r = recur === 'weekdays'
+          ? await createWeekdayRecurringAppointments(organizationId, payload, recurDays.length ? recurDays : [selectedDate.getDay()], recurCount)
+          : await createRecurringAppointments(organizationId, payload, recur, recurCount)
+        if (r.created.length === 0) {
           setError('No se pudo crear ningún turno (los horarios estaban ocupados).')
           setSaving(false); return
         }
-        if (failed.length) {
-          alert(`Se crearon ${created.length} turnos. No se pudieron crear ${failed.length} porque el horario ya estaba ocupado: ${failed.join(', ')}.`)
+        if (r.failed.length) {
+          alert(`Se crearon ${r.created.length} turnos. No se pudieron crear ${r.failed.length} porque el horario ya estaba ocupado: ${r.failed.join(', ')}.`)
         }
         onSavedMany()
         return
@@ -357,22 +360,44 @@ export function AppointmentModal({
           {!editing && (
             <Field label="Repetir este turno">
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
-                <select value={recur} onChange={(e) => setRecur(e.target.value as 'none' | RecurFreq)} style={{ ...input, flex: 1, minWidth: 150 }}>
+                <select value={recur} onChange={(e) => setRecur(e.target.value as 'none' | RecurFreq | 'weekdays')} style={{ ...input, flex: 1, minWidth: 150 }}>
                   <option value="none" style={opt}>No repetir</option>
-                  <option value="weekly" style={opt}>Cada semana</option>
+                  <option value="weekly" style={opt}>Cada semana (mismo día)</option>
+                  <option value="weekdays" style={opt}>Días de la semana (ej: Lun, Mié, Vie)</option>
                   <option value="biweekly" style={opt}>Cada 2 semanas</option>
                   <option value="monthly" style={opt}>Cada mes</option>
                 </select>
                 {recur !== 'none' && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <input type="number" min={2} max={52} value={recurCount}
-                      onChange={(e) => setRecurCount(Math.max(2, Math.min(52, Number(e.target.value))))}
+                    <input type="number" min={1} max={26} value={recurCount}
+                      onChange={(e) => setRecurCount(Math.max(1, Math.min(26, Number(e.target.value))))}
                       style={{ ...input, width: 70 }} />
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>veces</span>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{recur === 'weekdays' ? 'semanas' : 'veces'}</span>
                   </div>
                 )}
               </div>
-              {recur !== 'none' && (
+
+              {recur === 'weekdays' && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map((d, i) => {
+                      const on = recurDays.includes(i)
+                      return (
+                        <button key={i} onClick={() => setRecurDays((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i])}
+                          style={{ width: 40, height: 40, borderRadius: 9, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                            background: on ? 'rgba(37,99,255,0.25)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(37,99,255,0.6)' : '1px solid rgba(255,255,255,0.12)', color: on ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                          {d}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '8px 0 0' }}>
+                    Elegí los días que viene la persona, durante {recurCount} {recurCount === 1 ? 'semana' : 'semanas'}.
+                    {recurDays.length === 0 && ' (si no elegís ninguno, usa el día de la fecha elegida)'}
+                  </p>
+                </div>
+              )}
+              {recur !== 'none' && recur !== 'weekdays' && (
                 <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '7px 0 0' }}>
                   Se crearán {recurCount} turnos {recur === 'weekly' ? 'semanales' : recur === 'biweekly' ? 'cada 2 semanas' : 'mensuales'}, a partir de la fecha elegida.
                 </p>
