@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import type { Professional, BlockedTime } from '@/types/database'
-import { timeToMinutes } from '@/lib/date-utils'
+import { timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { createBlock, updateBlock, type RecurringRule } from '@/services/blocked-times'
 
 type Repeat = 'once' | 'daily' | 'weekdays'
@@ -13,6 +13,10 @@ function buildISO(date: Date, hhmm: string): string {
   const d = new Date(date)
   d.setHours(h, m, 0, 0)
   return d.toISOString()
+}
+function parseDateKey(key: string): Date {
+  const [y, m, d] = key.split('-').map(Number)
+  return new Date(y, m - 1, d)
 }
 function hhmm(iso: string): string {
   const d = new Date(iso)
@@ -43,6 +47,7 @@ export function BlockModal({
   const [professionalId, setProfessionalId] = useState<string>(editing?.professional_id ?? '') // '' = todos
   const [startTime, setStartTime] = useState(editing ? hhmm(editing.start_time) : '13:00')
   const [endTime, setEndTime] = useState(editing ? hhmm(editing.end_time) : '14:00')
+  const [dateKey, setDateKey] = useState(getDateKey(editing ? new Date(editing.start_time) : date))
   const [repeat, setRepeat] = useState<Repeat>(ruleToRepeat(editing?.recurring_rule))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -57,8 +62,8 @@ export function BlockModal({
       : repeat === 'weekdays' ? { freq: 'weekly', days: [1, 2, 3, 4, 5] }
       : null
 
-    // Al editar conservamos la fecha original; al crear usamos la fecha actual
-    const baseDate = editing ? new Date(editing.start_time) : date
+    // La fecha del bloqueo: la elegida (para "solo este día"). En recurrentes es solo referencia.
+    const baseDate = parseDateKey(dateKey)
     const payload = {
       title: title.trim(),
       professional_id: professionalId || null,
@@ -118,6 +123,12 @@ export function BlockModal({
               })}
             </div>
           </Field>
+
+          {repeat === 'once' && (
+            <Field label="¿Qué día?">
+              <input type="date" value={dateKey} onChange={(e) => setDateKey(e.target.value)} style={input} />
+            </Field>
+          )}
 
           {error && <p style={{ color: '#f87171', fontSize: 12, margin: 0 }}>{error}</p>}
 
