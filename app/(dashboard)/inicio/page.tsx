@@ -12,6 +12,7 @@ export default async function InicioPage() {
 
   return (
     <InicioDashboard
+      organizationId={org?.id ?? ''}
       businessName={org?.name ?? 'tu negocio'}
       professionals={(professionals as Professional[]) ?? []}
       services={(services as Service[]) ?? []}

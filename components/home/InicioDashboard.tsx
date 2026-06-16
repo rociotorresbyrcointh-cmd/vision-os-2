@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { CalendarDays, Clock, CheckCircle2, Wallet, ArrowRight, Plus } from 'lucide-react'
+import { CalendarDays, Clock, CheckCircle2, Wallet, ArrowRight, Plus, Sparkles, Check } from 'lucide-react'
 import type { Professional, Service, Appointment, Payment } from '@/types/database'
 import { listAppointmentsBetween } from '@/services/appointments'
 import { listPaymentsBetween } from '@/services/payments'
+import { seedExampleData } from '@/services/onboarding'
 
 const money = (n: number) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
 const hhmm = (iso: string) => new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
@@ -19,18 +21,28 @@ const STATUS: Record<string, { label: string; color: string }> = {
 }
 
 export function InicioDashboard({
+  organizationId,
   businessName,
   professionals,
   services,
 }: {
+  organizationId: string
   businessName: string
   professionals: Professional[]
   services: Service[]
 }) {
+  const router = useRouter()
   const [appts, setAppts] = useState<Appointment[]>([])
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
   const [now] = useState(() => Date.now())
+  const [seeding, setSeeding] = useState(false)
+
+  const loadExample = async () => {
+    setSeeding(true)
+    try { await seedExampleData(organizationId); router.refresh() }
+    catch { setSeeding(false) }
+  }
 
   useEffect(() => {
     const today = new Date(); today.setHours(0, 0, 0, 0)
@@ -73,14 +85,24 @@ export function InicioDashboard({
       </div>
 
       {setupPending ? (
-        <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 14, padding: 24 }}>
-          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: '0 0 8px' }}>¡Bienvenido a Vision OS! 🚀</h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 16px', lineHeight: 1.6 }}>
-            Para empezar a usar la agenda, primero cargá tus {professionals.length === 0 ? 'profesionales' : 'servicios'}.
+        <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 14, padding: 24, maxWidth: 640 }}>
+          <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 6px' }}>¡Bienvenido a Vision OS! 🚀</h2>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 18px', lineHeight: 1.6 }}>
+            Configurá tu negocio en 2 pasos. O cargá <b>datos de ejemplo</b> para explorar la app ya funcionando.
           </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link href="/profesionales" style={btnPrimary}>Cargar profesionales <ArrowRight size={15} /></Link>
-            <Link href="/servicios" style={btnGhost}>Cargar servicios</Link>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+            <Step n={1} done={professionals.length > 0} title="Cargá tu primer profesional" desc="Quién atiende, sus días y horarios" href="/profesionales" />
+            <Step n={2} done={services.length > 0} title="Cargá tus servicios" desc="Qué ofrecés, duración y precio" href="/servicios" />
+          </div>
+
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 18 }}>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, margin: '0 0 10px', lineHeight: 1.5 }}>
+              ¿Querés ver cómo funciona primero? Cargá datos de ejemplo (un profesional, servicios, una paciente y turnos de hoy). Después los podés borrar.
+            </p>
+            <button onClick={loadExample} disabled={seeding} style={{ ...btnExample, opacity: seeding ? 0.6 : 1 }}>
+              <Sparkles size={16} /> {seeding ? 'Cargando ejemplo…' : 'Cargar datos de ejemplo'}
+            </button>
           </div>
         </div>
       ) : (
@@ -154,6 +176,27 @@ function Kpi({ icon, color, label, value }: { icon: React.ReactNode; color: stri
   )
 }
 
+function Step({ n, done, title, desc, href }: { n: number; done: boolean; title: string; desc: string; href: string }) {
+  return (
+    <Link href={href} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'rgba(255,255,255,0.03)', border: `1px solid ${done ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 12, padding: '13px 15px', textDecoration: 'none' }}>
+      <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14,
+        background: done ? '#34d399' : 'rgba(37,99,255,0.2)', color: done ? '#07241a' : '#60a5fa' }}>
+        {done ? <Check size={16} /> : n}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14.5, textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.7 : 1 }}>{title}</p>
+        <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5 }}>{desc}</p>
+      </div>
+      {!done && <ArrowRight size={16} color="rgba(255,255,255,0.4)" />}
+    </Link>
+  )
+}
+
+const btnExample: React.CSSProperties = {
+  display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(34,211,238,0.12)', color: '#22d3ee',
+  border: '1px solid rgba(34,211,238,0.4)', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 700,
+  cursor: 'pointer', fontFamily: 'inherit',
+}
 const row: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.03)',
   border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '11px 14px', cursor: 'pointer',
