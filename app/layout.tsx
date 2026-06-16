@@ -1,9 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Vision OS — Agenda profesional",
   description: "Sistema de gestión de turnos para clínicas, estética y centros de servicios",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: "Vision", statusBarStyle: "black-translucent" },
+  icons: { icon: "/icon-192.png", apple: "/apple-icon.png" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#07070F",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
