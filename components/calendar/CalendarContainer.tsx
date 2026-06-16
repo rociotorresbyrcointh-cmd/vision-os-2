@@ -156,8 +156,8 @@ export function CalendarContainer({
 
   return (
     <div className="agenda-shell" style={{ display: 'flex', flexDirection: 'column' }}>
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 28px', borderBottom: '1px solid rgba(255,255,255,0.07)', flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', gap: 4 }}>
             <button onClick={() => shift(-1)} style={navBtn}><ChevronLeft size={18} /></button>
             <button onClick={() => shift(1)} style={navBtn}><ChevronRight size={18} /></button>
@@ -167,7 +167,7 @@ export function CalendarContainer({
           {loading && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>actualizando…</span>}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <button onClick={() => setSearchOpen(true)} title="Buscar turnos por cliente"
             style={{ ...navBtn, width: 'auto', padding: '0 13px', gap: 7, fontSize: 13, fontWeight: 600 }}>
             <Search size={15} /> Buscar

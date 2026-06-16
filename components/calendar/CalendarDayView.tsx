@@ -9,10 +9,10 @@ import { payStatus } from '@/lib/pay-status'
 
 const PX_PER_MIN = 1.5          // 30 min = 45px (bloques más legibles)
 const SLOT = 30                 // líneas cada 30 min
-const GUTTER = 58               // ancho de la columna de horas
+const GUTTER = 48               // ancho de la columna de horas
 const HEADER_H = 52             // alto del encabezado de columnas
-const COL_MIN = 200             // ancho mínimo de cada columna
-const LANE_MIN = 130            // ancho mínimo legible por carril (turnos simultáneos)
+const COL_MIN = 168             // ancho mínimo de cada columna (se estira si sobra lugar)
+const LANE_MIN = 120            // ancho mínimo legible por carril (turnos simultáneos)
 
 function localMinutes(iso: string): number {
   const d = new Date(iso)

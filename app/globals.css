@@ -51,7 +51,9 @@ body {
 
 /* ─── Responsive móvil ────────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* La página no se mueve de costado; el calendario scrollea por dentro */
+  body { overflow-x: hidden; }
   /* Deja lugar para la barra superior del menú móvil */
-  .vision-main { padding-top: 56px; }
+  .vision-main { padding-top: 56px; max-width: 100vw; }
   .agenda-shell { height: calc(100dvh - 56px); }
 }
