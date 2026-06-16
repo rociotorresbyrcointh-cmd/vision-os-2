@@ -34,8 +34,8 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname
   const isAuthRoute = path.startsWith('/login') || path.startsWith('/register')
-  // La página pública de reservas no requiere sesión.
-  const isPublicRoute = path.startsWith('/reservar')
+  // Rutas públicas (sin sesión): reservas online y el manifiesto de la PWA.
+  const isPublicRoute = path.startsWith('/reservar') || path === '/manifest.webmanifest'
 
   // Sin sesión y fuera de las rutas públicas → mandar a login.
   if (!user && !isAuthRoute && !isPublicRoute) {
