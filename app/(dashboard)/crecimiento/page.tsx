@@ -2,8 +2,10 @@ import { createClient } from '@/lib/supabase/server'
 import { CrecimientoManager } from '@/components/growth/CrecimientoManager'
 import { resolveBrand } from '@/services/org-settings'
 import type { Professional, Service } from '@/types/database'
+import { requireRole } from '@/lib/auth/role-server'
 
 export default async function CrecimientoPage() {
+  await requireRole(['owner'])
   const supabase = await createClient()
   const { data: org } = await supabase.from('organizations').select('id, name, brand, review_link').single()
   const [{ data: professionals }, { data: services }] = await Promise.all([

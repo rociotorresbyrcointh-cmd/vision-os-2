@@ -2,8 +2,10 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { RedesManager } from '@/components/social/RedesManager'
 import { resolveBrand } from '@/services/org-settings'
+import { requireRole } from '@/lib/auth/role-server'
 
 export default async function RedesPage() {
+  await requireRole(['owner'])
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')

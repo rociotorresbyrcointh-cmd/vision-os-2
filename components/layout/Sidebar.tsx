@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
+import { canSee, type Role } from '@/lib/auth/role'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
@@ -22,10 +23,11 @@ const NAV = [
   { href: '/whatsapp', label: 'WhatsApp', icon: MessageCircle },
   { href: '/recordatorios', label: 'Recordatorios', icon: BellRing },
   { href: '/papelera', label: 'Papelera', icon: Trash2 },
+  { href: '/equipo', label: 'Equipo', icon: UserCog },
   { href: '/configuracion', label: 'Configuración', icon: Settings },
 ]
 
-export function Sidebar({ businessName, socialEnabled }: { businessName: string; socialEnabled?: boolean }) {
+export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { businessName: string; socialEnabled?: boolean; role?: Role }) {
   const pathname = usePathname()
   const [isMobile, setIsMobile] = useState(false)
   const [open, setOpen] = useState(false)
@@ -40,9 +42,11 @@ export function Sidebar({ businessName, socialEnabled }: { businessName: string;
   // Cierra el menú al navegar
   useEffect(() => { setOpen(false) }, [pathname])
 
-  const nav = socialEnabled
+  const full = socialEnabled
     ? [...NAV.slice(0, -1), { href: '/redes', label: 'Redes', icon: Sparkles }, NAV[NAV.length - 1]]
     : NAV
+  // Cada rol ve solo las secciones permitidas
+  const nav = full.filter((item) => canSee(item.href, role))
 
   const inner = (
     <>

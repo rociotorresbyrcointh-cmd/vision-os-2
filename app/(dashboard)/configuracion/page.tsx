@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { ConfigManager } from '@/components/config/ConfigManager'
+import { requireRole } from '@/lib/auth/role-server'
 
 export default async function ConfiguracionPage() {
+  await requireRole(['owner'])
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
