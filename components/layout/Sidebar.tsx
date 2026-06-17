@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
-import { canSee, type Role } from '@/lib/auth/role'
+import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
@@ -57,6 +57,9 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
           <p style={{ marginTop: 12, fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>
             {businessName}
           </p>
+          <span style={{ display: 'inline-block', marginTop: 6, fontSize: 10.5, fontWeight: 700, color: '#60a5fa', background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 6, padding: '2px 7px' }}>
+            {ROLE_LABEL[role]}
+          </span>
         </div>
         {isMobile && (
           <button onClick={() => setOpen(false)} aria-label="Cerrar menú" style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }}>
