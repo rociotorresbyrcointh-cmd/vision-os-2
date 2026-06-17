@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { CommandPalette } from '@/components/layout/CommandPalette'
 import { getCurrentRole } from '@/lib/auth/role-server'
 
 // Layout compartido por todas las páginas del dashboard.
@@ -19,6 +20,7 @@ export default async function DashboardLayout({
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#07070F' }}>
       <Sidebar businessName={org?.name ?? 'Mi Negocio'} socialEnabled={org?.social_enabled ?? false} role={role} />
+      <CommandPalette role={role} />
       <main className="vision-main" style={{ flex: 1, minWidth: 0 }}>{children}</main>
     </div>
   )

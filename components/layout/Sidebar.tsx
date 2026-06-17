@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog, Search } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
@@ -66,6 +66,22 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
             <X size={20} />
           </button>
         )}
+      </div>
+
+      {/* Buscador global */}
+      <div style={{ padding: '12px 12px 0' }}>
+        <button
+          onClick={() => { setOpen(false); window.dispatchEvent(new Event('vision:command')) }}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: 9,
+            padding: '9px 12px', borderRadius: 9, cursor: 'pointer',
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)',
+            color: 'rgba(255,255,255,0.5)', fontSize: 13.5, fontWeight: 600,
+          }}>
+          <Search size={16} />
+          <span style={{ flex: 1, textAlign: 'left' }}>Buscar…</span>
+          {!isMobile && <kbd style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '1px 6px' }}>Ctrl K</kbd>}
+        </button>
       </div>
 
       {/* Navegación */}
