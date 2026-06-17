@@ -79,7 +79,13 @@ export default function RegisterPage() {
             </div>
           </form>
 
-          <p style={{ textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
+          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 11.5, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
+            Al crear tu cuenta aceptás los{' '}
+            <Link href="/terminos" style={{ color: '#60a5fa', textDecoration: 'none' }}>Términos</Link> y la{' '}
+            <Link href="/privacidad" style={{ color: '#60a5fa', textDecoration: 'none' }}>Política de Privacidad</Link>.
+          </p>
+
+          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
             ¿Ya tenés cuenta?{' '}
             <Link href="/login" style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'none' }}>Ingresá</Link>
           </p>
