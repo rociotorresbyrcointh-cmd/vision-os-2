@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Trash2, RotateCcw, UserRound, Tag, Users, Calendar } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { Patient, Service, Professional, Appointment } from '@/types/database'
 import { listDeletedPatients, restorePatient, hardDeletePatient, fullName } from '@/services/patients'
 import { listDeletedServices, restoreService, hardDeleteService } from '@/services/services'
@@ -49,9 +50,11 @@ export function TrashManager() {
       {loading ? (
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
       ) : total === 0 ? (
-        <div style={{ padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 14 }}>
-          La papelera está vacía. ✨
-        </div>
+        <EmptyState
+          icon={Trash2}
+          title="La papelera está vacía"
+          description="Cuando borres pacientes, turnos, servicios o profesionales, van a aparecer acá por si querés recuperarlos. No perdiste nada. ✨"
+        />
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <Section

@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart, Download } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Search, Phone, Mail, Shield, FileText, CreditCard, FileHeart, Download, UserRound } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { Patient, ClinicalNote } from '@/types/database'
 import { deletePatient, fullName, listPatientAppointments } from '@/services/patients'
 import { listNotes, createNote, deleteNote } from '@/services/clinical-notes'
@@ -87,7 +88,17 @@ export function PatientsManager({
       </div>
 
       {filtered.length === 0 ? (
-        <div style={emptyBox}>{query ? 'Sin resultados.' : 'Todavía no cargaste pacientes.'}</div>
+        query ? (
+          <div style={emptyBox}>Sin resultados para “{query}”.</div>
+        ) : (
+          <EmptyState
+            icon={UserRound}
+            title="Todavía no cargaste pacientes"
+            description="Acá vas a tener la ficha de cada cliente: contacto, historial de turnos y notas. Empezá cargando el primero."
+            actionLabel="+ Nuevo paciente"
+            onAction={openNew}
+          />
+        )
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 760 }}>
           {filtered.map((p) => (

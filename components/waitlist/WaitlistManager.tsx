@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Plus, X, Trash2, MessageCircle, Clock, UserCheck } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { Professional, Service } from '@/types/database'
 import {
   listWaitlist, addToWaitlist, setWaitlistStatus, deleteWaitlistEntry,
@@ -65,7 +66,13 @@ export function WaitlistManager({
       {loading ? (
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
       ) : list.length === 0 ? (
-        <div style={emptyBox}>La lista de espera está vacía.</div>
+        <EmptyState
+          icon={Clock}
+          title="La lista de espera está vacía"
+          description="Anotá acá a quienes quieren un turno antes o si se libera un lugar. Cuando se cancele un turno, sabés a quién llamar."
+          actionLabel="+ Agregar a la espera"
+          onAction={() => setOpen(true)}
+        />
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {list.map((e) => (

@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Pencil, Trash2, X, Clock, DollarSign } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Clock, DollarSign, Tag } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { Service } from '@/types/database'
 import {
   createService,
@@ -77,7 +78,13 @@ export function ServicesManager({
       </div>
 
       {list.length === 0 ? (
-        <div style={emptyBox}>Todavía no cargaste servicios.<br />Creá el primero.</div>
+        <EmptyState
+          icon={Tag}
+          title="Todavía no cargaste servicios"
+          description="Los servicios son lo que ofrecés (consulta, sesión, corte…), con su duración y precio. Son la base para cargar turnos."
+          actionLabel="+ Nuevo servicio"
+          onAction={openNew}
+        />
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
           {list.map((s) => (

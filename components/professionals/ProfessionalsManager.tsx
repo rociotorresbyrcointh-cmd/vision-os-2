@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Pencil, Trash2, X, User, Box } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { PROFESSIONAL_COLORS, type Professional } from '@/types/database'
 import {
   createProfessional,
@@ -103,10 +104,13 @@ export function ProfessionalsManager({
       </div>
 
       {list.length === 0 ? (
-        <div style={emptyBox}>
-          Todavía no cargaste profesionales.<br />
-          Empezá creando el primero.
-        </div>
+        <EmptyState
+          icon={User}
+          title="Todavía no cargaste profesionales"
+          description="Cada profesional tiene su agenda, color, días y horarios de atención. Cargá al menos uno para empezar a dar turnos."
+          actionLabel="+ Nuevo profesional"
+          onAction={openNew}
+        />
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
           {list.map((p) => (
