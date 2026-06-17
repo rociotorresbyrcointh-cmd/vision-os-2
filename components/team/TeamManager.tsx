@@ -8,6 +8,17 @@ import {
 } from '@/services/team'
 import { ROLE_LABEL, type Role } from '@/lib/auth/role'
 
+// Supabase no devuelve siempre un Error clásico: extraemos el mensaje real
+function errText(e: unknown, fallback: string): string {
+  if (e instanceof Error) return e.message
+  if (e && typeof e === 'object') {
+    const o = e as Record<string, unknown>
+    const parts = [o.message, o.details, o.hint, o.code].filter(Boolean)
+    if (parts.length) return parts.join(' · ')
+  }
+  return fallback
+}
+
 const ROLES: { value: Role; label: string; desc: string }[] = [
   { value: 'admin', label: 'Recepción', desc: 'Agenda, pacientes, caja, reservas. Sin reportes ni configuración.' },
   { value: 'staff', label: 'Profesional', desc: 'Solo agenda, lista de espera y pacientes.' },
@@ -31,7 +42,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       setMembers(m)
       setInvites(i)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Error al cargar')
+      setErr(errText(e, 'Error al cargar'))
     } finally {
       setLoading(false)
     }
@@ -52,7 +63,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       setMsg('Invitación creada. Cuando esa persona se registre con ese email, entrará a tu negocio con el rol elegido.')
       await load()
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'No se pudo invitar')
+      setErr(errText(e, 'No se pudo invitar'))
     } finally {
       setBusy(false)
     }
@@ -64,7 +75,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       await changeMemberRole(userId, newRole)
       await load()
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'No se pudo cambiar el rol')
+      setErr(errText(e, 'No se pudo cambiar el rol'))
     }
   }
 
@@ -75,7 +86,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       await removeMember(userId)
       await load()
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'No se pudo quitar')
+      setErr(errText(e, 'No se pudo quitar'))
     }
   }
 
@@ -85,7 +96,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       await cancelInvite(id)
       await load()
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'No se pudo cancelar')
+      setErr(errText(e, 'No se pudo cancelar'))
     }
   }
 
