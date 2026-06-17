@@ -128,7 +128,7 @@ export function PublicBooking({ orgId }: { orgId: string }) {
 
   if (done) {
     return (
-      <Shell businessName={info.name}>
+      <Shell businessName={info.name} logo={info.logo}>
         <div style={{ textAlign: 'center', padding: '10px 0' }}>
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
             <Check size={32} color="#34d399" />
@@ -147,7 +147,7 @@ export function PublicBooking({ orgId }: { orgId: string }) {
 
   // ── Flujo de reserva ──
   return (
-    <Shell businessName={info.name}>
+    <Shell businessName={info.name} logo={info.logo}>
       <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: '0 0 4px' }}>Reservar un turno</h2>
       <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13.5, margin: '0 0 22px' }}>Elegí el servicio, profesional y horario.</p>
 
@@ -211,13 +211,14 @@ export function PublicBooking({ orgId }: { orgId: string }) {
   )
 }
 
-function Shell({ children, businessName }: { children: React.ReactNode; businessName?: string }) {
+function Shell({ children, businessName, logo }: { children: React.ReactNode; businessName?: string; logo?: string | null }) {
   return (
     <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 16px' }}>
       <div style={{ width: '100%', maxWidth: 440 }}>
-        {businessName && (
+        {(businessName || logo) && (
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
-            <h1 style={{ color: 'white', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize', fontFamily: "'Orbitron', sans-serif" }}>{businessName}</h1>
+            {logo && <img src={logo} alt={businessName ?? 'logo'} style={{ maxWidth: 120, maxHeight: 90, objectFit: 'contain', marginBottom: 12 }} />}
+            {businessName && <h1 style={{ color: 'white', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize', fontFamily: "'Orbitron', sans-serif" }}>{businessName}</h1>}
           </div>
         )}
         <div style={{ background: '#0d0d18', border: '1px solid rgba(37,99,255,0.2)', borderRadius: 18, padding: 26, boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}>

@@ -17,10 +17,12 @@ export function RedesManager({
   organizationId,
   businessName,
   initialBrand,
+  logoUrl,
 }: {
   organizationId: string
   businessName: string
   initialBrand: Brand
+  logoUrl?: string | null
 }) {
   const [tab, setTab] = useState<Tab>('marca')
   const [brand, setBrand] = useState<Brand>({ ...initialBrand, name: initialBrand.name || businessName })
@@ -143,7 +145,7 @@ export function RedesManager({
       )}
 
       {tab === 'ia' && <AITab brand={brand} organizationId={organizationId} onCreatePlaca={createPlaca} />}
-      {tab === 'placas' && <PlacasTab brand={brand} seed={placaSeed} />}
+      {tab === 'placas' && <PlacasTab brand={brand} seed={placaSeed} logoUrl={logoUrl} />}
       {tab === 'guardados' && <SavedTab />}
       {tab === 'ideas' && <IdeasTab brand={brand} />}
       {tab === 'auditoria' && <AuditTab />}

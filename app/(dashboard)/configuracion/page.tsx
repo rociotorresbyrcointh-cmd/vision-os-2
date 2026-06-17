@@ -5,7 +5,7 @@ export default async function ConfiguracionPage() {
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('id, name, phone, address, hours_note, review_link, clinical_history_enabled, social_enabled')
+    .select('id, name, phone, address, hours_note, review_link, logo_url, clinical_history_enabled, social_enabled')
     .single()
 
   return (
@@ -13,6 +13,7 @@ export default async function ConfiguracionPage() {
       organizationId={org?.id ?? ''}
       clinicalEnabled={org?.clinical_history_enabled ?? false}
       socialEnabled={org?.social_enabled ?? false}
+      logoUrl={org?.logo_url ?? null}
       orgData={{
         name: org?.name ?? '',
         phone: org?.phone ?? null,

@@ -7,7 +7,7 @@ export type PublicProfessional = {
 }
 export type PublicInfo =
   | { enabled: false }
-  | { enabled: true; name: string; services: PublicService[]; professionals: PublicProfessional[] }
+  | { enabled: true; name: string; logo?: string | null; services: PublicService[]; professionals: PublicProfessional[] }
 
 export type BusyInterval = { start_time: string; end_time: string }
 export type PublicBlock = {

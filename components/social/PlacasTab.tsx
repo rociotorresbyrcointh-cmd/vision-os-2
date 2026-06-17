@@ -36,7 +36,7 @@ function drawWrapped(ctx: CanvasRenderingContext2D, text: string, x: number, y: 
   return cursorY
 }
 
-export function PlacasTab({ brand, seed }: { brand: Brand; seed?: { text: string; n: number } | null }) {
+export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { text: string; n: number } | null; logoUrl?: string | null }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ps = presets(brand)
   const [label, setLabel] = useState(ps[0].label2)
@@ -47,6 +47,15 @@ export function PlacasTab({ brand, seed }: { brand: Brand; seed?: { text: string
   const [caption, setCaption] = useState('')
   const [capLoading, setCapLoading] = useState(false)
   const [capCopied, setCapCopied] = useState(false)
+
+  // Carga automática del logo guardado del negocio
+  useEffect(() => {
+    if (!logoUrl) return
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => setLogo(img)
+    img.src = logoUrl
+  }, [logoUrl])
 
   // Cuando llega texto desde la IA ("Crear placa con esto")
   useEffect(() => {

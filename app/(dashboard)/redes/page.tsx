@@ -7,7 +7,7 @@ export default async function RedesPage() {
   const supabase = await createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('id, name, social_enabled, brand')
+    .select('id, name, social_enabled, brand, logo_url')
     .single()
 
   // Si la función no está activada, no se entra
@@ -18,6 +18,7 @@ export default async function RedesPage() {
       organizationId={org.id}
       businessName={org.name}
       initialBrand={resolveBrand(org.brand)}
+      logoUrl={org.logo_url ?? null}
     />
   )
 }

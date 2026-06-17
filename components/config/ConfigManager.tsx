@@ -2,20 +2,40 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Settings, FileHeart, Store, Check, Sparkles } from 'lucide-react'
+import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X } from 'lucide-react'
 import { setOrgFlag, saveOrgData, type OrgData } from '@/services/org-settings'
+import { uploadLogo, setLogoUrl } from '@/services/storage'
 
 export function ConfigManager({
   organizationId,
   clinicalEnabled,
   socialEnabled,
+  logoUrl,
   orgData,
 }: {
   organizationId: string
   clinicalEnabled: boolean
   socialEnabled: boolean
+  logoUrl: string | null
   orgData: OrgData
 }) {
+  const [logo, setLogo] = useState<string | null>(logoUrl)
+  const [uploadingLogo, setUploadingLogo] = useState(false)
+  const onLogoFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; e.target.value = ''
+    if (!file) return
+    setUploadingLogo(true)
+    try {
+      const url = await uploadLogo(organizationId, file)
+      await setLogoUrl(organizationId, url)
+      setLogo(url)
+    } catch (err: any) { alert('No se pudo subir el logo: ' + (err.message ?? err)) }
+    finally { setUploadingLogo(false) }
+  }
+  const removeLogo = async () => {
+    await setLogoUrl(organizationId, null).catch(() => {})
+    setLogo(null)
+  }
   const router = useRouter()
   const [clinical, setClinical] = useState(clinicalEnabled)
   const [social, setSocial] = useState(socialEnabled)
@@ -75,6 +95,22 @@ export function ConfigManager({
           <Store size={18} color="#60a5fa" /> Datos del negocio
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+          <div>
+            <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>Logo</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 64, height: 64, borderRadius: 12, background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                {logo ? <img src={logo} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <ImagePlus size={22} color="rgba(255,255,255,0.3)" />}
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <label style={{ ...btnGhostSm, cursor: uploadingLogo ? 'default' : 'pointer', opacity: uploadingLogo ? 0.6 : 1 }}>
+                  <ImagePlus size={14} /> {uploadingLogo ? 'Subiendo…' : logo ? 'Cambiar logo' : 'Subir logo'}
+                  <input type="file" accept="image/*" onChange={onLogoFile} disabled={uploadingLogo} style={{ display: 'none' }} />
+                </label>
+                {logo && <button onClick={removeLogo} style={{ ...btnGhostSm, color: '#f87171' }}><X size={13} /> Quitar</button>}
+              </div>
+            </div>
+          </div>
+
           <Field label="Nombre del negocio">
             <input value={data.name} onChange={(e) => setField('name', e.target.value)} style={input} />
           </Field>
@@ -160,4 +196,9 @@ const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
+}
+const btnGhostSm: React.CSSProperties = {
+  display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)',
+  color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
+  padding: '8px 13px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
