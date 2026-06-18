@@ -6,6 +6,7 @@ import type { Professional, Service, Appointment, BlockedTime } from '@/types/da
 import type { WhatsAppTemplate } from '@/lib/whatsapp'
 import { getDateKey, timeToMinutes } from '@/lib/date-utils'
 import { listAppointmentsBetween, updateAppointment, searchAppointmentsByClient } from '@/services/appointments'
+import { listPatients } from '@/services/patients'
 import { ClientSearch } from './ClientSearch'
 import { fetchBlocks, expandBlocksForDay, deleteBlock, type BlockInstance } from '@/services/blocked-times'
 import { listPaymentsForAppointments } from '@/services/payments'
@@ -64,6 +65,7 @@ export function CalendarContainer({
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [blocks, setBlocks] = useState<BlockedTime[]>([])
   const [paidByAppt, setPaidByAppt] = useState<Map<string, number>>(new Map())
+  const [obraByPatient, setObraByPatient] = useState<Map<string, string>>(new Map())
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState<ModalSeed | null>(null)
   const [blockOpen, setBlockOpen] = useState(false)
@@ -100,6 +102,17 @@ export function CalendarContainer({
   }, [appointments])
 
   useEffect(() => { refetch(view, date) }, [view, date, refetch])
+
+  // Mapa de obra social por paciente (para mostrarla al lado del turno)
+  useEffect(() => {
+    listPatients()
+      .then((ps) => {
+        const m = new Map<string, string>()
+        for (const p of ps) if (p.health_insurance?.trim()) m.set(p.id, p.health_insurance.trim())
+        setObraByPatient(m)
+      })
+      .catch(() => {})
+  }, [])
 
   // Bloqueos del día actual (para vistas Día y Lista)
   const dayBlocks = useMemo(() => expandBlocksForDay(blocks, date), [blocks, date])
@@ -213,6 +226,7 @@ export function CalendarContainer({
           appointments={appointments}
           blocks={dayBlocks}
           paidByAppt={paidByAppt}
+          obraByPatient={obraByPatient}
           onApptClick={(appt) => setModal({ edit: appt })}
           onBlockClick={handleBlockClick}
           onStatusChange={onStatusChange}
@@ -224,6 +238,7 @@ export function CalendarContainer({
           appointments={appointments}
           blocks={dayBlocks}
           paidByAppt={paidByAppt}
+          obraByPatient={obraByPatient}
           openMin={openMin}
           closeMin={closeMin}
           onEmptyClick={(professionalId, startMin) => setModal({ professionalId, date, startMin })}

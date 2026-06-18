@@ -56,6 +56,7 @@ export function CalendarDayView({
   appointments,
   blocks,
   paidByAppt,
+  obraByPatient,
   openMin,
   closeMin,
   onEmptyClick,
@@ -67,6 +68,7 @@ export function CalendarDayView({
   appointments: Appointment[]
   blocks: BlockInstance[]
   paidByAppt: Map<string, number>
+  obraByPatient?: Map<string, string>
   openMin: number
   closeMin: number
   onEmptyClick: (professionalId: string, startMin: number) => void
@@ -222,6 +224,11 @@ export function CalendarDayView({
                         {a.source === 'public' && <Globe size={11} color="#22d3ee" style={{ marginRight: 4, verticalAlign: 'middle' }} />}
                         {a.client_name}
                       </p>
+                      {a.patient_id && obraByPatient?.get(a.patient_id) && blockH >= 34 && (
+                        <p style={{ margin: '2px 0 0', fontSize: 11, fontWeight: 700, color: '#c084fc', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>
+                          {obraByPatient.get(a.patient_id)}
+                        </p>
+                      )}
                       {showService && (
                         <p style={{ margin: '2px 0 0', fontSize: 11.5, color: 'rgba(255,255,255,0.65)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>{serviceName(a.service_id)}</p>
                       )}

@@ -29,6 +29,7 @@ export function CalendarListView({
   appointments,
   blocks,
   paidByAppt,
+  obraByPatient,
   onApptClick,
   onBlockClick,
   onStatusChange,
@@ -38,6 +39,7 @@ export function CalendarListView({
   appointments: Appointment[]
   blocks: BlockInstance[]
   paidByAppt: Map<string, number>
+  obraByPatient?: Map<string, string>
   onApptClick: (appt: Appointment) => void
   onBlockClick: (block: BlockInstance) => void
   onStatusChange: (appt: Appointment, status: AppointmentStatus) => void
@@ -119,6 +121,11 @@ export function CalendarListView({
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 8 }}>
                         {a.client_name}
+                        {a.patient_id && obraByPatient?.get(a.patient_id) && (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: 11, fontWeight: 700, color: '#c084fc', background: 'rgba(192,132,252,0.12)', border: '1px solid rgba(192,132,252,0.35)', borderRadius: 6, padding: '2px 8px' }}>
+                            {obraByPatient.get(a.patient_id)}
+                          </span>
+                        )}
                         {a.source === 'public' && (
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 700, color: '#22d3ee', background: 'rgba(34,211,238,0.12)', border: '1px solid rgba(34,211,238,0.35)', borderRadius: 6, padding: '2px 8px' }}>
                             <Globe size={11} /> Reserva online

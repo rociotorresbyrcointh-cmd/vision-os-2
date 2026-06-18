@@ -401,10 +401,10 @@ export function AppointmentModal({
                 </select>
                 {recur !== 'none' && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <input type="number" min={1} max={26} value={recurCount}
-                      onChange={(e) => setRecurCount(Math.max(1, Math.min(26, Number(e.target.value))))}
+                    <input type="number" min={1} max={60} value={recurCount}
+                      onChange={(e) => setRecurCount(Math.max(1, Math.min(60, Number(e.target.value))))}
                       style={{ ...input, width: 70 }} />
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{recur === 'weekdays' ? 'semanas' : 'veces'}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{recur === 'weekdays' ? 'turnos' : 'veces'}</span>
                   </div>
                 )}
               </div>
@@ -424,7 +424,7 @@ export function AppointmentModal({
                     })}
                   </div>
                   <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '8px 0 0' }}>
-                    Elegí los días que viene la persona, durante {recurCount} {recurCount === 1 ? 'semana' : 'semanas'}.
+                    Se crearán <strong style={{ color: 'rgba(255,255,255,0.7)' }}>{recurCount}</strong> turnos en total, repartidos en los días elegidos, a partir de la fecha.
                     {recurDays.length === 0 && ' (si no elegís ninguno, usa el día de la fecha elegida)'}
                   </p>
                 </div>

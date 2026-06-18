@@ -30,21 +30,24 @@ export async function createWeekdayRecurringAppointments(
   organizationId: string,
   base: AppointmentInput,
   weekdays: number[],
-  weeks: number,
+  totalTurnos: number,
   shouldSkip?: SkipCheck
 ): Promise<{ created: Appointment[]; failed: string[]; skipped: string[] }> {
   const groupId = crypto.randomUUID()
-  const rule = { freq: 'weekly' as const, count: weeks }
+  const rule = { freq: 'weekly' as const, count: totalTurnos }
   const start0 = new Date(base.start_time)
   const durationMs = new Date(base.end_time).getTime() - start0.getTime()
   // Domingo de la semana de la fecha base
   const sow = new Date(start0.getFullYear(), start0.getMonth(), start0.getDate())
   sow.setDate(sow.getDate() - sow.getDay())
 
-  // Cantidad objetivo: días elegidos × semanas. Generamos semanas de más para garantizarla.
-  const target = Math.max(1, weekdays.length) * weeks
+  // Cantidad objetivo: la cantidad total de turnos pedida. Generamos semanas de
+  // más para garantizarla (repartidos en los días elegidos).
+  const target = Math.max(1, totalTurnos)
+  const perWeek = Math.max(1, weekdays.length)
+  const weeksToGen = Math.ceil(target / perWeek) + 12
   const occ: Date[] = []
-  for (let w = 0; w < weeks + 12; w++) {
+  for (let w = 0; w < weeksToGen; w++) {
     for (const wd of [...weekdays].sort((a, b) => a - b)) {
       const d = new Date(sow)
       d.setDate(sow.getDate() + w * 7 + wd)
