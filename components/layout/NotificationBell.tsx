@@ -20,7 +20,7 @@ function iconFor(key: string) {
   return Calendar
 }
 
-export function NotificationBell({ role = 'owner' }: { role?: Role }) {
+export function NotificationBell({ role = 'owner', align = 'right' }: { role?: Role; align?: 'left' | 'right' }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [notifs, setNotifs] = useState<Notif[]>([])
@@ -70,7 +70,7 @@ export function NotificationBell({ role = 'owner' }: { role?: Role }) {
 
       {open && (
         <div style={{
-          position: 'absolute', right: 0, top: 46, width: 'min(340px, 86vw)', zIndex: 150,
+          position: 'absolute', [align]: 0, top: 46, width: 'min(340px, 86vw)', zIndex: 150,
           background: '#10101c', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14,
           boxShadow: '0 20px 50px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}>

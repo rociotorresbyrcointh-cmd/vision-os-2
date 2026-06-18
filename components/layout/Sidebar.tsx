@@ -7,6 +7,7 @@ import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wa
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
+import { NotificationBell } from '@/components/layout/NotificationBell'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
@@ -61,10 +62,12 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
             {ROLE_LABEL[role]}
           </span>
         </div>
-        {isMobile && (
+        {isMobile ? (
           <button onClick={() => setOpen(false)} aria-label="Cerrar menú" style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }}>
             <X size={20} />
           </button>
+        ) : (
+          <NotificationBell role={role} align="left" />
         )}
       </div>
 
@@ -133,6 +136,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
         </button>
         <VisionLogoWhite size={26} />
         <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>{businessName}</span>
+        <div style={{ marginLeft: 'auto' }}><NotificationBell role={role} align="right" /></div>
       </div>
 
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 55 }} />}
