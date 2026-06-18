@@ -42,13 +42,15 @@ export function PendingDeposits({
     setBusy(a.id)
     try {
       if (withPayment && deposit) {
+        const d = new Date(a.start_time)
+        const cuando = d.toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
         await createPayment(organizationId, {
           appointment_id: a.id,
           patient_id: a.patient_id ?? null,
           amount: deposit.amount,
           method: 'transferencia',
           kind: 'seña',
-          notes: 'Seña de reserva online',
+          notes: `Seña reserva online · ${a.client_name} · turno ${cuando} hs · ${svcName(a.service_id)}`,
           paid_at: new Date().toISOString(),
         })
       }
