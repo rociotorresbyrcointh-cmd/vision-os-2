@@ -156,11 +156,16 @@ export function PublicBooking({ orgId }: { orgId: string }) {
                 Seña: {moneyCur(deposit.amount, deposit.currency)}
               </p>
               {deposit.note && <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '0 0 12px', lineHeight: 1.5 }}>{deposit.note}</p>}
-              {deposit.link ? (
-                <a href={deposit.link} target="_blank" rel="noopener noreferrer"
+              {deposit.link && /^https?:\/\//i.test(deposit.link.trim()) ? (
+                <a href={deposit.link.trim()} target="_blank" rel="noopener noreferrer"
                   style={{ ...btnPrimary, textDecoration: 'none', boxShadow: '0 0 24px rgba(52,211,153,0.3)', background: 'linear-gradient(135deg,#34d399,#10b981)' }}>
                   Pagar la seña
                 </a>
+              ) : deposit.link ? (
+                <div>
+                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: '0 0 5px' }}>Transferí la seña a:</p>
+                  <p style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: 0, userSelect: 'all', letterSpacing: '0.02em', wordBreak: 'break-all' }}>{deposit.link.trim()}</p>
+                </div>
               ) : (
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12.5, margin: 0 }}>El negocio te indicará cómo abonarla.</p>
               )}
