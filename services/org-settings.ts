@@ -60,10 +60,32 @@ export async function saveBrand(organizationId: string, brand: Brand): Promise<v
   if (error) throw error
 }
 
-// Activar/desactivar una feature booleana del negocio (ej: historia clínica, redes)
+// ─── Seña / Reserva con seña ─────────────────────────────────────
+export type DepositSettings = {
+  amount: number | null
+  currency: string          // 'ARS' | 'USD' | …
+  link: string | null       // link de cobro propio (Mercado Pago, PayPal, alias…)
+  note: string | null
+}
+
+export async function saveDepositSettings(organizationId: string, d: DepositSettings): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('organizations')
+    .update({
+      deposit_amount: d.amount,
+      deposit_currency: d.currency,
+      deposit_link: d.link?.trim() || null,
+      deposit_note: d.note?.trim() || null,
+    })
+    .eq('id', organizationId)
+  if (error) throw error
+}
+
+// Activar/desactivar una feature booleana del negocio (ej: historia clínica, redes, seña)
 export async function setOrgFlag(
   organizationId: string,
-  field: 'clinical_history_enabled' | 'social_enabled',
+  field: 'clinical_history_enabled' | 'social_enabled' | 'deposit_enabled',
   value: boolean
 ): Promise<void> {
   const supabase = createClient()

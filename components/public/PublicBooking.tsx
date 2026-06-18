@@ -10,6 +10,10 @@ import {
 } from '@/services/public-booking'
 
 const money = (n: number) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
+const moneyCur = (n: number, cur: string) => {
+  try { return n.toLocaleString('es-AR', { style: 'currency', currency: cur, minimumFractionDigits: 0 }) }
+  catch { return `${cur} ${n.toLocaleString('es-AR')}` }
+}
 
 function parseDateKey(key: string): Date {
   const [y, m, d] = key.split('-').map(Number)
@@ -57,6 +61,7 @@ export function PublicBooking({ orgId }: { orgId: string }) {
   const ready = info?.enabled === true
   const service = ready ? info.services.find((s) => s.id === serviceId) : undefined
   const professional = ready ? info.professionals.find((p) => p.id === profId) : undefined
+  const deposit = ready ? (info.deposit ?? null) : null
 
   // Recalcula slots cuando hay servicio + profesional + fecha
   useEffect(() => {
@@ -133,13 +138,37 @@ export function PublicBooking({ orgId }: { orgId: string }) {
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
             <Check size={32} color="#34d399" />
           </div>
-          <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '0 0 8px' }}>¡Reserva confirmada!</h2>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, margin: '0 0 20px' }}>Te esperamos. Guardá estos datos:</p>
+          <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '0 0 8px' }}>
+            {deposit ? '¡Turno reservado!' : '¡Reserva confirmada!'}
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, margin: '0 0 20px' }}>
+            {deposit ? 'Para confirmarlo, aboná la seña. Guardá estos datos:' : 'Te esperamos. Guardá estos datos:'}
+          </p>
           <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 18, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <Row icon={<Calendar size={16} />} text={done.date} />
             <Row icon={<Clock size={16} />} text={`${done.time} hs`} />
             <Row icon={<User size={16} />} text={`${done.service} · ${done.prof}`} />
           </div>
+
+          {deposit && (
+            <div style={{ marginTop: 16, background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 12, padding: 18, textAlign: 'left' }}>
+              <p style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>
+                Seña: {moneyCur(deposit.amount, deposit.currency)}
+              </p>
+              {deposit.note && <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '0 0 12px', lineHeight: 1.5 }}>{deposit.note}</p>}
+              {deposit.link ? (
+                <a href={deposit.link} target="_blank" rel="noopener noreferrer"
+                  style={{ ...btnPrimary, textDecoration: 'none', boxShadow: '0 0 24px rgba(52,211,153,0.3)', background: 'linear-gradient(135deg,#34d399,#10b981)' }}>
+                  Pagar la seña
+                </a>
+              ) : (
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12.5, margin: 0 }}>El negocio te indicará cómo abonarla.</p>
+              )}
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11.5, margin: '12px 0 0' }}>
+                Tu turno queda reservado y se confirma cuando recibimos la seña.
+              </p>
+            </div>
+          )}
         </div>
       </Shell>
     )
@@ -200,6 +229,11 @@ export function PublicBooking({ orgId }: { orgId: string }) {
               <Field label="Tu nombre"><input value={name} onChange={(e) => setName(e.target.value)} style={input} /></Field>
               <Field label="Teléfono"><input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="WhatsApp" style={input} /></Field>
             </div>
+            {deposit && (
+              <div style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 10, padding: '11px 13px', color: 'rgba(255,255,255,0.7)', fontSize: 12.5, lineHeight: 1.5 }}>
+                💳 Este turno requiere una seña de <strong style={{ color: 'white' }}>{moneyCur(deposit.amount, deposit.currency)}</strong>. Después de reservar te mostramos cómo pagarla.
+              </div>
+            )}
             {error && <p style={{ color: '#f87171', fontSize: 12.5, margin: 0 }}>{error}</p>}
             <button onClick={confirm} disabled={booking} style={{ ...btnPrimary, opacity: booking ? 0.6 : 1 }}>
               {booking ? 'Confirmando…' : `Confirmar turno · ${slot} hs`}

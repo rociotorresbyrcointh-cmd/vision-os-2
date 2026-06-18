@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X } from 'lucide-react'
-import { setOrgFlag, saveOrgData, type OrgData } from '@/services/org-settings'
+import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X, Wallet } from 'lucide-react'
+import { setOrgFlag, saveOrgData, saveDepositSettings, type OrgData, type DepositSettings } from '@/services/org-settings'
 import { uploadLogo, setLogoUrl } from '@/services/storage'
 
 export function ConfigManager({
@@ -12,12 +12,16 @@ export function ConfigManager({
   socialEnabled,
   logoUrl,
   orgData,
+  depositEnabled,
+  depositData,
 }: {
   organizationId: string
   clinicalEnabled: boolean
   socialEnabled: boolean
   logoUrl: string | null
   orgData: OrgData
+  depositEnabled: boolean
+  depositData: DepositSettings
 }) {
   const [logo, setLogo] = useState<string | null>(logoUrl)
   const [uploadingLogo, setUploadingLogo] = useState(false)
@@ -78,6 +82,29 @@ export function ConfigManager({
     try { await setOrgFlag(organizationId, 'clinical_history_enabled', next) }
     catch { setClinical(!next) }
     finally { setSaving(false) }
+  }
+
+  // Seña
+  const [deposit, setDeposit] = useState(depositEnabled)
+  const [dep, setDep] = useState<DepositSettings>(depositData)
+  const [savingDep, setSavingDep] = useState(false)
+  const [savedDep, setSavedDep] = useState(false)
+  const setDepField = (k: keyof DepositSettings, v: string | number | null) => setDep((d) => ({ ...d, [k]: v }))
+
+  const toggleDeposit = async () => {
+    const next = !deposit
+    setDeposit(next); setSaving(true)
+    try { await setOrgFlag(organizationId, 'deposit_enabled', next) }
+    catch { setDeposit(!next) }
+    finally { setSaving(false) }
+  }
+
+  const persistDeposit = async () => {
+    setSavingDep(true); setSavedDep(false)
+    try {
+      await saveDepositSettings(organizationId, dep)
+      setSavedDep(true); setTimeout(() => setSavedDep(false), 2500)
+    } finally { setSavingDep(false) }
   }
 
   return (
@@ -153,7 +180,51 @@ export function ConfigManager({
           disabled={saving}
           onToggle={toggleSocial}
         />
+        <ToggleRow
+          icon={<Wallet size={20} color="#34d399" />}
+          title="Seña para reservar"
+          desc={deposit
+            ? 'Activada: en tu portal de reservas se le pide al cliente una seña para confirmar el turno.'
+            : 'Desactivada: tus clientes reservan sin pagar nada por adelantado.'}
+          on={deposit}
+          disabled={saving}
+          onToggle={toggleDeposit}
+        />
       </div>
+
+      {/* Configuración de la seña (solo si está activada) */}
+      {deposit && (
+        <div style={{ background: 'rgba(52,211,153,0.05)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 14, padding: '20px 22px', marginTop: 14 }}>
+          <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Wallet size={17} color="#34d399" /> Datos de la seña
+          </h3>
+          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
+            Pegá tu propio link de cobro (Mercado Pago, PayPal, alias bancario…). El cliente lo verá al reservar y abona ahí. Vos confirmás el turno cuando recibís el pago.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <Field label="Monto de la seña">
+                <input type="number" inputMode="decimal" value={dep.amount ?? ''} onChange={(e) => setDepField('amount', e.target.value === '' ? null : Number(e.target.value))} placeholder="Ej: 5000" style={input} />
+              </Field>
+              <Field label="Moneda">
+                <select value={dep.currency} onChange={(e) => setDepField('currency', e.target.value)} style={input}>
+                  <option value="ARS">Pesos (ARS)</option>
+                  <option value="USD">Dólares (USD)</option>
+                </select>
+              </Field>
+            </div>
+            <Field label="Link de cobro / alias">
+              <input value={dep.link ?? ''} onChange={(e) => setDepField('link', e.target.value)} placeholder="https://link.mercadopago… · paypal.me/… · o tu alias/CBU" style={input} />
+            </Field>
+            <Field label="Aclaración para el cliente (opcional)">
+              <input value={dep.note ?? ''} onChange={(e) => setDepField('note', e.target.value)} placeholder="Ej: Aboná la seña y mandanos el comprobante por WhatsApp para confirmar." style={input} />
+            </Field>
+            <button onClick={persistDeposit} disabled={savingDep} style={{ ...btnPrimary, alignSelf: 'flex-start', opacity: savingDep ? 0.5 : 1 }}>
+              {savedDep ? <><Check size={15} /> Guardado</> : savingDep ? 'Guardando…' : 'Guardar seña'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

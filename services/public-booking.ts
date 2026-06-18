@@ -5,9 +5,10 @@ export type PublicProfessional = {
   id: string; name: string; color: string
   days_of_week: number[]; hours_start: string; hours_end: string
 }
+export type PublicDeposit = { amount: number; currency: string; link: string | null; note: string | null }
 export type PublicInfo =
   | { enabled: false }
-  | { enabled: true; name: string; logo?: string | null; services: PublicService[]; professionals: PublicProfessional[] }
+  | { enabled: true; name: string; logo?: string | null; deposit?: PublicDeposit | null; services: PublicService[]; professionals: PublicProfessional[] }
 
 export type BusyInterval = { start_time: string; end_time: string }
 export type PublicBlock = {
