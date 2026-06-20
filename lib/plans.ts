@@ -47,12 +47,26 @@ export function planById(id: string | null | undefined): Plan | null {
   return PLANS.find((p) => p.id === id) ?? null
 }
 
-// Límite de profesionales del plan. Sin plan asignado (trial) = sin límite.
+// Plan de cortesía: acceso libre y gratuito (se asigna a mano, no se compra).
+export function isCortesia(planId: string | null | undefined): boolean {
+  return planId === 'cortesia'
+}
+
+// Límite de profesionales del plan. Cortesía y trial = sin límite.
 export function maxProfessionalsFor(planId: string | null | undefined): number {
   const p = planById(planId)
   return p ? p.maxProf : Infinity
 }
 
+// Está en período de prueba (sin plan pago ni cortesía).
 export function isTrial(planId: string | null | undefined): boolean {
-  return !planById(planId)
+  return !planById(planId) && !isCortesia(planId)
+}
+
+// Etiqueta amigable del plan actual.
+export function planLabel(planId: string | null | undefined): string {
+  const p = planById(planId)
+  if (p) return p.name
+  if (isCortesia(planId)) return 'Cortesía'
+  return 'Prueba'
 }

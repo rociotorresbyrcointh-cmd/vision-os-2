@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, Star, Zap, Users, AlertTriangle, Settings2 } from 'lucide-react'
-import { PLANS, planById, isTrial, type PlanId } from '@/lib/plans'
+import { Check, Star, Zap, Users, AlertTriangle, Settings2, Gift } from 'lucide-react'
+import { PLANS, planById, isTrial, isCortesia, type PlanId } from '@/lib/plans'
 
 export function PlanManager({
   organizationId, currentPlan, professionalCount, hasSubscription, planStatus,
@@ -17,6 +17,7 @@ export function PlanManager({
   const [busy, setBusy] = useState<string | null>(null)
   const current = planById(plan)
   const trial = isTrial(plan)
+  const cortesia = isCortesia(plan)
 
   // Ir al checkout de Stripe para suscribirse a un plan
   async function subscribe(id: PlanId) {
@@ -64,16 +65,19 @@ export function PlanManager({
       </header>
 
       {/* Estado actual */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 14, padding: '16px 20px', margin: '18px 0 26px' }}>
-        <Zap size={22} color="#60a5fa" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', borderRadius: 14, padding: '16px 20px', margin: '18px 0 26px',
+        background: cortesia ? 'rgba(52,211,153,0.08)' : 'rgba(37,99,255,0.08)',
+        border: cortesia ? '1px solid rgba(52,211,153,0.3)' : '1px solid rgba(37,99,255,0.25)' }}>
+        {cortesia ? <Gift size={22} color="#34d399" /> : <Zap size={22} color="#60a5fa" />}
         <div style={{ flex: 1, minWidth: 200 }}>
           <p style={{ color: 'white', fontWeight: 700, fontSize: 15, margin: 0 }}>
-            {trial ? 'Estás en período de prueba' : `Plan actual: ${current?.name}`}
+            {cortesia ? '🎁 Plan Cortesía — acceso libre y gratuito' : trial ? 'Estás en período de prueba' : `Plan actual: ${current?.name}`}
           </p>
           <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, margin: '3px 0 0' }}>
             <Users size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
             Usás <strong style={{ color: 'white' }}>{professionalCount}</strong> profesional{professionalCount === 1 ? '' : 'es'}
             {current && ` de ${current.maxProf} incluidos`}
+            {cortesia && ' · sin límite'}
             {planStatus === 'canceled' && ' · suscripción cancelada'}
           </p>
         </div>
