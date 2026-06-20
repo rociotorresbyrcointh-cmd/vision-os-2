@@ -43,6 +43,30 @@ export function PlanManager({
     }
   }
 
+  // Suscribirse con Mercado Pago (pesos, para Argentina)
+  async function subscribeMP(id: PlanId) {
+    const target = planById(id)!
+    if (professionalCount > target.maxProf) {
+      alert(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}.`)
+      return
+    }
+    setBusy('mp-' + id)
+    try {
+      const res = await fetch('/api/mp/subscribe', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: id }),
+      })
+      const text = await res.text()
+      let data: { url?: string; error?: string } = {}
+      try { data = JSON.parse(text) } catch { /* no-JSON */ }
+      if (!res.ok || !data.url) throw new Error(data.error || text || 'No se pudo iniciar el pago')
+      window.location.href = data.url
+    } catch (e) {
+      alert('No se pudo iniciar el pago con Mercado Pago: ' + (e instanceof Error ? e.message : 'error'))
+      setBusy(null)
+    }
+  }
+
   // Abrir el portal de Stripe para administrar/cancelar la suscripción
   async function manage() {
     setBusy('manage')
@@ -127,19 +151,34 @@ export function PlanManager({
                   Tu plan actual ✓
                 </span>
               ) : (
-                <button
-                  onClick={() => subscribe(p.id)}
-                  disabled={busy === p.id || overLimit}
-                  title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
-                  style={{
-                    padding: '11px', borderRadius: 10, border: 'none', cursor: overLimit ? 'not-allowed' : 'pointer',
-                    background: overLimit ? 'rgba(255,255,255,0.06)' : '#2563FF',
-                    color: overLimit ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 14, fontWeight: 700,
-                    opacity: busy === p.id ? 0.6 : 1,
-                  }}
-                >
-                  {busy === p.id ? 'Redirigiendo…' : overLimit ? 'No alcanza' : 'Suscribirme'}
-                </button>
+                <>
+                  <button
+                    onClick={() => subscribe(p.id)}
+                    disabled={busy === p.id || overLimit}
+                    title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
+                    style={{
+                      padding: '11px', borderRadius: 10, border: 'none', cursor: overLimit ? 'not-allowed' : 'pointer',
+                      background: overLimit ? 'rgba(255,255,255,0.06)' : '#2563FF',
+                      color: overLimit ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 14, fontWeight: 700,
+                      opacity: busy === p.id ? 0.6 : 1, width: '100%',
+                    }}
+                  >
+                    {busy === p.id ? 'Redirigiendo…' : overLimit ? 'No alcanza' : 'Suscribirme con tarjeta (USD)'}
+                  </button>
+                  {!overLimit && (
+                    <button
+                      onClick={() => subscribeMP(p.id)}
+                      disabled={busy === 'mp-' + p.id}
+                      style={{
+                        marginTop: 8, padding: '10px', borderRadius: 10, border: 'none', cursor: 'pointer', width: '100%',
+                        background: '#00b1ea', color: 'white', fontSize: 13, fontWeight: 700,
+                        opacity: busy === 'mp-' + p.id ? 0.6 : 1,
+                      }}
+                    >
+                      {busy === 'mp-' + p.id ? 'Redirigiendo…' : `Mercado Pago · $${p.priceARS.toLocaleString('es-AR')}/mes`}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           )

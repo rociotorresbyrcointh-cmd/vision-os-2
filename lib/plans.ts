@@ -7,7 +7,8 @@ export type Plan = {
   id: PlanId
   name: string
   maxProf: number
-  price: number
+  price: number        // USD/mes (Stripe)
+  priceARS: number     // pesos/mes (Mercado Pago) — actualizar cuando se mueve el dólar
   blurb: string
   popular?: boolean
   features: string[]
@@ -21,6 +22,7 @@ export const PLANS: Plan[] = [
     name: 'Inicial',
     maxProf: 1,
     price: 39,
+    priceARS: 58000,
     blurb: '1 profesional',
     features: ['Agenda y turnos', 'Pacientes y caja', 'Reservas online', 'Recordatorios'],
   },
@@ -29,6 +31,7 @@ export const PLANS: Plan[] = [
     name: 'Equipo',
     maxProf: 4,
     price: 79,
+    priceARS: 117000,
     blurb: '2 a 4 profesionales',
     popular: true,
     features: ['Todo lo de Inicial', 'Roles y permisos por empleado', 'Redes sociales con IA', 'Crecimiento y reportes'],
@@ -38,6 +41,7 @@ export const PLANS: Plan[] = [
     name: 'Clínica',
     maxProf: 10,
     price: 149,
+    priceARS: 221000,
     blurb: '5 a 10 profesionales',
     features: ['Todo lo de Equipo', 'Hasta 10 profesionales', 'Soporte prioritario', `Profesional extra +$${EXTRA_PRICE} c/u`],
   },
