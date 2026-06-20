@@ -1,25 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Check, Star, Zap, Users, AlertTriangle } from 'lucide-react'
+import { Check, Star, Zap, Users, AlertTriangle, Settings2 } from 'lucide-react'
 import { PLANS, planById, isTrial, type PlanId } from '@/lib/plans'
-import { setPlan } from '@/services/plan'
 
 export function PlanManager({
-  organizationId, currentPlan, professionalCount,
+  organizationId, currentPlan, professionalCount, hasSubscription, planStatus,
 }: {
   organizationId: string
   currentPlan: string
   professionalCount: number
+  hasSubscription?: boolean
+  planStatus?: string | null
 }) {
-  const router = useRouter()
-  const [plan, setPlanState] = useState(currentPlan)
+  const [plan] = useState(currentPlan)
   const [busy, setBusy] = useState<string | null>(null)
   const current = planById(plan)
   const trial = isTrial(plan)
 
-  async function activate(id: PlanId) {
+  // Ir al checkout de Stripe para suscribirse a un plan
+  async function subscribe(id: PlanId) {
     const target = planById(id)!
     if (professionalCount > target.maxProf) {
       alert(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}. Desactivá profesionales o elegí un plan más grande.`)
@@ -27,12 +27,31 @@ export function PlanManager({
     }
     setBusy(id)
     try {
-      await setPlan(organizationId, id)
-      setPlanState(id)
-      router.refresh()
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: id }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.url) throw new Error(data.error ?? 'No se pudo iniciar el pago')
+      window.location.href = data.url
     } catch (e) {
-      alert('No se pudo cambiar el plan: ' + (e instanceof Error ? e.message : 'error'))
-    } finally { setBusy(null) }
+      alert('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'))
+      setBusy(null)
+    }
+  }
+
+  // Abrir el portal de Stripe para administrar/cancelar la suscripción
+  async function manage() {
+    setBusy('manage')
+    try {
+      const res = await fetch('/api/stripe/portal', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok || !data.url) throw new Error(data.error ?? 'Error')
+      window.location.href = data.url
+    } catch (e) {
+      alert('No se pudo abrir la gestión: ' + (e instanceof Error ? e.message : 'error'))
+      setBusy(null)
+    }
   }
 
   return (
@@ -55,8 +74,14 @@ export function PlanManager({
             <Users size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
             Usás <strong style={{ color: 'white' }}>{professionalCount}</strong> profesional{professionalCount === 1 ? '' : 'es'}
             {current && ` de ${current.maxProf} incluidos`}
+            {planStatus === 'canceled' && ' · suscripción cancelada'}
           </p>
         </div>
+        {hasSubscription && (
+          <button onClick={manage} disabled={busy === 'manage'} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', borderRadius: 10, padding: '10px 15px', fontSize: 13.5, fontWeight: 700, cursor: 'pointer', opacity: busy === 'manage' ? 0.6 : 1 }}>
+            <Settings2 size={15} /> {busy === 'manage' ? 'Abriendo…' : 'Administrar suscripción'}
+          </button>
+        )}
       </div>
 
       {/* Planes */}
@@ -95,7 +120,7 @@ export function PlanManager({
                 </span>
               ) : (
                 <button
-                  onClick={() => activate(p.id)}
+                  onClick={() => subscribe(p.id)}
                   disabled={busy === p.id || overLimit}
                   title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
                   style={{
@@ -105,7 +130,7 @@ export function PlanManager({
                     opacity: busy === p.id ? 0.6 : 1,
                   }}
                 >
-                  {busy === p.id ? 'Activando…' : overLimit ? 'No alcanza' : 'Elegir este plan'}
+                  {busy === p.id ? 'Redirigiendo…' : overLimit ? 'No alcanza' : 'Suscribirme'}
                 </button>
               )}
             </div>
@@ -116,7 +141,7 @@ export function PlanManager({
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginTop: 22, color: 'rgba(255,255,255,0.45)', fontSize: 12.5, lineHeight: 1.6 }}>
         <AlertTriangle size={15} style={{ flexShrink: 0, marginTop: 2 }} />
         <span>
-          El cobro real (con tarjeta) se activa próximamente. Por ahora elegir un plan solo aplica el límite de profesionales correspondiente.
+          El pago es seguro con tarjeta (procesado por Stripe) y se renueva automáticamente cada mes. Podés cancelar cuando quieras desde "Administrar suscripción".
           Para más de 10 profesionales, se suman extras de $15 USD c/u.
         </span>
       </div>
