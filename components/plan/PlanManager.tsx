@@ -15,6 +15,7 @@ export function PlanManager({
 }) {
   const [plan] = useState(currentPlan)
   const [busy, setBusy] = useState<string | null>(null)
+  const [choosing, setChoosing] = useState<PlanId | null>(null)
   const current = planById(plan)
   const trial = isTrial(plan)
   const cortesia = isCortesia(plan)
@@ -151,34 +152,18 @@ export function PlanManager({
                   Tu plan actual ✓
                 </span>
               ) : (
-                <>
-                  <button
-                    onClick={() => subscribe(p.id)}
-                    disabled={busy === p.id || overLimit}
-                    title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
-                    style={{
-                      padding: '11px', borderRadius: 10, border: 'none', cursor: overLimit ? 'not-allowed' : 'pointer',
-                      background: overLimit ? 'rgba(255,255,255,0.06)' : '#2563FF',
-                      color: overLimit ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 14, fontWeight: 700,
-                      opacity: busy === p.id ? 0.6 : 1, width: '100%',
-                    }}
-                  >
-                    {busy === p.id ? 'Redirigiendo…' : overLimit ? 'No alcanza' : 'Suscribirme con tarjeta (USD)'}
-                  </button>
-                  {!overLimit && (
-                    <button
-                      onClick={() => subscribeMP(p.id)}
-                      disabled={busy === 'mp-' + p.id}
-                      style={{
-                        marginTop: 8, padding: '10px', borderRadius: 10, border: 'none', cursor: 'pointer', width: '100%',
-                        background: '#00b1ea', color: 'white', fontSize: 13, fontWeight: 700,
-                        opacity: busy === 'mp-' + p.id ? 0.6 : 1,
-                      }}
-                    >
-                      {busy === 'mp-' + p.id ? 'Redirigiendo…' : `Mercado Pago · $${p.priceARS.toLocaleString('es-AR')}/mes`}
-                    </button>
-                  )}
-                </>
+                <button
+                  onClick={() => setChoosing(p.id)}
+                  disabled={overLimit}
+                  title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
+                  style={{
+                    padding: '11px', borderRadius: 10, border: 'none', cursor: overLimit ? 'not-allowed' : 'pointer', width: '100%',
+                    background: overLimit ? 'rgba(255,255,255,0.06)' : '#2563FF',
+                    color: overLimit ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 14, fontWeight: 700,
+                  }}
+                >
+                  {overLimit ? 'No alcanza' : 'Suscribirme'}
+                </button>
               )}
             </div>
           )
@@ -188,10 +173,45 @@ export function PlanManager({
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginTop: 22, color: 'rgba(255,255,255,0.45)', fontSize: 12.5, lineHeight: 1.6 }}>
         <AlertTriangle size={15} style={{ flexShrink: 0, marginTop: 2 }} />
         <span>
-          El pago es seguro con tarjeta (procesado por Stripe) y se renueva automáticamente cada mes. Podés cancelar cuando quieras desde "Administrar suscripción".
+          El pago se renueva automáticamente cada mes y podés cancelar cuando quieras. Tarjeta internacional con Stripe (USD) o Mercado Pago (pesos).
           Para más de 10 profesionales, se suman extras de $15 USD c/u.
         </span>
       </div>
+
+      {/* Elección de medio de pago */}
+      {choosing && (() => {
+        const p = planById(choosing)!
+        return (
+          <div onClick={() => setChoosing(null)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#10101c', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}>
+              <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>Suscribirte a {p.name}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, margin: '4px 0 18px' }}>Elegí cómo querés pagar:</p>
+
+              <button onClick={() => subscribe(p.id)} disabled={busy === p.id}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(37,99,255,0.4)', background: 'rgba(37,99,255,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10, opacity: busy === p.id ? 0.6 : 1 }}>
+                <span style={{ textAlign: 'left' }}>
+                  <span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>💳 Tarjeta internacional</span>
+                  <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Visa, Mastercard, etc. · en tu moneda</span>
+                </span>
+                <span style={{ fontWeight: 800, whiteSpace: 'nowrap' }}>US$ {p.price}</span>
+              </button>
+
+              <button onClick={() => subscribeMP(p.id)} disabled={busy === 'mp-' + p.id}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(0,177,234,0.4)', background: 'rgba(0,177,234,0.12)', color: 'white', cursor: 'pointer', opacity: busy === 'mp-' + p.id ? 0.6 : 1 }}>
+                <span style={{ textAlign: 'left' }}>
+                  <span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>🇦🇷 Mercado Pago</span>
+                  <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Tarjeta o dinero en cuenta · en pesos</span>
+                </span>
+                <span style={{ fontWeight: 800, whiteSpace: 'nowrap' }}>${p.priceARS.toLocaleString('es-AR')}</span>
+              </button>
+
+              <button onClick={() => setChoosing(null)} style={{ width: '100%', marginTop: 14, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.45)', fontSize: 13, cursor: 'pointer' }}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
