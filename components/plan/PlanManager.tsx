@@ -32,8 +32,10 @@ export function PlanManager({
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan: id }),
       })
-      const data = await res.json()
-      if (!res.ok || !data.url) throw new Error(data.error ?? 'No se pudo iniciar el pago')
+      const text = await res.text()
+      let data: { url?: string; error?: string } = {}
+      try { data = JSON.parse(text) } catch { /* respuesta no-JSON */ }
+      if (!res.ok || !data.url) throw new Error(data.error || text || 'No se pudo iniciar el pago')
       window.location.href = data.url
     } catch (e) {
       alert('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'))
@@ -46,8 +48,10 @@ export function PlanManager({
     setBusy('manage')
     try {
       const res = await fetch('/api/stripe/portal', { method: 'POST' })
-      const data = await res.json()
-      if (!res.ok || !data.url) throw new Error(data.error ?? 'Error')
+      const text = await res.text()
+      let data: { url?: string; error?: string } = {}
+      try { data = JSON.parse(text) } catch { /* respuesta no-JSON */ }
+      if (!res.ok || !data.url) throw new Error(data.error || text || 'Error')
       window.location.href = data.url
     } catch (e) {
       alert('No se pudo abrir la gestión: ' + (e instanceof Error ? e.message : 'error'))

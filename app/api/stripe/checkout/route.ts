@@ -25,30 +25,46 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Solo el dueño puede gestionar el plan.' }, { status: 403 })
   }
 
-  // Cliente de Stripe (reutiliza el existente o crea uno nuevo)
-  let customerId = org.stripe_customer_id as string | null
-  if (!customerId) {
-    const customer = await getStripe().customers.create({
-      email: user.email ?? undefined,
-      name: org.name ?? undefined,
-      metadata: { orgId: org.id },
+  try {
+    const stripe = getStripe()
+
+    // Cliente de Stripe (reutiliza el existente o crea uno nuevo).
+    // Si el guardado no existe en este modo (ej. quedó uno de prueba), se regenera.
+    let customerId = org.stripe_customer_id as string | null
+    if (customerId) {
+      try {
+        const c = await stripe.customers.retrieve(customerId)
+        if ((c as { deleted?: boolean }).deleted) customerId = null
+      } catch {
+        customerId = null // no existe en este modo (test↔live) → crear uno nuevo
+      }
+    }
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: user.email ?? undefined,
+        name: org.name ?? undefined,
+        metadata: { orgId: org.id },
+      })
+      customerId = customer.id
+      await supabase.from('organizations').update({ stripe_customer_id: customerId }).eq('id', org.id)
+    }
+
+    const origin = new URL(request.url).origin
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      customer: customerId,
+      line_items: [{ price: priceId, quantity: 1 }],
+      client_reference_id: org.id,
+      metadata: { orgId: org.id, plan },
+      subscription_data: { metadata: { orgId: org.id, plan } },
+      success_url: `${origin}/plan?success=1`,
+      cancel_url: `${origin}/plan?canceled=1`,
+      allow_promotion_codes: true,
     })
-    customerId = customer.id
-    await supabase.from('organizations').update({ stripe_customer_id: customerId }).eq('id', org.id)
+
+    return NextResponse.json({ url: session.url })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Error de Stripe'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
-
-  const origin = new URL(request.url).origin
-  const session = await getStripe().checkout.sessions.create({
-    mode: 'subscription',
-    customer: customerId,
-    line_items: [{ price: priceId, quantity: 1 }],
-    client_reference_id: org.id,
-    metadata: { orgId: org.id, plan },
-    subscription_data: { metadata: { orgId: org.id, plan } },
-    success_url: `${origin}/plan?success=1`,
-    cancel_url: `${origin}/plan?canceled=1`,
-    allow_promotion_codes: true,
-  })
-
-  return NextResponse.json({ url: session.url })
 }
