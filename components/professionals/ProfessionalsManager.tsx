@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Pencil, Trash2, X, User, Box } from 'lucide-react'
+import Link from 'next/link'
+import { Plus, Pencil, Trash2, X, User, Box, Lock } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { PROFESSIONAL_COLORS, type Professional } from '@/types/database'
+import { maxProfessionalsFor, planById } from '@/lib/plans'
 import {
   createProfessional,
   updateProfessional,
@@ -25,9 +27,11 @@ const emptyForm: ProfessionalInput = {
 export function ProfessionalsManager({
   organizationId,
   initial,
+  plan = 'trial',
 }: {
   organizationId: string
   initial: Professional[]
+  plan?: string
 }) {
   const [list, setList] = useState<Professional[]>(initial)
   const [open, setOpen] = useState(false)
@@ -36,7 +40,11 @@ export function ProfessionalsManager({
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
+  const maxProf = maxProfessionalsFor(plan)
+  const atLimit = list.length >= maxProf
+
   const openNew = () => {
+    if (atLimit) return
     setEditingId(null)
     setForm({ ...emptyForm, color: PROFESSIONAL_COLORS[list.length % PROFESSIONAL_COLORS.length] })
     setError('')
@@ -65,6 +73,10 @@ export function ProfessionalsManager({
 
   const save = async () => {
     if (!form.name.trim()) { setError('El nombre es obligatorio.'); return }
+    if (!editingId && list.length >= maxProf) {
+      setError(`Tu plan permite hasta ${maxProf} profesional${maxProf === 1 ? '' : 'es'}. Pasá a un plan más grande para sumar más.`)
+      return
+    }
     setSaving(true)
     setError('')
     try {
@@ -98,10 +110,23 @@ export function ProfessionalsManager({
             Personas y recursos (cabinas, salas) que reciben turnos.
           </p>
         </div>
-        <button onClick={openNew} style={btnPrimary}>
-          <Plus size={16} /> Nuevo profesional
+        <button onClick={openNew} disabled={atLimit} style={{ ...btnPrimary, opacity: atLimit ? 0.5 : 1, cursor: atLimit ? 'not-allowed' : 'pointer' }}
+          title={atLimit ? 'Llegaste al límite de tu plan' : ''}>
+          {atLimit ? <Lock size={15} /> : <Plus size={16} />} Nuevo profesional
         </button>
       </div>
+
+      {atLimit && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: 12, padding: '13px 16px', marginBottom: 20, maxWidth: 760 }}>
+          <Lock size={18} color="#fbbf24" />
+          <span style={{ flex: 1, minWidth: 200, color: 'rgba(255,255,255,0.8)', fontSize: 13.5 }}>
+            Tu plan {planById(plan)?.name ? `(${planById(plan)!.name})` : ''} permite hasta <strong>{maxProf}</strong> profesional{maxProf === 1 ? '' : 'es'}. Para sumar más, pasá a un plan más grande.
+          </span>
+          <Link href="/plan" style={{ background: '#2563FF', color: 'white', textDecoration: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
+            Ver planes
+          </Link>
+        </div>
+      )}
 
       {list.length === 0 ? (
         <EmptyState

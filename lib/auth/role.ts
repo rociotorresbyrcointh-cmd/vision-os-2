@@ -30,6 +30,7 @@ export const ROUTE_ROLES: Record<string, Role[]> = {
   '/papelera': ['owner', 'admin'],
   '/configuracion': ['owner'],
   '/equipo': ['owner'],
+  '/plan': ['owner'],
 }
 
 export function canSee(href: string, role: Role): boolean {
