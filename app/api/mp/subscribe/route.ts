@@ -44,7 +44,10 @@ export async function POST(request: Request) {
     if (!url) throw new Error('Mercado Pago no devolvió el link de pago')
     return NextResponse.json({ url })
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Error de Mercado Pago'
+    // El SDK de MP a veces trae el detalle en .message, .cause o .error
+    const e = err as { message?: string; error?: string; cause?: Array<{ description?: string }> }
+    const detail = e?.cause?.map((c) => c.description).filter(Boolean).join(' · ')
+    const msg = detail || e?.message || e?.error || 'Error de Mercado Pago'
     return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
