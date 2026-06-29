@@ -17,16 +17,19 @@ export function Landing() {
   const [menu, setMenu] = useState(false)
   const [faq, setFaq] = useState<number | null>(0)
   const [tilt, setTilt] = useState({ x: 8, y: -12 })
+  const [par, setPar] = useState({ dx: 0, dy: 0, rx: 0, ry: 0 })
   const heroRef = useRef<HTMLDivElement>(null)
 
-  // Parallax 3D: el mockup se inclina según el cursor
+  // Parallax 3D: el mockup se inclina y el logo de fondo se mueve con profundidad
   function onHeroMove(e: React.MouseEvent) {
     const r = heroRef.current?.getBoundingClientRect()
     if (!r) return
     const px = (e.clientX - r.left) / r.width - 0.5
     const py = (e.clientY - r.top) / r.height - 0.5
     setTilt({ x: 6 - py * 14, y: -px * 18 })
+    setPar({ dx: -px * 50, dy: -py * 50, rx: py * 16, ry: -px * 20 })
   }
+  function onHeroLeave() { setTilt({ x: 8, y: -12 }); setPar({ dx: 0, dy: 0, rx: 0, ry: 0 }) }
 
   return (
     <div style={{ background: '#06060d', color: 'white', overflowX: 'hidden', position: 'relative' }}>
@@ -69,14 +72,13 @@ export function Landing() {
         </nav>
 
         {/* ───── HERO ───── */}
-        <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={() => setTilt({ x: 8, y: -12 })} style={{ ...container, paddingTop: 'clamp(36px, 6vw, 72px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
-          {/* Logo grande, en su propia fila, arriba de todo */}
-          <div style={{ marginBottom: 'clamp(28px, 4vw, 44px)' }}>
-            <span className="ld-logo-glow" style={{ display: 'inline-block' }}>
-              <VisionLogoWhite size={104} />
-            </span>
+        <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
+          {/* Logo gigante DETRÁS del título, con parallax 4D */}
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(20px, 6vw, 90px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.22, transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px) perspective(900px) rotateX(${par.rx}deg) rotateY(${par.ry}deg)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 80px rgba(37,99,255,0.9))' }}>
+            <VisionLogoWhite size={420} />
           </div>
 
+          <div style={{ position: 'relative', zIndex: 1 }}>
           <h1 className="ld-rise" style={{ fontSize: 'clamp(36px, 6.5vw, 68px)', fontWeight: 900, lineHeight: 1.04, margin: 0, letterSpacing: '-0.025em' }}>
             Llená tu agenda y<br />
             <span className="ld-gradient-text">olvidate del ausentismo</span>
@@ -105,6 +107,7 @@ export function Landing() {
             <div className="ld-mock" style={{ maxWidth: 960, margin: '0 auto', transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
               <AppMockup />
             </div>
+          </div>
           </div>
         </header>
 
