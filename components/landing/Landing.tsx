@@ -77,13 +77,6 @@ export function Landing() {
             </span>
           </div>
 
-          {/* Banner prueba gratis — arrogante */}
-          <div style={{ marginBottom: 26 }}>
-            <span className="ld-pulse ld-rise" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '9px 20px', borderRadius: 999, background: 'linear-gradient(135deg, rgba(52,211,153,0.18), rgba(34,211,238,0.14))', border: '1px solid rgba(52,211,153,0.5)', fontSize: 14, fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.01em' }}>
-              <Gift size={16} /> 14 DÍAS GRATIS · PROBALA SIN PAGAR NADA
-            </span>
-          </div>
-
           <h1 className="ld-rise" style={{ fontSize: 'clamp(36px, 6.5vw, 68px)', fontWeight: 900, lineHeight: 1.04, margin: 0, letterSpacing: '-0.025em' }}>
             Llená tu agenda y<br />
             <span className="ld-gradient-text">olvidate del ausentismo</span>
@@ -91,7 +84,13 @@ export function Landing() {
           <p className="ld-rise" style={{ maxWidth: 640, margin: '24px auto 0', fontSize: 'clamp(16px, 2.2vw, 20px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.65)' }}>
             La app todo-en-uno para tu negocio de turnos: agenda inteligente, reservas online con tu marca, seña anti-faltas y <strong style={{ color: 'white' }}>creación de contenido para redes con IA</strong>.
           </p>
-          <div className="ld-rise" style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 34 }}>
+          {/* Banner prueba gratis — justo arriba de los botones */}
+          <div className="ld-rise" style={{ marginTop: 30 }}>
+            <span className="ld-pulse" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '9px 20px', borderRadius: 999, background: 'linear-gradient(135deg, rgba(52,211,153,0.18), rgba(34,211,238,0.14))', border: '1px solid rgba(52,211,153,0.5)', fontSize: 14, fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.01em' }}>
+              <Gift size={16} /> 14 DÍAS GRATIS · PROBALA SIN PAGAR NADA
+            </span>
+          </div>
+          <div className="ld-rise" style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 18 }}>
             <Link href="/register" className="ld-cta" style={ctaBig}>
               Empezar gratis ahora <ArrowRight size={18} />
             </Link>
