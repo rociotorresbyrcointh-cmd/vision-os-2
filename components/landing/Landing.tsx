@@ -68,14 +68,18 @@ export function Landing() {
 
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={() => setTilt({ x: 8, y: -12 })} style={{ ...container, paddingTop: 'clamp(36px, 6vw, 72px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
-          {/* Logo grande, bien separado del título */}
-          <div className="ld-logo-glow" style={{ display: 'inline-block', marginBottom: 'clamp(40px, 6vw, 64px)' }}>
-            <VisionLogoWhite size={104} />
+          {/* Logo grande, en su propia fila, arriba de todo */}
+          <div style={{ marginBottom: 'clamp(28px, 4vw, 44px)' }}>
+            <span className="ld-logo-glow" style={{ display: 'inline-block' }}>
+              <VisionLogoWhite size={104} />
+            </span>
           </div>
 
           {/* Banner prueba gratis — arrogante */}
-          <div className="ld-pulse ld-rise" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '9px 20px', borderRadius: 999, background: 'linear-gradient(135deg, rgba(52,211,153,0.18), rgba(34,211,238,0.14))', border: '1px solid rgba(52,211,153,0.5)', fontSize: 14, fontWeight: 800, color: '#6ee7b7', marginBottom: 24, letterSpacing: '0.01em' }}>
-            <Gift size={16} /> 14 DÍAS GRATIS · PROBALA SIN PAGAR NADA
+          <div style={{ marginBottom: 26 }}>
+            <span className="ld-pulse ld-rise" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '9px 20px', borderRadius: 999, background: 'linear-gradient(135deg, rgba(52,211,153,0.18), rgba(34,211,238,0.14))', border: '1px solid rgba(52,211,153,0.5)', fontSize: 14, fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.01em' }}>
+              <Gift size={16} /> 14 DÍAS GRATIS · PROBALA SIN PAGAR NADA
+            </span>
           </div>
 
           <h1 className="ld-rise" style={{ fontSize: 'clamp(36px, 6.5vw, 68px)', fontWeight: 900, lineHeight: 1.04, margin: 0, letterSpacing: '-0.025em' }}>
