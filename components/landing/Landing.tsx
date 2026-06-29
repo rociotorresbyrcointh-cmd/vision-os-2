@@ -41,7 +41,9 @@ export function Landing() {
         {/* ───── NAV ───── */}
         <nav style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(12px)', background: 'rgba(6,6,13,0.72)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ ...container, display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-            <VisionLogoWhite size={26} />
+            <a href="#" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '0.04em', color: 'white', textDecoration: 'none' }}>
+              VISION<span style={{ color: '#60a5fa' }}> OS</span>
+            </a>
             <div style={{ display: 'flex', alignItems: 'center', gap: 28 }} className="ld-desktop-nav">
               <a href="#agenda" className="ld-nav-link" style={navLink}>Agenda</a>
               <a href="#redes" className="ld-nav-link" style={navLink}>Redes con IA</a>
