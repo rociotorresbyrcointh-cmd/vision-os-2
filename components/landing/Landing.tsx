@@ -6,6 +6,7 @@ import {
   Calendar, Globe, Wallet, BellRing, Sparkles, BarChart3, Users, Smartphone,
   Check, ArrowRight, Star, ChevronDown, Menu, X, Repeat, Ban, Search, Wand2,
   Image as ImageIcon, CalendarDays, MessageSquareText, Gift,
+  Home, UserRound, Tag, TrendingUp, Settings, Clock, FileHeart,
 } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { PLANS } from '@/lib/plans'
@@ -67,9 +68,9 @@ export function Landing() {
 
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={() => setTilt({ x: 8, y: -12 })} style={{ ...container, paddingTop: 'clamp(36px, 6vw, 72px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
-          {/* Logo grande */}
-          <div className="ld-logo-glow" style={{ display: 'inline-block', marginBottom: 26 }}>
-            <VisionLogoWhite size={88} />
+          {/* Logo grande, bien separado del título */}
+          <div className="ld-logo-glow" style={{ display: 'inline-block', marginBottom: 'clamp(40px, 6vw, 64px)' }}>
+            <VisionLogoWhite size={104} />
           </div>
 
           {/* Banner prueba gratis — arrogante */}
@@ -104,9 +105,12 @@ export function Landing() {
 
         {/* ───── TRUST STRIP ───── */}
         <section style={{ ...container, paddingTop: 6, paddingBottom: 48 }}>
-          <p style={{ textAlign: 'center', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 18 }}>Ideal para</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '14px 34px', color: 'rgba(255,255,255,0.55)', fontSize: 15, fontWeight: 600 }}>
-            {['Estética & Spa', 'Kinesiología', 'Peluquerías', 'Consultorios', 'Nutrición', 'Barberías', 'Uñas & Lashes'].map((r) => <span key={r}>{r}</span>)}
+          <p style={{ textAlign: 'center', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 18 }}>Para cualquier negocio con turnos</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10, maxWidth: 880, margin: '0 auto' }}>
+            {RUBROS.map((r) => (
+              <span key={r} style={{ fontSize: 13.5, fontWeight: 600, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999, padding: '7px 15px' }}>{r}</span>
+            ))}
+            <span style={{ fontSize: 13.5, fontWeight: 700, color: '#93c5fd', background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 999, padding: '7px 15px' }}>y muchos más ✨</span>
           </div>
         </section>
 
@@ -186,13 +190,16 @@ export function Landing() {
 
         {/* ───── OTRAS FUNCIONES ───── */}
         <section style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
-          <SectionTitle kicker="Y mucho más" title="Todo lo que tu negocio necesita" sub="Una sola app para gestionar, cobrar y crecer." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18, marginTop: 44 }}>
+          <SectionTitle kicker="Una plataforma completa" title="Todo lo que tu negocio necesita" sub="Dejá de saltar entre el cuaderno, WhatsApp, Excel y mil apps. Vision OS reúne todo en un solo lugar." />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 18, marginTop: 44 }}>
             {FEATURES.map((f) => (
-              <div key={f.title} className="ld-card" style={glass}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}1f`, border: `1px solid ${f.color}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}><f.icon size={21} color={f.color} /></div>
-                <h3 style={{ margin: 0, fontSize: 16.5, fontWeight: 700 }}>{f.title}</h3>
-                <p style={{ margin: '7px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'rgba(255,255,255,0.55)' }}>{f.desc}</p>
+              <div key={f.title} className="ld-card" style={{ ...glass, background: `linear-gradient(165deg, ${f.color}12, rgba(255,255,255,0.025))`, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: -30, right: -30, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${f.color}22, transparent 70%)`, filter: 'blur(10px)' }} />
+                <div style={{ position: 'relative' }}>
+                  <div style={{ width: 50, height: 50, borderRadius: 13, background: `${f.color}22`, border: `1px solid ${f.color}66`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, boxShadow: `0 8px 20px ${f.color}22` }}><f.icon size={23} color={f.color} /></div>
+                  <h3 style={{ margin: 0, fontSize: 17.5, fontWeight: 800 }}>{f.title}</h3>
+                  <p style={{ margin: '9px 0 0', fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -302,13 +309,39 @@ export function Landing() {
 /* ───────── Mockups visuales ───────── */
 
 function AppMockup() {
+  const NAV = [
+    { icon: Home, label: 'Inicio' },
+    { icon: Calendar, label: 'Agenda', active: true },
+    { icon: Clock, label: 'Lista de espera' },
+    { icon: UserRound, label: 'Pacientes' },
+    { icon: Wallet, label: 'Caja' },
+    { icon: BarChart3, label: 'Reportes' },
+    { icon: Globe, label: 'Reservas online' },
+    { icon: Sparkles, label: 'Redes' },
+    { icon: TrendingUp, label: 'Crecimiento' },
+    { icon: Users, label: 'Profesionales' },
+    { icon: Settings, label: 'Configuración' },
+  ]
   return (
-    <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 130px rgba(37,99,255,0.3)', background: '#07070f' }}>
+    <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 130px rgba(37,99,255,0.32)', background: '#07070f' }}>
+      {/* barra de ventana */}
       <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0a0a14' }}>
         <span style={dot('#ff5f57')} /><span style={dot('#febc2e')} /><span style={dot('#28c840')} />
         <span style={{ marginLeft: 12, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>vision.byrcointh.online/agenda</span>
       </div>
-      <AgendaPreview embedded />
+      <div style={{ display: 'flex', minHeight: 300 }}>
+        {/* menú lateral con todas las opciones */}
+        <div style={{ width: 168, flexShrink: 0, background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <div style={{ padding: '4px 8px 12px' }}><VisionLogoWhite size={22} /></div>
+          {NAV.map((n) => (
+            <div key={n.label} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 9px', borderRadius: 8, fontSize: 11.5, fontWeight: 600, color: n.active ? 'white' : 'rgba(255,255,255,0.5)', background: n.active ? 'rgba(37,99,255,0.16)' : 'transparent', border: n.active ? '1px solid rgba(37,99,255,0.35)' : '1px solid transparent' }}>
+              <n.icon size={14} color={n.active ? '#60a5fa' : 'currentColor'} /> {n.label}
+            </div>
+          ))}
+        </div>
+        {/* contenido: agenda */}
+        <div style={{ flex: 1, minWidth: 0 }}><AgendaPreview embedded /></div>
+      </div>
     </div>
   )
 }
@@ -406,13 +439,22 @@ const REDES_POINTS = [
   { icon: Wand2, t: 'Asistente experto en marketing', d: 'Pedile lo que necesites (promos, reels, reseñas) y te lo arma al instante.' },
 ]
 
+const RUBROS = [
+  'Estética & Spa', 'Cosmetología', 'Kinesiología', 'Peluquerías', 'Barberías',
+  'Uñas & Manicura', 'Cejas & Pestañas', 'Depilación', 'Maquillaje', 'Masajes',
+  'Nutrición', 'Psicología', 'Consultorios médicos', 'Odontología', 'Podología',
+  'Fonoaudiología', 'Tatuajes & Piercing', 'Veterinarias', 'Personal trainer', 'Centros de salud',
+]
+
 const FEATURES = [
-  { icon: Globe, color: '#22d3ee', title: 'Reservas online', desc: 'Tus clientes sacan turno solos desde un link con tu marca. 24/7.' },
-  { icon: Wallet, color: '#34d399', title: 'Seña anti-ausentismo', desc: 'Cobrá una seña al reservar. Menos faltas, más ingresos.' },
-  { icon: BarChart3, color: '#f472b6', title: 'Caja y reportes', desc: 'Controlá ingresos, cobros y métricas en tiempo real.' },
-  { icon: Users, color: '#60a5fa', title: 'Equipo y roles', desc: 'Sumá recepción y profesionales con sus permisos.' },
-  { icon: Smartphone, color: '#22d3ee', title: 'App en el celular', desc: 'Se instala como app en tu teléfono. Sin tiendas.' },
-  { icon: Wallet, color: '#fbbf24', title: 'Historia clínica', desc: 'Ficha completa de cada cliente con su historial y notas.' },
+  { icon: Globe, color: '#22d3ee', title: 'Reservas online 24/7', desc: 'Compartí un link con tu marca y tus clientes sacan turno solos, a cualquier hora, sin que tengas que contestar mensajes. Respeta tus horarios y disponibilidad automáticamente.' },
+  { icon: Wallet, color: '#34d399', title: 'Seña anti-ausentismo', desc: 'Pedí una seña al reservar y mirá cómo desaparecen las faltas. Cobrás por adelantado con tu propio medio de pago y asegurás tu agenda llena.' },
+  { icon: BarChart3, color: '#f472b6', title: 'Caja y reportes', desc: 'Sabé exactamente cuánto facturás, quién te debe y cómo viene tu negocio. Caja diaria, estados de pago y reportes con un clic. Exportá todo a Excel.' },
+  { icon: Users, color: '#60a5fa', title: 'Equipo y roles', desc: 'Sumá a tu recepción y profesionales, cada uno con su usuario y sus permisos. Tu recepcionista ve la agenda; vos ves todo. Ideal para negocios que crecen.' },
+  { icon: Smartphone, color: '#818cf8', title: 'App en el celular', desc: 'Se instala como app en tu teléfono (y el de tu equipo) con un toque, sin pasar por las tiendas ni pagar comisiones. La tenés siempre a mano.' },
+  { icon: FileHeart, color: '#fb7185', title: 'Historia clínica', desc: 'Ficha completa de cada cliente: datos, obra social, historial de turnos y notas. Activala solo si tu rubro la necesita. Todo seguro y en la nube.' },
+  { icon: BellRing, color: '#fbbf24', title: 'Recordatorios', desc: 'Mandá recordatorios por WhatsApp a tus clientes y reducí los olvidos. Mensajes listos para enviar con un clic.' },
+  { icon: TrendingUp, color: '#34d399', title: 'Crecimiento', desc: 'Reactivá clientes que no vienen hace tiempo, llená los huecos de tu agenda y pedí reseñas. La app te ayuda a vender más.' },
 ]
 
 const STEPS = [

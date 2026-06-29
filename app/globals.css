@@ -124,3 +124,7 @@ body {
 .ld-spotlight:hover .ld-spotlight-img { transform: perspective(1000px) rotateY(0deg) scale(1.02); }
 @keyframes ld-rise { from { opacity:0; transform: translateY(40px) scale(0.97); } to { opacity:1; transform:none; } }
 .ld-rise { animation: ld-rise 0.8s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Logo del hero: flota derecho (sin rotar) */
+@keyframes ld-logo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.ld-logo-glow { filter: drop-shadow(0 0 38px rgba(37,99,255,0.75)) !important; animation: ld-logo-float 5s ease-in-out infinite !important; }
