@@ -51,6 +51,25 @@ export function planById(id: string | null | undefined): Plan | null {
   return PLANS.find((p) => p.id === id) ?? null
 }
 
+// ─── Prueba gratis ───────────────────────────────────────────────
+export const TRIAL_DAYS = 14
+export type SubState = 'trial' | 'active' | 'cortesia' | 'expired'
+
+// Estado de suscripción de un negocio (a partir de su plan y fecha de alta).
+export function subStatus(
+  plan: string | null | undefined,
+  createdAtISO: string | null | undefined,
+  nowMs: number,
+): { state: SubState; daysLeft: number } {
+  if (isCortesia(plan)) return { state: 'cortesia', daysLeft: 0 }
+  if (planById(plan)) return { state: 'active', daysLeft: 0 } // plan pago activo
+  // En prueba: 14 días desde el alta. Al cancelar, el plan vuelve a 'trial'.
+  const created = createdAtISO ? new Date(createdAtISO).getTime() : nowMs
+  const end = created + TRIAL_DAYS * 86400000
+  const daysLeft = Math.ceil((end - nowMs) / 86400000)
+  return daysLeft > 0 ? { state: 'trial', daysLeft } : { state: 'expired', daysLeft: 0 }
+}
+
 // Plan de cortesía: acceso libre y gratuito (se asigna a mano, no se compra).
 export function isCortesia(planId: string | null | undefined): boolean {
   return planId === 'cortesia'
