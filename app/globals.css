@@ -223,3 +223,7 @@ body {
   82%,100% { transform: translate(0,0) rotate(0deg) scale(0.9); opacity: 0; }
 }
 .ld-particle { animation-duration: 5s !important; }
+
+/* Imágenes que flotan suave (arriba/abajo) */
+@keyframes ld-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+.ld-bob { animation: ld-bob 4.5s ease-in-out infinite; will-change: transform; }

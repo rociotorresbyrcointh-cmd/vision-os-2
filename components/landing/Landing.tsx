@@ -174,8 +174,10 @@ export function Landing() {
                 ))}
               </div>
             </div>
-            <div className="ld-spotlight-img" style={{ transform: 'perspective(1000px) rotateY(-8deg)' }}>
-              <AgendaPreview />
+            <div className="ld-bob">
+              <div className="ld-spotlight-img" style={{ transform: 'perspective(1000px) rotateY(-8deg)' }}>
+                <AgendaPreview />
+              </div>
             </div>
           </div>
         </section>
@@ -199,7 +201,7 @@ export function Landing() {
                 ))}
               </div>
             </div>
-            <div style={{ direction: 'ltr' }}>
+            <div style={{ direction: 'ltr', animationDelay: '1.4s' }} className="ld-bob">
               <PlacasPreview />
             </div>
           </div>
