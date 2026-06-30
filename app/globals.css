@@ -227,3 +227,8 @@ body {
 /* Imágenes que flotan suave (arriba/abajo) */
 @keyframes ld-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 .ld-bob { animation: ld-bob 4.5s ease-in-out infinite; will-change: transform; }
+
+/* Aparición al hacer scroll (secciones, desde abajo) */
+.rv-sec { opacity: 0; transform: translateY(48px); transition: opacity .7s ease, transform .85s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+.rv-sec.rv-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rv-sec { opacity: 1 !important; transform: none !important; } }

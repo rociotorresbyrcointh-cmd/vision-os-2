@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Calendar, Globe, Wallet, BellRing, Sparkles, BarChart3, Users, Smartphone,
@@ -30,6 +30,18 @@ export function Landing() {
     setPar({ dx: -px * 50, dy: -py * 50, rx: py * 16, ry: -px * 20 })
   }
   function onHeroLeave() { setTilt({ x: 8, y: -12 }); setPar({ dx: 0, dy: 0, rx: 0, ry: 0 }) }
+
+  // Aparición de secciones al hacer scroll (un solo observador para todas)
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>('.rv-sec'))
+    if (typeof IntersectionObserver === 'undefined') { els.forEach((e) => e.classList.add('rv-in')); return }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target) } }),
+      { threshold: 0.08, rootMargin: '0px 0px -6% 0px' },
+    )
+    els.forEach((e) => io.observe(e))
+    return () => io.disconnect()
+  }, [])
 
   return (
     <div style={{ background: '#06060d', color: 'white', overflowX: 'hidden', position: 'relative' }}>
@@ -114,7 +126,7 @@ export function Landing() {
         </header>
 
         {/* ───── RUBROS (carrusel infinito) ───── */}
-        <section style={{ paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 70px)' }}>
+        <section className="rv-sec" style={{ paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 70px)' }}>
           <p style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#60a5fa', marginBottom: 8 }}>Pensada para tu rubro</p>
           <h2 style={{ textAlign: 'center', fontSize: 'clamp(22px, 3.4vw, 34px)', fontWeight: 900, margin: '0 0 30px', letterSpacing: '-0.02em' }}>Sea cual sea tu actividad</h2>
           <div className="ld-marquee-mask" style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0' }}>
@@ -129,7 +141,7 @@ export function Landing() {
         </section>
 
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
-        <section style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
+        <section className="rv-sec" style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
           <SectionTitle kicker="El cambio" title="De caótico a profesional" sub="Mirá la diferencia entre manejar tu negocio a la antigua y hacerlo con Vision OS." />
           <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, marginTop: 46 }}>
             {/* Antes */}
@@ -158,7 +170,7 @@ export function Landing() {
         {/* ───── SPOTLIGHT: AGENDA ───── */}
         <section id="agenda" className="ld-spotlight" style={{ ...container, paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <div style={spotGrid}>
-            <div>
+            <Reveal dir="left"><div>
               <span style={kickerPill('#2563FF')}><Calendar size={14} /> Agenda inteligente</span>
               <h2 style={spotTitle}>La agenda más <span className="ld-gradient-text">poderosa</span> para tu negocio</h2>
               <p style={spotSub}>No es un simple calendario. Es un cerebro que ordena tu día y trabaja por vos.</p>
@@ -173,19 +185,19 @@ export function Landing() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="ld-bob">
+            </div></Reveal>
+            <Reveal dir="right"><div className="ld-bob">
               <div className="ld-spotlight-img" style={{ transform: 'perspective(1000px) rotateY(-8deg)' }}>
                 <AgendaPreview />
               </div>
-            </div>
+            </div></Reveal>
           </div>
         </section>
 
         {/* ───── SPOTLIGHT: REDES CON IA ───── */}
         <section id="redes" className="ld-spotlight" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
           <div style={{ ...spotGrid, direction: 'rtl' }}>
-            <div style={{ direction: 'ltr' }}>
+            <Reveal dir="right"><div style={{ direction: 'ltr' }}>
               <span style={kickerPill('#a78bfa')}><Sparkles size={14} /> Marketing con IA</span>
               <h2 style={spotTitle}>Creá contenido <span className="ld-gradient-text">que vende</span>, en segundos</h2>
               <p style={spotSub}>La función estrella. Una inteligencia artificial que arma tu marketing por vos: imágenes para Instagram, textos e ideas listas para publicar.</p>
@@ -200,15 +212,15 @@ export function Landing() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div style={{ direction: 'ltr', animationDelay: '1.4s' }} className="ld-bob">
+            </div></Reveal>
+            <Reveal dir="left"><div style={{ direction: 'ltr', animationDelay: '1.4s' }} className="ld-bob">
               <PlacasPreview />
-            </div>
+            </div></Reveal>
           </div>
         </section>
 
         {/* ───── OTRAS FUNCIONES ───── */}
-        <section style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Una plataforma completa" title="Todo lo que tu negocio necesita" sub="Dejá de saltar entre el cuaderno, WhatsApp, Excel y mil apps. Vision OS reúne todo en un solo lugar." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 18, marginTop: 44 }}>
             {FEATURES.map((f) => (
@@ -225,7 +237,7 @@ export function Landing() {
         </section>
 
         {/* ───── CÓMO FUNCIONA ───── */}
-        <section style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="En 3 pasos" title="Empezá hoy mismo" sub="No necesitás conocimientos técnicos." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18, marginTop: 44 }}>
             {STEPS.map((s, i) => (
@@ -239,7 +251,7 @@ export function Landing() {
         </section>
 
         {/* ───── PRECIOS ───── */}
-        <section id="precios" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section id="precios" className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Empezá con 14 días gratis. Cancelás cuando quieras." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
             {PLANS.map((p) => (
@@ -263,7 +275,7 @@ export function Landing() {
         </section>
 
         {/* ───── TESTIMONIOS ───── */}
-        <section style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Testimonios" title="Lo que dicen quienes ya la usan" sub="" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18, marginTop: 44 }}>
             {TESTIMONIALS.map((t) => (
@@ -277,7 +289,7 @@ export function Landing() {
         </section>
 
         {/* ───── FAQ ───── */}
-        <section id="faq" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)', maxWidth: 760 }}>
+        <section id="faq" className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)', maxWidth: 760 }}>
           <SectionTitle kicker="Preguntas frecuentes" title="Todo lo que querés saber" sub="" />
           <div style={{ marginTop: 36, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {FAQS.map((q, i) => (
@@ -293,7 +305,7 @@ export function Landing() {
         </section>
 
         {/* ───── CTA FINAL ───── */}
-        <section style={{ ...container, paddingBottom: 'clamp(50px, 8vw, 100px)' }}>
+        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(50px, 8vw, 100px)' }}>
           <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 24, border: '1px solid rgba(37,99,255,0.35)', background: 'linear-gradient(135deg, rgba(37,99,255,0.2), rgba(167,139,250,0.14))', padding: 'clamp(40px, 6vw, 70px) clamp(20px, 4vw, 50px)', textAlign: 'center' }}>
             <div className="ld-pulse" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 18px', borderRadius: 999, background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.5)', fontSize: 13.5, fontWeight: 800, color: '#6ee7b7', marginBottom: 22 }}>
               <Gift size={15} /> 14 DÍAS GRATIS, SIN TARJETA
@@ -522,6 +534,26 @@ function RealV() {
       <line x1="78" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
       <line x1="122" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
     </svg>
+  )
+}
+
+// Aparición al hacer scroll (mezcla: desde abajo o desde los costados).
+function Reveal({ children, dir = 'up', delay = 0 }: { children: React.ReactNode; dir?: 'up' | 'left' | 'right'; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [vis, setVis] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') { setVis(true); return }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); io.disconnect() } }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  const hidden = dir === 'left' ? 'translateX(-55px)' : dir === 'right' ? 'translateX(55px)' : 'translateY(44px)'
+  return (
+    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : hidden, transition: `opacity .7s ease ${delay}ms, transform .8s cubic-bezier(.2,.7,.2,1) ${delay}ms`, willChange: 'opacity, transform' }}>
+      {children}
+    </div>
   )
 }
 
