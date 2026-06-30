@@ -409,24 +409,39 @@ function AgendaPreview({ embedded }: { embedded?: boolean }) {
 }
 
 function PlacasPreview() {
+  // Placas de ejemplo en la estética de Vision (oscuras, premium, con la marca)
   const placas = [
-    { bg: 'linear-gradient(135deg,#2563FF,#7c3aed)', t: '¡Reservá tu turno!', s: 'Estética Bella · 20% OFF' },
-    { bg: 'linear-gradient(135deg,#ec4899,#a78bfa)', t: 'Nuevo: Lashes Volumen', s: 'Agendá por el link 💖' },
-    { bg: 'linear-gradient(135deg,#0ea5e9,#22d3ee)', t: 'Promo Septiembre', s: '3 sesiones x 2' },
+    { glow: 'rgba(37,99,255,0.4)', accent: '#60a5fa', t: 'Reservá tu turno online', s: '24/7 desde tu celular', tag: 'NOVEDAD' },
+    { glow: 'rgba(167,139,250,0.4)', accent: '#c4b5fd', t: 'Promo de lanzamiento', s: '−20% esta semana', tag: 'OFERTA' },
+    { glow: 'rgba(34,211,238,0.36)', accent: '#67e8f9', t: 'Agendá tu sesión', s: 'Cupos limitados', tag: 'AGENDA' },
   ]
   return (
     <div style={{ position: 'relative', padding: '10px 0' }}>
       <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         {placas.map((p, i) => (
-          <div key={i} className="ld-card" style={{ width: 150, height: 150, borderRadius: 16, background: p.bg, padding: 16, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', boxShadow: '0 18px 40px rgba(0,0,0,0.4)', transform: `rotate(${i === 1 ? 0 : i === 0 ? -5 : 5}deg)`, border: '1px solid rgba(255,255,255,0.18)' }}>
-            <p style={{ margin: 0, fontWeight: 900, fontSize: 15, lineHeight: 1.1 }}>{p.t}</p>
-            <p style={{ margin: '5px 0 0', fontSize: 11, opacity: 0.9 }}>{p.s}</p>
+          <div key={i} className="ld-card" style={{
+            position: 'relative', overflow: 'hidden', width: 156, height: 156, borderRadius: 16,
+            background: 'linear-gradient(160deg, #0e0e1c, #07070f)', border: '1px solid rgba(255,255,255,0.12)',
+            padding: 15, display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            boxShadow: '0 18px 40px rgba(0,0,0,0.45)', transform: `rotate(${i === 1 ? 0 : i === 0 ? -5 : 5}deg)`,
+          }}>
+            {/* glow de marca */}
+            <div style={{ position: 'absolute', top: -40, right: -40, width: 130, height: 130, borderRadius: '50%', background: `radial-gradient(circle, ${p.glow}, transparent 70%)`, filter: 'blur(6px)' }} />
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 11, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.85)' }}>VISION</span>
+              <span style={{ fontSize: 8.5, fontWeight: 800, letterSpacing: '0.08em', color: p.accent, border: `1px solid ${p.accent}66`, borderRadius: 5, padding: '2px 6px' }}>{p.tag}</span>
+            </div>
+            <div style={{ position: 'relative' }}>
+              <div style={{ width: 26, height: 3, borderRadius: 2, background: p.accent, marginBottom: 9 }} />
+              <p style={{ margin: 0, fontWeight: 800, fontSize: 15.5, lineHeight: 1.12, color: 'white' }}>{p.t}</p>
+              <p style={{ margin: '5px 0 0', fontSize: 11.5, color: 'rgba(255,255,255,0.55)' }}>{p.s}</p>
+            </div>
           </div>
         ))}
       </div>
       <div style={{ marginTop: 16, ...glass, padding: '13px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
         <Wand2 size={18} color="#c4b5fd" />
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>“Generá una placa para promo de depilación…” → <strong style={{ color: 'white' }}>listo en 3 segundos</strong></span>
+        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>“Generá una placa para mi promo…” → <strong style={{ color: 'white' }}>lista en 3 segundos</strong></span>
       </div>
     </div>
   )
