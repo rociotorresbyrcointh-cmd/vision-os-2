@@ -74,7 +74,7 @@ export function Landing() {
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.3, perspective: '1200px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.34, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>
               <HeroV />
             </span>
@@ -435,7 +435,7 @@ function PlacasPreview() {
 // La "V" gigante del hero, partida en dos mitades que se arman y desarman.
 function HeroV() {
   return (
-    <svg viewBox="0 0 200 170" style={{ width: 'min(88vw, 640px)', height: 'auto', display: 'block' }} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="-40 0 280 175" style={{ width: 'min(96vw, 760px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="hv-l" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#3a3a55" /><stop offset="60%" stopColor="#14141f" /><stop offset="100%" stopColor="#08080f" />

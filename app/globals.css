@@ -170,3 +170,16 @@ body {
 .ld-v-right { animation: ld-vright 6s ease-in-out infinite; }
 @keyframes ld-vleft  { 0%,100% { transform: translateX(0) translateY(0) rotate(0); } 50% { transform: translateX(-26px) translateY(-8px) rotate(-5deg); } }
 @keyframes ld-vright { 0%,100% { transform: translateX(0) translateY(0) rotate(0); } 50% { transform: translateX(26px) translateY(-8px) rotate(5deg); } }
+
+/* Logo hero v3: separación de lado a lado, más rápido y más giro (pasando por el frente para que se lea la V) */
+@keyframes ld-logo3d {
+  0%   { transform: rotateY(-44deg) rotateX(10deg) translateY(0); }
+  25%  { transform: rotateY(0deg)   rotateX(2deg)  translateY(-8px); }
+  50%  { transform: rotateY(44deg)  rotateX(-10deg) translateY(-20px); }
+  75%  { transform: rotateY(0deg)   rotateX(2deg)  translateY(-8px); }
+  100% { transform: rotateY(-44deg) rotateX(10deg) translateY(0); }
+}
+.ld-logo-3d { animation-duration: 6s !important; }
+@keyframes ld-vleft  { 0%,100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(-105px) translateY(-6px) rotate(-9deg); } }
+@keyframes ld-vright { 0%,100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(105px) translateY(-6px) rotate(9deg); } }
+.ld-v-left, .ld-v-right { animation-duration: 3.4s !important; }
