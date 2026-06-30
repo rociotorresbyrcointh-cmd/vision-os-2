@@ -73,9 +73,9 @@ export function Landing() {
 
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
-          {/* Logo gigante DETRÁS del título (solo la V), con parallax 4D */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(10px, 4vw, 60px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.16, transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px) perspective(900px) rotateX(${par.rx}deg) rotateY(${par.ry}deg)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 70px rgba(37,99,255,0.9))' }}>
-            <span style={{ display: 'inline-block', height: 306, overflow: 'hidden', lineHeight: 0 }}>
+          {/* Logo gigante DETRÁS del título (solo la V): gira en 3D solo + parallax con el cursor */}
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(10px, 4vw, 60px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.17, perspective: '1000px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 70px rgba(37,99,255,0.9))' }}>
+            <span className="ld-logo-3d" style={{ display: 'inline-block', height: 306, overflow: 'hidden', lineHeight: 0 }}>
               <VisionLogoWhite size={360} />
             </span>
           </div>

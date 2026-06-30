@@ -149,3 +149,11 @@ body {
 }
 .ld-chip:hover { color: #fff; border-color: rgba(37,99,255,0.5); background: rgba(37,99,255,0.1); }
 .ld-chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* Logo del hero: giro 3D continuo (efecto 4D holográfico) */
+@keyframes ld-logo3d {
+  0%   { transform: rotateY(-18deg) rotateX(7deg) translateY(0); }
+  50%  { transform: rotateY(18deg) rotateX(-5deg) translateY(-16px); }
+  100% { transform: rotateY(-18deg) rotateX(7deg) translateY(0); }
+}
+.ld-logo-3d { animation: ld-logo3d 9s ease-in-out infinite; transform-style: preserve-3d; will-change: transform; }
