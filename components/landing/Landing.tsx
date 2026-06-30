@@ -74,7 +74,7 @@ export function Landing() {
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.5, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.7, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>
               <HeroV />
             </span>
@@ -451,23 +451,26 @@ function PlacasPreview() {
 function HeroV() {
   const particles = useMemo(() => {
     const rand = (n: number) => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
-    const colors = ['#2563FF', '#60a5fa', '#3b82f6', '#93c5fd', '#dbeafe']
+    const body = ['#3a3a57', '#2a2a42', '#1c1c2e', '#121220']  // cuerpo oscuro (como el logo)
+    const glow = ['#93c5fd', '#60a5fa', '#2563FF', '#ffffff']  // filo brillante
     const pts: { x: number; y: number; dx: number; dy: number; r: number; d: number; c: string }[] = []
     let i = 0
-    const step = 7.5
+    const step = 7
     for (let y = 13; y <= 147; y += step) {
       const t = (y - 12) / 136
-      const Lx = 12 + t * 43, Rx = 78 + t * 22         // banda izquierda
-      const innerx = 122 - t * 22, outerx = 188 - t * 43 // banda derecha
+      const Lx = 12 + t * 43, Rx = 78 + t * 22         // banda izquierda (Rx = filo interno)
+      const innerx = 122 - t * 22, outerx = 188 - t * 43 // banda derecha (innerx = filo interno)
       for (let x = 8; x <= 192; x += step) {
         if (!((x >= Lx && x <= Rx) || (x >= innerx && x <= outerx))) continue
+        // Cerca del filo interno (donde el logo brilla en azul) → partícula brillante
+        const nearSeam = Math.abs(x - Rx) < 6.5 || Math.abs(x - innerx) < 6.5
+        const c = nearSeam ? glow[i % glow.length] : body[Math.min(3, Math.floor(t * 4))]
         const ang = Math.atan2(y - 82, x - 100) + (rand(i) * 0.9 - 0.45)
-        const dist = 50 + rand(i + 1) * 95
+        const dist = 42 + rand(i + 1) * 78
         pts.push({
           x, y,
           dx: Math.cos(ang) * dist, dy: Math.sin(ang) * dist,
-          r: rand(i + 2) * 440 - 220, d: rand(i + 3) * 0.4,
-          c: colors[i % colors.length],
+          r: rand(i + 2) * 440 - 220, d: rand(i + 3) * 0.4, c,
         })
         i++
       }
@@ -476,7 +479,7 @@ function HeroV() {
   }, [])
 
   return (
-    <svg viewBox="-140 -120 480 410" style={{ width: 'min(98vw, 900px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="-105 -80 410 350" style={{ width: 'min(98vw, 980px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
       {particles.map((p, i) => (
         <rect key={i} className="ld-particle" x={p.x - 2.3} y={p.y - 2.3} width={4.6} height={4.6} rx={1.2} fill={p.c}
           style={{ ['--dx' as string]: p.dx.toFixed(1), ['--dy' as string]: p.dy.toFixed(1), ['--r' as string]: p.r.toFixed(0), animationDelay: `${p.d.toFixed(2)}s` } as React.CSSProperties} />
