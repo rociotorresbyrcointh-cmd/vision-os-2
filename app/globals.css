@@ -232,3 +232,8 @@ body {
 .rv-sec { opacity: 0; transform: translateY(48px); transition: opacity .7s ease, transform .85s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
 .rv-sec.rv-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .rv-sec { opacity: 1 !important; transform: none !important; } }
+
+/* Reveal de secciones desde los costados */
+.rv-sec.rv-left  { transform: translateX(-70px); }
+.rv-sec.rv-right { transform: translateX(70px); }
+.rv-sec.rv-in    { opacity: 1; transform: none; }

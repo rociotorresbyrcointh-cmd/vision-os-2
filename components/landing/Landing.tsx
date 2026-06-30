@@ -141,7 +141,7 @@ export function Landing() {
         </section>
 
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
-        <section className="rv-sec" style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
+        <section className="rv-sec rv-left" style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
           <SectionTitle kicker="El cambio" title="De caótico a profesional" sub="Mirá la diferencia entre manejar tu negocio a la antigua y hacerlo con Vision OS." />
           <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, marginTop: 46 }}>
             {/* Antes */}
@@ -220,7 +220,7 @@ export function Landing() {
         </section>
 
         {/* ───── OTRAS FUNCIONES ───── */}
-        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Una plataforma completa" title="Todo lo que tu negocio necesita" sub="Dejá de saltar entre el cuaderno, WhatsApp, Excel y mil apps. Vision OS reúne todo en un solo lugar." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 18, marginTop: 44 }}>
             {FEATURES.map((f) => (
@@ -237,7 +237,7 @@ export function Landing() {
         </section>
 
         {/* ───── CÓMO FUNCIONA ───── */}
-        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec rv-left" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="En 3 pasos" title="Empezá hoy mismo" sub="No necesitás conocimientos técnicos." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18, marginTop: 44 }}>
             {STEPS.map((s, i) => (
@@ -250,8 +250,16 @@ export function Landing() {
           </div>
         </section>
 
+        {/* ───── SHOWCASE RESERVAS ───── */}
+        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(50px, 7vw, 100px)' }}>
+          <SectionTitle kicker="Reservas online" title="Tus clientes reservan solos, 24/7" sub="Compartí un link con tu marca. Eligen servicio, profesional y horario sin que muevas un dedo." />
+          <div className="ld-bob" style={{ marginTop: 'clamp(30px, 5vw, 52px)' }}>
+            <PortalMockup />
+          </div>
+        </section>
+
         {/* ───── PRECIOS ───── */}
-        <section id="precios" className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section id="precios" className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Empezá con 14 días gratis. Cancelás cuando quieras." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
             {PLANS.map((p) => (
@@ -275,7 +283,7 @@ export function Landing() {
         </section>
 
         {/* ───── TESTIMONIOS ───── */}
-        <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
+        <section className="rv-sec rv-left" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Testimonios" title="Lo que dicen quienes ya la usan" sub="" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18, marginTop: 44 }}>
             {TESTIMONIALS.map((t) => (
@@ -289,7 +297,7 @@ export function Landing() {
         </section>
 
         {/* ───── FAQ ───── */}
-        <section id="faq" className="rv-sec" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)', maxWidth: 760 }}>
+        <section id="faq" className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)', maxWidth: 760 }}>
           <SectionTitle kicker="Preguntas frecuentes" title="Todo lo que querés saber" sub="" />
           <div style={{ marginTop: 36, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {FAQS.map((q, i) => (
@@ -421,6 +429,54 @@ function AgendaPreview({ embedded }: { embedded?: boolean }) {
     </div>
   )
 }
+
+// Mockup grande del PORTAL DE RESERVAS (lo que ve el cliente).
+function PortalMockup() {
+  const slots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00']
+  return (
+    <div style={{ maxWidth: 720, margin: '0 auto', borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 120px rgba(34,211,238,0.2)', background: '#07070f' }}>
+      <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0a0a14' }}>
+        <span style={dot('#ff5f57')} /><span style={dot('#febc2e')} /><span style={dot('#28c840')} />
+        <span style={{ marginLeft: 12, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>vision.byrcointh.online/reservar</span>
+      </div>
+      <div style={{ padding: 'clamp(20px, 4vw, 34px)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 22 }}>
+          <span style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '0.05em', color: 'white' }}>ESTÉTICA BELLA</span>
+        </div>
+        <h3 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 18px' }}>Reservá tu turno</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <PortalField label="Servicio" value="Limpieza facial · 60 min · $18.000" />
+          <PortalField label="Profesional" value="Sofía" />
+          <PortalField label="Día" value="Viernes 27 de junio" />
+          <div>
+            <p style={portalLabel}>Horario disponible</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
+              {slots.map((s, i) => (
+                <div key={s} style={{ padding: '9px 0', textAlign: 'center', borderRadius: 9, fontSize: 14, fontWeight: 600, fontVariantNumeric: 'tabular-nums',
+                  background: i === 3 ? 'rgba(37,99,255,0.3)' : 'rgba(255,255,255,0.04)',
+                  border: i === 3 ? '1px solid #2563FF' : '1px solid rgba(255,255,255,0.1)',
+                  color: i === 3 ? 'white' : 'rgba(255,255,255,0.7)' }}>{s}</div>
+              ))}
+            </div>
+          </div>
+          <div style={{ marginTop: 4, padding: '13px', borderRadius: 11, textAlign: 'center', fontSize: 15, fontWeight: 700, color: 'white', background: 'linear-gradient(135deg,#3b82f6,#2563FF)', boxShadow: '0 10px 30px rgba(37,99,255,0.4)' }}>
+            Confirmar turno · 10:30 hs
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PortalField({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p style={portalLabel}>{label}</p>
+      <div style={{ padding: '11px 13px', borderRadius: 10, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', color: 'white', fontSize: 14 }}>{value}</div>
+    </div>
+  )
+}
+const portalLabel: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 7px' }
 
 function PlacasPreview() {
   // Placas de ejemplo en la estética de Vision (oscuras, premium, con la marca)
