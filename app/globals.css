@@ -188,3 +188,17 @@ body {
 .ld-v-left, .ld-v-right { transform-box: view-box; transform-origin: 100px 148px; animation-duration: 3.6s !important; }
 @keyframes ld-vleft  { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-14deg); } }
 @keyframes ld-vright { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(14deg); } }
+
+/* Logo hero v5: la V se ROMPE en pedazos y se rearma */
+.ld-shard {
+  animation-duration: 5.5s; animation-timing-function: cubic-bezier(.5,0,.2,1);
+  animation-iteration-count: infinite; transform-box: view-box; transform-origin: 100px 90px;
+}
+.ld-s1 { animation-name: ld-s1; } .ld-s2 { animation-name: ld-s2; } .ld-s3 { animation-name: ld-s3; }
+.ld-s4 { animation-name: ld-s4; } .ld-s5 { animation-name: ld-s5; } .ld-s6 { animation-name: ld-s6; }
+@keyframes ld-s1 { 0%,16% { transform: none; } 50% { transform: translate(-78px,-62px) rotate(-24deg); } 84%,100% { transform: none; } }
+@keyframes ld-s2 { 0%,16% { transform: none; } 50% { transform: translate(-104px,-6px) rotate(-15deg); } 84%,100% { transform: none; } }
+@keyframes ld-s3 { 0%,16% { transform: none; } 50% { transform: translate(-60px,64px) rotate(-28deg); } 84%,100% { transform: none; } }
+@keyframes ld-s4 { 0%,16% { transform: none; } 50% { transform: translate(78px,-62px) rotate(24deg); } 84%,100% { transform: none; } }
+@keyframes ld-s5 { 0%,16% { transform: none; } 50% { transform: translate(104px,-6px) rotate(15deg); } 84%,100% { transform: none; } }
+@keyframes ld-s6 { 0%,16% { transform: none; } 50% { transform: translate(60px,64px) rotate(28deg); } 84%,100% { transform: none; } }

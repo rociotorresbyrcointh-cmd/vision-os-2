@@ -447,36 +447,33 @@ function PlacasPreview() {
   )
 }
 
-// La "V" gigante del hero, partida en dos mitades que se arman y desarman.
+// La "V" gigante del hero: se ROMPE en 6 pedazos y se vuelve a armar.
 function HeroV() {
+  const shards = [
+    { c: 'ld-s1', p: '12,12 78,12 85.3,57 26.2,57', fill: 'url(#hv-l)' },
+    { c: 'ld-s2', p: '26.2,57 85.3,57 92.6,102 40.5,102', fill: 'url(#hv-l)' },
+    { c: 'ld-s3', p: '40.5,102 92.6,102 100,148 55,148', fill: 'url(#hv-l)' },
+    { c: 'ld-s4', p: '122,12 188,12 173.8,57 114.7,57', fill: 'url(#hv-r)' },
+    { c: 'ld-s5', p: '114.7,57 173.8,57 159.5,102 107.4,102', fill: 'url(#hv-r)' },
+    { c: 'ld-s6', p: '107.4,102 159.5,102 145,148 100,148', fill: 'url(#hv-r)' },
+  ]
   return (
-    <svg viewBox="-70 0 340 180" style={{ width: 'min(96vw, 800px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="-100 -60 400 290" style={{ width: 'min(96vw, 820px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="hv-l" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3a3a55" /><stop offset="60%" stopColor="#14141f" /><stop offset="100%" stopColor="#08080f" />
+          <stop offset="0%" stopColor="#3a3a55" /><stop offset="60%" stopColor="#15151f" /><stop offset="100%" stopColor="#08080f" />
         </linearGradient>
         <linearGradient id="hv-r" x1="1" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#26263e" /><stop offset="60%" stopColor="#0e0e1a" /><stop offset="100%" stopColor="#060610" />
         </linearGradient>
-        <linearGradient id="hv-line" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#60a5fa" /><stop offset="50%" stopColor="#2563FF" /><stop offset="100%" stopColor="#ffffff" />
-        </linearGradient>
-        <filter id="hv-glow" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        <filter id="hv-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      <g className="ld-v-left">
-        <polygon points="12,12 78,12 100,148 55,148" fill="url(#hv-l)" />
-        <polygon points="70,12 78,12 100,148 93,148" fill="#1e1e32" opacity="0.95" />
-        <line x1="78" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#hv-glow)" opacity="0.95" />
-        <line x1="78" y1="12" x2="100" y2="148" stroke="url(#hv-line)" strokeWidth="1.6" opacity="0.9" />
-      </g>
-      <g className="ld-v-right">
-        <polygon points="188,12 122,12 100,148 145,148" fill="url(#hv-r)" />
-        <polygon points="130,12 122,12 100,148 107,148" fill="#161626" opacity="0.85" />
-        <line x1="122" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#hv-glow)" opacity="0.95" />
-        <line x1="122" y1="12" x2="100" y2="148" stroke="url(#hv-line)" strokeWidth="1.6" opacity="0.9" />
-      </g>
+      {shards.map((s) => (
+        <polygon key={s.c} className={`ld-shard ${s.c}`} points={s.p} fill={s.fill}
+          stroke="#2563FF" strokeWidth="1.4" strokeOpacity="0.75" filter="url(#hv-glow)" />
+      ))}
     </svg>
   )
 }
