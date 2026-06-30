@@ -450,7 +450,7 @@ function PlacasPreview() {
 // La "V" gigante del hero, partida en dos mitades que se arman y desarman.
 function HeroV() {
   return (
-    <svg viewBox="-40 0 280 175" style={{ width: 'min(96vw, 760px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="-70 0 340 180" style={{ width: 'min(96vw, 800px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="hv-l" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#3a3a55" /><stop offset="60%" stopColor="#14141f" /><stop offset="100%" stopColor="#08080f" />

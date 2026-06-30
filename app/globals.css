@@ -183,3 +183,8 @@ body {
 @keyframes ld-vleft  { 0%,100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(-105px) translateY(-6px) rotate(-9deg); } }
 @keyframes ld-vright { 0%,100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(105px) translateY(-6px) rotate(9deg); } }
 .ld-v-left, .ld-v-right { animation-duration: 3.4s !important; }
+
+/* Logo hero v4: las mitades se abren/cierran DESDE el pico (bisagra) → la V siempre conserva su punta */
+.ld-v-left, .ld-v-right { transform-box: view-box; transform-origin: 100px 148px; animation-duration: 3.6s !important; }
+@keyframes ld-vleft  { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-14deg); } }
+@keyframes ld-vright { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(14deg); } }
