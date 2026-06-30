@@ -116,7 +116,7 @@ export function Landing() {
         {/* ───── RUBROS (carrusel infinito) ───── */}
         <section style={{ paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 70px)' }}>
           <p style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#60a5fa', marginBottom: 8 }}>Pensada para tu rubro</p>
-          <h2 style={{ textAlign: 'center', fontSize: 'clamp(22px, 3.4vw, 34px)', fontWeight: 900, margin: '0 0 30px', letterSpacing: '-0.02em' }}>Cualquier negocio con turnos</h2>
+          <h2 style={{ textAlign: 'center', fontSize: 'clamp(22px, 3.4vw, 34px)', fontWeight: 900, margin: '0 0 30px', letterSpacing: '-0.02em' }}>Sea cual sea tu actividad</h2>
           <div className="ld-marquee-mask" style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0' }}>
             <div className="ld-marquee-track">
               {[...RUBROS.slice(0, 10), ...RUBROS.slice(0, 10)].map((r, i) => <Chip key={'a' + i} label={r} i={i} />)}
@@ -125,7 +125,7 @@ export function Landing() {
               {[...RUBROS.slice(10), ...RUBROS.slice(10)].map((r, i) => <Chip key={'b' + i} label={r} i={i + 5} />)}
             </div>
           </div>
-          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>…y cualquier otro negocio que trabaje con turnos. <span style={{ color: '#93c5fd', fontWeight: 600 }}>Si das turnos, es para vos.</span></p>
+          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>…y muchas más. <span style={{ color: '#93c5fd', fontWeight: 600 }}>Si trabajás con turnos, es para vos.</span></p>
         </section>
 
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
