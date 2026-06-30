@@ -73,9 +73,11 @@ export function Landing() {
 
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
-          {/* Logo gigante DETRÁS del título, con parallax 4D */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(20px, 6vw, 90px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.22, transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px) perspective(900px) rotateX(${par.rx}deg) rotateY(${par.ry}deg)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 80px rgba(37,99,255,0.9))' }}>
-            <VisionLogoWhite size={420} />
+          {/* Logo gigante DETRÁS del título (solo la V), con parallax 4D */}
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(10px, 4vw, 60px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.16, transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px) perspective(900px) rotateX(${par.rx}deg) rotateY(${par.ry}deg)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 70px rgba(37,99,255,0.9))' }}>
+            <span style={{ display: 'inline-block', height: 306, overflow: 'hidden', lineHeight: 0 }}>
+              <VisionLogoWhite size={360} />
+            </span>
           </div>
 
           <div style={{ position: 'relative', zIndex: 1 }}>
@@ -111,37 +113,44 @@ export function Landing() {
           </div>
         </header>
 
-        {/* ───── TRUST STRIP ───── */}
-        <section style={{ ...container, paddingTop: 6, paddingBottom: 48 }}>
-          <p style={{ textAlign: 'center', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 18 }}>Para cualquier negocio con turnos</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10, maxWidth: 880, margin: '0 auto' }}>
-            {RUBROS.map((r) => (
-              <span key={r} style={{ fontSize: 13.5, fontWeight: 600, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999, padding: '7px 15px' }}>{r}</span>
-            ))}
-            <span style={{ fontSize: 13.5, fontWeight: 700, color: '#93c5fd', background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 999, padding: '7px 15px' }}>y muchos más ✨</span>
+        {/* ───── RUBROS (carrusel infinito) ───── */}
+        <section style={{ paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 70px)' }}>
+          <p style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#60a5fa', marginBottom: 8 }}>Pensada para tu rubro</p>
+          <h2 style={{ textAlign: 'center', fontSize: 'clamp(22px, 3.4vw, 34px)', fontWeight: 900, margin: '0 0 30px', letterSpacing: '-0.02em' }}>Cualquier negocio con turnos</h2>
+          <div className="ld-marquee-mask" style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0' }}>
+            <div className="ld-marquee-track">
+              {[...RUBROS.slice(0, 10), ...RUBROS.slice(0, 10)].map((r, i) => <Chip key={'a' + i} label={r} i={i} />)}
+            </div>
+            <div className="ld-marquee-track rev">
+              {[...RUBROS.slice(10), ...RUBROS.slice(10)].map((r, i) => <Chip key={'b' + i} label={r} i={i + 5} />)}
+            </div>
           </div>
+          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>…y cualquier otro negocio que trabaje con turnos. <span style={{ color: '#93c5fd', fontWeight: 600 }}>Si das turnos, es para vos.</span></p>
         </section>
 
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
-        <section style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18 }}>
-            <div style={{ ...glass, borderColor: 'rgba(248,113,113,0.25)' }}>
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#f87171', margin: 0 }}>SIN VISION OS 😣</p>
-              <ul style={problemList}>
-                <li>Turnos en cuaderno o WhatsApp</li>
-                <li>Clientes que reservan y no vienen</li>
-                <li>Horas perdidas coordinando por chat</li>
-                <li>No sabés cuánto facturás</li>
-              </ul>
+        <section style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
+          <SectionTitle kicker="El cambio" title="De caótico a profesional" sub="Mirá la diferencia entre manejar tu negocio a la antigua y hacerlo con Vision OS." />
+          <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, marginTop: 46 }}>
+            {/* Antes */}
+            <div style={{ ...glass, padding: 'clamp(24px, 3vw, 32px)', background: 'linear-gradient(165deg, rgba(248,113,113,0.07), rgba(255,255,255,0.02))', borderColor: 'rgba(248,113,113,0.22)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 20 }}>
+                <span style={{ width: 40, height: 40, borderRadius: 11, background: 'rgba(248,113,113,0.14)', border: '1px solid rgba(248,113,113,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={20} color="#f87171" /></span>
+                <span style={{ fontSize: 17, fontWeight: 800, color: 'rgba(255,255,255,0.85)' }}>Sin Vision OS</span>
+              </div>
+              {['Turnos anotados en cuaderno o WhatsApp', 'Clientes que reservan y nunca aparecen', 'Horas perdidas coordinando por chat', 'No sabés cuánto facturás ni quién te debe'].map((t) => (
+                <div key={t} style={compRow}><X size={16} color="#f87171" style={{ flexShrink: 0, marginTop: 2, opacity: 0.8 }} /><span style={{ color: 'rgba(255,255,255,0.6)' }}>{t}</span></div>
+              ))}
             </div>
-            <div style={{ ...glass, borderColor: 'rgba(52,211,153,0.3)' }}>
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#34d399', margin: 0 }}>CON VISION OS 🚀</p>
-              <ul style={{ ...problemList, color: 'rgba(255,255,255,0.8)' }}>
-                <li>Agenda profesional en la nube</li>
-                <li>Seña online → casi nadie falta</li>
-                <li>Reservan solos por un link</li>
-                <li>Caja, reportes y todo bajo control</li>
-              </ul>
+            {/* Con Vision OS */}
+            <div style={{ ...glass, padding: 'clamp(24px, 3vw, 32px)', background: 'linear-gradient(165deg, rgba(52,211,153,0.09), rgba(255,255,255,0.02))', borderColor: 'rgba(52,211,153,0.32)', boxShadow: '0 20px 60px rgba(52,211,153,0.1)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 20 }}>
+                <span style={{ width: 40, height: 40, borderRadius: 11, background: 'rgba(52,211,153,0.16)', border: '1px solid rgba(52,211,153,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Sparkles size={19} color="#34d399" /></span>
+                <span style={{ fontSize: 17, fontWeight: 800 }}>Con Vision OS</span>
+              </div>
+              {['Agenda profesional, ordenada y en la nube', 'Seña online → casi nadie falta', 'Tus clientes reservan solos por un link', 'Caja, reportes y todo bajo control'].map((t) => (
+                <div key={t} style={compRow}><Check size={16} color="#34d399" style={{ flexShrink: 0, marginTop: 2 }} /><span style={{ color: 'rgba(255,255,255,0.85)' }}>{t}</span></div>
+              ))}
             </div>
           </div>
         </section>
@@ -423,6 +432,11 @@ function PlacasPreview() {
   )
 }
 
+function Chip({ label, i }: { label: string; i: number }) {
+  const colors = ['#60a5fa', '#34d399', '#a78bfa', '#22d3ee', '#f472b6', '#fbbf24']
+  return <span className="ld-chip"><span className="ld-chip-dot" style={{ background: colors[i % colors.length] }} />{label}</span>
+}
+
 function SectionTitle({ kicker, title, sub }: { kicker: string; title: string; sub: string }) {
   return (
     <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
@@ -491,7 +505,7 @@ const glass: React.CSSProperties = { background: 'rgba(255,255,255,0.035)', bord
 const ctaSmall: React.CSSProperties = { background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '9px 18px', fontSize: 14, fontWeight: 700, boxShadow: '0 6px 20px rgba(37,99,255,0.4)' }
 const ctaBig: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 800, boxShadow: '0 10px 34px rgba(37,99,255,0.45)' }
 const ctaGhost: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'rgba(255,255,255,0.06)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 700, border: '1px solid rgba(255,255,255,0.15)' }
-const problemList: React.CSSProperties = { listStyle: 'none', padding: 0, margin: '16px 0 0', display: 'flex', flexDirection: 'column', gap: 11, fontSize: 14.5, lineHeight: 1.4, color: 'rgba(255,255,255,0.6)' }
+const compRow: React.CSSProperties = { display: 'flex', gap: 11, alignItems: 'flex-start', fontSize: 14.5, lineHeight: 1.45, padding: '11px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }
 const footerLink: React.CSSProperties = { color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }
 const spotGrid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }
 const spotTitle: React.CSSProperties = { fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 900, margin: '16px 0 0', lineHeight: 1.1, letterSpacing: '-0.02em' }
