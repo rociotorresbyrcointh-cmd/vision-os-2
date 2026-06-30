@@ -8,6 +8,7 @@ import type { Professional, Service, Appointment, Payment } from '@/types/databa
 import { listAppointmentsBetween } from '@/services/appointments'
 import { listPaymentsBetween } from '@/services/payments'
 import { seedExampleData } from '@/services/onboarding'
+import { OnboardingChecklist, type SetupState } from '@/components/home/OnboardingChecklist'
 
 const money = (n: number) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
 const hhmm = (iso: string) => new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
@@ -25,11 +26,13 @@ export function InicioDashboard({
   businessName,
   professionals,
   services,
+  setup,
 }: {
   organizationId: string
   businessName: string
   professionals: Professional[]
   services: Service[]
+  setup: SetupState
 }) {
   const router = useRouter()
   const [appts, setAppts] = useState<Appointment[]>([])
@@ -107,6 +110,8 @@ export function InicioDashboard({
         </div>
       ) : (
         <>
+          <OnboardingChecklist setup={setup} />
+
           {/* KPIs del día */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 26 }}>
             <Kpi icon={<CalendarDays size={18} />} color="#60a5fa" label="Turnos hoy" value={loading ? '—' : String(m.total)} />
