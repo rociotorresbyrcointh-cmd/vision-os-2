@@ -74,7 +74,7 @@ export function Landing() {
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.7, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.85, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>
               <HeroV />
             </span>
@@ -479,11 +479,46 @@ function HeroV() {
   }, [])
 
   return (
-    <svg viewBox="-105 -80 410 350" style={{ width: 'min(98vw, 980px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
-      {particles.map((p, i) => (
-        <rect key={i} className="ld-particle" x={p.x - 2.3} y={p.y - 2.3} width={4.6} height={4.6} rx={1.2} fill={p.c}
-          style={{ ['--dx' as string]: p.dx.toFixed(1), ['--dy' as string]: p.dy.toFixed(1), ['--r' as string]: p.r.toFixed(0), animationDelay: `${p.d.toFixed(2)}s` } as React.CSSProperties} />
-      ))}
+    <div style={{ position: 'relative', width: 'min(94vw, 620px)' }}>
+      {/* Capa 1: tu logo REAL (se ve cuando está armado) */}
+      <span className="ld-logo-solid"><RealV /></span>
+      {/* Capa 2: partículas (aparecen al desintegrarse) */}
+      <svg viewBox="0 0 200 162" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+        {particles.map((p, i) => (
+          <rect key={i} className="ld-particle" x={p.x - 2.3} y={p.y - 2.3} width={4.6} height={4.6} rx={1.2} fill={p.c}
+            style={{ ['--dx' as string]: p.dx.toFixed(1), ['--dy' as string]: p.dy.toFixed(1), ['--r' as string]: p.r.toFixed(0), animationDelay: `${p.d.toFixed(2)}s` } as React.CSSProperties} />
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+// Tu logo real (la V exacta: caras oscuras + filos azules brillantes), sin la palabra "VISION".
+function RealV() {
+  return (
+    <svg viewBox="0 0 200 162" style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rv-l" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#2e2e44" /><stop offset="60%" stopColor="#14141f" /><stop offset="100%" stopColor="#08080f" />
+        </linearGradient>
+        <linearGradient id="rv-r" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1c1c2e" /><stop offset="60%" stopColor="#0e0e1a" /><stop offset="100%" stopColor="#060610" />
+        </linearGradient>
+        <linearGradient id="rv-line" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#60a5fa" /><stop offset="50%" stopColor="#2563FF" /><stop offset="100%" stopColor="#ffffff" />
+        </linearGradient>
+        <filter id="rv-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="4.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <polygon points="12,12 78,12 100,148 55,148" fill="url(#rv-l)" />
+      <polygon points="70,12 78,12 100,148 93,148" fill="#1e1e32" opacity="0.95" />
+      <polygon points="188,12 122,12 100,148 145,148" fill="url(#rv-r)" />
+      <polygon points="130,12 122,12 100,148 107,148" fill="#161626" opacity="0.85" />
+      <line x1="78" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
+      <line x1="122" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
+      <line x1="78" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
+      <line x1="122" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
     </svg>
   )
 }
