@@ -186,7 +186,7 @@ export function Landing() {
             <div style={{ direction: 'ltr' }}>
               <span style={kickerPill('#a78bfa')}><Sparkles size={14} /> Marketing con IA</span>
               <h2 style={spotTitle}>Creá contenido <span className="ld-gradient-text">que vende</span>, en segundos</h2>
-              <p style={spotSub}>La función estrella. Una inteligencia artificial que arma tu marketing por vos: placas, textos e ideas listas para publicar.</p>
+              <p style={spotSub}>La función estrella. Una inteligencia artificial que arma tu marketing por vos: imágenes para Instagram, textos e ideas listas para publicar.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 22 }}>
                 {REDES_POINTS.map((p) => (
                   <div key={p.t} style={{ display: 'flex', gap: 13 }}>
@@ -441,7 +441,7 @@ function PlacasPreview() {
       </div>
       <div style={{ marginTop: 16, ...glass, padding: '13px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
         <Wand2 size={18} color="#c4b5fd" />
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>“Generá una placa para mi promo…” → <strong style={{ color: 'white' }}>lista en 3 segundos</strong></span>
+        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>“Generá una imagen para mi promo…” → <strong style={{ color: 'white' }}>lista en 3 segundos</strong></span>
       </div>
     </div>
   )
@@ -504,7 +504,7 @@ const AGENDA_POINTS = [
 ]
 
 const REDES_POINTS = [
-  { icon: ImageIcon, t: 'Placas con tu logo y marca', d: 'Diseños profesionales para Instagram en segundos, con tus colores y tu logo.' },
+  { icon: ImageIcon, t: 'Imágenes con tu logo y marca', d: 'Diseños profesionales para Instagram en segundos, con tus colores y tu logo. Listos para publicar.' },
   { icon: MessageSquareText, t: 'Textos y captions con IA', d: 'La IA escribe el copy perfecto para cada publicación, listo para copiar y pegar.' },
   { icon: CalendarDays, t: 'Calendario de contenido', d: 'Ideas y un plan de qué publicar cada semana para no quedarte sin contenido.' },
   { icon: Wand2, t: 'Asistente experto en marketing', d: 'Pedile lo que necesites (promos, reels, reseñas) y te lo arma al instante.' },
@@ -537,13 +537,13 @@ const STEPS = [
 const TESTIMONIALS = [
   { name: 'Virginia L.', role: 'Estética', text: 'Bajé muchísimo el ausentismo con la seña online. Mis clientas reservan solas y gano tiempo todos los días.' },
   { name: 'Ludmila R.', role: 'Kinesiología', text: 'Tener todo en un lugar (turnos, pagos, recordatorios) me cambió la organización del consultorio.' },
-  { name: 'Daiana F.', role: 'Peluquería', text: 'Lo de crear placas con IA es increíble, publico en Instagram sin perder horas. ¡Y el link de reservas es lo mejor!' },
+  { name: 'Daiana F.', role: 'Peluquería', text: 'Lo de crear imágenes con IA es increíble, publico en Instagram sin perder horas. ¡Y el link de reservas es lo mejor!' },
 ]
 
 const FAQS = [
   { q: '¿Necesito instalar algo o saber de tecnología?', a: 'No. Funciona desde el navegador y se instala como app en tu celular con un toque. Es muy fácil y te guiamos al empezar.' },
   { q: '¿Cómo funciona la prueba gratis?', a: 'Tenés 14 días gratis sin poner tarjeta. Usás todo y, si te sirve, elegís un plan. Si no, no pagás nada.' },
-  { q: '¿Qué es lo de crear contenido con IA?', a: 'Una inteligencia artificial dentro de la app que te genera placas para Instagram, textos, ideas y un calendario de contenido. Hacés tu marketing en minutos.' },
+  { q: '¿Qué es lo de crear contenido con IA?', a: 'Es una inteligencia artificial integrada en la app que hace tu marketing por vos: crea imágenes y diseños listos para publicar en Instagram (con tu logo y tus colores), escribe los textos de cada posteo, te da ideas de contenido y hasta un calendario de qué publicar cada semana. En vez de pasar horas pensando qué subir, tenés todo listo en minutos.' },
   { q: '¿Puedo cobrar la seña a mis clientes?', a: 'Sí. Tus clientes la abonan al reservar con tu propio medio de pago (Mercado Pago, transferencia, etc.). Reducís muchísimo las ausencias.' },
   { q: '¿Cómo pago la suscripción?', a: 'Con tarjeta internacional (USD) vía Stripe, o con Mercado Pago en pesos. Se renueva sola cada mes y cancelás cuando quieras.' },
 ]
