@@ -202,3 +202,14 @@ body {
 @keyframes ld-s4 { 0%,16% { transform: none; } 50% { transform: translate(78px,-62px) rotate(24deg); } 84%,100% { transform: none; } }
 @keyframes ld-s5 { 0%,16% { transform: none; } 50% { transform: translate(104px,-6px) rotate(15deg); } 84%,100% { transform: none; } }
 @keyframes ld-s6 { 0%,16% { transform: none; } 50% { transform: translate(60px,64px) rotate(28deg); } 84%,100% { transform: none; } }
+
+/* Logo hero v6: la V se desintegra en MUCHAS partículas chiquitas y se rearma */
+.ld-particle {
+  animation: ld-burst 4.8s ease-in-out infinite;
+  transform-box: fill-box; transform-origin: center; will-change: transform;
+}
+@keyframes ld-burst {
+  0%, 20%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  50%       { transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px)) rotate(calc(var(--r) * 1deg)) scale(0.5); opacity: 0.65; }
+  80%, 100% { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import {
   Calendar, Globe, Wallet, BellRing, Sparkles, BarChart3, Users, Smartphone,
@@ -74,7 +74,7 @@ export function Landing() {
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.34, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.5, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>
               <HeroV />
             </span>
@@ -447,32 +447,39 @@ function PlacasPreview() {
   )
 }
 
-// La "V" gigante del hero: se ROMPE en 6 pedazos y se vuelve a armar.
+// La "V" gigante del hero: se desintegra en cientos de partículas y se rearma.
 function HeroV() {
-  const shards = [
-    { c: 'ld-s1', p: '12,12 78,12 85.3,57 26.2,57', fill: 'url(#hv-l)' },
-    { c: 'ld-s2', p: '26.2,57 85.3,57 92.6,102 40.5,102', fill: 'url(#hv-l)' },
-    { c: 'ld-s3', p: '40.5,102 92.6,102 100,148 55,148', fill: 'url(#hv-l)' },
-    { c: 'ld-s4', p: '122,12 188,12 173.8,57 114.7,57', fill: 'url(#hv-r)' },
-    { c: 'ld-s5', p: '114.7,57 173.8,57 159.5,102 107.4,102', fill: 'url(#hv-r)' },
-    { c: 'ld-s6', p: '107.4,102 159.5,102 145,148 100,148', fill: 'url(#hv-r)' },
-  ]
+  const particles = useMemo(() => {
+    const rand = (n: number) => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
+    const colors = ['#2563FF', '#60a5fa', '#3b82f6', '#93c5fd', '#dbeafe']
+    const pts: { x: number; y: number; dx: number; dy: number; r: number; d: number; c: string }[] = []
+    let i = 0
+    const step = 7.5
+    for (let y = 13; y <= 147; y += step) {
+      const t = (y - 12) / 136
+      const Lx = 12 + t * 43, Rx = 78 + t * 22         // banda izquierda
+      const innerx = 122 - t * 22, outerx = 188 - t * 43 // banda derecha
+      for (let x = 8; x <= 192; x += step) {
+        if (!((x >= Lx && x <= Rx) || (x >= innerx && x <= outerx))) continue
+        const ang = Math.atan2(y - 82, x - 100) + (rand(i) * 0.9 - 0.45)
+        const dist = 50 + rand(i + 1) * 95
+        pts.push({
+          x, y,
+          dx: Math.cos(ang) * dist, dy: Math.sin(ang) * dist,
+          r: rand(i + 2) * 440 - 220, d: rand(i + 3) * 0.4,
+          c: colors[i % colors.length],
+        })
+        i++
+      }
+    }
+    return pts
+  }, [])
+
   return (
-    <svg viewBox="-100 -60 400 290" style={{ width: 'min(96vw, 820px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="hv-l" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3a3a55" /><stop offset="60%" stopColor="#15151f" /><stop offset="100%" stopColor="#08080f" />
-        </linearGradient>
-        <linearGradient id="hv-r" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#26263e" /><stop offset="60%" stopColor="#0e0e1a" /><stop offset="100%" stopColor="#060610" />
-        </linearGradient>
-        <filter id="hv-glow" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-      </defs>
-      {shards.map((s) => (
-        <polygon key={s.c} className={`ld-shard ${s.c}`} points={s.p} fill={s.fill}
-          stroke="#2563FF" strokeWidth="1.4" strokeOpacity="0.75" filter="url(#hv-glow)" />
+    <svg viewBox="-140 -120 480 410" style={{ width: 'min(98vw, 900px)', height: 'auto', display: 'block', overflow: 'visible' }} xmlns="http://www.w3.org/2000/svg">
+      {particles.map((p, i) => (
+        <rect key={i} className="ld-particle" x={p.x - 2.3} y={p.y - 2.3} width={4.6} height={4.6} rx={1.2} fill={p.c}
+          style={{ ['--dx' as string]: p.dx.toFixed(1), ['--dy' as string]: p.dy.toFixed(1), ['--r' as string]: p.r.toFixed(0), animationDelay: `${p.d.toFixed(2)}s` } as React.CSSProperties} />
       ))}
     </svg>
   )
