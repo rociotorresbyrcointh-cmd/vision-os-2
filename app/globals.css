@@ -237,3 +237,6 @@ body {
 .rv-sec.rv-left  { transform: translateX(-70px); }
 .rv-sec.rv-right { transform: translateX(70px); }
 .rv-sec.rv-in    { opacity: 1; transform: none; }
+
+/* Landing mobile: ocultar el menú lateral del mockup en celular */
+@media (max-width: 560px) { .ld-mock-side { display: none !important; } }

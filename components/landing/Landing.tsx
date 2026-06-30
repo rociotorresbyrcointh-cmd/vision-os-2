@@ -143,7 +143,7 @@ export function Landing() {
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
         <section className="rv-sec rv-left" style={{ ...container, paddingTop: 'clamp(10px, 2vw, 20px)', paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
           <SectionTitle kicker="El cambio" title="De caótico a profesional" sub="Mirá la diferencia entre manejar tu negocio a la antigua y hacerlo con Vision OS." />
-          <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, marginTop: 46 }}>
+          <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 20, marginTop: 46 }}>
             {/* Antes */}
             <div style={{ ...glass, padding: 'clamp(24px, 3vw, 32px)', background: 'linear-gradient(165deg, rgba(248,113,113,0.07), rgba(255,255,255,0.02))', borderColor: 'rgba(248,113,113,0.22)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 20 }}>
@@ -222,7 +222,7 @@ export function Landing() {
         {/* ───── OTRAS FUNCIONES ───── */}
         <section className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Una plataforma completa" title="Todo lo que tu negocio necesita" sub="Dejá de saltar entre el cuaderno, WhatsApp, Excel y mil apps. Vision OS reúne todo en un solo lugar." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 18, marginTop: 44 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: 18, marginTop: 44 }}>
             {FEATURES.map((f) => (
               <div key={f.title} className="ld-card" style={{ ...glass, background: `linear-gradient(165deg, ${f.color}12, rgba(255,255,255,0.025))`, position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: -30, right: -30, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${f.color}22, transparent 70%)`, filter: 'blur(10px)' }} />
@@ -239,7 +239,7 @@ export function Landing() {
         {/* ───── CÓMO FUNCIONA ───── */}
         <section className="rv-sec rv-left" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="En 3 pasos" title="Empezá hoy mismo" sub="No necesitás conocimientos técnicos." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18, marginTop: 44 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 18, marginTop: 44 }}>
             {STEPS.map((s, i) => (
               <div key={s.title} className="ld-card" style={{ ...glass, position: 'relative' }}>
                 <span style={{ position: 'absolute', top: 16, right: 20, fontSize: 44, fontWeight: 900, color: 'rgba(255,255,255,0.06)' }}>{i + 1}</span>
@@ -261,7 +261,7 @@ export function Landing() {
         {/* ───── PRECIOS ───── */}
         <section id="precios" className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Empezá con 14 días gratis. Cancelás cuando quieras." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 270px), 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
             {PLANS.map((p) => (
               <div key={p.id} className="ld-card" style={{ ...glass, position: 'relative', display: 'flex', flexDirection: 'column', borderColor: p.popular ? 'rgba(37,99,255,0.6)' : 'rgba(255,255,255,0.1)', boxShadow: p.popular ? '0 20px 60px rgba(37,99,255,0.22)' : 'none' }}>
                 {p.popular && (
@@ -285,7 +285,7 @@ export function Landing() {
         {/* ───── TESTIMONIOS ───── */}
         <section className="rv-sec rv-left" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <SectionTitle kicker="Testimonios" title="Lo que dicen quienes ya la usan" sub="" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18, marginTop: 44 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 18, marginTop: 44 }}>
             {TESTIMONIALS.map((t) => (
               <div key={t.name} className="ld-card" style={glass}>
                 <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={15} color="#fbbf24" fill="#fbbf24" />)}</div>
@@ -369,8 +369,8 @@ function AppMockup() {
         <span style={{ marginLeft: 12, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>vision.byrcointh.online/agenda</span>
       </div>
       <div style={{ display: 'flex', minHeight: 300 }}>
-        {/* menú lateral con todas las opciones */}
-        <div style={{ width: 168, flexShrink: 0, background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {/* menú lateral con todas las opciones (se oculta en celular) */}
+        <div className="ld-mock-side" style={{ width: 168, flexShrink: 0, background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
           <div style={{ padding: '4px 8px 12px' }}><VisionLogoWhite size={22} /></div>
           {NAV.map((n) => (
             <div key={n.label} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 9px', borderRadius: 8, fontSize: 11.5, fontWeight: 600, color: n.active ? 'white' : 'rgba(255,255,255,0.5)', background: n.active ? 'rgba(37,99,255,0.16)' : 'transparent', border: n.active ? '1px solid rgba(37,99,255,0.35)' : '1px solid transparent' }}>
@@ -450,7 +450,7 @@ function PortalMockup() {
           <PortalField label="Día" value="Viernes 27 de junio" />
           <div>
             <p style={portalLabel}>Horario disponible</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 72px), 1fr))', gap: 8 }}>
               {slots.map((s, i) => (
                 <div key={s} style={{ padding: '9px 0', textAlign: 'center', borderRadius: 9, fontSize: 14, fontWeight: 600, fontVariantNumeric: 'tabular-nums',
                   background: i === 3 ? 'rgba(37,99,255,0.3)' : 'rgba(255,255,255,0.04)',
@@ -688,7 +688,7 @@ const ctaBig: React.CSSProperties = { display: 'inline-flex', alignItems: 'cente
 const ctaGhost: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'rgba(255,255,255,0.06)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 700, border: '1px solid rgba(255,255,255,0.15)' }
 const compRow: React.CSSProperties = { display: 'flex', gap: 11, alignItems: 'flex-start', fontSize: 14.5, lineHeight: 1.45, padding: '11px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }
 const footerLink: React.CSSProperties = { color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }
-const spotGrid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }
+const spotGrid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }
 const spotTitle: React.CSSProperties = { fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 900, margin: '16px 0 0', lineHeight: 1.1, letterSpacing: '-0.02em' }
 const spotSub: React.CSSProperties = { fontSize: 16.5, color: 'rgba(255,255,255,0.6)', margin: '14px 0 0', lineHeight: 1.55 }
 const kickerPill = (c: string): React.CSSProperties => ({ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '6px 14px', borderRadius: 999, background: `${c}1f`, border: `1px solid ${c}55`, fontSize: 13, fontWeight: 700, color: c === '#2563FF' ? '#93c5fd' : '#c4b5fd' })
