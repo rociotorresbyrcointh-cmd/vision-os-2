@@ -53,7 +53,7 @@ export default function PrivacidadPage() {
 
       <H2>8. Contacto</H2>
       <p>
-        Por cualquier consulta sobre privacidad, escribinos a <b>rociobyrcointh@gmail.com</b>.
+        Por cualquier consulta sobre privacidad, escribinos a <b>rociotorres@byrcointh.online</b>.
       </p>
     </LegalShell>
   )

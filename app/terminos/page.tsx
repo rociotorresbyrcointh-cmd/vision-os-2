@@ -64,7 +64,7 @@ export default function TerminosPage() {
 
       <H2>11. Contacto</H2>
       <p>
-        Por consultas sobre estos términos, escribinos a <b>rociobyrcointh@gmail.com</b>.
+        Por consultas sobre estos términos, escribinos a <b>rociotorres@byrcointh.online</b>.
       </p>
     </LegalShell>
   )

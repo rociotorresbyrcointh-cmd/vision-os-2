@@ -44,9 +44,11 @@ export async function POST(request: Request) {
         const sub = event.data.object as Stripe.Subscription
         const priceId = sub.items.data[0]?.price?.id
         const plan = (sub.metadata?.plan as PlanId) ?? planByPrice(priceId)
-        const active = sub.status === 'active' || sub.status === 'trialing'
+        // Damos período de gracia si el pago falla (past_due): no bajamos el plan,
+        // solo marcamos el estado para avisar. Se baja recién si se cancela/vence.
+        const keepAccess = ['active', 'trialing', 'past_due'].includes(sub.status)
         if (sub.customer && plan) {
-          await setPlanForCustomer(String(sub.customer), active ? plan : 'trial', sub.id, sub.status)
+          await setPlanForCustomer(String(sub.customer), keepAccess ? plan : 'trial', sub.id, sub.status)
         }
         break
       }
