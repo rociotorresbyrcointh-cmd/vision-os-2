@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { preApproval } from '@/lib/mercadopago'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { planById } from '@/lib/plans'
+import { sendSubscriptionActiveEmail } from '@/lib/email'
 
 export const runtime = 'nodejs'
 
@@ -32,7 +33,8 @@ export async function POST(request: Request) {
     const [orgId, planRaw] = ref.split('|')
     if (!orgId) return NextResponse.json({ received: true })
 
-    const plan = planById(planRaw)?.id
+    const planObj = planById(planRaw)
+    const plan = planObj?.id
     const authorized = pre.status === 'authorized'
     const admin = createAdminClient()
     await admin
@@ -43,6 +45,12 @@ export async function POST(request: Request) {
         mp_preapproval_id: pre.id ?? null,
       })
       .eq('id', orgId)
+
+    // Email de suscripción activa
+    if (authorized && planObj) {
+      const email = (pre as { payer_email?: string }).payer_email
+      if (email) await sendSubscriptionActiveEmail(email, planObj.name)
+    }
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'error' }, { status: 500 })
   }

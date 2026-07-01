@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { getStripe, planByPrice } from '@/lib/stripe'
 import { createAdminClient } from '@/lib/supabase/admin'
-import type { PlanId } from '@/lib/plans'
+import { planById, type PlanId } from '@/lib/plans'
+import { sendSubscriptionActiveEmail, sendPaymentFailedEmail } from '@/lib/email'
 
 export const runtime = 'nodejs'
 
@@ -37,6 +38,8 @@ export async function POST(request: Request) {
         const plan = (s.metadata?.plan as PlanId) ?? null
         if (s.customer && plan) {
           await setPlanForCustomer(String(s.customer), plan, s.subscription ? String(s.subscription) : null, 'active')
+          const email = s.customer_details?.email
+          if (email) await sendSubscriptionActiveEmail(email, planById(plan)?.name ?? plan)
         }
         break
       }
@@ -49,6 +52,14 @@ export async function POST(request: Request) {
         const keepAccess = ['active', 'trialing', 'past_due'].includes(sub.status)
         if (sub.customer && plan) {
           await setPlanForCustomer(String(sub.customer), keepAccess ? plan : 'trial', sub.id, sub.status)
+        }
+        // Aviso de pago fallido
+        if (sub.status === 'past_due' && sub.customer) {
+          try {
+            const cust = await getStripe().customers.retrieve(String(sub.customer))
+            const email = (cust as { email?: string }).email
+            if (email) await sendPaymentFailedEmail(email)
+          } catch { /* ignorar */ }
         }
         break
       }

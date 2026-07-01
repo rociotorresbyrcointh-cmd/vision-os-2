@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sendWelcomeEmail } from '@/lib/email'
 
 // ─── Registro ────────────────────────────────────────────────────
 // El nombre del negocio se guarda en metadata; el trigger de la DB
@@ -38,6 +39,9 @@ export async function register(
   })
 
   if (error) return { error: error.message }
+
+  // Email de bienvenida (no bloquea si Resend no está configurado)
+  await sendWelcomeEmail(email, businessName)
 
   redirect(next)
 }
