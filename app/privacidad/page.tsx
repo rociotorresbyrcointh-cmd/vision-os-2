@@ -6,7 +6,7 @@ export default function PrivacidadPage() {
   return (
     <LegalShell title="Política de Privacidad" updated="junio de 2026">
       <p>
-        En <b>Vision OS</b> ("nosotros", "la Plataforma") nos tomamos en serio la privacidad de tus datos y los de tus clientes.
+<b>Vision OS</b> es un producto operado por <b>Byrcointh LLC</b> ("nosotros", "la Plataforma"). Nos tomamos en serio la privacidad de tus datos y los de tus clientes.
         Esta política explica qué información recopilamos, cómo la usamos y cuáles son tus derechos. Al usar la Plataforma, aceptás lo aquí descrito.
       </p>
 
@@ -33,7 +33,7 @@ export default function PrivacidadPage() {
 
       <H2>4. Servicios de terceros</H2>
       <p>
-        Para algunas funciones usamos proveedores que procesan datos por nuestra cuenta, como el alojamiento de la base de datos (Supabase), el hosting de la aplicación (Vercel) y, si usás el asistente de contenido, un proveedor de inteligencia artificial. Cada uno cumple con sus propios estándares de seguridad.
+        Para algunas funciones usamos proveedores que procesan datos por nuestra cuenta: el alojamiento de la base de datos (Supabase), el hosting de la aplicación (Vercel), el procesamiento de pagos de suscripción (<b>Stripe</b> y <b>Mercado Pago</b>) y, si usás el asistente de contenido, un proveedor de inteligencia artificial. Cada uno cumple con sus propios estándares de seguridad. No almacenamos los datos de tu tarjeta: los procesa directamente la pasarela de pago.
       </p>
 
       <H2>5. Tus derechos</H2>

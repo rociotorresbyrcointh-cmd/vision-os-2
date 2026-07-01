@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { Check, Star, Zap, Users, AlertTriangle, Settings2, Gift } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Check, Star, Zap, Users, AlertTriangle, Settings2, Gift, PartyPopper } from 'lucide-react'
 import { PLANS, planById, isTrial, isCortesia, type PlanId } from '@/lib/plans'
 
 export function PlanManager({
@@ -16,6 +17,16 @@ export function PlanManager({
   const [plan] = useState(currentPlan)
   const [busy, setBusy] = useState<string | null>(null)
   const [choosing, setChoosing] = useState<PlanId | null>(null)
+  const [welcome, setWelcome] = useState(false)
+
+  // Al volver del pago (Stripe ?success=1 / MP ?mp=success) mostramos la bienvenida
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search)
+    if (q.get('success') === '1' || q.get('mp') === 'success') {
+      setWelcome(true)
+      window.history.replaceState({}, '', '/plan') // limpia la URL
+    }
+  }, [])
   const current = planById(plan)
   const trial = isTrial(plan)
   const cortesia = isCortesia(plan)
@@ -86,6 +97,24 @@ export function PlanManager({
 
   return (
     <div style={{ padding: '32px clamp(16px, 4vw, 48px)', maxWidth: 1000, margin: '0 auto' }}>
+      {/* Bienvenida después de pagar */}
+      {welcome && (
+        <div onClick={() => setWelcome(false)} style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(6,6,13,0.85)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(460px, 94vw)', textAlign: 'center', background: 'linear-gradient(160deg, #10101c, #0a0a14)', border: '1px solid rgba(52,211,153,0.35)', borderRadius: 18, padding: '36px 28px', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}>
+            <div style={{ width: 66, height: 66, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
+              <PartyPopper size={32} color="#34d399" />
+            </div>
+            <h2 style={{ color: 'white', fontSize: 24, fontWeight: 900, margin: 0 }}>¡Bienvenido a Vision OS! 🎉</h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, margin: '12px 0 0', lineHeight: 1.55 }}>
+              Tu suscripción está en camino de activarse (puede tardar unos segundos). ¡Ya podés usar todo sin límites!
+            </p>
+            <Link href="/inicio" style={{ display: 'inline-block', marginTop: 24, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 11, padding: '13px 26px', fontSize: 15, fontWeight: 800 }}>
+              Ir a mi negocio
+            </Link>
+          </div>
+        </div>
+      )}
+
       <header style={{ marginBottom: 8 }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, color: 'white', margin: 0 }}>Mi plan</h1>
         <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>

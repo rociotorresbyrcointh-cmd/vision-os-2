@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { PLANS } from '@/lib/plans'
+import { SUPPORT_EMAIL } from '@/lib/site'
 
 const BLUE = '#2563FF'
 
@@ -334,6 +335,7 @@ export function Landing() {
             <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontSize: 13.5 }}>
               <Link href="/login" style={footerLink}>Iniciar sesión</Link>
               <Link href="/register" style={footerLink}>Probar gratis</Link>
+              <a href={`mailto:${SUPPORT_EMAIL}?subject=Consulta%20sobre%20Vision%20OS`} style={footerLink}>Soporte</a>
               <Link href="/privacidad" style={footerLink}>Privacidad</Link>
               <Link href="/terminos" style={footerLink}>Términos</Link>
             </div>

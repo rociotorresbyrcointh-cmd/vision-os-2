@@ -6,7 +6,7 @@ export default function TerminosPage() {
   return (
     <LegalShell title="Términos y Condiciones" updated="junio de 2026">
       <p>
-        Estos Términos regulan el uso de <b>Vision OS</b> ("la Plataforma"). Al crear una cuenta o usar el servicio, aceptás estos términos en su totalidad.
+        Estos Términos regulan el uso de <b>Vision OS</b>, un producto operado por <b>Byrcointh LLC</b> ("la Plataforma"). Al crear una cuenta o usar el servicio, aceptás estos términos en su totalidad.
       </p>
 
       <H2>1. El servicio</H2>
@@ -29,9 +29,12 @@ export default function TerminosPage() {
         Vos sos el responsable de los datos de tus clientes/pacientes que cargues. Te comprometés a tratarlos conforme a la legislación de protección de datos aplicable y a contar con el consentimiento necesario, especialmente para datos sensibles (como la historia clínica) y para enviar mensajes por WhatsApp.
       </p>
 
-      <H2>5. Planes y pagos</H2>
+      <H2>5. Planes, prueba gratis y pagos</H2>
       <p>
-        El acceso a determinadas funciones puede requerir una suscripción paga. Los precios, formas de pago y condiciones se informarán al momento de la contratación. La falta de pago puede suspender el acceso al servicio.
+        Ofrecemos una <b>prueba gratuita de 14 días</b>, sin necesidad de tarjeta. Al finalizar la prueba, para seguir usando el servicio debés contratar un plan pago. Los planes se cobran por <b>suscripción mensual</b> y se <b>renuevan automáticamente</b> cada mes hasta que la canceles.
+      </p>
+      <p>
+        Los pagos se procesan a través de <b>Stripe</b> (tarjeta internacional, en USD) o <b>Mercado Pago</b> (en pesos). Podés <b>cancelar cuando quieras</b> desde la sección "Mi plan"; el acceso se mantiene hasta el fin del período ya pagado. La falta de pago puede suspender el acceso al servicio. Los precios pueden actualizarse informándote con anticipación.
       </p>
 
       <H2>6. Disponibilidad</H2>
