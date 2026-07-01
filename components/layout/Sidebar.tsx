@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog, Search, CreditCard, HelpCircle } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog, Search, CreditCard } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
 import { NotificationBell } from '@/components/layout/NotificationBell'
-import { SUPPORT_EMAIL } from '@/lib/site'
+import { SupportButton } from '@/components/layout/SupportButton'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
@@ -112,10 +112,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
       </nav>
 
       {/* Soporte */}
-      <a href={`mailto:${SUPPORT_EMAIL}?subject=Ayuda%20con%20Vision%20OS`}
-        style={{ display: 'flex', alignItems: 'center', gap: 11, margin: '0 12px', padding: '11px 12px', borderRadius: 9, fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'rgba(255,255,255,0.55)' }}>
-        <HelpCircle size={17} /> Ayuda y soporte
-      </a>
+      <SupportButton />
 
       {/* Logout */}
       <form action={logout} style={{ padding: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
