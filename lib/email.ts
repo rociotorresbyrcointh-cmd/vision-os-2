@@ -46,7 +46,8 @@ export async function sendWelcomeEmail(to: string, businessName: string): Promis
     layout(
       `¡Hola${businessName ? `, ${businessName}` : ''}! 👋`,
       `Tu cuenta en <b>${PRODUCT}</b> ya está lista. Tenés <b>14 días gratis</b> para probar todo.<br/><br/>
-       Para arrancar, te recomendamos cargar tus <b>profesionales</b> y <b>servicios</b>, y activar tu <b>link de reservas online</b>. La app te guía paso a paso.`,
+       Para arrancar, te recomendamos cargar tus <b>profesionales</b> y <b>servicios</b>, y activar tu <b>link de reservas online</b>. La app te guía paso a paso.<br/><br/>
+       📖 ¿Querés aprender a usarla sin dudas? Mirá nuestra <a href="${APP_URL}/guia" style="color:#2563FF;font-weight:bold;">guía de uso completa</a>.`,
       'Ir a mi negocio', `${APP_URL}/inicio`,
     ),
   )

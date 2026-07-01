@@ -29,7 +29,12 @@ export function SupportButton({ onNavigate }: { onNavigate?: () => void }) {
               <HelpCircle size={22} color="#60a5fa" />
             </div>
             <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>¿Necesitás ayuda?</h3>
-            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13.5, margin: '6px 0 18px', lineHeight: 1.5 }}>Escribinos y te respondemos a la brevedad.</p>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13.5, margin: '6px 0 14px', lineHeight: 1.5 }}>Mirá la guía de uso o escribinos.</p>
+
+            <a href="/guia" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.35)', color: '#93c5fd', textDecoration: 'none', borderRadius: 10, padding: '11px', fontSize: 14, fontWeight: 700, marginBottom: 16 }}>
+              📖 Ver la guía de uso
+            </a>
+
 
             <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 7px' }}>Email</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px' }}>
