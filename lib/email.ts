@@ -65,6 +65,20 @@ export async function sendSubscriptionActiveEmail(to: string, planName: string):
   )
 }
 
+export async function sendTrialEndingEmail(to: string, daysLeft: number, businessName: string): Promise<void> {
+  const cuando = daysLeft <= 0 ? 'hoy' : daysLeft === 1 ? 'mañana' : `en ${daysLeft} días`
+  await send(
+    to,
+    `Tu prueba de ${PRODUCT} vence ${cuando} ⏰`,
+    layout(
+      `Tu prueba termina ${cuando} ⏰`,
+      `¡Hola${businessName ? `, ${businessName}` : ''}! Tu prueba gratis de <b>${PRODUCT}</b> vence <b>${cuando}</b>.<br/><br/>
+       Para no perder el acceso ni tus datos, elegí un plan y seguí trabajando sin interrupciones. ¡Tenés todo listo donde lo dejaste! 💙`,
+      'Elegir un plan', `${APP_URL}/plan`,
+    ),
+  )
+}
+
 export async function sendPaymentFailedEmail(to: string): Promise<void> {
   await send(
     to,
