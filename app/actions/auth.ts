@@ -14,6 +14,9 @@ export async function register(
   const password = String(formData.get('password') ?? '')
   const businessName = String(formData.get('business_name') ?? '').trim()
   const sector = String(formData.get('sector') ?? '').trim()
+  // Adónde mandar después de registrarse (solo rutas internas)
+  const nextRaw = String(formData.get('next') ?? '')
+  const next = nextRaw.startsWith('/') && !nextRaw.startsWith('//') ? nextRaw : '/inicio'
 
   if (!email || !password) {
     return { error: 'Email y contraseña son obligatorios.' }
@@ -36,7 +39,7 @@ export async function register(
 
   if (error) return { error: error.message }
 
-  redirect('/inicio')
+  redirect(next)
 }
 
 // ─── Login ───────────────────────────────────────────────────────

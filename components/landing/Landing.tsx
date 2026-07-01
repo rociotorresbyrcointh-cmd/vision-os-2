@@ -260,7 +260,7 @@ export function Landing() {
 
         {/* ───── PRECIOS ───── */}
         <section id="precios" className="rv-sec rv-right" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
-          <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Empezá con 14 días gratis. Cancelás cuando quieras." />
+          <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Probá 14 días gratis. Suscribite cuando quieras, incluso hoy. Cancelás cuando quieras." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 270px), 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
             {PLANS.map((p) => (
               <div key={p.id} className="ld-card" style={{ ...glass, position: 'relative', display: 'flex', flexDirection: 'column', borderColor: p.popular ? 'rgba(37,99,255,0.6)' : 'rgba(255,255,255,0.1)', boxShadow: p.popular ? '0 20px 60px rgba(37,99,255,0.22)' : 'none' }}>
@@ -275,7 +275,7 @@ export function Landing() {
                     <li key={f} style={{ display: 'flex', gap: 10, fontSize: 14, color: 'rgba(255,255,255,0.78)' }}><Check size={17} color="#34d399" style={{ flexShrink: 0, marginTop: 1 }} /> {f}</li>
                   ))}
                 </ul>
-                <Link href="/register" className="ld-cta" style={{ ...(p.popular ? ctaBig : ctaGhost), justifyContent: 'center', width: '100%', padding: '13px' }}>Probar gratis</Link>
+                <Link href="/register?next=/plan" className="ld-cta" style={{ ...(p.popular ? ctaBig : ctaGhost), justifyContent: 'center', width: '100%', padding: '13px' }}>Elegir {p.name}</Link>
               </div>
             ))}
           </div>

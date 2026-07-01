@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { register } from '@/app/actions/auth'
 import { VisionLogoWhite } from '@/components/VisionLogo'
@@ -25,6 +25,12 @@ const blur = (e: React.FocusEvent<HTMLInputElement>) =>
 
 export default function RegisterPage() {
   const [state, formAction, pending] = useActionState(register, undefined)
+  // Si vino desde "Precios", después de registrarse va directo a Mi plan
+  const [next, setNext] = useState('')
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get('next')
+    if (p && p.startsWith('/') && !p.startsWith('//')) setNext(p)
+  }, [])
 
   return (
     <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
@@ -40,6 +46,7 @@ export default function RegisterPage() {
           <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Registrá tu negocio en Vision OS</p>
 
           <form action={formAction}>
+            <input type="hidden" name="next" value={next} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <label style={labelStyle}>Nombre del negocio</label>
