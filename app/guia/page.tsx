@@ -1,10 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import {
   Rocket, Users, Tag, Calendar, Repeat, Ban, UserRound, FileHeart, Globe, Wallet,
   BarChart3, BellRing, Sparkles, TrendingUp, UserCog, Settings, Smartphone, CreditCard,
-  HelpCircle, Printer, ArrowLeft, Check,
+  HelpCircle, Printer, ArrowLeft, Check, Copy,
 } from 'lucide-react'
 import { SUPPORT_EMAIL } from '@/lib/site'
 
@@ -157,6 +158,10 @@ const SECTIONS: Section[] = [
 ]
 
 export default function GuiaPage() {
+  const [copied, setCopied] = useState(false)
+  const copyEmail = async () => {
+    try { await navigator.clipboard.writeText(SUPPORT_EMAIL); setCopied(true); setTimeout(() => setCopied(false), 1600) } catch { /* */ }
+  }
   return (
     <div style={{ background: '#06060d', color: 'white', minHeight: '100vh' }}>
       {/* Header */}
@@ -227,10 +232,13 @@ export default function GuiaPage() {
         <section style={{ background: 'linear-gradient(160deg, rgba(37,99,255,0.12), rgba(255,255,255,0.025))', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 16, padding: 'clamp(22px, 3vw, 30px)', textAlign: 'center' }}>
           <HelpCircle size={26} color="#60a5fa" style={{ marginBottom: 10 }} />
           <h2 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>¿Te quedó alguna duda?</h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14.5, margin: '8px 0 14px' }}>Estamos para ayudarte. Escribinos y te respondemos a la brevedad.</p>
-          <a href={`mailto:${SUPPORT_EMAIL}?subject=Ayuda%20con%20Vision%20OS`} style={{ display: 'inline-block', background: '#2563FF', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '11px 22px', fontSize: 14.5, fontWeight: 700 }}>
-            Escribir a soporte
-          </a>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14.5, margin: '8px 0 16px' }}>Estamos para ayudarte. Escribinos a este email y te respondemos a la brevedad.</p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '10px 14px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <span style={{ color: 'white', fontSize: 15, fontWeight: 600, wordBreak: 'break-all' }}>{SUPPORT_EMAIL}</span>
+            <button onClick={copyEmail} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: copied ? 'rgba(52,211,153,0.15)' : '#2563FF', border: copied ? '1px solid rgba(52,211,153,0.4)' : 'none', color: copied ? '#34d399' : 'white', borderRadius: 8, padding: '7px 13px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+              {copied ? <><Check size={14} /> Copiado</> : <><Copy size={14} /> Copiar</>}
+            </button>
+          </div>
         </section>
       </main>
     </div>
