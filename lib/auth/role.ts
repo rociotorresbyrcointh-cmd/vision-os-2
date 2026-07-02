@@ -28,6 +28,7 @@ export const ROUTE_ROLES: Record<string, Role[]> = {
   '/recordatorios': ['owner', 'admin'],
   '/redes': ['owner'],
   '/papelera': ['owner', 'admin'],
+  '/guia': ['owner', 'admin', 'staff', 'readonly'],
   '/configuracion': ['owner'],
   '/equipo': ['owner'],
   '/plan': ['owner'],

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog, Search, CreditCard } from 'lucide-react'
+import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wallet, BarChart3, Globe, Settings, Trash2, Sparkles, Clock, TrendingUp, Menu, X, LogOut, UserCog, Search, CreditCard, BookOpen } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
@@ -25,6 +25,7 @@ const NAV = [
   { href: '/whatsapp', label: 'WhatsApp', icon: MessageCircle },
   { href: '/recordatorios', label: 'Recordatorios', icon: BellRing },
   { href: '/papelera', label: 'Papelera', icon: Trash2 },
+  { href: '/guia', label: 'Guía de uso', icon: BookOpen },
   { href: '/equipo', label: 'Equipo', icon: UserCog },
   { href: '/plan', label: 'Mi plan', icon: CreditCard },
   { href: '/configuracion', label: 'Configuración', icon: Settings },
