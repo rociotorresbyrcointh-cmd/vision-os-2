@@ -240,3 +240,6 @@ body {
 
 /* Landing mobile: ocultar el menú lateral del mockup en celular */
 @media (max-width: 560px) { .ld-mock-side { display: none !important; } }
+
+/* Chips flotantes del hero (parallax con el mouse) — ocultas en mobile */
+@media (max-width: 900px) { .ld-float-chip { display: none !important; } }

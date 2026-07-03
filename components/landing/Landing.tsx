@@ -92,6 +92,20 @@ export function Landing() {
             </span>
           </div>
 
+          {/* Chips flotantes con parallax (se mueven con el mouse) */}
+          {[
+            { top: '14%', left: '4%', d: 0.6, icon: Calendar, color: '#60a5fa', label: 'Agenda inteligente' },
+            { top: '20%', right: '4%', d: 1.0, icon: Globe, color: '#67e8f9', label: 'Reservas online 24/7' },
+            { bottom: '26%', left: '6%', d: 0.85, icon: Wallet, color: '#6ee7b7', label: 'Cobrá la seña' },
+            { bottom: '20%', right: '5%', d: 1.2, icon: Sparkles, color: '#c4b5fd', label: 'Contenido con IA' },
+          ].map((c, i) => (
+            <div key={i} className="ld-float-chip" style={{ position: 'absolute', top: c.top, bottom: c.bottom, left: c.left, right: c.right, zIndex: 1, pointerEvents: 'none', transform: `translate3d(${par.dx * c.d}px, ${par.dy * c.d}px, 0)`, transition: 'transform 0.25s ease-out' }}>
+              <span className="ld-bob" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)', fontSize: 13.5, fontWeight: 600, color: 'rgba(255,255,255,0.85)', boxShadow: '0 8px 24px rgba(0,0,0,0.25)', animationDelay: `${i * 0.7}s` }}>
+                <c.icon size={15} color={c.color} /> {c.label}
+              </span>
+            </div>
+          ))}
+
           <div style={{ position: 'relative', zIndex: 1 }}>
           <h1 className="ld-rise" style={{ fontSize: 'clamp(36px, 6.5vw, 68px)', fontWeight: 900, lineHeight: 1.04, margin: 0, letterSpacing: '-0.025em' }}>
             Llená tu agenda y<br />
