@@ -9,6 +9,7 @@ import {
   Home, UserRound, Tag, TrendingUp, Settings, Clock, FileHeart,
 } from 'lucide-react'
 import { VisionLogoWhite } from '@/components/VisionLogo'
+import { HeroParticles } from '@/components/landing/HeroParticles'
 import { PLANS } from '@/lib/plans'
 import { SUPPORT_EMAIL } from '@/lib/site'
 
@@ -86,6 +87,8 @@ export function Landing() {
 
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
+          {/* Nube de partículas glow (fondo, detrás de todo) */}
+          <HeroParticles />
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
           <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.85, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>

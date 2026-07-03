@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.104.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
+    "@types/three": "^0.185.0",
     "date-fns": "^4.4.0",
     "html-to-image": "^1.11.13",
     "lucide-react": "^1.18.0",
@@ -21,6 +22,7 @@
     "react-dom": "19.2.4",
     "resend": "^6.16.0",
     "stripe": "^22.2.2",
+    "three": "^0.185.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
