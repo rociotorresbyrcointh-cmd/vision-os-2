@@ -63,7 +63,10 @@ export function LavaBackground() {
     canvas.style.height = '100%'
     canvas.style.display = 'block'
     host.appendChild(canvas)
-    const gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' })
+    const opts: WebGLContextAttributes = { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' }
+    const gl = (canvas.getContext('webgl', opts)
+      || canvas.getContext('experimental-webgl', opts)
+      || canvas.getContext('webgl')) as WebGLRenderingContext | null
     if (!gl) { host.removeChild(canvas); return }
 
     const compile = (type: number, src: string) => {
@@ -92,7 +95,7 @@ export function LavaBackground() {
     const uRes = U('u_resolution'), uTime = U('u_time')
 
     const isMobile = window.innerWidth < 640
-    const MAXPIX = isMobile ? 120000 : 350000
+    const MAXPIX = isMobile ? 220000 : 350000
     const resize = () => {
       const w = host.clientWidth || window.innerWidth
       const h = host.clientHeight || window.innerHeight
