@@ -36,16 +36,15 @@ const slides: DeckSlide[] = [
       ))}
     </div>
   ) },
-  // 3 · La oferta, clara: qué es el Plan Fundadores
+  // 3 · La oferta, clara: precio de lanzamiento
   { accent: '#f59e0b', render: () => (
     <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 34px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12, fontWeight: 800, letterSpacing: '0.2em', color: '#fbbf24', marginBottom: 14 }}>OFERTA DE LANZAMIENTO</div>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 96, lineHeight: 1, color: '#fbbf24' }}>20</div>
-      <div style={{ fontSize: 20, fontWeight: 900, marginTop: 6 }}>lugares con precio fundador</div>
-      <p style={{ margin: '16px 0 0', fontSize: 15.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 250 }}>Solo los primeros 20 negocios entran con este precio especial.</p>
+      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12, fontWeight: 800, letterSpacing: '0.2em', color: '#fbbf24', marginBottom: 18 }}>RECIÉN LANZAMOS</div>
+      <h2 style={{ fontSize: 33, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Precio de <span style={{ color: '#fbbf24' }}>lanzamiento</span></h2>
+      <p style={{ margin: '18px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.64)', lineHeight: 1.5, maxWidth: 258 }}>Estamos arrancando, y por eso hoy entrás con el precio más bajo que va a tener la app.</p>
     </div>
   ) },
-  // 4 · El beneficio fundador (precio congelado)
+  // 4 · El beneficio (precio congelado por entrar temprano)
   { accent: '#34d399', render: () => (
     <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 40px' }}>
       <div style={{ width: 66, height: 66, borderRadius: 18, background: 'rgba(110,231,183,0.14)', border: '1px solid rgba(110,231,183,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
@@ -53,17 +52,17 @@ const slides: DeckSlide[] = [
       </div>
       <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12, fontWeight: 800, letterSpacing: '0.2em', color: '#6ee7b7', marginBottom: 10 }}>QUÉ GANÁS</div>
       <h2 style={{ fontSize: 29, fontWeight: 900, margin: 0, lineHeight: 1.13, maxWidth: 268 }}>Tu precio queda congelado</h2>
-      <p style={{ margin: '14px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.68)', lineHeight: 1.5, maxWidth: 258 }}>Entrás ahora y mantenés el precio de fundador para siempre, aunque después suba para todos.</p>
+      <p style={{ margin: '14px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.68)', lineHeight: 1.5, maxWidth: 258 }}>Entrás ahora y mantenés ese precio para siempre, aunque más adelante suba para todos.</p>
     </div>
   ) },
-  // 5 · Urgencia
+  // 5 · Urgencia (temporal, no de cupos)
   { accent: '#fb7185', render: () => (
     <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 36px' }}>
       <div style={{ width: 66, height: 66, borderRadius: 18, background: 'rgba(251,113,133,0.14)', border: '1px solid rgba(251,113,133,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
         <Hourglass size={32} color="#fda4af" />
       </div>
-      <h2 style={{ fontSize: 28, fontWeight: 900, margin: 0, lineHeight: 1.12 }}>Cuando se llena, se cierra</h2>
-      <p style={{ margin: '14px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.68)', lineHeight: 1.5, maxWidth: 255 }}>Al completar los 20 lugares, el precio de fundador desaparece. Los que entran, entran.</p>
+      <h2 style={{ fontSize: 28, fontWeight: 900, margin: 0, lineHeight: 1.12 }}>Después sube</h2>
+      <p style={{ margin: '14px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.68)', lineHeight: 1.5, maxWidth: 255 }}>A medida que sumamos funciones, el precio va a subir. Entrar temprano tiene premio.</p>
     </div>
   ) },
   // 6 · Cierre — CTA claro
