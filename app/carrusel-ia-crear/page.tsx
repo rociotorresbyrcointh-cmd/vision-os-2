@@ -1,129 +1,69 @@
 'use client'
 
 import { SlideDeck, type DeckSlide } from '@/components/marketing/SlideDeck'
-import { Sparkles, Wand2, ArrowRight, Camera, Heart, Download } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 const W = 320
 const H = 400
 
-// Marco de teléfono reutilizable: da sensación de "app real", muy visual.
-function Phone({ children, glow = '#7c3aed' }: { children: React.ReactNode; glow?: string }) {
-  return (
-    <div style={{ width: 150, height: 246, borderRadius: 26, border: '3px solid rgba(255,255,255,0.16)', background: 'linear-gradient(165deg, #14142e, #0a0a16)', padding: 11, boxShadow: `0 26px 60px ${glow}55`, position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 9, left: '50%', transform: 'translateX(-50%)', width: 42, height: 5, borderRadius: 999, background: 'rgba(255,255,255,0.18)' }} />
-      <div style={{ marginTop: 8, height: 'calc(100% - 8px)', display: 'flex', flexDirection: 'column' }}>{children}</div>
-    </div>
-  )
+// Esfera de degradé difusa: elemento premium que da profundidad sin parecer casero.
+function Glow({ color, size = 220, top, left, right, bottom }: { color: string; size?: number; top?: string | number; left?: string | number; right?: string | number; bottom?: string | number }) {
+  return <div style={{ position: 'absolute', top, left, right, bottom, width: size, height: size, borderRadius: '50%', background: color, filter: 'blur(60px)', opacity: 0.55, pointerEvents: 'none' }} />
 }
 
-function AppBar() {
+// Slide de paso: número enorme como fondo, título bold, una línea de copy. Editorial.
+function Step({ n, kicker, color, title, text }: { n: string; kicker: string; color: string; title: React.ReactNode; text: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 9 }}>
-      <Sparkles size={11} color="#c4b5fd" />
-      <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 8, fontWeight: 800, letterSpacing: '0.06em' }}>VISION <span style={{ color: '#60a5fa' }}>OS</span></span>
+    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 40px 40px' }}>
+      <Glow color={color} top={-40} right={-60} size={200} />
+      <span style={{ position: 'absolute', bottom: 30, right: 26, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 150, lineHeight: 1, color, opacity: 0.14 }}>{n}</span>
+      <div style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+          <span style={{ width: 26, height: 2, background: color }} />
+          <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.24em', color }}>{kicker}</span>
+        </div>
+        <h2 style={{ fontSize: 30, fontWeight: 900, margin: 0, lineHeight: 1.1, maxWidth: 255, letterSpacing: '-0.01em' }}>{title}</h2>
+        <p style={{ margin: '16px 0 0', fontSize: 15.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 240 }}>{text}</p>
+      </div>
     </div>
   )
 }
 
 const slides: DeckSlide[] = [
-  // 1 · PORTADA — marca + app + CTA fuerte
+  // 1 · PORTADA — premium, marca + CTA
   { accent: '#7c3aed', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 26px 42px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 22, letterSpacing: '0.05em', marginBottom: 12 }}>VISION<span style={{ color: '#c4b5fd' }}> OS</span></div>
-      <Phone glow="#7c3aed">
-        <AppBar />
-        <div style={{ flex: 1, borderRadius: 12, background: 'linear-gradient(150deg, #7c3aed, #2563FF)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, position: 'relative', overflow: 'hidden' }}>
-          <Sparkles size={26} color="white" />
-          <div style={{ fontSize: 9, fontWeight: 800, color: 'white', opacity: 0.95 }}>Imagen lista</div>
-          <div style={{ position: 'absolute', bottom: 8, width: '78%', height: 15, borderRadius: 6, background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7.5, fontWeight: 800, color: '#7c3aed' }}>Descargar</div>
-        </div>
-      </Phone>
-      <h2 style={{ fontSize: 20, fontWeight: 900, margin: '14px 0 0', lineHeight: 1.15, maxWidth: 275 }}>Creá contenido para tus redes <span style={{ color: '#c4b5fd' }}>con IA</span></h2>
-      <div style={{ marginTop: 12, display: 'inline-flex', alignItems: 'center', gap: 7, background: '#7c3aed', borderRadius: 999, padding: '8px 16px', fontSize: 12.5, fontWeight: 800 }}>Probala gratis · deslizá <ArrowRight size={14} /></div>
+    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 40px 40px' }}>
+      <Glow color="#7c3aed" top={-30} left={-50} size={230} />
+      <Glow color="#2563FF" bottom={-40} right={-40} size={200} />
+      <div style={{ position: 'relative' }}>
+        <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 15, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.9)', marginBottom: 26 }}>VISION <span style={{ color: '#c4b5fd' }}>OS</span></div>
+        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.24em', color: '#c4b5fd', marginBottom: 14 }}>INTELIGENCIA ARTIFICIAL</div>
+        <h2 style={{ fontSize: 38, fontWeight: 900, margin: 0, lineHeight: 1.03, letterSpacing: '-0.02em' }}>Creá el<br />contenido de<br />tus redes<br /><span style={{ background: 'linear-gradient(90deg,#c4b5fd,#60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>en minutos</span></h2>
+        <div style={{ marginTop: 26, display: 'inline-flex', alignItems: 'center', gap: 9, background: 'white', color: '#0a0a16', borderRadius: 999, padding: '11px 20px', fontSize: 14, fontWeight: 800 }}>Mirá cómo <ArrowRight size={16} /></div>
+      </div>
     </div>
   ) },
 
-  // 2 · PASO 1 — escribí qué querés
-  { accent: '#60a5fa', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 26px 42px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', color: '#60a5fa', marginBottom: 4 }}>PASO 1</div>
-      <h2 style={{ fontSize: 19, fontWeight: 900, margin: '0 0 14px', textAlign: 'center' }}>Escribí qué querés mostrar</h2>
-      <Phone glow="#2563FF">
-        <AppBar />
-        <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.5)', marginBottom: 5 }}>Contame tu idea</div>
-        <div style={{ borderRadius: 9, border: '1px solid rgba(96,165,250,0.5)', background: 'rgba(96,165,250,0.08)', padding: 8, fontSize: 8.5, lineHeight: 1.4, color: 'rgba(255,255,255,0.9)', minHeight: 54 }}>Promo de uñas esculpidas, 2x1 este viernes<span style={{ color: '#60a5fa' }}>|</span></div>
-        <div style={{ marginTop: 'auto', height: 24, borderRadius: 8, background: '#2563FF', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, fontSize: 9, fontWeight: 800 }}><Wand2 size={11} /> Generar</div>
-      </Phone>
-    </div>
-  ) },
-
-  // 3 · PASO 2 — la IA genera
-  { accent: '#a78bfa', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 26px 42px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', color: '#c4b5fd', marginBottom: 4 }}>PASO 2</div>
-      <h2 style={{ fontSize: 19, fontWeight: 900, margin: '0 0 14px', textAlign: 'center' }}>La IA la crea por vos</h2>
-      <Phone glow="#7c3aed">
-        <AppBar />
-        <div style={{ flex: 1, borderRadius: 12, background: 'rgba(196,181,253,0.08)', border: '1px solid rgba(196,181,253,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 9 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 999, border: '3px solid rgba(196,181,253,0.25)', borderTopColor: '#c4b5fd' }} />
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#c4b5fd' }}>Generando imagen…</div>
-          <div style={{ width: '70%', display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {[0.9, 0.6, 0.75].map((w, k) => <div key={k} style={{ height: 5, width: `${w * 100}%`, borderRadius: 3, background: 'rgba(196,181,253,0.35)' }} />)}
-          </div>
-        </div>
-      </Phone>
-    </div>
-  ) },
-
-  // 4 · PASO 3 — imagen lista con tu marca
-  { accent: '#22d3ee', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 26px 42px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', color: '#67e8f9', marginBottom: 4 }}>PASO 3</div>
-      <h2 style={{ fontSize: 19, fontWeight: 900, margin: '0 0 14px', textAlign: 'center' }}>Lista, con tu estilo</h2>
-      <Phone glow="#22d3ee">
-        <AppBar />
-        <div style={{ flex: 1, borderRadius: 12, background: 'linear-gradient(150deg, #22d3ee, #2563FF)', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', padding: 8 }}>
-          <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: 999, background: 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Sparkles size={11} color="white" /></div>
-          <div style={{ fontSize: 10, fontWeight: 900, color: 'white', lineHeight: 1.1 }}>UÑAS 2x1<br /><span style={{ fontSize: 7, fontWeight: 700, opacity: 0.9 }}>Este viernes</span></div>
-        </div>
-        <div style={{ marginTop: 7, display: 'flex', gap: 5 }}>
-          <div style={{ flex: 1, height: 20, borderRadius: 7, background: '#22d3ee', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, fontSize: 8, fontWeight: 800, color: '#06060d' }}><Download size={10} /> Bajar</div>
-        </div>
-      </Phone>
-    </div>
-  ) },
-
-  // 5 · PASO 4 — publicá en tus redes
-  { accent: '#f472b6', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 26px 42px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', color: '#f9a8d4', marginBottom: 4 }}>PASO 4</div>
-      <h2 style={{ fontSize: 19, fontWeight: 900, margin: '0 0 14px', textAlign: 'center' }}>Publicá y listo</h2>
-      <Phone glow="#f472b6">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 7 }}>
-          <Camera size={12} color="#f9a8d4" />
-          <div style={{ width: 16, height: 16, borderRadius: 999, background: 'linear-gradient(135deg, #f472b6, #7c3aed)' }} />
-          <span style={{ fontSize: 8, fontWeight: 700 }}>tu.negocio</span>
-        </div>
-        <div style={{ flex: 1, borderRadius: 10, background: 'linear-gradient(150deg, #22d3ee, #2563FF)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 900, color: 'white' }}>UÑAS 2x1</div>
-        <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Heart size={12} color="#f9a8d4" fill="#f9a8d4" />
-          <div style={{ fontSize: 7.5, color: 'rgba(255,255,255,0.6)' }}>A 128 personas les gusta</div>
-        </div>
-      </Phone>
-    </div>
-  ) },
+  { accent: '#c4b5fd', render: () => <Step n="1" kicker="ELEGÍS" color="#c4b5fd" title={<>Decís qué querés <span style={{ color: '#c4b5fd' }}>mostrar</span></>} text="Una promo, un servicio, una novedad. Lo escribís en una línea, como se lo dirías a alguien." /> },
+  { accent: '#60a5fa', render: () => <Step n="2" kicker="LA IA TRABAJA" color="#60a5fa" title={<>Crea la imagen <span style={{ color: '#60a5fa' }}>por vos</span></>} text="En segundos genera una imagen pensada para tu rubro, sin que sepas nada de diseño." /> },
+  { accent: '#22d3ee', render: () => <Step n="3" kicker="Y EL TEXTO" color="#67e8f9" title={<>Con el copy <span style={{ color: '#67e8f9' }}>listo</span></>} text="También te escribe la descripción del posteo, con gancho y lista para copiar y pegar." /> },
+  { accent: '#34d399', render: () => <Step n="4" kicker="PUBLICÁS" color="#6ee7b7" title={<>Descargás y <span style={{ color: '#6ee7b7' }}>listo</span></>} text="Bajás imagen y texto, los subís a tus redes y seguís con lo tuyo. Sin vueltas." /> },
 
   // 6 · CIERRE — CTA fuerte
   { accent: '#7c3aed', render: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 30px 42px' }}>
-      <div style={{ display: 'inline-block', fontFamily: "'Orbitron', sans-serif", fontSize: 10, fontWeight: 800, letterSpacing: '0.16em', color: '#c4b5fd', border: '1px solid rgba(196,181,253,0.4)', borderRadius: 999, padding: '6px 14px', marginBottom: 18 }}>14 DÍAS GRATIS</div>
-      <h2 style={{ fontSize: 27, fontWeight: 900, margin: 0, lineHeight: 1.12 }}>Dejá de pelear con el <span style={{ color: '#c4b5fd' }}>contenido</span></h2>
-      <p style={{ margin: '14px 0 20px', fontSize: 14.5, color: 'rgba(255,255,255,0.64)', lineHeight: 1.45, maxWidth: 260 }}>Creá tus posteos en minutos, desde la misma app donde manejás tus turnos.</p>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#7c3aed', borderRadius: 12, padding: '13px 22px', fontSize: 16, fontWeight: 800 }}>visionturnos.online <ArrowRight size={17} /></div>
+    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', alignItems: 'center', padding: '0 36px 40px' }}>
+      <Glow color="#7c3aed" top={-20} left={-40} size={220} />
+      <Glow color="#2563FF" bottom={-50} right={-30} size={200} />
+      <div style={{ position: 'relative' }}>
+        <div style={{ display: 'inline-block', fontFamily: "'Orbitron', sans-serif", fontSize: 10.5, fontWeight: 800, letterSpacing: '0.2em', color: '#c4b5fd', border: '1px solid rgba(196,181,253,0.4)', borderRadius: 999, padding: '6px 14px', marginBottom: 20 }}>14 DÍAS GRATIS</div>
+        <h2 style={{ fontSize: 30, fontWeight: 900, margin: 0, lineHeight: 1.08, letterSpacing: '-0.01em' }}>Tus redes activas,<br />sin perder <span style={{ color: '#c4b5fd' }}>horas</span></h2>
+        <p style={{ margin: '16px 0 24px', fontSize: 15, color: 'rgba(255,255,255,0.62)', lineHeight: 1.45, maxWidth: 250 }}>Creá contenido desde la misma app donde manejás tus turnos.</p>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'white', color: '#0a0a16', borderRadius: 12, padding: '13px 24px', fontSize: 16, fontWeight: 900 }}>visionturnos.online <ArrowRight size={17} /></div>
+      </div>
     </div>
   ) },
 ]
 
 export default function CarruselIaCrearPage() {
-  return <SlideDeck title="Carrusel · Crear imágenes con IA" subtitle="Paso a paso, bien visual. Descargá cada slide (1080×1350) y subilos en orden." slides={slides} width={W} height={H} filePrefix="vision-ia-crear" />
+  return <SlideDeck title="Carrusel · Contenido con IA" subtitle="Diseño premium, paso a paso. Descargá cada slide (1080×1350) y subilos en orden." slides={slides} width={W} height={H} filePrefix="vision-ia-crear" />
 }
