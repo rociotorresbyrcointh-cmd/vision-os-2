@@ -53,6 +53,21 @@ export async function sendWelcomeEmail(to: string, businessName: string): Promis
   )
 }
 
+// Día 3 de la prueba: check-in para activar al usuario que todavía la usó poco.
+export async function sendActivationEmail(to: string, businessName: string): Promise<void> {
+  await send(
+    to,
+    `¿Cómo venís con ${PRODUCT}? 😊`,
+    layout(
+      `¡Hola${businessName ? `, ${businessName}` : ''}! 👋`,
+      `Vi que empezaste a probar <b>${PRODUCT}</b> hace unos días. ¿Pudiste cargar tu agenda de la semana?<br/><br/>
+       El "click" suele pasar cuando cargás <b>un día real de turnos</b>: ahí ves lo fácil que se vuelve todo. Si querés, te ayudo a dejarla lista en 5 minutos.<br/><br/>
+       📖 Te dejo la <a href="${APP_URL}/guia" style="color:#2563FF;font-weight:bold;">guía de uso</a> para arrancar sin dudas. Y si necesitás una mano, respondé este mail y te ayudo. 💙`,
+      'Cargar mi agenda', `${APP_URL}/inicio`,
+    ),
+  )
+}
+
 export async function sendSubscriptionActiveEmail(to: string, planName: string): Promise<void> {
   await send(
     to,
