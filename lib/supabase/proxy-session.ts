@@ -33,11 +33,12 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
-  const isAuthRoute = path.startsWith('/login') || path.startsWith('/register')
+  const isAuthRoute = path.startsWith('/login') || path.startsWith('/register') || path.startsWith('/recuperar')
   // Rutas públicas (sin sesión): reservas, manifiesto PWA y páginas legales.
   const isPublicRoute = path === '/' || path === '/guia' || path.startsWith('/carrusel') || path === '/historias' || path.startsWith('/promo') || path.startsWith('/reservar') || path === '/manifest.webmanifest' ||
     path === '/privacidad' || path === '/terminos' ||
-    path === '/api/stripe/webhook' || path === '/api/mp/webhook' || path.startsWith('/api/cron')
+    path === '/api/stripe/webhook' || path === '/api/mp/webhook' || path.startsWith('/api/cron') ||
+    path.startsWith('/auth/callback')
 
   // Sin sesión y fuera de las rutas públicas → mandar a login.
   if (!user && !isAuthRoute && !isPublicRoute) {

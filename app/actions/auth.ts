@@ -66,6 +66,56 @@ export async function login(
   redirect('/inicio')
 }
 
+// ─── Recuperar contraseña ────────────────────────────────────────
+// Envía un email con un link para restablecer la contraseña.
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://visionturnos.online'
+
+export async function requestPasswordReset(
+  _prev: { error?: string; sent?: boolean } | undefined,
+  formData: FormData
+): Promise<{ error?: string; sent?: boolean }> {
+  const email = String(formData.get('email') ?? '').trim()
+  if (!email) return { error: 'Ingresá tu email.' }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${APP_URL}/auth/callback?next=/actualizar-contrasena`,
+  })
+
+  // No revelamos si el email existe o no (seguridad): siempre "enviado".
+  if (error && !/rate limit|too many/i.test(error.message)) {
+    return { error: 'No pudimos enviar el email. Probá de nuevo.' }
+  }
+  return { sent: true }
+}
+
+// Guarda la nueva contraseña (el usuario ya tiene sesión de recuperación).
+export async function updatePassword(
+  _prev: { error?: string } | undefined,
+  formData: FormData
+): Promise<{ error?: string }> {
+  const password = String(formData.get('password') ?? '')
+  const confirm = String(formData.get('confirm') ?? '')
+
+  if (password.length < 6) {
+    return { error: 'La contraseña debe tener al menos 6 caracteres.' }
+  }
+  if (password !== confirm) {
+    return { error: 'Las contraseñas no coinciden.' }
+  }
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'El link venció. Pedí uno nuevo desde “Recuperar contraseña”.' }
+  }
+
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) return { error: error.message }
+
+  redirect('/inicio')
+}
+
 // ─── Logout ──────────────────────────────────────────────────────
 export async function logout() {
   const supabase = await createClient()

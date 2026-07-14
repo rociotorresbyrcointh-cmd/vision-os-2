@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import Link from 'next/link'
-import { login } from '@/app/actions/auth'
+import { updatePassword } from '@/app/actions/auth'
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { AuthBackground } from '@/components/auth/AuthBackground'
 
@@ -22,8 +22,8 @@ const focus = (e: React.FocusEvent<HTMLInputElement>) =>
 const blur = (e: React.FocusEvent<HTMLInputElement>) =>
   (e.target.style.borderColor = 'rgba(255,255,255,0.1)')
 
-export default function LoginPage() {
-  const [state, formAction, pending] = useActionState(login, undefined)
+export default function ActualizarContrasenaPage() {
+  const [state, formAction, pending] = useActionState(updatePassword, undefined)
 
   return (
     <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
@@ -35,23 +35,18 @@ export default function LoginPage() {
         </div>
 
         <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(37,99,255,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(37,99,255,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
-          <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Ingresá a tu agenda</h2>
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Bienvenido de nuevo a Vision OS</p>
+          <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Nueva contraseña</h2>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Elegí una contraseña nueva para tu cuenta.</p>
 
           <form action={formAction}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <label style={labelStyle}>Email</label>
-                <input name="email" type="email" required placeholder="tu@negocio.com" style={fieldStyle} onFocus={focus} onBlur={blur} />
+                <label style={labelStyle}>Contraseña nueva</label>
+                <input name="password" type="password" required placeholder="Mínimo 6 caracteres" style={fieldStyle} onFocus={focus} onBlur={blur} />
               </div>
-
               <div>
-                <label style={labelStyle}>Contraseña</label>
-                <input name="password" type="password" required placeholder="Tu contraseña" style={fieldStyle} onFocus={focus} onBlur={blur} />
-              </div>
-
-              <div style={{ textAlign: 'right', marginTop: -6 }}>
-                <Link href="/recuperar" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11.5, textDecoration: 'none' }}>¿Olvidaste tu contraseña?</Link>
+                <label style={labelStyle}>Repetir contraseña</label>
+                <input name="confirm" type="password" required placeholder="Escribila de nuevo" style={fieldStyle} onFocus={focus} onBlur={blur} />
               </div>
 
               {state?.error && (
@@ -66,15 +61,14 @@ export default function LoginPage() {
                 style={{ background: pending ? 'rgba(37,99,255,0.4)' : 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(37,99,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
               >
                 {pending ? (
-                  <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Ingresando…</>
-                ) : 'Ingresar →'}
+                  <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Guardando…</>
+                ) : 'Guardar contraseña →'}
               </button>
             </div>
           </form>
 
           <p style={{ textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-            ¿No tenés cuenta?{' '}
-            <Link href="/register" style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'none' }}>Crear cuenta</Link>
+            <Link href="/login" style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'none' }}>Volver a ingresar</Link>
           </p>
         </div>
 
