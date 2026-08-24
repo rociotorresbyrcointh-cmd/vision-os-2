@@ -8,7 +8,7 @@ export type PublicProfessional = {
 export type PublicDeposit = { amount: number; currency: string; link: string | null; note: string | null }
 export type PublicInfo =
   | { enabled: false }
-  | { enabled: true; name: string; logo?: string | null; deposit?: PublicDeposit | null; services: PublicService[]; professionals: PublicProfessional[] }
+  | { enabled: true; name: string; logo?: string | null; powered_by?: boolean; theme?: 'light' | 'dark'; deposit?: PublicDeposit | null; services: PublicService[]; professionals: PublicProfessional[] }
 
 export type BusyInterval = { start_time: string; end_time: string }
 export type PublicBlock = {

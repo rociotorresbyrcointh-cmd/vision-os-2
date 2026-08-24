@@ -10,6 +10,7 @@ import { listPatients } from '@/services/patients'
 import { ClientSearch } from './ClientSearch'
 import { fetchBlocks, expandBlocksForDay, deleteBlock, type BlockInstance } from '@/services/blocked-times'
 import { listPaymentsForAppointments } from '@/services/payments'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import { BlockModal } from './BlockModal'
 import { CalendarDayView } from './CalendarDayView'
 import { CalendarListView } from './CalendarListView'
@@ -60,6 +61,7 @@ export function CalendarContainer({
   professionals: Professional[]
   services: Service[]
 }) {
+  const confirm = useConfirm()
   const [view, setView] = useState<View>('day')
   const [date, setDate] = useState(() => new Date())
   const [appointments, setAppointments] = useState<Appointment[]>([])
@@ -118,10 +120,8 @@ export function CalendarContainer({
   const dayBlocks = useMemo(() => expandBlocksForDay(blocks, date), [blocks, date])
 
   const handleBlockClick = async (b: BlockInstance) => {
-    const msg = b.recurring
-      ? `Eliminar el bloqueo recurrente "${b.title}"? Se quita de todos los días.`
-      : `Eliminar el bloqueo "${b.title}"?`
-    if (!confirm(msg)) return
+    const description = b.recurring ? 'Es un bloqueo recurrente: se quita de todos los días.' : undefined
+    if (!(await confirm({ title: `¿Eliminar el bloqueo "${b.title}"?`, description, actionLabel: 'Eliminar', destructive: true }))) return
     await deleteBlock(b.sourceId)
     setBlocks((list) => list.filter((x) => x.id !== b.sourceId))
   }
@@ -152,6 +152,8 @@ export function CalendarContainer({
     setAppointments((list) => list.map((a) => (a.id === appt.id ? { ...a, status } : a)))
     try {
       await updateAppointment(appt.id, { status })
+      // Al completar un turno, ofrecemos registrar el cobro en el acto.
+      if (status === 'completed') setModal({ edit: { ...appt, status }, promptPay: true })
     } catch {
       setAppointments((list) => list.map((a) => (a.id === appt.id ? appt : a))) // revertir si falla
     }

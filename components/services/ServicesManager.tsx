@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Pencil, Trash2, X, Clock, DollarSign, Tag } from 'lucide-react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { Service } from '@/types/database'
 import {
@@ -24,6 +25,7 @@ export function ServicesManager({
   organizationId: string
   initial: Service[]
 }) {
+  const confirm = useConfirm()
   const [list, setList] = useState<Service[]>(initial)
   const [open, setOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -60,7 +62,7 @@ export function ServicesManager({
   }
 
   const remove = async (s: Service) => {
-    if (!confirm(`¿Eliminar el servicio "${s.name}"?`)) return
+    if (!(await confirm({ title: `¿Eliminar el servicio "${s.name}"?`, description: 'Los turnos ya agendados con este servicio no se modifican.', actionLabel: 'Eliminar', destructive: true }))) return
     await deleteService(s.id)
     setList((l) => l.filter((x) => x.id !== s.id))
   }

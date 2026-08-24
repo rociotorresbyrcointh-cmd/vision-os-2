@@ -6,6 +6,8 @@ import { Plus, Pencil, Trash2, X, User, Box, Lock } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { PROFESSIONAL_COLORS, type Professional } from '@/types/database'
 import { maxProfessionalsFor, planById } from '@/lib/plans'
+import { useVocab } from '@/components/vocab/VocabProvider'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import {
   createProfessional,
   updateProfessional,
@@ -33,6 +35,8 @@ export function ProfessionalsManager({
   initial: Professional[]
   plan?: string
 }) {
+  const term = useVocab()
+  const confirm = useConfirm()
   const [list, setList] = useState<Professional[]>(initial)
   const [open, setOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -96,7 +100,7 @@ export function ProfessionalsManager({
   }
 
   const remove = async (p: Professional) => {
-    if (!confirm(`¿Eliminar a ${p.name}?`)) return
+    if (!(await confirm({ title: `¿Eliminar a ${p.name}?`, actionLabel: 'Eliminar', destructive: true }))) return
     await deleteProfessional(p.id)
     setList((l) => l.filter((x) => x.id !== p.id))
   }
@@ -230,7 +234,7 @@ export function ProfessionalsManager({
                 </Field>
               </div>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '-4px 0 0', lineHeight: 1.5 }}>
-                Cuántos pacientes puede atender <b>al mismo tiempo</b> en una misma franja horaria.
+                Cuántos {term.many} puede atender <b>al mismo tiempo</b> en una misma franja horaria.
                 Poné <b>1</b> si atiende de a uno (lo más común). Poné más si atiende a varios a la vez
                 (ej: un kinesiólogo con 3 camillas, o una clase grupal).
               </p>

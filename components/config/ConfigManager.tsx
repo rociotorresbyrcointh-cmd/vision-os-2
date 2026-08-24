@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X, Wallet } from 'lucide-react'
-import { setOrgFlag, saveOrgData, saveDepositSettings, type OrgData, type DepositSettings } from '@/services/org-settings'
+import { useToast } from '@/components/ui/Toast'
+import { setOrgFlag, saveOrgData, saveDepositSettings, setPublicTheme, type OrgData, type DepositSettings } from '@/services/org-settings'
 import { uploadLogo, setLogoUrl } from '@/services/storage'
 
 export function ConfigManager({
@@ -14,6 +15,7 @@ export function ConfigManager({
   orgData,
   depositEnabled,
   depositData,
+  publicTheme = 'light',
 }: {
   organizationId: string
   clinicalEnabled: boolean
@@ -22,7 +24,9 @@ export function ConfigManager({
   orgData: OrgData
   depositEnabled: boolean
   depositData: DepositSettings
+  publicTheme?: 'light' | 'dark'
 }) {
+  const toast = useToast()
   const [logo, setLogo] = useState<string | null>(logoUrl)
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const onLogoFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +37,7 @@ export function ConfigManager({
       const url = await uploadLogo(organizationId, file)
       await setLogoUrl(organizationId, url)
       setLogo(url)
-    } catch (err: any) { alert('No se pudo subir el logo: ' + (err.message ?? err)) }
+    } catch (err: any) { toast('No se pudo subir el logo: ' + (err.message ?? err), 'error') }
     finally { setUploadingLogo(false) }
   }
   const removeLogo = async () => {
@@ -74,6 +78,15 @@ export function ConfigManager({
       })
       setSavedData(true); setTimeout(() => setSavedData(false), 2500)
     } finally { setSavingData(false) }
+  }
+
+  // Tema de la página pública de reservas
+  const [theme, setTheme] = useState<'light' | 'dark'>(publicTheme)
+  const changeTheme = async (next: 'light' | 'dark') => {
+    const prev = theme
+    setTheme(next)
+    try { await setPublicTheme(organizationId, next) }
+    catch { setTheme(prev); toast('No se pudo guardar el tema.', 'error') }
   }
 
   const toggleClinical = async () => {
@@ -154,6 +167,34 @@ export function ConfigManager({
           <button onClick={persistData} disabled={savingData || !data.name.trim()} style={{ ...btnPrimary, alignSelf: 'flex-start', opacity: savingData || !data.name.trim() ? 0.5 : 1 }}>
             {savedData ? <><Check size={15} /> Guardado</> : savingData ? 'Guardando…' : 'Guardar datos'}
           </button>
+        </div>
+      </div>
+
+      {/* Apariencia de la página pública de reservas */}
+      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '20px 22px', marginBottom: 18 }}>
+        <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Sparkles size={18} color="#60a5fa" /> Página de reservas
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '0 0 14px' }}>
+          Tema con el que tus clientes ven la página pública para reservar.
+        </p>
+        <div style={{ display: 'flex', gap: 10 }}>
+          {(['light', 'dark'] as const).map((t) => {
+            const on = theme === t
+            return (
+              <button key={t} onClick={() => changeTheme(t)}
+                style={{
+                  flex: 1, padding: '12px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
+                  fontSize: 13.5, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  background: on ? 'rgba(37,99,255,0.15)' : 'rgba(255,255,255,0.04)',
+                  border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                  color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)',
+                }}>
+                <span style={{ width: 16, height: 16, borderRadius: 5, border: '1px solid rgba(255,255,255,0.25)', background: t === 'light' ? '#f4f5fa' : '#0d0d18' }} />
+                {t === 'light' ? 'Claro' : 'Oscuro'}{on && <Check size={14} />}
+              </button>
+            )
+          })}
         </div>
       </div>
 

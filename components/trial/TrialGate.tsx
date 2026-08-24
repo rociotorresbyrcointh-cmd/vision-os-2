@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { Check, Star, Gift, LogOut } from 'lucide-react'
+import { useToast } from '@/components/ui/Toast'
 import { PLANS, type PlanId } from '@/lib/plans'
 import { logout } from '@/app/actions/auth'
 
 // Pantalla bloqueante cuando se terminó la prueba de 14 días.
 export function TrialGate({ isOwner }: { isOwner: boolean }) {
+  const toast = useToast()
   const [busy, setBusy] = useState<string | null>(null)
   const [choosing, setChoosing] = useState<PlanId | null>(null)
 
@@ -20,7 +22,7 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
       if (!res.ok || !data.url) throw new Error(data.error || text || 'Error')
       window.location.href = data.url
     } catch (e) {
-      alert('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'))
+      toast('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'), 'error')
       setBusy(null)
     }
   }

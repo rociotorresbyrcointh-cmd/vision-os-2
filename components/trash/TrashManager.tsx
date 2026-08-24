@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Trash2, RotateCcw, UserRound, Tag, Users, Calendar } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 import type { Patient, Service, Professional, Appointment } from '@/types/database'
 import { listDeletedPatients, restorePatient, hardDeletePatient, fullName } from '@/services/patients'
 import { listDeletedServices, restoreService, hardDeleteService } from '@/services/services'
@@ -12,6 +14,7 @@ import { listDeletedAppointments, restoreAppointment, hardDeleteAppointment } fr
 type Row = { id: string; title: string; sub: string }
 
 export function TrashManager() {
+  const toast = useToast()
   const [patients, setPatients] = useState<Patient[]>([])
   const [services, setServices] = useState<Service[]>([])
   const [pros, setPros] = useState<Professional[]>([])
@@ -66,7 +69,7 @@ export function TrashManager() {
           <Section
             icon={<Calendar size={16} color="#a78bfa" />} title="Turnos" count={appts.length}
             rows={appts.map(apptRow)}
-            onRestore={async (id) => { try { await restoreAppointment(id); reload() } catch (e: any) { alert(e.message ?? 'No se pudo recuperar (quizás el horario ya está ocupado).') } }}
+            onRestore={async (id) => { try { await restoreAppointment(id); reload() } catch (e: any) { toast(e.message ?? 'No se pudo recuperar (quizás el horario ya está ocupado).', 'error') } }}
             onDelete={async (id) => { await hardDeleteAppointment(id); reload() }}
           />
           <Section
@@ -91,8 +94,9 @@ function Section({ icon, title, count, rows, onRestore, onDelete }: {
   icon: React.ReactNode; title: string; count: number; rows: Row[]
   onRestore: (id: string) => void; onDelete: (id: string) => void
 }) {
+  const confirm = useConfirm()
   if (count === 0) return null
-  const del = (r: Row) => { if (confirm(`¿Eliminar "${r.title}" DEFINITIVAMENTE? No se puede deshacer.`)) onDelete(r.id) }
+  const del = async (r: Row) => { if (await confirm({ title: `¿Eliminar "${r.title}" definitivamente?`, description: 'Esta acción no se puede deshacer.', actionLabel: 'Eliminar definitivamente', destructive: true })) onDelete(r.id) }
   return (
     <div>
       <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>

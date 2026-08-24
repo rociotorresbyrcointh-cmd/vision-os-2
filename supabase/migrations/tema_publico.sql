@@ -1,0 +1,31 @@
+-- ════════════════════════════════════════════════════════════════
+--  TEMA DE LA PÁGINA PÚBLICA DE RESERVAS  (correr en el SQL Editor)
+--  Permite al negocio elegir tema claro (por defecto) u oscuro para
+--  la página que ven sus clientes en /reservar/[org].
+-- ════════════════════════════════════════════════════════════════
+
+ALTER TABLE organizations
+  ADD COLUMN IF NOT EXISTS public_theme TEXT NOT NULL DEFAULT 'light'
+  CHECK (public_theme IN ('light', 'dark'));
+
+DROP FUNCTION IF EXISTS public_booking_info(uuid);
+CREATE OR REPLACE FUNCTION public_booking_info(p_org uuid)
+RETURNS jsonb LANGUAGE sql SECURITY DEFINER STABLE AS $$
+  SELECT CASE WHEN o.public_booking_enabled THEN jsonb_build_object(
+    'name', o.name,
+    'logo', o.logo_url,
+    'enabled', true,
+    'theme', COALESCE(o.public_theme, 'light'),
+    -- En planes superiores se oculta el pie "Reservas con Vision OS".
+    'powered_by', (o.plan IS DISTINCT FROM 'equipo' AND o.plan IS DISTINCT FROM 'clinica'),
+    'deposit', CASE WHEN o.deposit_enabled AND o.deposit_amount IS NOT NULL THEN jsonb_build_object(
+      'amount', o.deposit_amount,
+      'currency', COALESCE(o.deposit_currency, 'ARS'),
+      'link', o.deposit_link,
+      'note', o.deposit_note
+    ) ELSE NULL END,
+    'services', COALESCE((SELECT jsonb_agg(jsonb_build_object('id', s.id, 'name', s.name, 'duration_minutes', s.duration_minutes, 'price', s.price) ORDER BY s.created_at) FROM services s WHERE s.organization_id = p_org AND s.is_active), '[]'::jsonb),
+    'professionals', COALESCE((SELECT jsonb_agg(jsonb_build_object('id', pr.id, 'name', pr.name, 'color', pr.color, 'days_of_week', pr.days_of_week, 'hours_start', pr.hours_start, 'hours_end', pr.hours_end) ORDER BY pr.created_at) FROM professionals pr WHERE pr.organization_id = p_org AND pr.is_active), '[]'::jsonb)
+  ) ELSE jsonb_build_object('enabled', false) END
+  FROM organizations o WHERE o.id = p_org;
+$$;

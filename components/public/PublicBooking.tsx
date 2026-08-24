@@ -15,6 +15,43 @@ const moneyCur = (n: number, cur: string) => {
   catch { return `${cur} ${n.toLocaleString('es-AR')}` }
 }
 
+// ── Tema de la página pública (lo elige el negocio en Configuración) ──
+// Se aplica con variables CSS en el contenedor de Shell; el modo oscuro
+// reproduce exactamente los colores originales.
+export type PublicTheme = 'light' | 'dark'
+const THEME_VARS: Record<PublicTheme, React.CSSProperties> = {
+  dark: {
+    ['--pb-page' as string]: '#07070F',
+    ['--pb-card' as string]: '#0d0d18',
+    ['--pb-card-border' as string]: 'rgba(37,99,255,0.2)',
+    ['--pb-text' as string]: '#ffffff',
+    ['--pb-text-mut' as string]: 'rgba(255,255,255,0.6)',
+    ['--pb-text-faint' as string]: 'rgba(255,255,255,0.42)',
+    ['--pb-text-dim' as string]: 'rgba(255,255,255,0.25)',
+    ['--pb-input-bg' as string]: 'rgba(0,0,0,0.35)',
+    ['--pb-input-border' as string]: 'rgba(255,255,255,0.1)',
+    ['--pb-soft-bg' as string]: 'rgba(255,255,255,0.04)',
+    ['--pb-soft-border' as string]: 'rgba(255,255,255,0.1)',
+    ['--pb-opt-bg' as string]: '#0d0d1a',
+    ['--pb-shadow' as string]: '0 24px 60px rgba(0,0,0,0.5)',
+  },
+  light: {
+    ['--pb-page' as string]: '#f4f5fa',
+    ['--pb-card' as string]: '#ffffff',
+    ['--pb-card-border' as string]: 'rgba(37,99,255,0.25)',
+    ['--pb-text' as string]: '#15162a',
+    ['--pb-text-mut' as string]: 'rgba(20,22,42,0.62)',
+    ['--pb-text-faint' as string]: 'rgba(20,22,42,0.45)',
+    ['--pb-text-dim' as string]: 'rgba(20,22,42,0.3)',
+    ['--pb-input-bg' as string]: '#ffffff',
+    ['--pb-input-border' as string]: 'rgba(20,22,42,0.18)',
+    ['--pb-soft-bg' as string]: 'rgba(20,22,42,0.035)',
+    ['--pb-soft-border' as string]: 'rgba(20,22,42,0.1)',
+    ['--pb-opt-bg' as string]: '#ffffff',
+    ['--pb-shadow' as string]: '0 24px 60px rgba(20,22,42,0.14)',
+  },
+}
+
 function parseDateKey(key: string): Date {
   const [y, m, d] = key.split('-').map(Number)
   return new Date(y, m - 1, d)
@@ -126,25 +163,28 @@ export function PublicBooking({ orgId }: { orgId: string }) {
     }
   }
 
+  // Tema elegido por el negocio (por defecto claro, mejor para estética/belleza).
+  const theme: PublicTheme = info && info.enabled && info.theme ? info.theme : 'light'
+
   // ── Estados de carga / error ──
-  if (loadError) return <Shell><Msg title="No pudimos cargar la página" text="Verificá el enlace e intentá de nuevo." /></Shell>
-  if (!info) return <Shell><Msg title="Cargando…" text="" /></Shell>
-  if (!ready) return <Shell><Msg title="Reservas no disponibles" text="Este negocio no tiene las reservas online activas en este momento." /></Shell>
+  if (loadError) return <Shell theme={theme}><Msg title="No pudimos cargar la página" text="Verificá el enlace e intentá de nuevo." /></Shell>
+  if (!info) return <Shell theme={theme}><Msg title="Cargando…" text="" /></Shell>
+  if (!ready) return <Shell theme={theme}><Msg title="Reservas no disponibles" text="Este negocio no tiene las reservas online activas en este momento." /></Shell>
 
   if (done) {
     return (
-      <Shell businessName={info.name} logo={info.logo}>
+      <Shell businessName={info.name} logo={info.logo} poweredBy={info.powered_by !== false} theme={theme}>
         <div style={{ textAlign: 'center', padding: '10px 0' }}>
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
             <Check size={32} color="#34d399" />
           </div>
-          <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '0 0 8px' }}>
+          <h2 style={{ color: 'var(--pb-text)', fontSize: 22, fontWeight: 800, margin: '0 0 8px' }}>
             {deposit ? '¡Turno reservado!' : '¡Reserva confirmada!'}
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, margin: '0 0 20px' }}>
+          <p style={{ color: 'var(--pb-text-mut)', fontSize: 14, margin: '0 0 20px' }}>
             {deposit ? 'Para confirmarlo, aboná la seña. Guardá estos datos:' : 'Te esperamos. Guardá estos datos:'}
           </p>
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 18, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ background: 'var(--pb-soft-bg)', border: '1px solid var(--pb-soft-border)', borderRadius: 12, padding: 18, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <Row icon={<Calendar size={16} />} text={done.date} />
             <Row icon={<Clock size={16} />} text={`${done.time} hs`} />
             <Row icon={<User size={16} />} text={`${done.service} · ${done.prof}`} />
@@ -152,10 +192,10 @@ export function PublicBooking({ orgId }: { orgId: string }) {
 
           {deposit && (
             <div style={{ marginTop: 16, background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 12, padding: 18, textAlign: 'left' }}>
-              <p style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>
+              <p style={{ color: 'var(--pb-text)', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>
                 Seña: {moneyCur(deposit.amount, deposit.currency)}
               </p>
-              {deposit.note && <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '0 0 12px', lineHeight: 1.5 }}>{deposit.note}</p>}
+              {deposit.note && <p style={{ color: 'var(--pb-text-mut)', fontSize: 13, margin: '0 0 12px', lineHeight: 1.5 }}>{deposit.note}</p>}
               {deposit.link && /^https?:\/\//i.test(deposit.link.trim()) ? (
                 <a href={deposit.link.trim()} target="_blank" rel="noopener noreferrer"
                   style={{ ...btnPrimary, textDecoration: 'none', boxShadow: '0 0 24px rgba(52,211,153,0.3)', background: 'linear-gradient(135deg,#34d399,#10b981)' }}>
@@ -163,13 +203,13 @@ export function PublicBooking({ orgId }: { orgId: string }) {
                 </a>
               ) : deposit.link ? (
                 <div>
-                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: '0 0 5px' }}>Transferí la seña a:</p>
-                  <p style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: 0, userSelect: 'all', letterSpacing: '0.02em', wordBreak: 'break-all' }}>{deposit.link.trim()}</p>
+                  <p style={{ color: 'var(--pb-text-mut)', fontSize: 12, margin: '0 0 5px' }}>Transferí la seña a:</p>
+                  <p style={{ color: 'var(--pb-text)', fontSize: 17, fontWeight: 800, margin: 0, userSelect: 'all', letterSpacing: '0.02em', wordBreak: 'break-all' }}>{deposit.link.trim()}</p>
                 </div>
               ) : (
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12.5, margin: 0 }}>El negocio te indicará cómo abonarla.</p>
+                <p style={{ color: 'var(--pb-text-mut)', fontSize: 12.5, margin: 0 }}>El negocio te indicará cómo abonarla.</p>
               )}
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11.5, margin: '12px 0 0' }}>
+              <p style={{ color: 'var(--pb-text-faint)', fontSize: 11.5, margin: '12px 0 0' }}>
                 Tu turno queda reservado y se confirma cuando recibimos la seña.
               </p>
             </div>
@@ -181,9 +221,9 @@ export function PublicBooking({ orgId }: { orgId: string }) {
 
   // ── Flujo de reserva ──
   return (
-    <Shell businessName={info.name} logo={info.logo}>
-      <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: '0 0 4px' }}>Reservar un turno</h2>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13.5, margin: '0 0 22px' }}>Elegí el servicio, profesional y horario.</p>
+    <Shell businessName={info.name} logo={info.logo} poweredBy={info.powered_by !== false}>
+      <h2 style={{ color: 'var(--pb-text)', fontSize: 19, fontWeight: 700, margin: '0 0 4px' }}>Reservar un turno</h2>
+      <p style={{ color: 'var(--pb-text-faint)', fontSize: 13.5, margin: '0 0 22px' }}>Elegí el servicio, profesional y horario.</p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <Field label="Servicio">
@@ -209,17 +249,17 @@ export function PublicBooking({ orgId }: { orgId: string }) {
         {service && professional && (
           <Field label="Horario disponible">
             {slotsLoading ? (
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Buscando horarios…</p>
+              <p style={{ color: 'var(--pb-text-faint)', fontSize: 13 }}>Buscando horarios…</p>
             ) : slots.length === 0 ? (
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>No hay horarios disponibles ese día. Probá con otra fecha.</p>
+              <p style={{ color: 'var(--pb-text-faint)', fontSize: 13 }}>No hay horarios disponibles ese día. Probá con otra fecha.</p>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
                 {slots.map((s) => (
                   <button key={s} onClick={() => setSlot(s)}
                     style={{ padding: '9px 0', borderRadius: 9, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontVariantNumeric: 'tabular-nums',
-                      background: slot === s ? 'rgba(37,99,255,0.3)' : 'rgba(255,255,255,0.04)',
-                      border: slot === s ? '1px solid #2563FF' : '1px solid rgba(255,255,255,0.1)',
-                      color: slot === s ? 'white' : 'rgba(255,255,255,0.7)' }}>
+                      background: slot === s ? 'rgba(37,99,255,0.3)' : 'var(--pb-soft-bg)',
+                      border: slot === s ? '1px solid #2563FF' : '1px solid var(--pb-soft-border)',
+                      color: slot === s ? '#2563FF' : 'var(--pb-text-mut)' }}>
                     {s}
                   </button>
                 ))}
@@ -235,8 +275,8 @@ export function PublicBooking({ orgId }: { orgId: string }) {
               <Field label="Teléfono"><input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="WhatsApp" style={input} /></Field>
             </div>
             {deposit && (
-              <div style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 10, padding: '11px 13px', color: 'rgba(255,255,255,0.7)', fontSize: 12.5, lineHeight: 1.5 }}>
-                💳 Este turno requiere una seña de <strong style={{ color: 'white' }}>{moneyCur(deposit.amount, deposit.currency)}</strong>. Después de reservar te mostramos cómo pagarla.
+              <div style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 10, padding: '11px 13px', color: 'var(--pb-text-mut)', fontSize: 12.5, lineHeight: 1.5 }}>
+                💳 Este turno requiere una seña de <strong style={{ color: 'var(--pb-text)' }}>{moneyCur(deposit.amount, deposit.currency)}</strong>. Después de reservar te mostramos cómo pagarla.
               </div>
             )}
             {error && <p style={{ color: '#f87171', fontSize: 12.5, margin: 0 }}>{error}</p>}
@@ -250,20 +290,20 @@ export function PublicBooking({ orgId }: { orgId: string }) {
   )
 }
 
-function Shell({ children, businessName, logo }: { children: React.ReactNode; businessName?: string; logo?: string | null }) {
+function Shell({ children, businessName, logo, poweredBy = true, theme = 'light' }: { children: React.ReactNode; businessName?: string; logo?: string | null; poweredBy?: boolean; theme?: PublicTheme }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 16px' }}>
+    <div style={{ ...THEME_VARS[theme], minHeight: '100vh', background: 'var(--pb-page)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 16px' }}>
       <div style={{ width: '100%', maxWidth: 440 }}>
         {(businessName || logo) && (
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
             {logo && <img src={logo} alt={businessName ?? 'logo'} style={{ maxWidth: 120, maxHeight: 90, objectFit: 'contain', marginBottom: 12 }} />}
-            {businessName && <h1 style={{ color: 'white', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize', fontFamily: "'Orbitron', sans-serif" }}>{businessName}</h1>}
+            {businessName && <h1 style={{ color: 'var(--pb-text)', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize', fontFamily: "'Orbitron', sans-serif" }}>{businessName}</h1>}
           </div>
         )}
-        <div style={{ background: '#0d0d18', border: '1px solid rgba(37,99,255,0.2)', borderRadius: 18, padding: 26, boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: 'var(--pb-card)', border: '1px solid var(--pb-card-border)', borderRadius: 18, padding: 26, boxShadow: 'var(--pb-shadow)' }}>
           {children}
         </div>
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 11, marginTop: 18 }}>Reservas con Vision OS</p>
+        {poweredBy && <p style={{ textAlign: 'center', color: 'var(--pb-text-dim)', fontSize: 11, marginTop: 18 }}>Reservas con Vision OS</p>}
       </div>
     </div>
   )
@@ -272,15 +312,15 @@ function Shell({ children, businessName, logo }: { children: React.ReactNode; bu
 function Msg({ title, text }: { title: string; text: string }) {
   return (
     <div style={{ textAlign: 'center', padding: '20px 0' }}>
-      <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 8px' }}>{title}</h2>
-      {text && <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, margin: 0 }}>{text}</p>}
+      <h2 style={{ color: 'var(--pb-text)', fontSize: 18, fontWeight: 700, margin: '0 0 8px' }}>{title}</h2>
+      {text && <p style={{ color: 'var(--pb-text-faint)', fontSize: 14, margin: 0 }}>{text}</p>}
     </div>
   )
 }
 
 function Row({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'white', fontSize: 14.5, textTransform: 'capitalize' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--pb-text)', fontSize: 14.5, textTransform: 'capitalize' }}>
       <span style={{ color: '#60a5fa' }}>{icon}</span>{text}
     </div>
   )
@@ -289,16 +329,17 @@ function Row({ icon, text }: { icon: React.ReactNode; text: string }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--pb-text-faint)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: 'var(--pb-opt-bg)', color: 'var(--pb-text)' }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 10, padding: '11px 13px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'var(--pb-input-bg)', border: '1px solid var(--pb-input-border)',
+  // 16px evita el zoom automático del navegador móvil al enfocar el campo.
+  borderRadius: 10, padding: '11px 13px', color: 'var(--pb-text)', fontSize: 16, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, width: '100%',

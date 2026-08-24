@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { X } from 'lucide-react'
 import type { Patient } from '@/types/database'
 import { createPatient, updatePatient, type PatientInput } from '@/services/patients'
+import { useVocab } from '@/components/vocab/VocabProvider'
 
 const empty: PatientInput = {
   first_name: '', last_name: '', dni: '', phone: '', whatsapp: '', email: '',
@@ -32,6 +33,7 @@ export function PatientFormModal({
   onClose: () => void
   onSaved: (p: Patient) => void
 }) {
+  const term = useVocab()
   const [form, setForm] = useState<PatientInput>(() => {
     if (editing) return fromPatient(editing)
     if (initialName?.trim()) {
@@ -65,7 +67,7 @@ export function PatientFormModal({
         : await createPatient(organizationId, clean)
       onSaved(saved)
     } catch (e: any) {
-      setError(e.message?.includes('duplicate') ? 'Ya existe un paciente con ese email o teléfono.' : (e.message ?? 'Error al guardar.'))
+      setError(e.message?.includes('duplicate') ? `Ya existe un/a ${term.one} con ese email o teléfono.` : (e.message ?? 'Error al guardar.'))
       setSaving(false)
     }
   }
@@ -74,7 +76,7 @@ export function PatientFormModal({
     <div style={overlay} onClick={onClose}>
       <div className="v-modal" style={modal} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>{editing ? 'Editar paciente' : 'Nuevo paciente'}</h2>
+          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>{editing ? `Editar ${term.one}` : `Nuevo ${term.one}`}</h2>
           <button onClick={onClose} style={iconBtn}><X size={18} /></button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
@@ -82,7 +84,7 @@ export function PatientFormModal({
             <Field label="Nombre"><input value={form.first_name} onChange={(e) => set('first_name', e.target.value)} style={input} autoFocus /></Field>
             <Field label="Apellido"><input value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} style={input} /></Field>
           </div>
-          <Field label="DNI (opcional)"><input value={form.dni ?? ''} onChange={(e) => set('dni', e.target.value)} placeholder="Sirve para buscar al paciente" style={input} /></Field>
+          <Field label="DNI (opcional)"><input value={form.dni ?? ''} onChange={(e) => set('dni', e.target.value)} placeholder={`Sirve para buscar al/la ${term.one}`} style={input} /></Field>
           <div style={{ display: 'flex', gap: 12 }}>
             <Field label="Teléfono"><input value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} style={input} /></Field>
             <Field label="WhatsApp"><input value={form.whatsapp ?? ''} onChange={(e) => set('whatsapp', e.target.value)} style={input} /></Field>
@@ -96,7 +98,7 @@ export function PatientFormModal({
           <Field label="Notas"><textarea value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={2} style={{ ...input, resize: 'vertical' }} /></Field>
           {error && <p style={{ color: '#f87171', fontSize: 12, margin: 0 }}>{error}</p>}
           <button onClick={save} disabled={saving} style={{ ...btnPrimary, justifyContent: 'center', opacity: saving ? 0.6 : 1 }}>
-            {saving ? 'Guardando…' : editing ? 'Guardar cambios' : 'Crear paciente'}
+            {saving ? 'Guardando…' : editing ? 'Guardar cambios' : `Crear ${term.one}`}
           </button>
         </div>
       </div>

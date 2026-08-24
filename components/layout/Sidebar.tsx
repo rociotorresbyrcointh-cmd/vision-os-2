@@ -7,6 +7,7 @@ import { Home, Calendar, Users, Tag, Ban, UserRound, MessageCircle, BellRing, Wa
 import { VisionLogoWhite } from '@/components/VisionLogo'
 import { logout } from '@/app/actions/auth'
 import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
+import { vocab } from '@/lib/vocab'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { SupportButton } from '@/components/layout/SupportButton'
 
@@ -31,8 +32,9 @@ const NAV = [
   { href: '/configuracion', label: 'Configuración', icon: Settings },
 ]
 
-export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { businessName: string; socialEnabled?: boolean; role?: Role }) {
+export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical = false }: { businessName: string; socialEnabled?: boolean; role?: Role; clinical?: boolean }) {
   const pathname = usePathname()
+  const term = vocab(clinical)
   const [isMobile, setIsMobile] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -50,7 +52,13 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
     ? [...NAV.slice(0, -1), { href: '/redes', label: 'Redes', icon: Sparkles }, NAV[NAV.length - 1]]
     : NAV
   // Cada rol ve solo las secciones permitidas
-  const nav = full.filter((item) => canSee(item.href, role))
+  const nav = full
+    .map((item) => item.href === '/pacientes' ? { ...item, label: term.manyCap } : item)
+    .filter((item) => canSee(item.href, role))
+
+  // Solo precargamos las rutas más usadas. Precargar las 19 disparaba
+  // ~23 pedidos RSC por navegación (cada Link visible se precarga solo).
+  const PREFETCH = new Set(['/inicio', '/agenda', '/pagos'])
 
   const inner = (
     <>
@@ -95,7 +103,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner' }: { busin
         {nav.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href)
           return (
-            <Link key={href} href={href} onClick={() => setOpen(false)}
+            <Link key={href} href={href} prefetch={PREFETCH.has(href)} onClick={() => setOpen(false)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 11,
                 padding: '11px 12px', borderRadius: 9,

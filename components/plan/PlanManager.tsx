@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Check, Star, Zap, Users, AlertTriangle, Settings2, Gift, PartyPopper } from 'lucide-react'
+import { useToast } from '@/components/ui/Toast'
 import { PLANS, planById, isTrial, isCortesia, type PlanId } from '@/lib/plans'
 
 export function PlanManager({
@@ -14,6 +15,7 @@ export function PlanManager({
   hasSubscription?: boolean
   planStatus?: string | null
 }) {
+  const toast = useToast()
   const [plan] = useState(currentPlan)
   const [busy, setBusy] = useState<string | null>(null)
   const [choosing, setChoosing] = useState<PlanId | null>(null)
@@ -35,7 +37,7 @@ export function PlanManager({
   async function subscribe(id: PlanId) {
     const target = planById(id)!
     if (professionalCount > target.maxProf) {
-      alert(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}. Desactivá profesionales o elegí un plan más grande.`)
+      toast(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}. Desactivá profesionales o elegí un plan más grande.`, 'error')
       return
     }
     setBusy(id)
@@ -50,7 +52,7 @@ export function PlanManager({
       if (!res.ok || !data.url) throw new Error(data.error || text || 'No se pudo iniciar el pago')
       window.location.href = data.url
     } catch (e) {
-      alert('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'))
+      toast('No se pudo iniciar el pago: ' + (e instanceof Error ? e.message : 'error'), 'error')
       setBusy(null)
     }
   }
@@ -59,7 +61,7 @@ export function PlanManager({
   async function subscribeMP(id: PlanId) {
     const target = planById(id)!
     if (professionalCount > target.maxProf) {
-      alert(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}.`)
+      toast(`Tenés ${professionalCount} profesionales activos y el plan ${target.name} permite hasta ${target.maxProf}.`, 'error')
       return
     }
     setBusy('mp-' + id)
@@ -74,7 +76,7 @@ export function PlanManager({
       if (!res.ok || !data.url) throw new Error(data.error || text || 'No se pudo iniciar el pago')
       window.location.href = data.url
     } catch (e) {
-      alert('No se pudo iniciar el pago con Mercado Pago: ' + (e instanceof Error ? e.message : 'error'))
+      toast('No se pudo iniciar el pago con Mercado Pago: ' + (e instanceof Error ? e.message : 'error'), 'error')
       setBusy(null)
     }
   }
@@ -90,7 +92,7 @@ export function PlanManager({
       if (!res.ok || !data.url) throw new Error(data.error || text || 'Error')
       window.location.href = data.url
     } catch (e) {
-      alert('No se pudo abrir la gestión: ' + (e instanceof Error ? e.message : 'error'))
+      toast('No se pudo abrir la gestión: ' + (e instanceof Error ? e.message : 'error'), 'error')
       setBusy(null)
     }
   }

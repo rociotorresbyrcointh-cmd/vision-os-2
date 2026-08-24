@@ -7,6 +7,8 @@ import { createPayment, deletePayment, listPaymentsBetween, METHOD_LABELS, type 
 import { searchPatients, fullName } from '@/services/patients'
 import { getDateKey } from '@/lib/date-utils'
 import { exportToExcel } from '@/lib/excel'
+import { useVocab } from '@/components/vocab/VocabProvider'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 const money = (n: number) =>
   n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
@@ -20,6 +22,7 @@ function dayRange(d: Date) {
 const METHODS: PaymentMethod[] = ['efectivo', 'tarjeta', 'transferencia', 'mercadopago', 'otro']
 
 export function PaymentsManager({ organizationId }: { organizationId: string }) {
+  const confirm = useConfirm()
   const [date, setDate] = useState(() => new Date())
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,7 +48,7 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
   const isToday = getDateKey(date) === getDateKey(new Date())
 
   const remove = async (p: Payment) => {
-    if (!confirm(`¿Eliminar este pago de ${money(Number(p.amount))}?`)) return
+    if (!(await confirm({ title: `¿Eliminar este pago de ${money(Number(p.amount))}?`, actionLabel: 'Eliminar', destructive: true }))) return
     await deletePayment(p.id)
     setPayments((l) => l.filter((x) => x.id !== p.id))
   }
@@ -148,6 +151,7 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
 function PaymentForm({ organizationId, date, onClose, onSaved }: {
   organizationId: string; date: Date; onClose: () => void; onSaved: (p: Payment) => void
 }) {
+  const term = useVocab()
   const [amount, setAmount] = useState('')
   const [method, setMethod] = useState<PaymentMethod>('efectivo')
   const [kind, setKind] = useState<PaymentKind>('pago')
@@ -219,7 +223,7 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
             </select>
           </Field>
 
-          <Field label="Paciente (opcional)">
+          <Field label={`${term.oneCap} (opcional)`}>
             <div style={{ position: 'relative' }}>
               <input value={patient ? fullName(patient) : pQuery} onChange={(e) => onSearch(e.target.value)}
                 onBlur={() => setTimeout(() => setShowSug(false), 150)}

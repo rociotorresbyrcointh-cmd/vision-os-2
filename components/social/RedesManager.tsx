@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { Sparkles, Palette, Lightbulb, ClipboardCheck, Copy, Check, Save, Wand2, CalendarDays, Search, Bookmark, Trash2, ImageIcon, RefreshCw } from 'lucide-react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import { saveBrand, type Brand } from '@/services/org-settings'
 import { generateIdeas, suggestHashtags } from '@/lib/content-ideas'
 import { saveContent, listSavedContent, deleteSavedContent, type SavedContent } from '@/services/ai-content'
@@ -155,12 +156,13 @@ export function RedesManager({
 
 // ─── Guardados ───────────────────────────────────────────────────
 function SavedTab() {
+  const confirm = useConfirm()
   const [items, setItems] = useState<SavedContent[] | null>(null)
   const [copied, setCopied] = useState('')
   useEffect(() => { listSavedContent().then(setItems).catch(() => setItems([])) }, [])
 
   const remove = async (id: string) => {
-    if (!confirm('¿Eliminar este contenido guardado?')) return
+    if (!(await confirm({ title: '¿Eliminar este contenido guardado?', actionLabel: 'Eliminar', destructive: true }))) return
     await deleteSavedContent(id)
     setItems((l) => (l ?? []).filter((x) => x.id !== id))
   }

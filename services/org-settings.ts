@@ -96,6 +96,19 @@ export async function setOrgFlag(
   if (error) throw error
 }
 
+// Tema de la página pública de reservas ('light' | 'dark')
+export async function setPublicTheme(
+  organizationId: string,
+  theme: 'light' | 'dark'
+): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('organizations')
+    .update({ public_theme: theme })
+    .eq('id', organizationId)
+  if (error) throw error
+}
+
 export async function saveTemplates(
   organizationId: string,
   templates: WhatsAppTemplate[]

@@ -7,6 +7,8 @@ import type { Patient, ClinicalNote } from '@/types/database'
 import { deletePatient, fullName, listPatientAppointments } from '@/services/patients'
 import { listNotes, createNote, deleteNote } from '@/services/clinical-notes'
 import { exportToExcel } from '@/lib/excel'
+import { vocab } from '@/lib/vocab'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import { PatientFormModal } from './PatientFormModal'
 
 export function PatientsManager({
@@ -18,6 +20,8 @@ export function PatientsManager({
   clinicalEnabled: boolean
   initial: Patient[]
 }) {
+  const term = vocab(clinicalEnabled)
+  const confirm = useConfirm()
   const [list, setList] = useState<Patient[]>(initial)
   const [query, setQuery] = useState('')
   const [formOpen, setFormOpen] = useState(false)
@@ -43,7 +47,7 @@ export function PatientsManager({
   }
 
   const remove = async (p: Patient) => {
-    if (!confirm(`¿Mover a ${fullName(p)} a la papelera? Vas a poder recuperarlo.`)) return
+    if (!(await confirm({ title: `¿Mover a ${fullName(p)} a la papelera?`, description: 'Vas a poder recuperarlo desde la Papelera.', actionLabel: 'Mover a papelera', destructive: true }))) return
     await deletePatient(p.id)
     setList((l) => l.filter((x) => x.id !== p.id))
     setDetail(null)
@@ -62,21 +66,21 @@ export function PatientsManager({
       'N° afiliado': p.membership_number ?? '',
       Notas: p.notes ?? '',
     }))
-    exportToExcel('pacientes.xlsx', 'Pacientes', rows)
+    exportToExcel(`${term.many}.xlsx`, term.manyCap, rows)
   }
 
   return (
     <div style={{ padding: '28px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Pacientes</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>{list.length} {list.length === 1 ? 'paciente' : 'pacientes'} registrados</p>
+          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{term.manyCap}</h1>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>{list.length} {list.length === 1 ? term.one : term.many} registrados</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={exportExcel} disabled={list.length === 0} style={{ ...btnGhost, padding: '10px 14px', fontSize: 13, opacity: list.length === 0 ? 0.4 : 1 }} title="Descargar la lista de pacientes en Excel">
+          <button onClick={exportExcel} disabled={list.length === 0} style={{ ...btnGhost, padding: '10px 14px', fontSize: 13, opacity: list.length === 0 ? 0.4 : 1 }} title={`Descargar la lista de ${term.many} en Excel`}>
             <Download size={15} /> Exportar
           </button>
-          <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo paciente</button>
+          <button onClick={openNew} style={btnPrimary}><Plus size={16} /> Nuevo {term.one}</button>
         </div>
       </div>
 
@@ -93,9 +97,9 @@ export function PatientsManager({
         ) : (
           <EmptyState
             icon={UserRound}
-            title="Todavía no cargaste pacientes"
-            description="Acá vas a tener la ficha de cada cliente: contacto, historial de turnos y notas. Empezá cargando el primero."
-            actionLabel="+ Nuevo paciente"
+            title={`Todavía no cargaste ${term.many}`}
+            description={`Acá vas a tener la ficha de cada ${term.one}: contacto, historial de turnos y notas. Empezá cargando el primero.`}
+            actionLabel={`+ Nuevo ${term.one}`}
             onAction={openNew}
           />
         )
@@ -141,6 +145,8 @@ export function PatientsManager({
 
 // ─── Ficha del paciente con historial ────────────────────────────
 function PatientDetail({ patient, organizationId, clinicalEnabled, onClose, onEdit }: { patient: Patient; organizationId: string; clinicalEnabled: boolean; onClose: () => void; onEdit: () => void }) {
+  const term = vocab(clinicalEnabled)
+  const confirm = useConfirm()
   const [appts, setAppts] = useState<any[] | null>(null)
   useEffect(() => { listPatientAppointments(patient.id).then(setAppts).catch(() => setAppts([])) }, [patient.id])
 
@@ -162,7 +168,7 @@ function PatientDetail({ patient, organizationId, clinicalEnabled, onClose, onEd
     } finally { setSavingNote(false) }
   }
   const removeNote = async (id: string) => {
-    if (!confirm('¿Eliminar esta nota?')) return
+    if (!(await confirm({ title: '¿Eliminar esta nota?', actionLabel: 'Eliminar', destructive: true }))) return
     await deleteNote(id)
     setNotes((l) => (l ?? []).filter((x) => x.id !== id))
   }
@@ -173,7 +179,7 @@ function PatientDetail({ patient, organizationId, clinicalEnabled, onClose, onEd
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
             <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: 0 }}>{fullName(patient)}</h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '4px 0 0' }}>Ficha del paciente</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '4px 0 0' }}>Ficha del {term.one}</p>
           </div>
           <button onClick={onClose} style={iconBtn}><X size={18} /></button>
         </div>
@@ -239,7 +245,7 @@ function PatientDetail({ patient, organizationId, clinicalEnabled, onClose, onEd
         )}
 
         <button onClick={onEdit} style={{ ...btnPrimary, justifyContent: 'center', marginTop: 18 }}>
-          <Pencil size={14} /> Editar paciente
+          <Pencil size={14} /> Editar {term.one}
         </button>
       </div>
     </div>

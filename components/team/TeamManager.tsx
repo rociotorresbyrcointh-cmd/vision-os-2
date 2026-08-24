@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { UserPlus, Trash2, Mail, Shield, X } from 'lucide-react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import {
   listMembers, listInvites, inviteMember, cancelInvite,
   changeMemberRole, removeMember, type Member, type Invite,
@@ -26,6 +27,7 @@ const ROLES: { value: Role; label: string; desc: string }[] = [
 ]
 
 export function TeamManager({ organizationId, currentUserId }: { organizationId: string; currentUserId: string }) {
+  const confirm = useConfirm()
   const [members, setMembers] = useState<Member[]>([])
   const [invites, setInvites] = useState<Invite[]>([])
   const [loading, setLoading] = useState(true)
@@ -80,7 +82,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
   }
 
   async function onRemove(userId: string, label: string) {
-    if (!confirm(`¿Quitar a ${label} del equipo? Perderá el acceso al negocio.`)) return
+    if (!(await confirm({ title: `¿Quitar a ${label} del equipo?`, description: 'Perderá el acceso al negocio.', actionLabel: 'Quitar', destructive: true }))) return
     setErr(null); setMsg(null)
     try {
       await removeMember(userId)

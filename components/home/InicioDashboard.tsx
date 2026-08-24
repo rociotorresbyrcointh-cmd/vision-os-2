@@ -9,6 +9,7 @@ import { listAppointmentsBetween } from '@/services/appointments'
 import { listPaymentsBetween } from '@/services/payments'
 import { seedExampleData } from '@/services/onboarding'
 import { OnboardingChecklist, type SetupState } from '@/components/home/OnboardingChecklist'
+import { useVocab } from '@/components/vocab/VocabProvider'
 
 const money = (n: number) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
 const hhmm = (iso: string) => new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
@@ -35,11 +36,16 @@ export function InicioDashboard({
   setup: SetupState
 }) {
   const router = useRouter()
+  const term = useVocab()
   const [appts, setAppts] = useState<Appointment[]>([])
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
   const [now] = useState(() => Date.now())
   const [seeding, setSeeding] = useState(false)
+  // La hora local del usuario solo se conoce en el cliente. Calcular el saludo
+  // y la fecha en SSR (servidor en UTC) provocaba mismatch de hidratación (#418).
+  const [localNow, setLocalNow] = useState<Date | null>(null)
+  useEffect(() => { setLocalNow(new Date()) }, [])
 
   const loadExample = async () => {
     setSeeding(true)
@@ -71,19 +77,22 @@ export function InicioDashboard({
     return { total: activos.length, cobrado, atendidos, proximos }
   }, [appts, payments, now])
 
-  const today = new Date()
-  const hora = today.getHours()
-  const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches'
+  const TZ = 'America/Argentina/Cordoba'
+  const hora = localNow?.getHours() ?? -1
+  const saludo = hora < 0 ? '' : hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches'
+  const fechaLarga = localNow
+    ? localNow.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: TZ })
+    : ''
   const setupPending = professionals.length === 0 || services.length === 0
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 960 }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ color: 'white', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize' }}>
-          {saludo}, <span style={{ color: '#60a5fa' }}>{businessName}</span>
+          {saludo && <>{saludo}, </>}<span style={{ color: '#60a5fa' }}>{businessName}</span>
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, marginTop: 5, textTransform: 'capitalize' }}>
-          {today.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, marginTop: 5, textTransform: 'capitalize', minHeight: 20 }}>
+          {fechaLarga}
         </p>
       </div>
 
@@ -101,7 +110,7 @@ export function InicioDashboard({
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 18 }}>
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, margin: '0 0 10px', lineHeight: 1.5 }}>
-              ¿Querés ver cómo funciona primero? Cargá datos de ejemplo (un profesional, servicios, una paciente y turnos de hoy). Después los podés borrar.
+              ¿Querés ver cómo funciona primero? Cargá datos de ejemplo (un profesional, servicios, un/a {term.one} y turnos de hoy). Después los podés borrar.
             </p>
             <button onClick={loadExample} disabled={seeding} style={{ ...btnExample, opacity: seeding ? 0.6 : 1 }}>
               <Sparkles size={16} /> {seeding ? 'Cargando ejemplo…' : 'Cargar datos de ejemplo'}
@@ -160,7 +169,7 @@ export function InicioDashboard({
           {/* Accesos rápidos */}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 26 }}>
             <Link href="/agenda" style={btnPrimary}><Plus size={15} /> Nuevo turno</Link>
-            <Link href="/pacientes" style={btnGhost}>Pacientes</Link>
+            <Link href="/pacientes" style={btnGhost}>{term.manyCap}</Link>
             <Link href="/pagos" style={btnGhost}>Caja</Link>
             <Link href="/reportes" style={btnGhost}>Reportes</Link>
           </div>

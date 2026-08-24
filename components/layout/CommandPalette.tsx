@@ -10,6 +10,7 @@ import {
 import { searchPatients } from '@/services/patients'
 import { fullName } from '@/services/patients'
 import { canSee, type Role } from '@/lib/auth/role'
+import { vocab } from '@/lib/vocab'
 
 type Item = { type: 'nav' | 'patient'; label: string; sub?: string; href: string; icon: typeof Home }
 
@@ -37,15 +38,18 @@ function norm(s: string) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 }
 
-export function CommandPalette({ role = 'owner' }: { role?: Role }) {
+export function CommandPalette({ role = 'owner', clinical = false }: { role?: Role; clinical?: boolean }) {
   const router = useRouter()
+  const voc = vocab(clinical)
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
   const [patients, setPatients] = useState<Item[]>([])
   const [active, setActive] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const navItems = SECTIONS.filter((s) => canSee(s.href, role))
+  const navItems = SECTIONS
+    .map((s) => s.href === '/pacientes' ? { ...s, label: voc.manyCap } : s)
+    .filter((s) => canSee(s.href, role))
 
   // Atajo de teclado + evento global desde el botón "Buscar"
   useEffect(() => {
@@ -85,7 +89,7 @@ export function CommandPalette({ role = 'owner' }: { role?: Role }) {
         setPatients(res.map((p) => ({
           type: 'patient' as const,
           label: fullName(p),
-          sub: p.dni ? `DNI ${p.dni}` : (p.phone ?? 'Paciente'),
+          sub: p.dni ? `DNI ${p.dni}` : (p.phone ?? voc.oneCap),
           href: '/pacientes',
           icon: UserRound,
         })))
@@ -135,7 +139,7 @@ export function CommandPalette({ role = 'owner' }: { role?: Role }) {
           <Search size={18} color="rgba(255,255,255,0.45)" />
           <input
             ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onInputKey}
-            placeholder="Buscar sección o paciente…"
+            placeholder={`Buscar sección o ${voc.one}…`}
             style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 15 }}
           />
           <button onClick={() => setOpen(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', display: 'flex' }}>
@@ -169,7 +173,7 @@ export function CommandPalette({ role = 'owner' }: { role?: Role }) {
                     {item.sub && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.sub}</span>}
                   </span>
                   <span style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>
-                    {item.type === 'patient' ? 'Paciente' : 'Ir a'}
+                    {item.type === 'patient' ? voc.oneCap : 'Ir a'}
                   </span>
                 </button>
               )

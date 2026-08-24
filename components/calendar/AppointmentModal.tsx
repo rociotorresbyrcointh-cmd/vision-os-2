@@ -5,6 +5,9 @@ import { X, Trash2, MessageCircle, Wallet, UserPlus, Globe } from 'lucide-react'
 import type { Professional, Service, Appointment, AppointmentStatus, BlockedTime, Payment, PaymentMethod, PaymentKind } from '@/types/database'
 import { minutesToTime, timeToMinutes, getDateKey } from '@/lib/date-utils'
 import { buildWhatsAppLink, renderTemplate, type WhatsAppTemplate } from '@/lib/whatsapp'
+import { useVocab } from '@/components/vocab/VocabProvider'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 import { createAppointment, updateAppointment, deleteAppointment, deleteRecurrenceGroup, createRecurringAppointments, createWeekdayRecurringAppointments, type RecurFreq } from '@/services/appointments'
 import { expandBlocksForDay, listAllBlocks } from '@/services/blocked-times'
 import { searchPatients, fullName } from '@/services/patients'
@@ -18,7 +21,7 @@ const PAY_METHODS: PaymentMethod[] = ['efectivo', 'tarjeta', 'transferencia', 'm
 
 export type ModalSeed =
   | { professionalId: string; date: Date; startMin: number }
-  | { edit: Appointment }
+  | { edit: Appointment; promptPay?: boolean }
 
 // "2026-06-13" → Date local (evita el corrimiento de día por UTC)
 function parseDateKey(key: string): Date {
@@ -66,6 +69,9 @@ export function AppointmentModal({
   onDeleted: (id: string) => void
   onPaid: () => void
 }) {
+  const term = useVocab()
+  const confirm = useConfirm()
+  const toast = useToast()
   const editing = 'edit' in seed ? seed.edit : null
   const baseDate = 'edit' in seed ? new Date(seed.edit.start_time) : seed.date
   const initialStartMin = 'edit' in seed
@@ -127,16 +133,37 @@ export function AppointmentModal({
   const [payError, setPayError] = useState('')
   const totalPaid = payments.reduce((s, p) => s + Number(p.amount), 0)
 
+  const promptPay = 'edit' in seed ? seed.promptPay : false
   useEffect(() => {
     if (editing) listPaymentsByAppointment(editing.id)
-      .then(setPayments)
+      .then((ps) => {
+        setPayments(ps)
+        // Si se abrió justo tras marcar "Completado" y no hay cobros, ofrecer cobrar.
+        const paid = ps.reduce((s, p) => s + Number(p.amount), 0)
+        if (promptPay && paid === 0 && (service?.price ?? 0) > 0) {
+          setPayAmount(service?.price ? String(service.price) : '')
+          setPayKind('pago')
+          setCobrarOpen(true)
+        }
+      })
       .catch((e) => setPayError(`No se pudieron cargar los cobros: ${e.message}`))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editing])
 
   const openCobrar = () => {
     setPayAmount(service?.price ? String(service.price) : '')
     setPayKind('pago')
     setCobrarOpen(true)
+  }
+  // Al marcar el turno como "Completado", ofrecemos cobrar en el acto con el
+  // monto precargado del servicio. "Cobrar después" = simplemente no confirmar.
+  const onStatusChange = (v: AppointmentStatus) => {
+    setStatus(v)
+    if (v === 'completed' && editing && totalPaid === 0 && (service?.price ?? 0) > 0) {
+      openCobrar()
+    } else if (v !== 'completed') {
+      setCobrarOpen(false)
+    }
   }
   const confirmCobro = async () => {
     const value = Number(payAmount)
@@ -162,7 +189,7 @@ export function AppointmentModal({
     }
   }
   const removePayment = async (id: string) => {
-    if (!confirm('¿Eliminar este cobro?')) return
+    if (!(await confirm({ title: '¿Eliminar este cobro?', actionLabel: 'Eliminar', destructive: true }))) return
     await deletePayment(id)
     setPayments((l) => l.filter((x) => x.id !== id))
     onPaid()
@@ -246,9 +273,9 @@ export function AppointmentModal({
         }
         const expected = recur === 'weekdays' ? (recurDays.length || 1) * recurCount : recurCount
         if (r.skipped.length && r.created.length >= expected) {
-          alert(`✅ Listo: se crearon los ${r.created.length} turnos.\nAlgunas fechas se corrieron a futuro porque caían en bloqueos, días no laborables u horarios ocupados (${r.skipped.join(', ')}).`)
+          toast(`Se crearon los ${r.created.length} turnos. Algunas fechas se corrieron a futuro porque caían en bloqueos, días no laborables u horarios ocupados (${r.skipped.join(', ')}).`, 'success')
         } else if (r.created.length < expected) {
-          alert(`Se crearon ${r.created.length} de ${expected} turnos. No se pudieron completar todos (demasiados bloqueos/ocupados seguidos). Revisá la agenda y completá los que falten a mano.`)
+          toast(`Se crearon ${r.created.length} de ${expected} turnos. No se pudieron completar todos (demasiados bloqueos/ocupados seguidos). Revisá la agenda y completá los que falten a mano.`, 'info')
         }
         onSavedMany()
         return
@@ -283,7 +310,7 @@ export function AppointmentModal({
     if (!editing) return
     // Si es parte de una serie repetida, ofrecer elegir
     if (editing.recurrence_group_id) { setConfirmDelete(true); return }
-    if (!confirm('¿Eliminar este turno?')) return
+    if (!(await confirm({ title: '¿Eliminar este turno?', actionLabel: 'Eliminar', destructive: true }))) return
     await deleteAppointment(editing.id)
     onDeleted(editing.id)
   }
@@ -328,7 +355,7 @@ export function AppointmentModal({
               />
               {patientId && (
                 <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 10, fontWeight: 700, color: '#34d399', background: 'rgba(52,211,153,0.12)', borderRadius: 5, padding: '2px 7px' }}>
-                  ✓ paciente
+                  ✓ {term.one}
                 </span>
               )}
               {showSug && clientName.trim().length >= 2 && !patientId && (
@@ -347,7 +374,7 @@ export function AppointmentModal({
                   {/* Crear paciente nuevo con lo tipeado */}
                   <button type="button" onMouseDown={(e) => { e.preventDefault(); setShowSug(false); setQuickOpen(true) }}
                     style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'rgba(37,99,255,0.1)', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: '#60a5fa', fontSize: 13, fontWeight: 600 }}>
-                    <UserPlus size={15} /> Crear paciente “{clientName.trim()}”
+                    <UserPlus size={15} /> Crear {term.one} “{clientName.trim()}”
                   </button>
                 </div>
               )}
@@ -384,7 +411,7 @@ export function AppointmentModal({
           </div>
 
           <Field label="Estado">
-            <select value={status} onChange={(e) => setStatus(e.target.value as AppointmentStatus)} style={input}>
+            <select value={status} onChange={(e) => onStatusChange(e.target.value as AppointmentStatus)} style={input}>
               {STATUSES.map((s) => <option key={s.value} value={s.value} style={opt}>{s.label}</option>)}
             </select>
           </Field>
@@ -485,6 +512,11 @@ export function AppointmentModal({
 
               {cobrarOpen && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 12 }}>
+                  {status === 'completed' && (
+                    <p style={{ margin: 0, fontSize: 12.5, color: '#34d399', fontWeight: 600 }}>
+                      Turno completado. ¿Registrás el cobro? El monto viene del servicio y podés editarlo.
+                    </p>
+                  )}
                   <input type="number" inputMode="decimal" value={payAmount} onChange={(e) => setPayAmount(e.target.value)} placeholder="Monto" style={{ ...input, fontWeight: 700 }} autoFocus />
                   <div style={{ display: 'flex', gap: 8 }}>
                     <select value={payMethod} onChange={(e) => setPayMethod(e.target.value as PaymentMethod)} style={{ ...input, flex: 1 }}>
@@ -496,7 +528,7 @@ export function AppointmentModal({
                     </select>
                   </div>
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <button onClick={() => setCobrarOpen(false)} style={{ ...btnGhost, flex: 1, justifyContent: 'center' }}>Cancelar</button>
+                    <button onClick={() => setCobrarOpen(false)} style={{ ...btnGhost, flex: 1, justifyContent: 'center' }}>{status === 'completed' ? 'Cobrar después' : 'Cancelar'}</button>
                     <button onClick={confirmCobro} disabled={paySaving} style={{ ...btnCobrar, flex: 1, justifyContent: 'center', opacity: paySaving ? 0.6 : 1 }}>
                       {paySaving ? 'Cobrando…' : 'Confirmar cobro'}
                     </button>

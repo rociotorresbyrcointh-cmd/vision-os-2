@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Pencil, Trash2, Ban, Repeat } from 'lucide-react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import type { Professional, BlockedTime } from '@/types/database'
 import { deleteBlock, listAllBlocks } from '@/services/blocked-times'
 import { BlockModal } from '@/components/calendar/BlockModal'
@@ -29,6 +30,7 @@ export function BlocksManager({
   professionals: Professional[]
   initial: BlockedTime[]
 }) {
+  const confirm = useConfirm()
   const [list, setList] = useState<BlockedTime[]>(initial)
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<BlockedTime | null>(null)
@@ -39,7 +41,7 @@ export function BlocksManager({
   const reload = async () => setList(await listAllBlocks())
 
   const remove = async (b: BlockedTime) => {
-    if (!confirm(`¿Eliminar el bloqueo "${b.title}"?`)) return
+    if (!(await confirm({ title: `¿Eliminar el bloqueo "${b.title}"?`, actionLabel: 'Eliminar', destructive: true }))) return
     await deleteBlock(b.id)
     setList((l) => l.filter((x) => x.id !== b.id))
   }

@@ -10,6 +10,19 @@ export default async function ConfiguracionPage() {
     .select('id, name, phone, address, hours_note, review_link, logo_url, clinical_history_enabled, social_enabled, deposit_enabled, deposit_amount, deposit_currency, deposit_link, deposit_note')
     .single()
 
+  // Tema de la página pública. Se consulta aparte y con tolerancia a fallos:
+  // si la migración `tema_publico.sql` todavía no se corrió (columna inexistente),
+  // no rompe la página y se usa 'light' por defecto.
+  let publicTheme: 'light' | 'dark' = 'light'
+  if (org?.id) {
+    const { data: t } = await supabase
+      .from('organizations')
+      .select('public_theme')
+      .eq('id', org.id)
+      .maybeSingle()
+    if ((t as { public_theme?: string } | null)?.public_theme === 'dark') publicTheme = 'dark'
+  }
+
   return (
     <ConfigManager
       organizationId={org?.id ?? ''}
@@ -30,6 +43,7 @@ export default async function ConfiguracionPage() {
         link: org?.deposit_link ?? null,
         note: org?.deposit_note ?? null,
       }}
+      publicTheme={publicTheme}
     />
   )
 }

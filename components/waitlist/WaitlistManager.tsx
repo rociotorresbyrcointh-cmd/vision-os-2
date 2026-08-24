@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Plus, X, Trash2, MessageCircle, Clock, UserCheck } from 'lucide-react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { Professional, Service } from '@/types/database'
 import {
@@ -19,6 +20,7 @@ export function WaitlistManager({
   professionals: Professional[]
   services: Service[]
 }) {
+  const confirm = useConfirm()
   const [list, setList] = useState<WaitlistEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
@@ -44,7 +46,7 @@ export function WaitlistManager({
     await setWaitlistStatus(e.id, 'resuelto').catch(() => {})
   }
   const remove = async (e: WaitlistEntry) => {
-    if (!confirm(`¿Sacar a ${e.client_name} de la lista de espera?`)) return
+    if (!(await confirm({ title: `¿Sacar a ${e.client_name} de la lista de espera?`, actionLabel: 'Sacar', destructive: true }))) return
     setList((l) => l.filter((x) => x.id !== e.id))
     await deleteWaitlistEntry(e.id).catch(() => {})
   }

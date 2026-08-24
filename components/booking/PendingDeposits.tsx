@@ -6,6 +6,8 @@ import type { Appointment, Professional, Service } from '@/types/database'
 import { listPendingPublicBookings } from '@/services/pending-bookings'
 import { updateAppointment } from '@/services/appointments'
 import { createPayment } from '@/services/payments'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 
 type Deposit = { amount: number; currency: string } | null
 
@@ -22,6 +24,8 @@ export function PendingDeposits({
   professionals: Professional[]
   services: Service[]
 }) {
+  const ask = useConfirm()
+  const toast = useToast()
   const [list, setList] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState<string | null>(null)
@@ -57,15 +61,15 @@ export function PendingDeposits({
       await updateAppointment(a.id, { status: 'confirmed' })
       await load()
     } catch (e) {
-      alert('No se pudo confirmar: ' + (e instanceof Error ? e.message : 'error'))
+      toast('No se pudo confirmar: ' + (e instanceof Error ? e.message : 'error'), 'error')
     } finally { setBusy(null) }
   }
 
   async function cancel(a: Appointment) {
-    if (!window.confirm(`¿Cancelar la reserva de ${a.client_name}?`)) return
+    if (!(await ask({ title: `¿Cancelar la reserva de ${a.client_name}?`, actionLabel: 'Cancelar reserva', cancelLabel: 'Volver', destructive: true }))) return
     setBusy(a.id)
     try { await updateAppointment(a.id, { status: 'cancelled' }); await load() }
-    catch (e) { alert('No se pudo cancelar: ' + (e instanceof Error ? e.message : 'error')) }
+    catch (e) { toast('No se pudo cancelar: ' + (e instanceof Error ? e.message : 'error'), 'error') }
     finally { setBusy(null) }
   }
 
