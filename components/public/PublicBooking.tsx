@@ -296,7 +296,10 @@ function Shell({ children, businessName, logo, poweredBy = true, theme = 'light'
       <div style={{ width: '100%', maxWidth: 440 }}>
         {(businessName || logo) && (
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
-            {logo && <img src={logo} alt={businessName ?? 'logo'} style={{ maxWidth: 120, maxHeight: 90, objectFit: 'contain', marginBottom: 12 }} />}
+            {logo
+              ? <img src={logo} alt={businessName ?? 'logo'} style={{ maxWidth: 120, maxHeight: 90, objectFit: 'contain', marginBottom: 12 }} />
+              // Sin logo propio: iniciales del negocio (nunca la marca de Vision).
+              : businessName && <InitialsAvatar name={businessName} />}
             {businessName && <h1 style={{ color: 'var(--pb-text)', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize', fontFamily: "'Orbitron', sans-serif" }}>{businessName}</h1>}
           </div>
         )}
@@ -305,6 +308,21 @@ function Shell({ children, businessName, logo, poweredBy = true, theme = 'light'
         </div>
         {poweredBy && <p style={{ textAlign: 'center', color: 'var(--pb-text-dim)', fontSize: 11, marginTop: 18 }}>Reservas con Vision OS</p>}
       </div>
+    </div>
+  )
+}
+
+// Iniciales del negocio sobre un círculo de color derivado del nombre.
+// Es el fallback cuando el salón no subió su logo: se ve intencional y
+// nunca muestra una marca ajena.
+function InitialsAvatar({ name }: { name: string }) {
+  const initials = name.trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('')
+  let hash = 0
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  const hue = Math.abs(hash) % 360
+  return (
+    <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 26, fontWeight: 800, fontFamily: "'Orbitron', sans-serif", background: `linear-gradient(135deg, hsl(${hue} 70% 52%), hsl(${(hue + 40) % 360} 70% 42%))`, boxShadow: '0 8px 24px rgba(0,0,0,0.25)' }}>
+      {initials || '★'}
     </div>
   )
 }

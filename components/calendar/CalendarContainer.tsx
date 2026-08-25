@@ -11,6 +11,7 @@ import { ClientSearch } from './ClientSearch'
 import { fetchBlocks, expandBlocksForDay, deleteBlock, type BlockInstance } from '@/services/blocked-times'
 import { listPaymentsForAppointments } from '@/services/payments'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useIsMobile } from '@/hooks/useIsMobile'
 import { BlockModal } from './BlockModal'
 import { CalendarDayView } from './CalendarDayView'
 import { CalendarListView } from './CalendarListView'
@@ -62,6 +63,9 @@ export function CalendarContainer({
   services: Service[]
 }) {
   const confirm = useConfirm()
+  const isMobile = useIsMobile()
+  // En el celular, la agenda por día muestra un profesional a la vez ('all' = todos).
+  const [profFilter, setProfFilter] = useState<string>('all')
   const [view, setView] = useState<View>('day')
   const [date, setDate] = useState(() => new Date())
   const [appointments, setAppointments] = useState<Appointment[]>([])
@@ -164,10 +168,17 @@ export function CalendarContainer({
       ? date.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })
       : view === 'week'
       ? `Semana del ${rangeFor('week', date).from.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}`
+      : isMobile
+      // Fecha corta en el celular ("24 ago") para que no se salga del viewport.
+      ? date.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' })
       : date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
 
   const isToday = getDateKey(date) === getDateKey(new Date())
   const ready = professionals.length && services.length
+  // Profesionales visibles en la vista diaria (en celular, el que se eligió).
+  const dayProfessionals = isMobile && profFilter !== 'all'
+    ? professionals.filter((p) => p.id === profFilter)
+    : professionals
 
   return (
     <div className="agenda-shell" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -188,11 +199,11 @@ export function CalendarContainer({
             <Search size={15} /> Buscar
           </button>
 
-          {/* Selector de vista */}
-          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 9, padding: 3, border: '1px solid rgba(255,255,255,0.08)' }}>
+          {/* Selector de vista — en celular ocupa todo el ancho y entra completo */}
+          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 9, padding: 3, border: '1px solid rgba(255,255,255,0.08)', width: isMobile ? '100%' : 'auto' }}>
             {(['day', 'list', 'week', 'month'] as View[]).map((v) => (
               <button key={v} onClick={() => setView(v)}
-                style={{ padding: '6px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
+                style={{ padding: isMobile ? '8px 0' : '6px 14px', flex: isMobile ? 1 : 'none', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
                   background: view === v ? 'rgba(37,99,255,0.25)' : 'transparent',
                   color: view === v ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
                 {v === 'day' ? 'Día' : v === 'list' ? 'Lista' : v === 'week' ? 'Semana' : 'Mes'}
@@ -219,6 +230,26 @@ export function CalendarContainer({
         </div>
       </header>
 
+      {/* Selector de profesional en el celular: una columna a la vez a pantalla
+          completa (en la agenda por día no entran todas las columnas juntas). */}
+      {isMobile && ready && view === 'day' && professionals.length > 1 && (
+        <div style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.07)', WebkitOverflowScrolling: 'touch' }}>
+          {[{ id: 'all', name: 'Todos', color: '#60a5fa' }, ...professionals].map((p) => {
+            const on = profFilter === p.id
+            return (
+              <button key={p.id} onClick={() => setProfFilter(p.id)}
+                style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6, padding: '7px 13px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600,
+                  background: on ? 'rgba(37,99,255,0.2)' : 'rgba(255,255,255,0.05)',
+                  border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                  color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)' }}>
+                {p.id !== 'all' && <span style={{ width: 8, height: 8, borderRadius: '50%', background: p.color }} />}
+                {p.name}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
       {!ready ? (
         <AgendaSetup needProf={!professionals.length} needSvc={!services.length} />
       ) : view === 'list' ? (
@@ -235,7 +266,7 @@ export function CalendarContainer({
         />
       ) : view === 'day' ? (
         <CalendarDayView
-          professionals={professionals}
+          professionals={dayProfessionals}
           services={services}
           appointments={appointments}
           blocks={dayBlocks}

@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { sendWelcomeEmail } from '@/lib/email'
+import { isClinicalSector } from '@/lib/constants'
 
 // ─── Registro ────────────────────────────────────────────────────
 // El nombre del negocio se guarda en metadata; el trigger de la DB
@@ -34,6 +35,9 @@ export async function register(
       data: {
         business_name: businessName || 'Mi Negocio',
         sector: sector || 'Otro',
+        // El trigger handle_new_user usa esto para activar la historia clínica
+        // (y el vocabulario "Paciente") solo en rubros de salud.
+        clinical: isClinicalSector(sector),
       },
     },
   })

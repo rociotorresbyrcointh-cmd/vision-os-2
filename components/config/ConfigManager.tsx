@@ -104,8 +104,16 @@ export function ConfigManager({
   const [savedDep, setSavedDep] = useState(false)
   const setDepField = (k: keyof DepositSettings, v: string | number | null) => setDep((d) => ({ ...d, [k]: v }))
 
+  const [depositSetupOpen, setDepositSetupOpen] = useState(false)
   const toggleDeposit = async () => {
     const next = !deposit
+    // No permitir activar la seña sin un alias/link de cobro cargado: evita que
+    // las señas se depositen en una cuenta equivocada o inexistente.
+    if (next && !dep.link?.trim()) {
+      setDepositSetupOpen(true)
+      toast('Antes de activar la seña, cargá tu link de cobro o alias más abajo y guardá.', 'error')
+      return
+    }
     setDeposit(next); setSaving(true)
     try { await setOrgFlag(organizationId, 'deposit_enabled', next) }
     catch { setDeposit(!next) }
@@ -113,6 +121,10 @@ export function ConfigManager({
   }
 
   const persistDeposit = async () => {
+    if (!dep.link?.trim()) {
+      toast('Cargá tu link de cobro o alias antes de guardar la seña.', 'error')
+      return
+    }
     setSavingDep(true); setSavedDep(false)
     try {
       await saveDepositSettings(organizationId, dep)
@@ -149,6 +161,11 @@ export function ConfigManager({
                 {logo && <button onClick={removeLogo} style={{ ...btnGhostSm, color: '#f87171' }}><X size={13} /> Quitar</button>}
               </div>
             </div>
+            {!logo && (
+              <p style={{ margin: '10px 0 0', fontSize: 12.5, color: '#fbbf24', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 8, padding: '8px 11px', lineHeight: 1.5 }}>
+                Mientras no subas tu logo, tus clientes ven las iniciales de tu negocio en la página de reservas. Subí el tuyo para que aparezca tu marca.
+              </p>
+            )}
           </div>
 
           <Field label="Nombre del negocio">
@@ -233,8 +250,9 @@ export function ConfigManager({
         />
       </div>
 
-      {/* Configuración de la seña (solo si está activada) */}
-      {deposit && (
+      {/* Configuración de la seña. Visible siempre para poder cargar el alias
+          ANTES de activar la seña (no se puede activar con el alias vacío). */}
+      {(deposit || dep.link || dep.amount || depositSetupOpen) && (
         <div style={{ background: 'rgba(52,211,153,0.05)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 14, padding: '20px 22px', marginTop: 14 }}>
           <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Wallet size={17} color="#34d399" /> Datos de la seña
@@ -242,6 +260,11 @@ export function ConfigManager({
           <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
             Pegá tu propio link de cobro (Mercado Pago, PayPal, alias bancario…). El cliente lo verá al reservar y abona ahí. Vos confirmás el turno cuando recibís el pago.
           </p>
+          {dep.link?.trim() && (
+            <div style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 9, padding: '9px 12px', marginBottom: 14, fontSize: 12.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, wordBreak: 'break-all' }}>
+              Las señas se depositan en: <strong style={{ color: '#34d399' }}>{dep.link.trim()}</strong>. Verificá que sea tuyo.
+            </div>
+          )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Field label="Monto de la seña">

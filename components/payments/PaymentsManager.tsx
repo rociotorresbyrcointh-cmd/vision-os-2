@@ -9,6 +9,7 @@ import { getDateKey } from '@/lib/date-utils'
 import { exportToExcel } from '@/lib/excel'
 import { useVocab } from '@/components/vocab/VocabProvider'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 const money = (n: number) =>
   n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 })
@@ -23,6 +24,7 @@ const METHODS: PaymentMethod[] = ['efectivo', 'tarjeta', 'transferencia', 'merca
 
 export function PaymentsManager({ organizationId }: { organizationId: string }) {
   const confirm = useConfirm()
+  const isMobile = useIsMobile()
   const [date, setDate] = useState(() => new Date())
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
@@ -67,7 +69,7 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
   }
 
   return (
-    <div style={{ padding: '28px 32px', maxWidth: 880 }}>
+    <div style={{ padding: isMobile ? '18px 14px' : '28px 32px', maxWidth: 880 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
@@ -84,12 +86,14 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
       </div>
 
       {/* Navegación de día */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18, flexWrap: 'wrap' }}>
         <button onClick={() => shift(-1)} style={navBtn}><ChevronLeft size={17} /></button>
         <button onClick={() => shift(1)} style={navBtn}><ChevronRight size={17} /></button>
         <button onClick={() => setDate(new Date())} style={{ ...navBtn, width: 'auto', padding: '0 13px', fontSize: 13, fontWeight: 600, opacity: isToday ? 0.5 : 1 }}>Hoy</button>
         <span style={{ color: 'white', fontSize: 16, fontWeight: 600, textTransform: 'capitalize' }}>
-          {date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          {date.toLocaleDateString('es-AR', isMobile
+            ? { weekday: 'short', day: 'numeric', month: 'short' }
+            : { weekday: 'long', day: 'numeric', month: 'long' })}
         </span>
         {loading && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>actualizando…</span>}
       </div>

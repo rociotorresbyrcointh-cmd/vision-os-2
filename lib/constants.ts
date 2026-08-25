@@ -78,3 +78,13 @@ export const SECTOR_GROUPS = [
     sectors: ['Otro / No está en la lista'],
   },
 ]
+
+// Rubros que sí usan historia clínica (y por lo tanto vocabulario "Paciente").
+// El resto (estética, belleza, fitness, etc.) arranca con historia clínica
+// desactivada y vocabulario "Cliente".
+const CLINICAL_GROUP = 'Salud y Bienestar'
+export function isClinicalSector(sector: string | null | undefined): boolean {
+  if (!sector) return false
+  const group = SECTOR_GROUPS.find((g) => g.sectors.includes(sector))
+  return group?.label === CLINICAL_GROUP
+}
