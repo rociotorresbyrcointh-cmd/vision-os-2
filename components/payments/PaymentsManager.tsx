@@ -25,6 +25,10 @@ const METHODS: PaymentMethod[] = ['efectivo', 'tarjeta', 'transferencia', 'merca
 export function PaymentsManager({ organizationId }: { organizationId: string }) {
   const confirm = useConfirm()
   const isMobile = useIsMobile()
+  // Ver nota en CalendarContainer: el texto de fecha no se renderiza hasta
+  // montar para evitar el desajuste de hidratación (#418) SSR-UTC vs cliente.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   const [date, setDate] = useState(() => new Date())
   const [payments, setPayments] = useState<Payment[]>([])
   const [loading, setLoading] = useState(true)
@@ -47,7 +51,7 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
   }, [payments])
 
   const shift = (n: number) => setDate((d) => { const x = new Date(d); x.setDate(d.getDate() + n); return x })
-  const isToday = getDateKey(date) === getDateKey(new Date())
+  const isToday = mounted && getDateKey(date) === getDateKey(new Date())
 
   const remove = async (p: Payment) => {
     if (!(await confirm({ title: `¿Eliminar este pago de ${money(Number(p.amount))}?`, actionLabel: 'Eliminar', destructive: true }))) return
@@ -90,10 +94,10 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
         <button onClick={() => shift(-1)} style={navBtn}><ChevronLeft size={17} /></button>
         <button onClick={() => shift(1)} style={navBtn}><ChevronRight size={17} /></button>
         <button onClick={() => setDate(new Date())} style={{ ...navBtn, width: 'auto', padding: '0 13px', fontSize: 13, fontWeight: 600, opacity: isToday ? 0.5 : 1 }}>Hoy</button>
-        <span style={{ color: 'white', fontSize: 16, fontWeight: 600, textTransform: 'capitalize' }}>
-          {date.toLocaleDateString('es-AR', isMobile
+        <span style={{ color: 'white', fontSize: 16, fontWeight: 600, textTransform: 'capitalize', minHeight: 20 }}>
+          {mounted ? date.toLocaleDateString('es-AR', isMobile
             ? { weekday: 'short', day: 'numeric', month: 'short' }
-            : { weekday: 'long', day: 'numeric', month: 'long' })}
+            : { weekday: 'long', day: 'numeric', month: 'long' }) : ''}
         </span>
         {loading && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>actualizando…</span>}
       </div>

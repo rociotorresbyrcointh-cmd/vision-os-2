@@ -64,6 +64,11 @@ export function CalendarContainer({
 }) {
   const confirm = useConfirm()
   const isMobile = useIsMobile()
+  // El texto de la fecha depende de la hora local del usuario. En SSR el server
+  // corre en UTC y el cliente en su zona → el texto no coincidía (hidratación
+  // #418). Por eso NO renderizamos texto de fecha hasta después de montar.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   // En el celular, la agenda por día muestra un profesional a la vez ('all' = todos).
   const [profFilter, setProfFilter] = useState<string>('all')
   const [view, setView] = useState<View>('day')
@@ -163,8 +168,9 @@ export function CalendarContainer({
     }
   }
 
-  const label =
-    view === 'month'
+  const label = !mounted
+    ? ''
+    : view === 'month'
       ? date.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })
       : view === 'week'
       ? `Semana del ${rangeFor('week', date).from.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}`
@@ -173,7 +179,7 @@ export function CalendarContainer({
       ? date.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' })
       : date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
 
-  const isToday = getDateKey(date) === getDateKey(new Date())
+  const isToday = mounted && getDateKey(date) === getDateKey(new Date())
   const ready = professionals.length && services.length
   // Profesionales visibles en la vista diaria (en celular, el que se eligió).
   const dayProfessionals = isMobile && profFilter !== 'all'
