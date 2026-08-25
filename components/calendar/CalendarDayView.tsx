@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Globe } from 'lucide-react'
 import type { Professional, Service, Appointment } from '@/types/database'
 import type { BlockInstance } from '@/services/blocked-times'
@@ -87,10 +87,14 @@ export function CalendarDayView({
     return lines
   }, [openMin, closeMin])
 
-  // Línea de "ahora"
+  // Línea de "ahora". Depende de la hora local del usuario, así que solo se
+  // dibuja después de montar (en SSR el server está en UTC → evita desajuste
+  // de hidratación).
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   const now = new Date()
   const nowMin = now.getHours() * 60 + now.getMinutes()
-  const showNow = nowMin >= openMin && nowMin <= closeMin
+  const showNow = mounted && nowMin >= openMin && nowMin <= closeMin
 
   // Por cada profesional: sus turnos, carriles, y el ancho que necesita su
   // columna para que los turnos simultáneos se lean (se ensancha con scroll).
