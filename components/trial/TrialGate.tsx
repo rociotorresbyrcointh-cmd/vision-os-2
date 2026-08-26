@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Check, Star, Gift, LogOut } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
-import { PLANS, type PlanId } from '@/lib/plans'
+import { PLANS, arsFromUsd, type PlanId } from '@/lib/plans'
 import { logout } from '@/app/actions/auth'
 
 // Pantalla bloqueante cuando se terminó la prueba de 14 días.
@@ -82,7 +82,7 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
               </button>
               <button onClick={() => pay('/api/mp/subscribe', p.id, 'm')} disabled={busy === 'm'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(0,177,234,0.4)', background: 'rgba(0,177,234,0.12)', color: 'white', cursor: 'pointer' }}>
                 <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>🇦🇷 Mercado Pago</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>en pesos</span></span>
-                <span style={{ fontWeight: 800 }}>${p.priceARS.toLocaleString('es-AR')}</span>
+                <span style={{ fontWeight: 800 }}>$ {arsFromUsd(p.price).toLocaleString('es-AR')}</span>
               </button>
               <button onClick={() => setChoosing(null)} style={{ width: '100%', marginTop: 14, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.45)', fontSize: 13, cursor: 'pointer' }}>Cancelar</button>
             </div>

@@ -1,16 +1,22 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { getStripe, PRICE_BY_PLAN } from '@/lib/stripe'
-import { planById, type PlanId } from '@/lib/plans'
+import { getStripe, stripePriceFor } from '@/lib/stripe'
+import { planById, type PlanId, type BillingCycle } from '@/lib/plans'
 
 export const runtime = 'nodejs'
 
 export async function POST(request: Request) {
-  const { plan } = (await request.json()) as { plan: PlanId }
+  const body = (await request.json()) as { plan: PlanId; cycle?: BillingCycle }
+  const plan = body.plan
+  const cycle: BillingCycle = body.cycle === 'annual' ? 'annual' : 'monthly'
   if (!planById(plan)) return NextResponse.json({ error: 'Plan inválido' }, { status: 400 })
 
-  const priceId = PRICE_BY_PLAN[plan]
-  if (!priceId) return NextResponse.json({ error: 'Falta configurar el precio de este plan en Stripe.' }, { status: 400 })
+  const priceId = stripePriceFor(plan, cycle)
+  if (!priceId) return NextResponse.json({
+    error: cycle === 'annual'
+      ? 'Falta configurar el precio ANUAL de este plan en Stripe.'
+      : 'Falta configurar el precio de este plan en Stripe.',
+  }, { status: 400 })
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -55,8 +61,8 @@ export async function POST(request: Request) {
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
       client_reference_id: org.id,
-      metadata: { orgId: org.id, plan },
-      subscription_data: { metadata: { orgId: org.id, plan } },
+      metadata: { orgId: org.id, plan, cycle },
+      subscription_data: { metadata: { orgId: org.id, plan, cycle } },
       success_url: `${origin}/plan?success=1`,
       cancel_url: `${origin}/plan?canceled=1`,
       allow_promotion_codes: true,

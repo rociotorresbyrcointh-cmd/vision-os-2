@@ -7,8 +7,7 @@ export type Plan = {
   id: PlanId
   name: string
   maxProf: number
-  price: number        // USD/mes (Stripe)
-  priceARS: number     // pesos/mes (Mercado Pago) — actualizar cuando se mueve el dólar
+  price: number        // USD/mes (fuente de verdad; Stripe)
   blurb: string
   popular?: boolean
   features: string[]
@@ -16,32 +15,51 @@ export type Plan = {
 
 export const EXTRA_PRICE = 15 // USD por profesional extra (más de 10)
 
+// ─── Ciclo de facturación ────────────────────────────────────────
+export type BillingCycle = 'monthly' | 'annual'
+// El plan anual se paga 10 meses y se usan 12 → 2 meses gratis (~17%).
+export const ANNUAL_MONTHS_CHARGED = 10
+
+// Precio en USD según el ciclo (mensual = 1 mes; anual = 10 meses).
+export function usdFor(plan: Plan, cycle: BillingCycle): number {
+  return cycle === 'annual' ? plan.price * ANNUAL_MONTHS_CHARGED : plan.price
+}
+
+// ─── Tipo de cambio USD→ARS (configurable en UN solo lugar) ──────
+// Se controla con la env NEXT_PUBLIC_USD_TO_ARS en Vercel. Se cambia un
+// número cuando se mueve el dólar y toda la app se actualiza. NO hardcodear
+// precios en pesos: se derivan siempre del precio en USD por este tipo de cambio.
+export const USD_TO_ARS = Number(process.env.NEXT_PUBLIC_USD_TO_ARS) || 1500
+
+// Convierte USD a ARS y redondea a la centena más cercana (precio "lindo").
+export function arsFromUsd(usd: number, rate: number = USD_TO_ARS): number {
+  return Math.round((usd * rate) / 100) * 100
+}
+
 export const PLANS: Plan[] = [
   {
     id: 'inicial',
     name: 'Inicial',
     maxProf: 1,
     price: 39,
-    priceARS: 58000,
     blurb: '1 profesional',
-    features: ['Agenda y turnos', 'Pacientes y caja', 'Reservas online', 'Recordatorios'],
+    features: ['Agenda y turnos', 'Clientes y caja', 'Reservas online', 'Recordatorios'],
   },
   {
     id: 'equipo',
     name: 'Equipo',
     maxProf: 4,
     price: 79,
-    priceARS: 117000,
     blurb: '2 a 4 profesionales',
     popular: true,
     features: ['Todo lo de Inicial', 'Roles y permisos por empleado', 'Redes sociales con IA', 'Crecimiento y reportes'],
   },
   {
+    // id interno 'clinica' se mantiene (Stripe/MP/DB); el nombre visible es "Premium".
     id: 'clinica',
-    name: 'Clínica',
+    name: 'Premium',
     maxProf: 10,
     price: 149,
-    priceARS: 221000,
     blurb: '5 a 10 profesionales',
     features: ['Todo lo de Equipo', 'Hasta 10 profesionales', 'Soporte prioritario', `Profesional extra +$${EXTRA_PRICE} c/u`],
   },

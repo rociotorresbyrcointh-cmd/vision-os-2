@@ -1,14 +1,19 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { preApproval } from '@/lib/mercadopago'
-import { planById, type PlanId } from '@/lib/plans'
+import { planById, usdFor, arsFromUsd, type PlanId, type BillingCycle } from '@/lib/plans'
 
 export const runtime = 'nodejs'
 
 export async function POST(request: Request) {
-  const { plan } = (await request.json()) as { plan: PlanId }
+  const body = (await request.json()) as { plan: PlanId; cycle?: BillingCycle }
+  const plan = body.plan
+  const cycle: BillingCycle = body.cycle === 'annual' ? 'annual' : 'monthly'
   const p = planById(plan)
   if (!p) return NextResponse.json({ error: 'Plan inválido' }, { status: 400 })
+
+  // Monto en ARS derivado del precio en USD (mensual = 1 mes; anual = 10 meses).
+  const amountARS = arsFromUsd(usdFor(p, cycle))
 
   if (!process.env.MP_ACCESS_TOKEN) {
     return NextResponse.json({ error: 'Falta configurar Mercado Pago (MP_ACCESS_TOKEN).' }, { status: 400 })
@@ -27,15 +32,16 @@ export async function POST(request: Request) {
   try {
     const result = await preApproval().create({
       body: {
-        reason: `Vision OS — ${p.name}`,
+        reason: `Vision OS — ${p.name}${cycle === 'annual' ? ' (anual)' : ''}`,
         external_reference: `${org.id}|${plan}`,
         payer_email: user.email ?? undefined,
         back_url: `${origin}/plan?mp=success`,
         status: 'pending',
         auto_recurring: {
-          frequency: 1,
+          // Mensual = cada 1 mes; anual = un cobro cada 12 meses (por 10 meses).
+          frequency: cycle === 'annual' ? 12 : 1,
           frequency_type: 'months',
-          transaction_amount: p.priceARS,
+          transaction_amount: amountARS,
           currency_id: 'ARS',
         },
       },
