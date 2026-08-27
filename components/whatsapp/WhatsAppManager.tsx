@@ -17,9 +17,11 @@ function uid() {
 export function WhatsAppManager({
   organizationId,
   initial,
+  embedded = false,
 }: {
   organizationId: string
   initial: WhatsAppTemplate[]
+  embedded?: boolean
 }) {
   const [templates, setTemplates] = useState<WhatsAppTemplate[]>(initial)
   const [saving, setSaving] = useState(false)
@@ -43,17 +45,19 @@ export function WhatsAppManager({
   }
 
   return (
-    <div style={{ padding: '28px 32px', maxWidth: 820 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+    <div style={{ padding: embedded ? 0 : '28px 32px', maxWidth: 820 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 12 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-            <MessageCircle size={20} color="#25d366" /> Mensajes de WhatsApp
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5 }}>
+          {!embedded && (
+            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+              <MessageCircle size={20} color="#25d366" /> Mensajes de WhatsApp
+            </h1>
+          )}
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: embedded ? 0 : 5 }}>
             Editá los mensajes que enviás a tus clientes desde la agenda.
           </p>
         </div>
-        <button onClick={persist} disabled={saving} style={{ ...btnPrimary, opacity: saving ? 0.6 : 1 }}>
+        <button onClick={persist} disabled={saving} style={{ ...btnPrimary, opacity: saving ? 0.6 : 1, flexShrink: 0 }}>
           {saved ? <><Check size={16} /> Guardado</> : <><Save size={15} /> {saving ? 'Guardando…' : 'Guardar'}</>}
         </button>
       </div>

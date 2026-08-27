@@ -85,7 +85,8 @@ export async function saveDepositSettings(organizationId: string, d: DepositSett
 // Activar/desactivar una feature booleana del negocio (ej: historia clínica, redes, seña)
 export async function setOrgFlag(
   organizationId: string,
-  field: 'clinical_history_enabled' | 'social_enabled' | 'deposit_enabled',
+  field: 'clinical_history_enabled' | 'social_enabled' | 'deposit_enabled'
+    | 'whatsapp_confirmations_enabled' | 'whatsapp_bot_enabled',
   value: boolean
 ): Promise<void> {
   const supabase = createClient()
@@ -105,6 +106,19 @@ export async function setPublicTheme(
   const { error } = await supabase
     .from('organizations')
     .update({ public_theme: theme })
+    .eq('id', organizationId)
+  if (error) throw error
+}
+
+// Guarda la configuración del bot de WhatsApp del negocio (jsonb).
+export async function saveBotConfig(
+  organizationId: string,
+  config: unknown
+): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('organizations')
+    .update({ whatsapp_bot_config: config })
     .eq('id', organizationId)
   if (error) throw error
 }
