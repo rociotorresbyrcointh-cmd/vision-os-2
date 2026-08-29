@@ -38,6 +38,7 @@ export async function updateSession(request: NextRequest) {
   const isPublicRoute = path === '/' || path === '/guia' || path.startsWith('/carrusel') || path === '/historias' || path.startsWith('/promo') || path.startsWith('/reservar') || path === '/manifest.webmanifest' ||
     path === '/privacidad' || path === '/terminos' ||
     path === '/api/stripe/webhook' || path === '/api/mp/webhook' || path.startsWith('/api/cron') || path.startsWith('/api/admin') ||
+    path.startsWith('/api/webhooks/whatsapp') ||
     path.startsWith('/auth/callback')
 
   // Sin sesión y fuera de las rutas públicas → mandar a login.

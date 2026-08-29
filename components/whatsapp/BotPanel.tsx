@@ -44,7 +44,7 @@ export function BotPanel({
           contesta dudas, precios y horarios, y agenda el turno en tu agenda. Importante:
         </p>
         <ul style={{ margin: '10px 0 0', paddingLeft: 18, color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.7 }}>
-          <li>El número que conectás al bot se maneja desde <strong style={{ color: 'white' }}>Meta</strong>: las conversaciones del bot <strong style={{ color: 'white' }}>no</strong> se ven en la app de WhatsApp del celular, sino en el panel de Meta (y los turnos que agenda aparecen acá, en Vision OS).</li>
+          <li>El número que conectás al bot se maneja desde <strong style={{ color: 'white' }}>Meta</strong>: las conversaciones del bot <strong style={{ color: 'white' }}>no</strong> se ven en la app de WhatsApp del celular, sino en el panel de Meta (y los turnos que agenda aparecen acá, en Vision OS). <span style={{ color: 'rgba(255,255,255,0.5)' }}>Esto es <strong style={{ color: 'white' }}>un requisito de Meta</strong>, no una decisión nuestra: es la única forma que Meta permite para que un programa conteste solo por WhatsApp.</span></li>
           <li>Por eso conviene usar <strong style={{ color: 'white' }}>un número aparte solo para el bot</strong>, y dejar tu WhatsApp de siempre para lo personal y las confirmaciones.</li>
           <li>Podés usar <strong style={{ color: 'white' }}>los dos, uno, o el otro</strong>: el bot y las confirmaciones se prenden y apagan por separado.</li>
         </ul>
