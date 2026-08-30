@@ -38,6 +38,48 @@ export function leerMensaje(cuerpo: unknown): MensajeEntrante | null {
   }
 }
 
+// Variantes de un número argentino para el envío. En producción el wa_id
+// (549…) funciona directo; algunos números de PRUEBA de Meta quedan
+// autorizados en el formato viejo (54 + área + 15 + número). Probamos
+// variantes solo si Meta rechaza por "no está en la lista" (131030).
+function variantesArgentina(to: string): string[] {
+  const v: string[] = [to]
+  const d = to.replace(/\D/g, '')
+  if (d.startsWith('549') && d.length === 13) {
+    const nac = d.slice(3) // 10 dígitos: área + número (sin el 9)
+    v.push('54' + nac) // sin el 9
+    for (const areaLen of [2, 3, 4]) {
+      const area = nac.slice(0, areaLen)
+      const num = nac.slice(areaLen)
+      if (num.length >= 6) v.push('54' + area + '15' + num) // con "15"
+    }
+  }
+  return [...new Set(v)]
+}
+
+async function intentarEnvio(
+  cx: { phoneNumberId: string; token: string },
+  to: string,
+  texto: string,
+): Promise<{ ok: boolean; code?: number }> {
+  const res = await fetch(`${GRAPH}/${cx.phoneNumberId}/messages`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${cx.token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messaging_product: 'whatsapp',
+      to,
+      type: 'text',
+      text: { body: texto, preview_url: true },
+    }),
+  })
+  if (res.ok) return { ok: true }
+  const cuerpo = await res.text().catch(() => '')
+  let code: number | undefined
+  try { code = JSON.parse(cuerpo)?.error?.code } catch { /* */ }
+  console.error('[bot] No se pudo enviar:', res.status, cuerpo)
+  return { ok: false, code }
+}
+
 // Manda un texto con el token y número del negocio. Devuelve si salió bien
 // (no lanza: un fallo al escribir no debe tumbar el webhook).
 export async function enviarTexto(
@@ -45,21 +87,14 @@ export async function enviarTexto(
   telefono: string,
   texto: string,
 ): Promise<boolean> {
-  const res = await fetch(`${GRAPH}/${cx.phoneNumberId}/messages`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${cx.token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messaging_product: 'whatsapp',
-      to: telefono,
-      type: 'text',
-      text: { body: texto, preview_url: true },
-    }),
-  })
-  if (!res.ok) {
-    console.error('[bot] No se pudo enviar:', res.status, await res.text().catch(() => ''))
-    return false
+  const variantes = variantesArgentina(telefono)
+  for (const [i, to] of variantes.entries()) {
+    const r = await intentarEnvio(cx, to, texto)
+    if (r.ok) return true
+    // Solo seguimos probando otras variantes si fue "no está en la lista".
+    if (r.code !== 131030 || i === variantes.length - 1) return false
   }
-  return true
+  return false
 }
 
 const MAX_TROZOS = 3
