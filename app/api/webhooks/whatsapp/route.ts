@@ -34,15 +34,23 @@ export async function GET(request: Request) {
   return new Response('No autorizado', { status: 403 })
 }
 
+// DIAGNÓSTICO temporal: registra lo crudo que llega, para depurar la entrega.
+async function registrarWebhook(cuerpo: unknown) {
+  try {
+    const supabase = createAdminClient()
+    await supabase.from('bot_webhook_log').insert({ cuerpo })
+  } catch (e) { console.error('[bot] No se pudo registrar el webhook:', e) }
+}
+
 export async function POST(request: Request) {
   let cuerpo: unknown
   try { cuerpo = await request.json() } catch { return Response.json({ recibido: true }) }
 
-  const mensaje = leerMensaje(cuerpo)
-  if (!mensaje) return Response.json({ recibido: true }) // avisos "entregado"/"leído"
-
   // Responder 200 ya y trabajar en segundo plano (Meta reintenta si tardás >5s).
   after(async () => {
+    await registrarWebhook(cuerpo) // DIAGNÓSTICO temporal
+    const mensaje = leerMensaje(cuerpo)
+    if (!mensaje) return // avisos "entregado"/"leído"
     try { await atender(mensaje) }
     catch (e) { console.error('[bot] Falló al atender:', e) }
   })
