@@ -142,6 +142,9 @@ export function ConfigManager({
         Datos de tu negocio y funciones según tu rubro.
       </p>
 
+      {/* Acceso a la cuenta — destacado arriba */}
+      <AccountSettings />
+
       {/* Datos del negocio */}
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '20px 22px', marginBottom: 18 }}>
         <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -290,9 +293,6 @@ export function ConfigManager({
           </div>
         </div>
       )}
-
-      {/* Acceso: cambiar email y contraseña */}
-      <AccountSettings />
     </div>
   )
 }

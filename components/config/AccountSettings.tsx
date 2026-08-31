@@ -23,9 +23,12 @@ export function AccountSettings() {
   useEffect(() => { if (state?.ok) { const f = document.getElementById('acc-pass') as HTMLInputElement | null; if (f) f.value = '' } }, [state?.ok])
 
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '20px 22px', marginTop: 18 }}>
-      <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <KeyRound size={18} color="#60a5fa" /> Acceso a la cuenta
+    <div style={{ background: 'linear-gradient(145deg, rgba(37,99,255,0.12), rgba(37,99,255,0.04))', border: '1px solid rgba(37,99,255,0.4)', borderRadius: 14, padding: '20px 22px', marginBottom: 18, boxShadow: '0 0 24px rgba(37,99,255,0.12)' }}>
+      <h2 style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
+        <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(37,99,255,0.2)', border: '1px solid rgba(37,99,255,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <KeyRound size={18} color="#60a5fa" />
+        </span>
+        Acceso a la cuenta
       </h2>
       <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
         Cambiá el email y/o la contraseña con la que entrás a la app. Dejá la contraseña en blanco si no la querés cambiar.
