@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X, Wallet } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import { setOrgFlag, saveOrgData, saveDepositSettings, setPublicTheme, type OrgData, type DepositSettings } from '@/services/org-settings'
+import { AccountSettings } from '@/components/config/AccountSettings'
 import { uploadLogo, setLogoUrl } from '@/services/storage'
 
 export function ConfigManager({
@@ -289,6 +290,9 @@ export function ConfigManager({
           </div>
         </div>
       )}
+
+      {/* Acceso: cambiar email y contraseña */}
+      <AccountSettings />
     </div>
   )
 }
