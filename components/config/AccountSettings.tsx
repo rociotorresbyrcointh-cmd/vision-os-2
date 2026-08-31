@@ -7,7 +7,7 @@ import { updateAccount } from '@/app/actions/auth'
 
 // Sección de Configuración para que el dueño cambie su email y/o contraseña
 // (por ejemplo, al tomar el control de una cuenta demo que se le creó).
-export function AccountSettings() {
+export function AccountSettings({ embedded = false }: { embedded?: boolean }) {
   const [state, formAction, pending] = useActionState(updateAccount, undefined)
   const [currentEmail, setCurrentEmail] = useState('')
   const [email, setEmail] = useState('')
@@ -22,14 +22,20 @@ export function AccountSettings() {
   // Al guardar bien, limpiamos las contraseñas.
   useEffect(() => { if (state?.ok) { const f = document.getElementById('acc-pass') as HTMLInputElement | null; if (f) f.value = '' } }, [state?.ok])
 
+  const wrapStyle: React.CSSProperties = embedded
+    ? {}
+    : { background: 'linear-gradient(145deg, rgba(37,99,255,0.12), rgba(37,99,255,0.04))', border: '1px solid rgba(37,99,255,0.4)', borderRadius: 14, padding: '20px 22px', marginBottom: 18, boxShadow: '0 0 24px rgba(37,99,255,0.12)' }
+
   return (
-    <div style={{ background: 'linear-gradient(145deg, rgba(37,99,255,0.12), rgba(37,99,255,0.04))', border: '1px solid rgba(37,99,255,0.4)', borderRadius: 14, padding: '20px 22px', marginBottom: 18, boxShadow: '0 0 24px rgba(37,99,255,0.12)' }}>
-      <h2 style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
-        <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(37,99,255,0.2)', border: '1px solid rgba(37,99,255,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-          <KeyRound size={18} color="#60a5fa" />
-        </span>
-        Acceso a la cuenta
-      </h2>
+    <div style={wrapStyle}>
+      {!embedded && (
+        <h2 style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
+          <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(37,99,255,0.2)', border: '1px solid rgba(37,99,255,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+            <KeyRound size={18} color="#60a5fa" />
+          </span>
+          Acceso a la cuenta
+        </h2>
+      )}
       <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
         Cambiá el email y/o la contraseña con la que entrás a la app. Dejá la contraseña en blanco si no la querés cambiar.
       </p>

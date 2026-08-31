@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X, Wallet } from 'lucide-react'
+import { Settings, FileHeart, Store, Check, Sparkles, ImagePlus, X, Wallet, KeyRound, SlidersHorizontal, ChevronDown } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import { setOrgFlag, saveOrgData, saveDepositSettings, setPublicTheme, type OrgData, type DepositSettings } from '@/services/org-settings'
 import { AccountSettings } from '@/components/config/AccountSettings'
@@ -28,6 +28,9 @@ export function ConfigManager({
   publicTheme?: 'light' | 'dark'
 }) {
   const toast = useToast()
+  // Qué sección del acordeón está abierta (una a la vez).
+  const [abierta, setAbierta] = useState<string | null>('acceso')
+  const toggleSeccion = (id: string) => setAbierta((p) => (p === id ? null : id))
   const [logo, setLogo] = useState<string | null>(logoUrl)
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const onLogoFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,14 +108,13 @@ export function ConfigManager({
   const [savedDep, setSavedDep] = useState(false)
   const setDepField = (k: keyof DepositSettings, v: string | number | null) => setDep((d) => ({ ...d, [k]: v }))
 
-  const [depositSetupOpen, setDepositSetupOpen] = useState(false)
   const toggleDeposit = async () => {
     const next = !deposit
     // No permitir activar la seña sin un alias/link de cobro cargado: evita que
     // las señas se depositen en una cuenta equivocada o inexistente.
     if (next && !dep.link?.trim()) {
-      setDepositSetupOpen(true)
-      toast('Antes de activar la seña, cargá tu link de cobro o alias más abajo y guardá.', 'error')
+      setAbierta('sena') // abre la sección de la seña para que carguen el alias
+      toast('Antes de activar la seña, cargá tu link de cobro o alias en "Datos de la seña" y guardá.', 'error')
       return
     }
     setDeposit(next); setSaving(true)
@@ -142,14 +144,13 @@ export function ConfigManager({
         Datos de tu negocio y funciones según tu rubro.
       </p>
 
-      {/* Acceso a la cuenta — destacado arriba */}
-      <AccountSettings />
+      {/* Acceso a la cuenta */}
+      <Accordion id="acceso" title="Acceso a la cuenta" subtitle="Cambiá tu email y contraseña" icon={<KeyRound size={18} color="#60a5fa" />} open={abierta === 'acceso'} onToggle={() => toggleSeccion('acceso')}>
+        <AccountSettings embedded />
+      </Accordion>
 
       {/* Datos del negocio */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '20px 22px', marginBottom: 18 }}>
-        <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Store size={18} color="#60a5fa" /> Datos del negocio
-        </h2>
+      <Accordion id="datos" title="Datos del negocio" subtitle="Logo, nombre, teléfono, horarios" icon={<Store size={18} color="#60a5fa" />} open={abierta === 'datos'} onToggle={() => toggleSeccion('datos')}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
           <div>
             <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>Logo</p>
@@ -189,13 +190,10 @@ export function ConfigManager({
             {savedData ? <><Check size={15} /> Guardado</> : savingData ? 'Guardando…' : 'Guardar datos'}
           </button>
         </div>
-      </div>
+      </Accordion>
 
-      {/* Apariencia de la página pública de reservas */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '20px 22px', marginBottom: 18 }}>
-        <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Sparkles size={18} color="#60a5fa" /> Página de reservas
-        </h2>
+      {/* Página de reservas */}
+      <Accordion id="reservas" title="Página de reservas" subtitle="Tema claro u oscuro para tus clientes" icon={<Sparkles size={18} color="#60a5fa" />} open={abierta === 'reservas'} onToggle={() => toggleSeccion('reservas')}>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '0 0 14px' }}>
           Tema con el que tus clientes ven la página pública para reservar.
         </p>
@@ -217,10 +215,10 @@ export function ConfigManager({
             )
           })}
         </div>
-      </div>
+      </Accordion>
 
-      <h2 style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '24px 0 12px' }}>Funciones</h2>
-
+      {/* Funciones */}
+      <Accordion id="funciones" title="Funciones" subtitle="Historia clínica, redes sociales, seña" icon={<SlidersHorizontal size={18} color="#60a5fa" />} open={abierta === 'funciones'} onToggle={() => toggleSeccion('funciones')}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <ToggleRow
           icon={<FileHeart size={20} color="#f472b6" />}
@@ -253,14 +251,11 @@ export function ConfigManager({
           onToggle={toggleDeposit}
         />
       </div>
+      </Accordion>
 
-      {/* Configuración de la seña. Visible siempre para poder cargar el alias
-          ANTES de activar la seña (no se puede activar con el alias vacío). */}
-      {(deposit || dep.link || dep.amount || depositSetupOpen) && (
-        <div style={{ background: 'rgba(52,211,153,0.05)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 14, padding: '20px 22px', marginTop: 14 }}>
-          <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Wallet size={17} color="#34d399" /> Datos de la seña
-          </h3>
+      {/* Datos de la seña */}
+      <Accordion id="sena" title="Datos de la seña" subtitle="Monto y link de cobro para las reservas" icon={<Wallet size={18} color="#34d399" />} open={abierta === 'sena'} onToggle={() => toggleSeccion('sena')}>
+        <div>
           <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
             Pegá tu propio link de cobro (Mercado Pago, PayPal, alias bancario…). El cliente lo verá al reservar y abona ahí. Vos confirmás el turno cuando recibís el pago.
           </p>
@@ -292,7 +287,26 @@ export function ConfigManager({
             </button>
           </div>
         </div>
-      )}
+      </Accordion>
+    </div>
+  )
+}
+
+// Sección plegable (acordeón) de Configuración.
+function Accordion({ title, subtitle, icon, open, onToggle, children }: {
+  id?: string; title: string; subtitle?: string; icon: React.ReactNode; open: boolean; onToggle: () => void; children: React.ReactNode
+}) {
+  return (
+    <div style={{ border: `1px solid ${open ? 'rgba(37,99,255,0.4)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 14, marginBottom: 12, overflow: 'hidden', background: 'rgba(255,255,255,0.03)', transition: 'border-color 0.2s' }}>
+      <button onClick={onToggle} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '16px 18px', background: open ? 'rgba(37,99,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
+        <span style={{ width: 36, height: 36, borderRadius: 9, background: 'rgba(37,99,255,0.14)', border: '1px solid rgba(37,99,255,0.3)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', color: 'white', fontSize: 15, fontWeight: 700 }}>{title}</span>
+          {subtitle && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12.5, marginTop: 2 }}>{subtitle}</span>}
+        </span>
+        <ChevronDown size={18} color="rgba(255,255,255,0.5)" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
+      </button>
+      {open && <div style={{ padding: '4px 18px 20px' }}>{children}</div>}
     </div>
   )
 }
