@@ -9,6 +9,6 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // Corre en todo salvo estáticos e imágenes (ver doc de matcher de Next 16).
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff2|woff|ttf|otf|ico)$).*)',
   ],
 }

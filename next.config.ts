@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // La página de inicio (landing) es un HTML estático en /public/inicio.html.
+  // La app (login, agenda, reservas, etc.) sigue igual.
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: "/", destination: "/inicio.html" }],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
 };
 
 export default nextConfig;
