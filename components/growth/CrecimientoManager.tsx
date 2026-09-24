@@ -315,7 +315,7 @@ function HuecosTab({ brand, professionals }: { brand: Brand; professionals: Prof
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
 const input: React.CSSProperties = {
   width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',

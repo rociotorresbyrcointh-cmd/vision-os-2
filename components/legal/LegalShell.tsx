@@ -3,7 +3,7 @@ import { VisionLogoWhite } from '@/components/VisionLogo'
 
 export function LegalShell({ title, updated, children }: { title: string; updated: string; children: React.ReactNode }) {
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', padding: '40px 20px 80px' }}>
+    <div style={{ minHeight: '100vh', background: '#0b0f17', padding: '40px 20px 80px' }}>
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         <Link href="/login" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: 28 }}>
           <VisionLogoWhite size={32} />
@@ -14,8 +14,8 @@ export function LegalShell({ title, updated, children }: { title: string; update
           {children}
         </div>
         <div style={{ marginTop: 40, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: 18 }}>
-          <Link href="/privacidad" style={{ color: '#60a5fa', fontSize: 13.5, textDecoration: 'none' }}>Política de Privacidad</Link>
-          <Link href="/terminos" style={{ color: '#60a5fa', fontSize: 13.5, textDecoration: 'none' }}>Términos y Condiciones</Link>
+          <Link href="/privacidad" style={{ color: '#eda45f', fontSize: 13.5, textDecoration: 'none' }}>Política de Privacidad</Link>
+          <Link href="/terminos" style={{ color: '#eda45f', fontSize: 13.5, textDecoration: 'none' }}>Términos y Condiciones</Link>
           <Link href="/login" style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13.5, textDecoration: 'none' }}>Volver</Link>
         </div>
       </div>

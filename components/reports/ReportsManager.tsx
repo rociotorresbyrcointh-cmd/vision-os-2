@@ -49,9 +49,9 @@ function delta(curr: number, prev: number): number | null {
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pendientes', color: '#fbbf24' },
   confirmed: { label: 'Confirmados', color: '#34d399' },
-  completed: { label: 'Completados', color: '#60a5fa' },
+  completed: { label: 'Completados', color: '#eda45f' },
   cancelled: { label: 'Cancelados', color: '#f87171' },
-  no_show: { label: 'No asistió', color: '#9ca3af' },
+  no_show: { label: 'No asistió', color: '#bcc4ce' },
 }
 
 export function ReportsManager({
@@ -166,8 +166,8 @@ export function ReportsManager({
           {(['mes', 'mesPasado', 'dias30'] as Period[]).map((p) => (
             <button key={p} onClick={() => setPeriod(p)}
               style={{ padding: '6px 13px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-                background: period === p ? 'rgba(37,99,255,0.25)' : 'transparent',
-                color: period === p ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                background: period === p ? 'rgba(229,136,62,0.25)' : 'transparent',
+                color: period === p ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
               {p === 'mes' ? 'Este mes' : p === 'mesPasado' ? 'Mes pasado' : 'Últimos 30 días'}
             </button>
           ))}
@@ -178,8 +178,8 @@ export function ReportsManager({
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12, marginBottom: 26 }}>
         <Kpi icon={<TrendingUp size={18} />} color="#34d399" label="Ingresos" value={money(m.ingresos)} pct={delta(m.ingresos, prev.ingresos)} goodUp />
-        <Kpi icon={<CalendarDays size={18} />} color="#60a5fa" label="Turnos" value={String(m.turnos)} pct={delta(m.turnos, prev.turnos)} goodUp />
-        <Kpi icon={<Receipt size={18} />} color="#a78bfa" label="Ticket promedio" value={money(m.ticket)} pct={delta(m.ticket, prev.ticket)} goodUp />
+        <Kpi icon={<CalendarDays size={18} />} color="#eda45f" label="Turnos" value={String(m.turnos)} pct={delta(m.turnos, prev.turnos)} goodUp />
+        <Kpi icon={<Receipt size={18} />} color="#e5883e" label="Ticket promedio" value={money(m.ticket)} pct={delta(m.ticket, prev.ticket)} goodUp />
         <Kpi icon={<UserX size={18} />} color="#f87171" label="Ausentismo" value={`${m.ausentismo.toFixed(0)}%`} pct={delta(m.ausentismo, prev.ausentismo)} goodUp={false} />
       </div>
 
@@ -200,7 +200,7 @@ export function ReportsManager({
           {m.byStatus.size === 0 ? <Empty /> : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[...m.byStatus.entries()].sort((a, b) => b[1] - a[1]).map(([st, count]) => (
-                <Bar key={st} label={STATUS_LABELS[st]?.label ?? st} value={String(count)} pct={(count / m.turnos) * 100} color={STATUS_LABELS[st]?.color ?? '#888'} />
+                <Bar key={st} label={STATUS_LABELS[st]?.label ?? st} value={String(count)} pct={(count / m.turnos) * 100} color={STATUS_LABELS[st]?.color ?? '#bcc4ce'} />
               ))}
             </div>
           )}
@@ -225,7 +225,7 @@ export function ReportsManager({
           {m.topServices.length === 0 ? <Empty /> : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {m.topServices.map(([id, count]) => (
-                <Bar key={id} label={svcName(id)} value={`${count}`} pct={(count / maxSvc) * 100} color="#60a5fa" />
+                <Bar key={id} label={svcName(id)} value={`${count}`} pct={(count / maxSvc) * 100} color="#eda45f" />
               ))}
             </div>
           )}

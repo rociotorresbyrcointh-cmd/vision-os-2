@@ -13,7 +13,7 @@ import { LavaBackground } from '@/components/landing/LavaBackground'
 import { PLANS } from '@/lib/plans'
 import { SUPPORT_EMAIL } from '@/lib/site'
 
-const BLUE = '#2563FF'
+const BLUE = '#e5883e'
 
 export function Landing() {
   const [menu, setMenu] = useState(false)
@@ -46,7 +46,7 @@ export function Landing() {
   }, [])
 
   return (
-    <div style={{ background: '#06060d', color: 'white', overflowX: 'hidden', position: 'relative' }}>
+    <div style={{ background: '#0b0f17', color: 'white', overflowX: 'hidden', position: 'relative' }}>
       {/* Fondo 3D "lava lamp" (orgánico, en la paleta de la marca) */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
         <LavaBackground />
@@ -57,7 +57,7 @@ export function Landing() {
         <nav style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(12px)', background: 'rgba(6,6,13,0.72)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ ...container, display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
             <a href="#" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: '0.04em', color: 'white', textDecoration: 'none' }}>
-              VISION<span style={{ color: '#60a5fa' }}> OS</span>
+              VISION<span style={{ color: '#eda45f' }}> OS</span>
             </a>
             <div style={{ display: 'flex', alignItems: 'center', gap: 28 }} className="ld-desktop-nav">
               <a href="#agenda" className="ld-nav-link" style={navLink}>Agenda</a>
@@ -86,7 +86,7 @@ export function Landing() {
         {/* ───── HERO ───── */}
         <header ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{ ...container, position: 'relative', paddingTop: 'clamp(70px, 12vw, 150px)', paddingBottom: 'clamp(40px, 7vw, 80px)', textAlign: 'center' }}>
           {/* Logo gigante DETRÁS del título: gira en 3D, se arma/desarma y hace parallax */}
-          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.85, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(37,99,255,1))' }}>
+          <div aria-hidden style={{ position: 'absolute', top: 'clamp(0px, 2vw, 40px)', left: '50%', zIndex: 0, pointerEvents: 'none', opacity: 0.85, perspective: '1300px', transform: `translate(-50%, 0) translate(${par.dx}px, ${par.dy}px)`, transition: 'transform 0.18s ease-out', filter: 'drop-shadow(0 0 90px rgba(229,136,62,1))' }}>
             <span className="ld-logo-3d" style={{ display: 'inline-block', lineHeight: 0 }}>
               <HeroV />
             </span>
@@ -127,7 +127,7 @@ export function Landing() {
 
         {/* ───── RUBROS (carrusel infinito) ───── */}
         <section className="rv-sec" style={{ paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 70px)' }}>
-          <p style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#60a5fa', marginBottom: 8 }}>Pensada para tu rubro</p>
+          <p style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#eda45f', marginBottom: 8 }}>Pensada para tu rubro</p>
           <h2 style={{ textAlign: 'center', fontSize: 'clamp(22px, 3.4vw, 34px)', fontWeight: 900, margin: '0 0 30px', letterSpacing: '-0.02em' }}>Sea cual sea tu actividad</h2>
           <div className="ld-marquee-mask" style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0' }}>
             <div className="ld-marquee-track">
@@ -137,7 +137,7 @@ export function Landing() {
               {[...RUBROS.slice(10), ...RUBROS.slice(10)].map((r, i) => <Chip key={'b' + i} label={r} i={i + 5} />)}
             </div>
           </div>
-          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>…y muchas más. <span style={{ color: '#93c5fd', fontWeight: 600 }}>Si trabajás con turnos, es para vos.</span></p>
+          <p style={{ textAlign: 'center', marginTop: 24, fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>…y muchas más. <span style={{ color: '#e5883e', fontWeight: 600 }}>Si trabajás con turnos, es para vos.</span></p>
         </section>
 
         {/* ───── PROBLEMA → SOLUCIÓN ───── */}
@@ -171,13 +171,13 @@ export function Landing() {
         <section id="agenda" className="ld-spotlight" style={{ ...container, paddingTop: 'clamp(20px, 4vw, 50px)', paddingBottom: 'clamp(40px, 6vw, 80px)' }}>
           <div style={spotGrid}>
             <Reveal dir="left"><div>
-              <span style={kickerPill('#2563FF')}><Calendar size={14} /> Agenda inteligente</span>
+              <span style={kickerPill('#e5883e')}><Calendar size={14} /> Agenda inteligente</span>
               <h2 style={spotTitle}>La agenda más <span className="ld-gradient-text">poderosa</span> para tu negocio</h2>
               <p style={spotSub}>No es un simple calendario. Es un cerebro que ordena tu día y trabaja por vos.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 22 }}>
                 {AGENDA_POINTS.map((p) => (
                   <div key={p.t} style={{ display: 'flex', gap: 13 }}>
-                    <span style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(37,99,255,0.15)', border: '1px solid rgba(37,99,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><p.icon size={18} color="#60a5fa" /></span>
+                    <span style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(229,136,62,0.15)', border: '1px solid rgba(229,136,62,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><p.icon size={18} color="#eda45f" /></span>
                     <div>
                       <p style={{ margin: 0, fontWeight: 700, fontSize: 15.5 }}>{p.t}</p>
                       <p style={{ margin: '3px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>{p.d}</p>
@@ -198,13 +198,13 @@ export function Landing() {
         <section id="redes" className="ld-spotlight" style={{ ...container, paddingBottom: 'clamp(40px, 6vw, 90px)' }}>
           <div style={{ ...spotGrid, direction: 'rtl' }}>
             <Reveal dir="right"><div style={{ direction: 'ltr' }}>
-              <span style={kickerPill('#a78bfa')}><Sparkles size={14} /> Marketing con IA</span>
+              <span style={kickerPill('#e5883e')}><Sparkles size={14} /> Marketing con IA</span>
               <h2 style={spotTitle}>Creá contenido <span className="ld-gradient-text">que vende</span>, en segundos</h2>
               <p style={spotSub}>La función estrella. Una inteligencia artificial que arma tu marketing por vos: imágenes para Instagram, textos e ideas listas para publicar.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 22 }}>
                 {REDES_POINTS.map((p) => (
                   <div key={p.t} style={{ display: 'flex', gap: 13 }}>
-                    <span style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><p.icon size={18} color="#c4b5fd" /></span>
+                    <span style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(229,136,62,0.15)', border: '1px solid rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><p.icon size={18} color="#eda45f" /></span>
                     <div>
                       <p style={{ margin: 0, fontWeight: 700, fontSize: 15.5 }}>{p.t}</p>
                       <p style={{ margin: '3px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>{p.d}</p>
@@ -263,9 +263,9 @@ export function Landing() {
           <SectionTitle kicker="Precios" title="Planes simples, sin sorpresas" sub="Probá 14 días gratis. Suscribite cuando quieras, incluso hoy. Cancelás cuando quieras." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 270px), 1fr))', gap: 18, marginTop: 44, maxWidth: 980, marginLeft: 'auto', marginRight: 'auto' }}>
             {PLANS.map((p) => (
-              <div key={p.id} className="ld-card" style={{ ...glass, position: 'relative', display: 'flex', flexDirection: 'column', borderColor: p.popular ? 'rgba(37,99,255,0.6)' : 'rgba(255,255,255,0.1)', boxShadow: p.popular ? '0 20px 60px rgba(37,99,255,0.22)' : 'none' }}>
+              <div key={p.id} className="ld-card" style={{ ...glass, position: 'relative', display: 'flex', flexDirection: 'column', borderColor: p.popular ? 'rgba(229,136,62,0.6)' : 'rgba(255,255,255,0.1)', boxShadow: p.popular ? '0 20px 60px rgba(229,136,62,0.22)' : 'none' }}>
                 {p.popular && (
-                  <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>
+                  <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>
                 )}
                 <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>{p.name}</h3>
                 <p style={{ margin: '4px 0 0', fontSize: 13.5, color: 'rgba(255,255,255,0.5)' }}>{p.blurb}</p>
@@ -314,7 +314,7 @@ export function Landing() {
 
         {/* ───── CTA FINAL ───── */}
         <section className="rv-sec" style={{ ...container, paddingBottom: 'clamp(50px, 8vw, 100px)' }}>
-          <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 24, border: '1px solid rgba(37,99,255,0.35)', background: 'linear-gradient(135deg, rgba(37,99,255,0.2), rgba(167,139,250,0.14))', padding: 'clamp(40px, 6vw, 70px) clamp(20px, 4vw, 50px)', textAlign: 'center' }}>
+          <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 24, border: '1px solid rgba(229,136,62,0.35)', background: 'linear-gradient(135deg, rgba(229,136,62,0.2), rgba(229,136,62,0.14))', padding: 'clamp(40px, 6vw, 70px) clamp(20px, 4vw, 50px)', textAlign: 'center' }}>
             <div className="ld-pulse" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 18px', borderRadius: 999, background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.5)', fontSize: 13.5, fontWeight: 800, color: '#6ee7b7', marginBottom: 22 }}>
               <Gift size={15} /> 14 DÍAS GRATIS, SIN TARJETA
             </div>
@@ -363,19 +363,19 @@ function AppMockup() {
     { icon: Settings, label: 'Configuración' },
   ]
   return (
-    <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 130px rgba(37,99,255,0.32)', background: '#07070f' }}>
+    <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 130px rgba(229,136,62,0.32)', background: '#0b0f17' }}>
       {/* barra de ventana */}
-      <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0a0a14' }}>
+      <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0b0f17' }}>
         <span style={dot('#ff5f57')} /><span style={dot('#febc2e')} /><span style={dot('#28c840')} />
         <span style={{ marginLeft: 12, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>vision.byrcointh.online/agenda</span>
       </div>
       <div style={{ display: 'flex', minHeight: 300 }}>
         {/* menú lateral con todas las opciones (se oculta en celular) */}
-        <div className="ld-mock-side" style={{ width: 168, flexShrink: 0, background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <div className="ld-mock-side" style={{ width: 168, flexShrink: 0, background: '#0b0f17', borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 3 }}>
           <div style={{ padding: '4px 8px 12px' }}><VisionLogoWhite size={22} /></div>
           {NAV.map((n) => (
-            <div key={n.label} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 9px', borderRadius: 8, fontSize: 11.5, fontWeight: 600, color: n.active ? 'white' : 'rgba(255,255,255,0.5)', background: n.active ? 'rgba(37,99,255,0.16)' : 'transparent', border: n.active ? '1px solid rgba(37,99,255,0.35)' : '1px solid transparent' }}>
-              <n.icon size={14} color={n.active ? '#60a5fa' : 'currentColor'} /> {n.label}
+            <div key={n.label} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 9px', borderRadius: 8, fontSize: 11.5, fontWeight: 600, color: n.active ? 'white' : 'rgba(255,255,255,0.5)', background: n.active ? 'rgba(229,136,62,0.16)' : 'transparent', border: n.active ? '1px solid rgba(229,136,62,0.35)' : '1px solid transparent' }}>
+              <n.icon size={14} color={n.active ? '#eda45f' : 'currentColor'} /> {n.label}
             </div>
           ))}
         </div>
@@ -388,9 +388,9 @@ function AppMockup() {
 
 function AgendaPreview({ embedded }: { embedded?: boolean }) {
   const cols = [
-    { name: 'Sofía', color: '#2563FF' },
+    { name: 'Sofía', color: '#e5883e' },
     { name: 'Martina', color: '#34d399' },
-    { name: 'Lucía', color: '#a78bfa' },
+    { name: 'Lucía', color: '#e5883e' },
   ]
   const appts = [
     { col: 0, top: 8, h: 46, name: 'Ana G.', svc: 'Limpieza facial', tag: '✓' },
@@ -400,7 +400,7 @@ function AgendaPreview({ embedded }: { embedded?: boolean }) {
     { col: 2, top: 66, h: 54, name: 'Romi P.', svc: 'Uñas' },
   ]
   return (
-    <div style={{ background: '#07070f', borderRadius: embedded ? 0 : 16, border: embedded ? 'none' : '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+    <div style={{ background: '#0b0f17', borderRadius: embedded ? 0 : 16, border: embedded ? 'none' : '1px solid rgba(255,255,255,0.1)', overflow: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <span style={{ fontWeight: 700, fontSize: 14 }}>Hoy · Viernes 27</span>
         <span style={{ fontSize: 12, color: '#34d399', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 7, padding: '3px 9px', fontWeight: 700 }}>+ Nuevo turno</span>
@@ -419,7 +419,7 @@ function AgendaPreview({ embedded }: { embedded?: boolean }) {
               <div key={i} style={{ position: 'absolute', top: 30 + a.top, left: 4, right: 4, height: a.h, background: `linear-gradient(135deg, ${cols[a.col].color}33, ${cols[a.col].color}1a)`, borderLeft: `3px solid ${cols[a.col].color}`, borderRadius: 6, padding: '4px 7px', overflow: 'hidden' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: 11, fontWeight: 700 }}>{a.name}</span>
-                  {a.tag && <span style={{ fontSize: 9, fontWeight: 800, color: a.tag === '$' ? '#34d399' : a.tag === '½' ? '#fbbf24' : '#60a5fa' }}>{a.tag}</span>}
+                  {a.tag && <span style={{ fontSize: 9, fontWeight: 800, color: a.tag === '$' ? '#34d399' : a.tag === '½' ? '#fbbf24' : '#eda45f' }}>{a.tag}</span>}
                 </div>
                 <span style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.55)' }}>{a.svc}</span>
               </div>
@@ -435,8 +435,8 @@ function AgendaPreview({ embedded }: { embedded?: boolean }) {
 function PortalMockup() {
   const slots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00']
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 120px rgba(34,211,238,0.2)', background: '#07070f' }}>
-      <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0a0a14' }}>
+    <div style={{ maxWidth: 720, margin: '0 auto', borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 50px 120px rgba(34,211,238,0.2)', background: '#0b0f17' }}>
+      <div style={{ height: 38, display: 'flex', alignItems: 'center', gap: 7, padding: '0 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0b0f17' }}>
         <span style={dot('#ff5f57')} /><span style={dot('#febc2e')} /><span style={dot('#28c840')} />
         <span style={{ marginLeft: 12, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>vision.byrcointh.online/reservar</span>
       </div>
@@ -454,13 +454,13 @@ function PortalMockup() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 72px), 1fr))', gap: 8 }}>
               {slots.map((s, i) => (
                 <div key={s} style={{ padding: '9px 0', textAlign: 'center', borderRadius: 9, fontSize: 14, fontWeight: 600, fontVariantNumeric: 'tabular-nums',
-                  background: i === 3 ? 'rgba(37,99,255,0.3)' : 'rgba(255,255,255,0.04)',
-                  border: i === 3 ? '1px solid #2563FF' : '1px solid rgba(255,255,255,0.1)',
+                  background: i === 3 ? 'rgba(229,136,62,0.3)' : 'rgba(255,255,255,0.04)',
+                  border: i === 3 ? '1px solid #e5883e' : '1px solid rgba(255,255,255,0.1)',
                   color: i === 3 ? 'white' : 'rgba(255,255,255,0.7)' }}>{s}</div>
               ))}
             </div>
           </div>
-          <div style={{ marginTop: 4, padding: '13px', borderRadius: 11, textAlign: 'center', fontSize: 15, fontWeight: 700, color: 'white', background: 'linear-gradient(135deg,#3b82f6,#2563FF)', boxShadow: '0 10px 30px rgba(37,99,255,0.4)' }}>
+          <div style={{ marginTop: 4, padding: '13px', borderRadius: 11, textAlign: 'center', fontSize: 15, fontWeight: 700, color: 'white', background: 'linear-gradient(135deg,#e5883e,#e5883e)', boxShadow: '0 10px 30px rgba(229,136,62,0.4)' }}>
             Confirmar turno · 10:30 hs
           </div>
         </div>
@@ -482,8 +482,8 @@ const portalLabel: React.CSSProperties = { fontSize: 10, fontWeight: 700, color:
 function PlacasPreview() {
   // Placas de ejemplo en la estética de Vision (oscuras, premium, con la marca)
   const placas = [
-    { glow: 'rgba(37,99,255,0.4)', accent: '#60a5fa', t: 'Reservá tu turno online', s: '24/7 desde tu celular', tag: 'NOVEDAD' },
-    { glow: 'rgba(167,139,250,0.4)', accent: '#c4b5fd', t: 'Promo de lanzamiento', s: '−20% esta semana', tag: 'OFERTA' },
+    { glow: 'rgba(229,136,62,0.4)', accent: '#eda45f', t: 'Reservá tu turno online', s: '24/7 desde tu celular', tag: 'NOVEDAD' },
+    { glow: 'rgba(229,136,62,0.4)', accent: '#eda45f', t: 'Promo de lanzamiento', s: '−20% esta semana', tag: 'OFERTA' },
     { glow: 'rgba(34,211,238,0.36)', accent: '#67e8f9', t: 'Agendá tu sesión', s: 'Cupos limitados', tag: 'AGENDA' },
   ]
   return (
@@ -492,7 +492,7 @@ function PlacasPreview() {
         {placas.map((p, i) => (
           <div key={i} className="ld-card" style={{
             position: 'relative', overflow: 'hidden', width: 156, height: 156, borderRadius: 16,
-            background: 'linear-gradient(160deg, #0e0e1c, #07070f)', border: '1px solid rgba(255,255,255,0.12)',
+            background: 'linear-gradient(160deg, #0e0e1c, #0b0f17)', border: '1px solid rgba(255,255,255,0.12)',
             padding: 15, display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
             boxShadow: '0 18px 40px rgba(0,0,0,0.45)', transform: `rotate(${i === 1 ? 0 : i === 0 ? -5 : 5}deg)`,
           }}>
@@ -511,7 +511,7 @@ function PlacasPreview() {
         ))}
       </div>
       <div style={{ marginTop: 16, ...glass, padding: '13px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Wand2 size={18} color="#c4b5fd" />
+        <Wand2 size={18} color="#eda45f" />
         <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>“Generá una imagen para mi promo…” → <strong style={{ color: 'white' }}>lista en 3 segundos</strong></span>
       </div>
     </div>
@@ -522,8 +522,8 @@ function PlacasPreview() {
 function HeroV() {
   const particles = useMemo(() => {
     const rand = (n: number) => { const s = Math.sin(n * 12.9898) * 43758.5453; return s - Math.floor(s) }
-    const body = ['#3a3a57', '#2a2a42', '#1c1c2e', '#121220']  // cuerpo oscuro (como el logo)
-    const glow = ['#93c5fd', '#60a5fa', '#2563FF', '#ffffff']  // filo brillante
+    const body = ['#3a3a57', '#2a2a42', '#222a38', '#121220']  // cuerpo oscuro (como el logo)
+    const glow = ['#e5883e', '#eda45f', '#e5883e', '#ffffff']  // filo brillante
     const pts: { x: number; y: number; dx: number; dy: number; r: number; d: number; c: string }[] = []
     let i = 0
     const step = 7
@@ -573,10 +573,10 @@ function RealV() {
           <stop offset="0%" stopColor="#2e2e44" /><stop offset="60%" stopColor="#14141f" /><stop offset="100%" stopColor="#08080f" />
         </linearGradient>
         <linearGradient id="rv-r" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1c1c2e" /><stop offset="60%" stopColor="#0e0e1a" /><stop offset="100%" stopColor="#060610" />
+          <stop offset="0%" stopColor="#222a38" /><stop offset="60%" stopColor="#0e0e1a" /><stop offset="100%" stopColor="#060610" />
         </linearGradient>
         <linearGradient id="rv-line" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#60a5fa" /><stop offset="50%" stopColor="#2563FF" /><stop offset="100%" stopColor="#ffffff" />
+          <stop offset="0%" stopColor="#eda45f" /><stop offset="50%" stopColor="#e5883e" /><stop offset="100%" stopColor="#ffffff" />
         </linearGradient>
         <filter id="rv-glow" x="-80%" y="-80%" width="260%" height="260%">
           <feGaussianBlur stdDeviation="4.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -586,8 +586,8 @@ function RealV() {
       <polygon points="70,12 78,12 100,148 93,148" fill="#1e1e32" opacity="0.95" />
       <polygon points="188,12 122,12 100,148 145,148" fill="url(#rv-r)" />
       <polygon points="130,12 122,12 100,148 107,148" fill="#161626" opacity="0.85" />
-      <line x1="78" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
-      <line x1="122" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
+      <line x1="78" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
+      <line x1="122" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#rv-glow)" opacity="0.95" />
       <line x1="78" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
       <line x1="122" y1="12" x2="100" y2="148" stroke="url(#rv-line)" strokeWidth="1.6" opacity="0.9" />
     </svg>
@@ -615,14 +615,14 @@ function Reveal({ children, dir = 'up', delay = 0 }: { children: React.ReactNode
 }
 
 function Chip({ label, i }: { label: string; i: number }) {
-  const colors = ['#60a5fa', '#34d399', '#a78bfa', '#22d3ee', '#f472b6', '#fbbf24']
+  const colors = ['#eda45f', '#34d399', '#e5883e', '#22d3ee', '#f472b6', '#fbbf24']
   return <span className="ld-chip"><span className="ld-chip-dot" style={{ background: colors[i % colors.length] }} />{label}</span>
 }
 
 function SectionTitle({ kicker, title, sub }: { kicker: string; title: string; sub: string }) {
   return (
     <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
-      <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#60a5fa', margin: 0 }}>{kicker}</p>
+      <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#eda45f', margin: 0 }}>{kicker}</p>
       <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 900, margin: '12px 0 0', lineHeight: 1.12, letterSpacing: '-0.02em' }}>{title}</h2>
       {sub && <p style={{ margin: '14px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.55)' }}>{sub}</p>}
     </div>
@@ -654,7 +654,7 @@ const FEATURES = [
   { icon: Globe, color: '#22d3ee', title: 'Reservas online 24/7', desc: 'Compartí un link con tu marca y tus clientes sacan turno solos, a cualquier hora, sin que tengas que contestar mensajes. Respeta tus horarios y disponibilidad automáticamente.' },
   { icon: Wallet, color: '#34d399', title: 'Seña anti-ausentismo', desc: 'Pedí una seña al reservar y mirá cómo desaparecen las faltas. Cobrás por adelantado con tu propio medio de pago y asegurás tu agenda llena.' },
   { icon: BarChart3, color: '#f472b6', title: 'Caja y reportes', desc: 'Sabé exactamente cuánto facturás, quién te debe y cómo viene tu negocio. Caja diaria, estados de pago y reportes con un clic. Exportá todo a Excel.' },
-  { icon: Users, color: '#60a5fa', title: 'Equipo y roles', desc: 'Sumá a tu recepción y profesionales, cada uno con su usuario y sus permisos. Tu recepcionista ve la agenda; vos ves todo. Ideal para negocios que crecen.' },
+  { icon: Users, color: '#eda45f', title: 'Equipo y roles', desc: 'Sumá a tu recepción y profesionales, cada uno con su usuario y sus permisos. Tu recepcionista ve la agenda; vos ves todo. Ideal para negocios que crecen.' },
   { icon: Smartphone, color: '#818cf8', title: 'App en el celular', desc: 'Se instala como app en tu teléfono (y el de tu equipo) con un toque, sin pasar por las tiendas ni pagar comisiones. La tenés siempre a mano.' },
   { icon: FileHeart, color: '#fb7185', title: 'Historia clínica', desc: 'Ficha completa de cada cliente: datos, obra social, historial de turnos y notas. Activala solo si tu rubro la necesita. Todo seguro y en la nube.' },
   { icon: BellRing, color: '#fbbf24', title: 'Recordatorios', desc: 'Mandá recordatorios por WhatsApp a tus clientes y reducí los olvidos. Mensajes listos para enviar con un clic.' },
@@ -684,13 +684,13 @@ const FAQS = [
 const container: React.CSSProperties = { maxWidth: 1140, margin: '0 auto', paddingLeft: 'clamp(18px, 4vw, 32px)', paddingRight: 'clamp(18px, 4vw, 32px)' }
 const navLink: React.CSSProperties = { color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 14.5, fontWeight: 600 }
 const glass: React.CSSProperties = { background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 'clamp(20px, 3vw, 26px)' }
-const ctaSmall: React.CSSProperties = { background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '9px 18px', fontSize: 14, fontWeight: 700, boxShadow: '0 6px 20px rgba(37,99,255,0.4)' }
-const ctaBig: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 800, boxShadow: '0 10px 34px rgba(37,99,255,0.45)' }
+const ctaSmall: React.CSSProperties = { background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '9px 18px', fontSize: 14, fontWeight: 700, boxShadow: '0 6px 20px rgba(229,136,62,0.4)' }
+const ctaBig: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 800, boxShadow: '0 10px 34px rgba(229,136,62,0.45)' }
 const ctaGhost: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 9, background: 'rgba(255,255,255,0.06)', color: 'white', textDecoration: 'none', borderRadius: 12, padding: '15px 28px', fontSize: 16, fontWeight: 700, border: '1px solid rgba(255,255,255,0.15)' }
 const compRow: React.CSSProperties = { display: 'flex', gap: 11, alignItems: 'flex-start', fontSize: 14.5, lineHeight: 1.45, padding: '11px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }
 const footerLink: React.CSSProperties = { color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }
 const spotGrid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }
 const spotTitle: React.CSSProperties = { fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 900, margin: '16px 0 0', lineHeight: 1.1, letterSpacing: '-0.02em' }
 const spotSub: React.CSSProperties = { fontSize: 16.5, color: 'rgba(255,255,255,0.6)', margin: '14px 0 0', lineHeight: 1.55 }
-const kickerPill = (c: string): React.CSSProperties => ({ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '6px 14px', borderRadius: 999, background: `${c}1f`, border: `1px solid ${c}55`, fontSize: 13, fontWeight: 700, color: c === '#2563FF' ? '#93c5fd' : '#c4b5fd' })
+const kickerPill = (c: string): React.CSSProperties => ({ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '6px 14px', borderRadius: 999, background: `${c}1f`, border: `1px solid ${c}55`, fontSize: 13, fontWeight: 700, color: c === '#e5883e' ? '#e5883e' : '#eda45f' })
 const dot = (c: string): React.CSSProperties => ({ width: 11, height: 11, borderRadius: '50%', background: c, display: 'inline-block' })

@@ -35,9 +35,9 @@ export function BotPanel({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       {/* Cómo funciona + los dos números */}
-      <div style={{ background: 'rgba(37,99,255,0.07)', border: '1px solid rgba(37,99,255,0.2)', borderRadius: 12, padding: '16px 18px' }}>
+      <div style={{ background: 'rgba(229,136,62,0.07)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 12, padding: '16px 18px' }}>
         <p style={{ margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 8, color: 'white', fontSize: 14.5, fontWeight: 700 }}>
-          <Info size={16} color="#60a5fa" /> Cómo funciona el bot
+          <Info size={16} color="#eda45f" /> Cómo funciona el bot
         </p>
         <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.6 }}>
           El bot responde <strong style={{ color: 'white' }}>solo</strong> a las clientas que te escriben por WhatsApp:
@@ -69,7 +69,7 @@ export function BotPanel({
       {/* Onboarding: qué debe responder el bot */}
       <div>
         <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Bot size={17} color="#60a5fa" /> Qué debe saber el bot de tu negocio
+          <Bot size={17} color="#eda45f" /> Qué debe saber el bot de tu negocio
         </h3>
         <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
           El bot ya conoce tus servicios, precios, profesionales y horarios (de tu cuenta). Completá lo que falta para que responda como vos querés.
@@ -83,9 +83,9 @@ export function BotPanel({
                 return (
                   <button key={t} onClick={() => set('tone', t)}
                     style={{ padding: '9px 16px', borderRadius: 9, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600,
-                      background: on ? 'rgba(37,99,255,0.18)' : 'rgba(255,255,255,0.04)',
-                      border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)' }}>
+                      background: on ? 'rgba(229,136,62,0.18)' : 'rgba(255,255,255,0.04)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                      color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
                     {t === 'cercano' ? 'Cercano / canchero' : t === 'neutro' ? 'Neutro' : 'Formal'}
                   </button>
                 )
@@ -100,9 +100,9 @@ export function BotPanel({
                 return (
                   <button key={m} onClick={() => set('bookingMode', m)}
                     style={{ padding: '9px 16px', borderRadius: 9, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600,
-                      background: on ? 'rgba(37,99,255,0.18)' : 'rgba(255,255,255,0.04)',
-                      border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)' }}>
+                      background: on ? 'rgba(229,136,62,0.18)' : 'rgba(255,255,255,0.04)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                      color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
                     {lbl}
                   </button>
                 )
@@ -171,9 +171,9 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',

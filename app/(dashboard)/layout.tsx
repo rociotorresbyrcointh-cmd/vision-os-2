@@ -31,7 +31,7 @@ export default async function DashboardLayout({
     <VocabProvider clinical={clinical}>
       <ToastProvider>
       <ConfirmProvider>
-      <div style={{ display: 'flex', minHeight: '100vh', background: '#07070F' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', background: '#0b0f17' }}>
         <Sidebar businessName={org?.name ?? 'Mi Negocio'} socialEnabled={org?.social_enabled ?? false} role={role} clinical={clinical} />
         <CommandPalette role={role} clinical={clinical} />
         <main className="vision-main" style={{ flex: 1, minWidth: 0 }}>

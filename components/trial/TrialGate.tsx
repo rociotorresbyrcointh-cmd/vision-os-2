@@ -43,15 +43,15 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
         {isOwner ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             {PLANS.map((p) => (
-              <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', background: 'rgba(255,255,255,0.035)', borderRadius: 16, padding: 24, border: p.popular ? '2px solid #2563FF' : '1px solid rgba(255,255,255,0.1)' }}>
-                {p.popular && <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>}
+              <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', background: 'rgba(255,255,255,0.035)', borderRadius: 16, padding: 24, border: p.popular ? '2px solid #e5883e' : '1px solid rgba(255,255,255,0.1)' }}>
+                {p.popular && <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>}
                 <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: 'white' }}>{p.name}</h3>
                 <p style={{ margin: '4px 0 0', fontSize: 13.5, color: 'rgba(255,255,255,0.5)' }}>{p.blurb}</p>
                 <p style={{ margin: '16px 0 0', color: 'white' }}><span style={{ fontSize: 36, fontWeight: 900 }}>${p.price}</span><span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}> USD/mes</span></p>
                 <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0 22px', display: 'flex', flexDirection: 'column', gap: 9, flex: 1 }}>
                   {p.features.map((f) => <li key={f} style={{ display: 'flex', gap: 9, fontSize: 13.5, color: 'rgba(255,255,255,0.78)' }}><Check size={16} color="#34d399" style={{ flexShrink: 0, marginTop: 1 }} /> {f}</li>)}
                 </ul>
-                <button onClick={() => setChoosing(p.id)} style={{ padding: '12px', borderRadius: 10, border: 'none', cursor: 'pointer', background: '#2563FF', color: 'white', fontSize: 14, fontWeight: 700 }}>Suscribirme</button>
+                <button onClick={() => setChoosing(p.id)} style={{ padding: '12px', borderRadius: 10, border: 'none', cursor: 'pointer', background: '#e5883e', color: 'white', fontSize: 14, fontWeight: 700 }}>Suscribirme</button>
               </div>
             ))}
           </div>
@@ -73,10 +73,10 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
         const p = PLANS.find((x) => x.id === choosing)!
         return (
           <div onClick={() => setChoosing(null)} style={{ position: 'fixed', inset: 0, zIndex: 320, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#10101c', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24 }}>
+            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24 }}>
               <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>Suscribirte a {p.name}</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, margin: '4px 0 18px' }}>Elegí cómo querés pagar:</p>
-              <button onClick={() => pay('/api/stripe/checkout', p.id, 's')} disabled={busy === 's'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(37,99,255,0.4)', background: 'rgba(37,99,255,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10 }}>
+              <button onClick={() => pay('/api/stripe/checkout', p.id, 's')} disabled={busy === 's'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(229,136,62,0.4)', background: 'rgba(229,136,62,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10 }}>
                 <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>💳 Tarjeta internacional</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>en tu moneda</span></span>
                 <span style={{ fontWeight: 800 }}>US$ {p.price}</span>
               </button>

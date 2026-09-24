@@ -107,7 +107,7 @@ export function BlockModal({
 
           <button onClick={() => setAllDay((v) => !v)}
             style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit' }}>
-            <span style={{ width: 44, height: 26, borderRadius: 13, position: 'relative', flexShrink: 0, transition: 'background 0.2s', background: allDay ? '#2563FF' : 'rgba(255,255,255,0.15)' }}>
+            <span style={{ width: 44, height: 26, borderRadius: 13, position: 'relative', flexShrink: 0, transition: 'background 0.2s', background: allDay ? '#e5883e' : 'rgba(255,255,255,0.15)' }}>
               <span style={{ position: 'absolute', top: 3, left: allDay ? 21 : 3, width: 20, height: 20, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
             </span>
             <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>Todo el día</span>
@@ -127,9 +127,9 @@ export function BlockModal({
                 return (
                   <button key={v} onClick={() => setRepeat(v)}
                     style={{ flex: 1, padding: '9px 6px', borderRadius: 8, fontSize: 12.5, fontWeight: 600, cursor: 'pointer',
-                      background: on ? 'rgba(37,99,255,0.2)' : 'rgba(0,0,0,0.3)',
-                      border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#60a5fa' : 'rgba(255,255,255,0.5)', fontFamily: 'inherit' }}>
+                      background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                      color: on ? '#eda45f' : 'rgba(255,255,255,0.5)', fontFamily: 'inherit' }}>
                     {lbl}
                   </button>
                 )
@@ -163,15 +163,15 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
 const input: React.CSSProperties = {
   width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
 const overlay: React.CSSProperties = {
@@ -179,6 +179,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 420, boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

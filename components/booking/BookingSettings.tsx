@@ -37,7 +37,7 @@ export function BookingSettings({
   return (
     <div style={{ padding: '28px 32px', maxWidth: 720 }}>
       <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-        <Globe size={20} color="#60a5fa" /> Reservas online
+        <Globe size={20} color="#eda45f" /> Reservas online
       </h1>
       <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
         Compartí un link para que tus clientes reserven solos, sin que tengas que cargar el turno.
@@ -53,14 +53,14 @@ export function BookingSettings({
         </div>
         <button onClick={toggle} disabled={saving} aria-label="Activar"
           style={{ width: 52, height: 30, borderRadius: 15, border: 'none', cursor: 'pointer', position: 'relative', transition: 'background 0.2s',
-            background: enabled ? '#2563FF' : 'rgba(255,255,255,0.15)' }}>
+            background: enabled ? '#e5883e' : 'rgba(255,255,255,0.15)' }}>
           <span style={{ position: 'absolute', top: 3, left: enabled ? 25 : 3, width: 24, height: 24, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
         </button>
       </div>
 
       {/* Link */}
       {enabled && (
-        <div style={{ background: 'rgba(37,99,255,0.06)', border: '1px solid rgba(37,99,255,0.2)', borderRadius: 14, padding: 20 }}>
+        <div style={{ background: 'rgba(229,136,62,0.06)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 14, padding: 20 }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 10px' }}>Tu link de reservas</p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <input readOnly value={link} style={{ flex: '1 1 240px', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9, padding: '11px 13px', color: 'white', fontSize: 13.5, outline: 'none' }} />
@@ -81,7 +81,7 @@ export function BookingSettings({
 }
 
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 13.5, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }

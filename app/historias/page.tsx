@@ -21,20 +21,20 @@ function Story({ emoji, icon: Icon, color, title, text }: { emoji?: string; icon
 }
 
 const slides: DeckSlide[] = [
-  { accent: '#2563FF', render: () => (
+  { accent: '#e5883e', render: () => (
     <div style={{ textAlign: 'center', padding: '0 30px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 38, letterSpacing: '0.06em', lineHeight: 1 }}>VISION<span style={{ color: '#60a5fa' }}> OS</span></div>
+      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 38, letterSpacing: '0.06em', lineHeight: 1 }}>VISION<span style={{ color: '#eda45f' }}> OS</span></div>
       <p style={{ margin: '18px 0 0', fontSize: 18, fontWeight: 600, color: 'rgba(255,255,255,0.72)', lineHeight: 1.4 }}>La app que ordena tu negocio de turnos 💙</p>
     </div>
   ) },
-  { accent: '#2563FF', render: () => <Story icon={Calendar} color="#60a5fa" title="Agenda inteligente" text="Todos tus turnos ordenados. Turnos recurrentes, bloqueos y control del ausentismo." /> },
+  { accent: '#e5883e', render: () => <Story icon={Calendar} color="#eda45f" title="Agenda inteligente" text="Todos tus turnos ordenados. Turnos recurrentes, bloqueos y control del ausentismo." /> },
   { accent: '#22d3ee', render: () => <Story icon={Globe} color="#67e8f9" title="Reservas online 24/7" text="Tus clientas reservan solas por un link con tu marca, sin que contestes nada." /> },
   { accent: '#34d399', render: () => <Story icon={Wallet} color="#6ee7b7" title="Cobrá la seña" text="Cobrás por adelantado al reservar. Adiós a las ausencias de último momento." /> },
-  { accent: '#a78bfa', render: () => <Story icon={Sparkles} color="#c4b5fd" title="Contenido con IA" text="Creá imágenes y textos para Instagram con inteligencia artificial, con tu marca." /> },
-  { accent: '#2563FF', render: () => (
+  { accent: '#e5883e', render: () => <Story icon={Sparkles} color="#eda45f" title="Contenido con IA" text="Creá imágenes y textos para Instagram con inteligencia artificial, con tu marca." /> },
+  { accent: '#e5883e', render: () => (
     <div style={{ textAlign: 'center', padding: '0 30px' }}>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 16px', borderRadius: 999, background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.5)', color: '#6ee7b7', fontSize: 13, fontWeight: 800, marginBottom: 20 }}><Gift size={15} /> 14 DÍAS GRATIS</div>
-      <h2 style={{ fontSize: 28, fontWeight: 900, margin: 0, lineHeight: 1.15 }}>Probala <span style={{ color: '#60a5fa' }}>gratis</span></h2>
+      <h2 style={{ fontSize: 28, fontWeight: 900, margin: 0, lineHeight: 1.15 }}>Probala <span style={{ color: '#eda45f' }}>gratis</span></h2>
       <p style={{ margin: '18px 0 0', fontSize: 17, fontWeight: 800, color: 'white' }}>visionturnos.online</p>
       <p style={{ margin: '8px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>Deslizá hacia arriba 👆</p>
     </div>

@@ -26,9 +26,9 @@ export function EmptyState({
       <div style={{
         width: 56, height: 56, borderRadius: 16, marginBottom: 16,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.25)',
+        background: 'rgba(229,136,62,0.12)', border: '1px solid rgba(229,136,62,0.25)',
       }}>
-        <Icon size={26} color="#60a5fa" />
+        <Icon size={26} color="#eda45f" />
       </div>
       <h3 style={{ margin: 0, color: 'white', fontSize: 16.5, fontWeight: 700 }}>{title}</h3>
       {description && (
@@ -40,7 +40,7 @@ export function EmptyState({
         <button
           onClick={onAction}
           style={{
-            marginTop: 18, background: '#2563FF', color: 'white', border: 'none',
+            marginTop: 18, background: '#e5883e', color: 'white', border: 'none',
             borderRadius: 10, padding: '11px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer',
           }}
         >

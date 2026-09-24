@@ -24,7 +24,7 @@ export function SectorSelect() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         style={base}
-        onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,255,0.6)')}
+        onFocus={(e) => (e.target.style.borderColor = 'rgba(229,136,62,0.6)')}
         onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
       >
         <option value="" disabled style={{ background: '#0a0a18' }}>
@@ -37,7 +37,7 @@ export function SectorSelect() {
             style={{ background: '#0a0a18', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}
           >
             {group.sectors.map((s) => (
-              <option key={s} value={s} style={{ background: '#0d0d1a', color: 'white' }}>
+              <option key={s} value={s} style={{ background: '#1a212e', color: 'white' }}>
                 {s}
               </option>
             ))}

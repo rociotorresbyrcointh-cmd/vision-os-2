@@ -39,14 +39,14 @@ export function VisionLogo({ size = 80, animate = false }: { size?: number; anim
             <stop offset="100%" stopColor="#08080f" />
           </linearGradient>
           <linearGradient id="rf-v" x1="1" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1c1c2e" />
+            <stop offset="0%" stopColor="#222a38" />
             <stop offset="60%" stopColor="#0e0e1a" />
             <stop offset="100%" stopColor="#060610" />
           </linearGradient>
           {/* Animated glow gradient */}
           <linearGradient id="glowLine" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.9" />
-            <stop offset="50%" stopColor="#2563FF" stopOpacity="1" />
+            <stop offset="0%" stopColor="#eda45f" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="#e5883e" stopOpacity="1" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
           </linearGradient>
         </defs>
@@ -62,8 +62,8 @@ export function VisionLogo({ size = 80, animate = false }: { size?: number; anim
         <polygon points="130,12 122,12 100,148 107,148" fill="#161626" opacity="0.85" />
 
         {/* Outer blue glow lines */}
-        <line x1="78" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#glow-edge-v)" opacity="0.9" />
-        <line x1="122" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#glow-edge-v)" opacity="0.9" />
+        <line x1="78" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#glow-edge-v)" opacity="0.9" />
+        <line x1="122" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#glow-edge-v)" opacity="0.9" />
 
         {/* Core bright white-blue lines */}
         <line x1="78" y1="12" x2="100" y2="148" stroke="url(#glowLine)" strokeWidth="1.4" opacity="0.85" />
@@ -72,21 +72,21 @@ export function VisionLogo({ size = 80, animate = false }: { size?: number; anim
         {/* Animated glow lines (pulse) */}
         {animate && (
           <>
-            <line x1="78" y1="12" x2="100" y2="148" stroke="#60a5fa" strokeWidth="2" opacity="0.5" filter="url(#glow-pulse)">
+            <line x1="78" y1="12" x2="100" y2="148" stroke="#eda45f" strokeWidth="2" opacity="0.5" filter="url(#glow-pulse)">
               <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" repeatCount="indefinite" />
             </line>
-            <line x1="122" y1="12" x2="100" y2="148" stroke="#60a5fa" strokeWidth="2" opacity="0.5" filter="url(#glow-pulse)">
+            <line x1="122" y1="12" x2="100" y2="148" stroke="#eda45f" strokeWidth="2" opacity="0.5" filter="url(#glow-pulse)">
               <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" begin="0.3s" repeatCount="indefinite" />
             </line>
           </>
         )}
 
         {/* Tip glow */}
-        <circle cx="100" cy="148" r="6" fill="#2563FF" filter="url(#glow-tip-v)" opacity="0.95" />
+        <circle cx="100" cy="148" r="6" fill="#e5883e" filter="url(#glow-tip-v)" opacity="0.95" />
         <circle cx="100" cy="148" r="2.5" fill="white" opacity="1" />
 
         {/* Tip bottom scatter */}
-        <ellipse cx="100" cy="157" rx="22" ry="5" fill="#2563FF" opacity="0.2" filter="url(#glow-tip-v)">
+        <ellipse cx="100" cy="157" rx="22" ry="5" fill="#e5883e" opacity="0.2" filter="url(#glow-tip-v)">
           {animate && <animate attributeName="opacity" values="0.1;0.35;0.1" dur="2s" repeatCount="indefinite" />}
         </ellipse>
       </svg>
@@ -137,13 +137,13 @@ export function VisionLogoWhite({ size = 80, animate = false }: { size?: number;
             <stop offset="100%" stopColor="#08080f" />
           </linearGradient>
           <linearGradient id="rf-w" x1="1" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1c1c2e" />
+            <stop offset="0%" stopColor="#222a38" />
             <stop offset="60%" stopColor="#0e0e1a" />
             <stop offset="100%" stopColor="#060610" />
           </linearGradient>
           <linearGradient id="glowLineW" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.9" />
-            <stop offset="50%" stopColor="#2563FF" stopOpacity="1" />
+            <stop offset="0%" stopColor="#eda45f" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="#e5883e" stopOpacity="1" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
           </linearGradient>
         </defs>
@@ -153,25 +153,25 @@ export function VisionLogoWhite({ size = 80, animate = false }: { size?: number;
         <polygon points="188,12 122,12 100,148 145,148" fill="url(#rf-w)" />
         <polygon points="130,12 122,12 100,148 107,148" fill="#161626" opacity="0.85" />
 
-        <line x1="78" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#glow-edge-w)" opacity="0.9" />
-        <line x1="122" y1="12" x2="100" y2="148" stroke="#2563FF" strokeWidth="4" filter="url(#glow-edge-w)" opacity="0.9" />
+        <line x1="78" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#glow-edge-w)" opacity="0.9" />
+        <line x1="122" y1="12" x2="100" y2="148" stroke="#e5883e" strokeWidth="4" filter="url(#glow-edge-w)" opacity="0.9" />
         <line x1="78" y1="12" x2="100" y2="148" stroke="url(#glowLineW)" strokeWidth="1.4" opacity="0.85" />
         <line x1="122" y1="12" x2="100" y2="148" stroke="url(#glowLineW)" strokeWidth="1.4" opacity="0.85" />
 
         {animate && (
           <>
-            <line x1="78" y1="12" x2="100" y2="148" stroke="#60a5fa" strokeWidth="2" filter="url(#glow-pulse-w)">
+            <line x1="78" y1="12" x2="100" y2="148" stroke="#eda45f" strokeWidth="2" filter="url(#glow-pulse-w)">
               <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" repeatCount="indefinite" />
             </line>
-            <line x1="122" y1="12" x2="100" y2="148" stroke="#60a5fa" strokeWidth="2" filter="url(#glow-pulse-w)">
+            <line x1="122" y1="12" x2="100" y2="148" stroke="#eda45f" strokeWidth="2" filter="url(#glow-pulse-w)">
               <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" begin="0.3s" repeatCount="indefinite" />
             </line>
           </>
         )}
 
-        <circle cx="100" cy="148" r="6" fill="#2563FF" filter="url(#glow-tip-w)" opacity="0.95" />
+        <circle cx="100" cy="148" r="6" fill="#e5883e" filter="url(#glow-tip-w)" opacity="0.95" />
         <circle cx="100" cy="148" r="2.5" fill="white" opacity="1" />
-        <ellipse cx="100" cy="157" rx="22" ry="5" fill="#2563FF" opacity="0.2" filter="url(#glow-tip-w)">
+        <ellipse cx="100" cy="157" rx="22" ry="5" fill="#e5883e" opacity="0.2" filter="url(#glow-tip-w)">
           {animate && <animate attributeName="opacity" values="0.1;0.35;0.1" dur="2s" repeatCount="indefinite" />}
         </ellipse>
       </svg>
@@ -186,7 +186,7 @@ export function VisionLogoWhite({ size = 80, animate = false }: { size?: number;
         textTransform: 'uppercase',
         userSelect: 'none',
         paddingLeft: size * 0.065,
-        background: 'linear-gradient(135deg, #ffffff 30%, #93c5fd 100%)',
+        background: 'linear-gradient(135deg, #ffffff 30%, #e5883e 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
       }}>

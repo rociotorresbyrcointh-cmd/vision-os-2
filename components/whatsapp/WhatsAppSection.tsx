@@ -55,7 +55,7 @@ export function WhatsAppSection({
           return (
             <button key={id} onClick={() => setTab(id)}
               style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 12px', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 700,
-                background: on ? 'rgba(37,99,255,0.2)' : 'transparent', color: on ? '#60a5fa' : 'rgba(255,255,255,0.55)' }}>
+                background: on ? 'rgba(229,136,62,0.2)' : 'transparent', color: on ? '#eda45f' : 'rgba(255,255,255,0.55)' }}>
               <Icon size={16} /> {label}
             </button>
           )
@@ -103,7 +103,7 @@ function Toggle({ on, disabled, onToggle }: { on: boolean; disabled?: boolean; o
   return (
     <button onClick={onToggle} disabled={disabled} aria-label="Activar"
       style={{ position: 'relative', width: 46, height: 26, borderRadius: 13, border: 'none', cursor: disabled ? 'default' : 'pointer', flexShrink: 0,
-        background: on ? '#2563FF' : 'rgba(255,255,255,0.15)', transition: 'background 0.2s', opacity: disabled ? 0.6 : 1 }}>
+        background: on ? '#e5883e' : 'rgba(255,255,255,0.15)', transition: 'background 0.2s', opacity: disabled ? 0.6 : 1 }}>
       <span style={{ position: 'absolute', top: 3, left: on ? 23 : 3, width: 20, height: 20, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
     </button>
   )

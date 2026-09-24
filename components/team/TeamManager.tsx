@@ -116,7 +116,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
 
       {/* Invitar */}
       <section style={card}>
-        <h2 style={cardTitle}><UserPlus size={18} color="#60a5fa" /> Invitar persona</h2>
+        <h2 style={cardTitle}><UserPlus size={18} color="#eda45f" /> Invitar persona</h2>
         <form onSubmit={onInvite} style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 14 }}>
           <input
             type="email" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -127,8 +127,8 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
               <label key={r.value} style={{
                 display: 'flex', alignItems: 'flex-start', gap: 10, padding: '11px 13px',
                 borderRadius: 10, cursor: 'pointer',
-                background: role === r.value ? 'rgba(37,99,255,0.12)' : 'rgba(255,255,255,0.03)',
-                border: role === r.value ? '1px solid rgba(37,99,255,0.4)' : '1px solid rgba(255,255,255,0.07)',
+                background: role === r.value ? 'rgba(229,136,62,0.12)' : 'rgba(255,255,255,0.03)',
+                border: role === r.value ? '1px solid rgba(229,136,62,0.4)' : '1px solid rgba(255,255,255,0.07)',
               }}>
                 <input type="radio" name="role" checked={role === r.value} onChange={() => setRole(r.value)} style={{ marginTop: 3 }} />
                 <span>
@@ -146,7 +146,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
 
       {/* Miembros */}
       <section style={{ ...card, marginTop: 18 }}>
-        <h2 style={cardTitle}><Shield size={18} color="#60a5fa" /> Miembros del equipo</h2>
+        <h2 style={cardTitle}><Shield size={18} color="#eda45f" /> Miembros del equipo</h2>
         {loading ? (
           <p style={dim}>Cargando…</p>
         ) : (
@@ -184,7 +184,7 @@ export function TeamManager({ organizationId, currentUserId }: { organizationId:
       {/* Invitaciones pendientes */}
       {invites.length > 0 && (
         <section style={{ ...card, marginTop: 18 }}>
-          <h2 style={cardTitle}><Mail size={18} color="#60a5fa" /> Invitaciones pendientes</h2>
+          <h2 style={cardTitle}><Mail size={18} color="#eda45f" /> Invitaciones pendientes</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14 }}>
             {invites.map((i) => (
               <div key={i.id} style={row}>
@@ -216,8 +216,8 @@ const card: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border
 const cardTitle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 9, fontSize: 16, fontWeight: 700, color: 'white', margin: 0 }
 const input: React.CSSProperties = { background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '11px 13px', color: 'white', fontSize: 14, outline: 'none' }
 const select: React.CSSProperties = { ...input, padding: '7px 9px', fontSize: 13 }
-const btnPrimary: React.CSSProperties = { background: '#2563FF', color: 'white', border: 'none', borderRadius: 10, padding: '12px 16px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }
+const btnPrimary: React.CSSProperties = { background: '#e5883e', color: 'white', border: 'none', borderRadius: 10, padding: '12px 16px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }
 const row: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10 }
-const badge: React.CSSProperties = { fontSize: 12.5, fontWeight: 700, color: '#60a5fa', background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 8, padding: '5px 10px', whiteSpace: 'nowrap' }
+const badge: React.CSSProperties = { fontSize: 12.5, fontWeight: 700, color: '#eda45f', background: 'rgba(229,136,62,0.12)', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 8, padding: '5px 10px', whiteSpace: 'nowrap' }
 const iconBtn: React.CSSProperties = { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171', borderRadius: 8, padding: 7, cursor: 'pointer', display: 'flex' }
 const dim: React.CSSProperties = { color: 'rgba(255,255,255,0.5)', fontSize: 14, marginTop: 12 }

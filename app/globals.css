@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
-/* ─── Design tokens Vision OS ─────────────────────────────────── */
+/* ─── Tipografías del branding (Fontshare, alojadas en /public/fuentes) ─── */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fuentes/CabinetGrotesk-Variable.woff2') format('woff2');
+  font-weight: 100 900; font-display: swap; font-style: normal;
+}
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fuentes/GeneralSans-Variable.woff2') format('woff2');
+  font-weight: 200 700; font-display: swap; font-style: normal;
+}
+
+/* ─── Design tokens Vision OS (branding naranja/crema) ─────────── */
 :root {
-  --vision-bg: #07070f;        /* fondo profundo */
-  --vision-blue: #2563ff;      /* azul Vision */
-  --vision-blue-light: #3b82f6;
-  --vision-blue-soft: #60a5fa;
+  --vision-bg: #0b0f17;        /* fondo profundo (navy) */
+  --vision-blue: #e5883e;      /* acento (naranja) */
+  --vision-blue-light: #e5883e;
+  --vision-blue-soft: #eda45f;
   --background: var(--vision-bg);
-  --foreground: #ededed;
+  --foreground: #f4f1ea;
+  /* Paleta nombrada del branding */
+  --negro: #0b0f17; --carta: #1a212e; --carta-2: #222a38;
+  --crema: #f2eadf; --crema-2: #e7dccb; --blanco: #ffffff;
+  --ink: #14202e; --gris-ink: #5a6473; --naranja: #e5883e; --naranja-2: #eda45f;
+  --txt: #f4f1ea; --txt-2: #bcc4ce; --borde: rgba(255,255,255,.12);
 }
 
 @theme inline {
@@ -27,7 +44,10 @@ html, body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: 'General Sans', 'Inter', Arial, Helvetica, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabinet Grotesk', 'General Sans', sans-serif;
 }
 
 /* ─── Animaciones de marca (login/register/logo) ──────────────── */
@@ -93,7 +113,7 @@ body {
 .ld-float { animation: ld-float 7s ease-in-out infinite; will-change: transform; }
 .ld-reveal { animation: ld-fade-up 0.7s ease both; }
 .ld-gradient-text {
-  background: linear-gradient(110deg, #fff 20%, #60a5fa 45%, #a78bfa 60%, #fff 80%);
+  background: linear-gradient(110deg, #fff 20%, #eda45f 45%, #e5883e 60%, #fff 80%);
   background-size: 200% auto;
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -104,13 +124,13 @@ body {
 }
 .ld-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(37,99,255,0.5) !important;
-  box-shadow: 0 20px 50px rgba(37,99,255,0.18);
+  border-color: rgba(229,136,62,0.5) !important;
+  box-shadow: 0 20px 50px rgba(229,136,62,0.18);
 }
 .ld-cta {
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
-.ld-cta:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.08); box-shadow: 0 14px 40px rgba(37,99,255,0.5); }
+.ld-cta:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.08); box-shadow: 0 14px 40px rgba(229,136,62,0.5); }
 .ld-nav-link { transition: color 0.2s ease; }
 .ld-nav-link:hover { color: #fff !important; }
 
@@ -126,7 +146,7 @@ body {
   50% { box-shadow: 0 0 0 10px rgba(52,211,153,0), 0 10px 44px rgba(52,211,153,0.45); }
 }
 .ld-pulse { animation: ld-pulse-glow 2.4s ease-in-out infinite; }
-.ld-logo-glow { filter: drop-shadow(0 0 34px rgba(37,99,255,0.7)); animation: ld-float 6s ease-in-out infinite; }
+.ld-logo-glow { filter: drop-shadow(0 0 34px rgba(229,136,62,0.7)); animation: ld-float 6s ease-in-out infinite; }
 @keyframes ld-glow-text { 0%,100% { opacity: 0.85; } 50% { opacity: 1; } }
 .ld-mock { transition: transform 0.15s ease-out; transform-style: preserve-3d; will-change: transform; }
 .ld-spotlight-img { transition: transform 0.4s ease; }
@@ -136,7 +156,7 @@ body {
 
 /* Logo del hero: flota derecho (sin rotar) */
 @keyframes ld-logo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-.ld-logo-glow { filter: drop-shadow(0 0 38px rgba(37,99,255,0.75)) !important; animation: ld-logo-float 5s ease-in-out infinite !important; }
+.ld-logo-glow { filter: drop-shadow(0 0 38px rgba(229,136,62,0.75)) !important; animation: ld-logo-float 5s ease-in-out infinite !important; }
 
 /* Landing — carrusel infinito de rubros */
 @keyframes ld-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -156,7 +176,7 @@ body {
   border: 1px solid rgba(255,255,255,0.09);
   transition: all 0.2s ease;
 }
-.ld-chip:hover { color: #fff; border-color: rgba(37,99,255,0.5); background: rgba(37,99,255,0.1); }
+.ld-chip:hover { color: #fff; border-color: rgba(229,136,62,0.5); background: rgba(229,136,62,0.1); }
 .ld-chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
 /* Logo del hero: giro 3D continuo (efecto 4D holográfico) */

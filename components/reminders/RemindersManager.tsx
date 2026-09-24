@@ -39,7 +39,7 @@ export function RemindersManager({
   }, [tomorrow])
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
   const tpl = templates.find((t) => t.id === tplId) ?? templates[0]
 
@@ -80,7 +80,7 @@ export function RemindersManager({
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0 20px', flexWrap: 'wrap' }}>
         <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Mensaje a enviar:</span>
         <select value={tplId} onChange={(e) => setTplId(e.target.value)} style={select}>
-          {templates.map((t) => <option key={t.id} value={t.id} style={{ background: '#0d0d1a' }}>{t.title}</option>)}
+          {templates.map((t) => <option key={t.id} value={t.id} style={{ background: '#1a212e' }}>{t.title}</option>)}
         </select>
       </div>
 

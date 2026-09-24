@@ -163,14 +163,14 @@ export default function GuiaPage() {
     try { await navigator.clipboard.writeText(SUPPORT_EMAIL); setCopied(true); setTimeout(() => setCopied(false), 1600) } catch { /* */ }
   }
   return (
-    <div style={{ background: '#06060d', color: 'white', minHeight: '100vh' }}>
+    <div style={{ background: '#0b0f17', color: 'white', minHeight: '100vh' }}>
       {/* Header */}
       <header style={{ ...container, paddingTop: 40, paddingBottom: 20, textAlign: 'center' }}>
         <Link href="/inicio" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13.5, marginBottom: 18 }}>
           <ArrowLeft size={15} /> Volver a la app
         </Link>
         <h1 style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 900, margin: 0, letterSpacing: '-0.02em' }}>
-          Guía de uso de <span style={{ color: '#60a5fa' }}>Vision OS</span>
+          Guía de uso de <span style={{ color: '#eda45f' }}>Vision OS</span>
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, margin: '12px 0 0' }}>
           Todo lo que necesitás para sacarle el jugo a tu app, paso a paso. 💙
@@ -183,11 +183,11 @@ export default function GuiaPage() {
       {/* Índice */}
       <nav style={{ ...container, paddingBottom: 24 }}>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '18px 20px' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#60a5fa', margin: '0 0 12px' }}>Contenido</p>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#eda45f', margin: '0 0 12px' }}>Contenido</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: '8px 16px' }}>
             {SECTIONS.map((s, i) => (
               <a key={s.id} href={`#${s.id}`} style={{ display: 'flex', alignItems: 'center', gap: 9, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>
-                <s.icon size={15} color="#60a5fa" /> {i + 1}. {s.title}
+                <s.icon size={15} color="#eda45f" /> {i + 1}. {s.title}
               </a>
             ))}
           </div>
@@ -199,15 +199,15 @@ export default function GuiaPage() {
         {SECTIONS.map((s, i) => (
           <section key={s.id} id={s.id} style={{ scrollMarginTop: 20, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 'clamp(20px, 3vw, 28px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-              <span style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(37,99,255,0.15)', border: '1px solid rgba(37,99,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <s.icon size={22} color="#60a5fa" />
+              <span style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(229,136,62,0.15)', border: '1px solid rgba(229,136,62,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <s.icon size={22} color="#eda45f" />
               </span>
               <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>{i + 1}. {s.title}</h2>
             </div>
             <ol style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
               {s.steps.map((step, j) => (
                 <li key={j} style={{ display: 'flex', gap: 12 }}>
-                  <span style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(37,99,255,0.2)', color: '#60a5fa', fontSize: 12.5, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{j + 1}</span>
+                  <span style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(229,136,62,0.2)', color: '#eda45f', fontSize: 12.5, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{j + 1}</span>
                   <div style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>
                     {typeof step === 'string' ? step : (
                       <>
@@ -229,13 +229,13 @@ export default function GuiaPage() {
         ))}
 
         {/* Soporte */}
-        <section style={{ background: 'linear-gradient(160deg, rgba(37,99,255,0.12), rgba(255,255,255,0.025))', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 16, padding: 'clamp(22px, 3vw, 30px)', textAlign: 'center' }}>
-          <HelpCircle size={26} color="#60a5fa" style={{ marginBottom: 10 }} />
+        <section style={{ background: 'linear-gradient(160deg, rgba(229,136,62,0.12), rgba(255,255,255,0.025))', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 16, padding: 'clamp(22px, 3vw, 30px)', textAlign: 'center' }}>
+          <HelpCircle size={26} color="#eda45f" style={{ marginBottom: 10 }} />
           <h2 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>¿Te quedó alguna duda?</h2>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14.5, margin: '8px 0 16px' }}>Estamos para ayudarte. Escribinos a este email y te respondemos a la brevedad.</p>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '10px 14px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <span style={{ color: 'white', fontSize: 15, fontWeight: 600, wordBreak: 'break-all' }}>{SUPPORT_EMAIL}</span>
-            <button onClick={copyEmail} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: copied ? 'rgba(52,211,153,0.15)' : '#2563FF', border: copied ? '1px solid rgba(52,211,153,0.4)' : 'none', color: copied ? '#34d399' : 'white', borderRadius: 8, padding: '7px 13px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+            <button onClick={copyEmail} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: copied ? 'rgba(52,211,153,0.15)' : '#e5883e', border: copied ? '1px solid rgba(52,211,153,0.4)' : 'none', color: copied ? '#34d399' : 'white', borderRadius: 8, padding: '7px 13px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
               {copied ? <><Check size={14} /> Copiado</> : <><Copy size={14} /> Copiar</>}
             </button>
           </div>

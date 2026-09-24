@@ -7,7 +7,7 @@ import { getNotifications, type Notif } from '@/services/notifications'
 import type { Role } from '@/lib/auth/role'
 
 const TONE: Record<string, { color: string; bg: string }> = {
-  info: { color: '#60a5fa', bg: 'rgba(37,99,255,0.12)' },
+  info: { color: '#eda45f', bg: 'rgba(229,136,62,0.12)' },
   warn: { color: '#fbbf24', bg: 'rgba(251,191,36,0.12)' },
   money: { color: '#34d399', bg: 'rgba(52,211,153,0.12)' },
 }
@@ -63,7 +63,7 @@ export function NotificationBell({ role = 'owner', align = 'right' }: { role?: R
           <span style={{
             position: 'absolute', top: -5, right: -5, minWidth: 18, height: 18, padding: '0 5px',
             borderRadius: 9, background: '#ef4444', color: 'white', fontSize: 11, fontWeight: 800,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #07070F',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #0b0f17',
           }}>{count}</span>
         )}
       </button>
@@ -71,7 +71,7 @@ export function NotificationBell({ role = 'owner', align = 'right' }: { role?: R
       {open && (
         <div style={{
           position: 'absolute', [align]: 0, top: 46, width: 'min(340px, 86vw)', zIndex: 150,
-          background: '#10101c', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14,
+          background: '#1a212e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14,
           boxShadow: '0 20px 50px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}>
           <div style={{ padding: '13px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', fontSize: 14, fontWeight: 700, color: 'white' }}>

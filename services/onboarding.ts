@@ -6,13 +6,13 @@ import { createAppointment } from './appointments'
 // Carga datos de ejemplo para que el dueño explore la app ya funcionando.
 export async function seedExampleData(orgId: string): Promise<void> {
   const prof = await createProfessional(orgId, {
-    name: 'Profesional de ejemplo', specialty: null, color: '#2563FF',
+    name: 'Profesional de ejemplo', specialty: null, color: '#e5883e',
     hours_start: '09:00', hours_end: '18:00', days_of_week: [1, 2, 3, 4, 5],
     max_capacity_per_hour: 1, is_resource: false,
   })
 
   const consulta = await createService(orgId, { name: 'Consulta', duration_minutes: 30, price: 5000, description: null, color: '#34d399' })
-  const tratamiento = await createService(orgId, { name: 'Tratamiento', duration_minutes: 60, price: 12000, description: null, color: '#a78bfa' })
+  const tratamiento = await createService(orgId, { name: 'Tratamiento', duration_minutes: 60, price: 12000, description: null, color: '#e5883e' })
   await createService(orgId, { name: 'Control', duration_minutes: 20, price: 3000, description: null, color: '#fbbf24' })
 
   const patient = await createPatient(orgId, {

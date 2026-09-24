@@ -78,7 +78,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
     } catch { setCaption('No se pudo generar.') }
     finally { setCapLoading(false) }
   }
-  const color = brand.color || '#2563FF'
+  const color = brand.color || '#e5883e'
   const color2 = brand.color2 || color
   const handle = brand.instagram?.trim() ? (brand.instagram.startsWith('@') ? brand.instagram : '@' + brand.instagram) : (brand.name || '')
 
@@ -117,7 +117,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
     } else {
       // Fondo oscuro con acentos de los 2 colores de marca
       const bg = ctx.createLinearGradient(0, 0, S, S)
-      bg.addColorStop(0, '#0d0d18'); bg.addColorStop(1, '#07070F')
+      bg.addColorStop(0, '#1a212e'); bg.addColorStop(1, '#0b0f17')
       ctx.fillStyle = bg; ctx.fillRect(0, 0, S, S)
       ctx.save()
       ctx.globalAlpha = 0.18; ctx.fillStyle = color

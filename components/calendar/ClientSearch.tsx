@@ -9,9 +9,9 @@ import { payStatus } from '@/lib/pay-status'
 const STATUS: Record<AppointmentStatus, { label: string; color: string }> = {
   pending: { label: 'Pendiente', color: '#fbbf24' },
   confirmed: { label: 'Confirmado', color: '#34d399' },
-  completed: { label: 'Atendido', color: '#60a5fa' },
+  completed: { label: 'Atendido', color: '#eda45f' },
   cancelled: { label: 'Cancelado', color: '#f87171' },
-  no_show: { label: 'No vino', color: '#9ca3af' },
+  no_show: { label: 'No vino', color: '#bcc4ce' },
 }
 
 export function ClientSearch({
@@ -33,7 +33,7 @@ export function ClientSearch({
   const [searched, setSearched] = useState(false)
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
   const svcPrice = (id: string) => services.find((s) => s.id === id)?.price ?? 0
 
@@ -109,7 +109,7 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 50, padding: '60px 20px 20px',
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 16,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 16,
   width: '100%', maxWidth: 560, boxShadow: '0 24px 60px rgba(0,0,0,0.6)', overflow: 'hidden',
 }
 const row: React.CSSProperties = {

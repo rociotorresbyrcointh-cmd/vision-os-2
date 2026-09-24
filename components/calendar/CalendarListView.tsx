@@ -18,9 +18,9 @@ function localMinutes(iso: string): number {
 const STATUS_STYLE: Record<AppointmentStatus, { label: string; color: string; bg: string }> = {
   pending:   { label: 'Pendiente',  color: '#fbbf24', bg: 'rgba(251,191,36,0.12)' },
   confirmed: { label: 'Confirmado', color: '#34d399', bg: 'rgba(52,211,153,0.12)' },
-  completed: { label: 'Completado', color: '#60a5fa', bg: 'rgba(96,165,250,0.12)' },
+  completed: { label: 'Completado', color: '#eda45f', bg: 'rgba(229,136,62,0.12)' },
   cancelled: { label: 'Cancelado',  color: '#f87171', bg: 'rgba(248,113,113,0.12)' },
-  no_show:   { label: 'No asistió', color: '#9ca3af', bg: 'rgba(156,163,175,0.12)' },
+  no_show:   { label: 'No asistió', color: '#bcc4ce', bg: 'rgba(156,163,175,0.12)' },
 }
 
 export function CalendarListView({
@@ -112,7 +112,7 @@ export function CalendarListView({
                     style={{
                       display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
                       background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                      borderLeft: `3px solid ${p?.color ?? '#888'}`, borderRadius: 11, padding: '12px 16px',
+                      borderLeft: `3px solid ${p?.color ?? '#bcc4ce'}`, borderRadius: 11, padding: '12px 16px',
                       cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s',
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
@@ -138,7 +138,7 @@ export function CalendarListView({
                           <Clock size={12} /> {localTime(a.start_time)}–{localTime(a.end_time)}
                         </span>
                         <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>
-                          <span style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? '#888' }} />
+                          <span style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? '#bcc4ce' }} />
                           {p?.name ?? '—'}
                         </span>
                         {(p?.max_capacity_per_hour ?? 1) > 1 && (

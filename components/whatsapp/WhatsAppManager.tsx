@@ -63,13 +63,13 @@ export function WhatsAppManager({
       </div>
 
       {/* Variables disponibles */}
-      <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.2)', borderRadius: 11, padding: '12px 16px', marginBottom: 22 }}>
+      <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 11, padding: '12px 16px', marginBottom: 22 }}>
         <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Variables que podés usar
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {TEMPLATE_VARS.map((v) => (
-            <span key={v.key} title={v.desc} style={{ fontSize: 12.5, color: '#60a5fa', background: 'rgba(37,99,255,0.12)', borderRadius: 6, padding: '4px 9px', fontFamily: 'monospace' }}>
+            <span key={v.key} title={v.desc} style={{ fontSize: 12.5, color: '#eda45f', background: 'rgba(229,136,62,0.12)', borderRadius: 6, padding: '4px 9px', fontFamily: 'monospace' }}>
               {v.key}
             </span>
           ))}
@@ -113,9 +113,9 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',

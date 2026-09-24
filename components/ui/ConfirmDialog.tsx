@@ -46,11 +46,11 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            style={{ width: 'min(420px, 94vw)', background: '#10101c', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, boxShadow: '0 24px 60px rgba(0,0,0,0.55)', padding: 22 }}
+            style={{ width: 'min(420px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, boxShadow: '0 24px 60px rgba(0,0,0,0.55)', padding: 22 }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-              <div style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: opts.destructive ? 'rgba(248,113,113,0.12)' : 'rgba(37,99,255,0.14)' }}>
-                <AlertTriangle size={19} color={opts.destructive ? '#f87171' : '#60a5fa'} />
+              <div style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: opts.destructive ? 'rgba(248,113,113,0.12)' : 'rgba(229,136,62,0.14)' }}>
+                <AlertTriangle size={19} color={opts.destructive ? '#f87171' : '#eda45f'} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: 0 }}>{opts.title}</h2>
@@ -72,7 +72,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
               <button
                 onClick={() => close(true)}
                 autoFocus
-                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', border: 'none', color: 'white', background: opts.destructive ? '#dc2626' : '#2563FF' }}
+                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', border: 'none', color: 'white', background: opts.destructive ? '#dc2626' : '#e5883e' }}
               >
                 {opts.actionLabel ?? 'Confirmar'}
               </button>

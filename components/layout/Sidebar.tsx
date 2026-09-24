@@ -69,7 +69,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
           <p style={{ marginTop: 12, fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>
             {businessName}
           </p>
-          <span style={{ display: 'inline-block', marginTop: 6, fontSize: 10.5, fontWeight: 700, color: '#60a5fa', background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 6, padding: '2px 7px' }}>
+          <span style={{ display: 'inline-block', marginTop: 6, fontSize: 10.5, fontWeight: 700, color: '#eda45f', background: 'rgba(229,136,62,0.12)', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 6, padding: '2px 7px' }}>
             {ROLE_LABEL[role]}
           </span>
         </div>
@@ -109,11 +109,11 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
                 padding: '11px 12px', borderRadius: 9,
                 fontSize: 14, fontWeight: 600, textDecoration: 'none',
                 color: active ? 'white' : 'rgba(255,255,255,0.55)',
-                background: active ? 'rgba(37,99,255,0.15)' : 'transparent',
-                border: active ? '1px solid rgba(37,99,255,0.35)' : '1px solid transparent',
+                background: active ? 'rgba(229,136,62,0.15)' : 'transparent',
+                border: active ? '1px solid rgba(229,136,62,0.35)' : '1px solid transparent',
                 transition: 'all 0.15s',
               }}>
-              <Icon size={17} color={active ? '#60a5fa' : 'currentColor'} />
+              <Icon size={17} color={active ? '#eda45f' : 'currentColor'} />
               {label}
             </Link>
           )
@@ -135,7 +135,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
   // ─── Escritorio: menú fijo a la izquierda ───
   if (!isMobile) {
     return (
-      <aside style={{ width: 240, minWidth: 240, background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}>
+      <aside style={{ width: 240, minWidth: 240, background: '#0b0f17', borderRight: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}>
         {inner}
       </aside>
     )
@@ -144,7 +144,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
   // ─── Móvil: barra superior + menú deslizable ───
   return (
     <>
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 56, background: '#0a0a14', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 12, padding: '0 14px', zIndex: 45 }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 56, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 12, padding: '0 14px', zIndex: 45 }}>
         <button onClick={() => setOpen(true)} aria-label="Abrir menú" style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', padding: 4, display: 'flex' }}>
           <Menu size={24} />
         </button>
@@ -155,7 +155,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
 
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 55 }} />}
 
-      <aside style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: 270, maxWidth: '82vw', background: '#0a0a14', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', zIndex: 60, transform: open ? 'translateX(0)' : 'translateX(-105%)', transition: 'transform 0.25s ease', boxShadow: open ? '0 0 50px rgba(0,0,0,0.7)' : 'none' }}>
+      <aside style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: 270, maxWidth: '82vw', background: '#0b0f17', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', zIndex: 60, transform: open ? 'translateX(0)' : 'translateX(-105%)', transition: 'transform 0.25s ease', boxShadow: open ? '0 0 50px rgba(0,0,0,0.7)' : 'none' }}>
         {inner}
       </aside>
     </>

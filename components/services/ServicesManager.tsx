@@ -128,9 +128,9 @@ export function ServicesManager({
                     return (
                       <button key={d} onClick={() => setForm((f) => ({ ...f, duration_minutes: d }))}
                         style={{ padding: '8px 12px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                          background: on ? 'rgba(37,99,255,0.2)' : 'rgba(0,0,0,0.3)',
-                          border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                          color: on ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                          background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
+                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                          color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
                         {d}m
                       </button>
                     )
@@ -173,9 +173,9 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
@@ -186,4 +186,4 @@ const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none'
 const card: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 16 }
 const emptyBox: React.CSSProperties = { padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 14, lineHeight: 1.7 }
 const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20 }
-const modal: React.CSSProperties = { background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24, width: '100%', maxWidth: 420, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }
+const modal: React.CSSProperties = { background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24, width: '100%', maxWidth: 420, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }

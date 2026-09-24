@@ -18,7 +18,7 @@ const labelStyle: React.CSSProperties = {
   textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif",
 }
 const focus = (e: React.FocusEvent<HTMLInputElement>) =>
-  (e.target.style.borderColor = 'rgba(37,99,255,0.6)')
+  (e.target.style.borderColor = 'rgba(229,136,62,0.6)')
 const blur = (e: React.FocusEvent<HTMLInputElement>) =>
   (e.target.style.borderColor = 'rgba(255,255,255,0.1)')
 
@@ -26,7 +26,7 @@ export default function ActualizarContrasenaPage() {
   const [state, formAction, pending] = useActionState(updatePassword, undefined)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: '#0b0f17', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
       <AuthBackground />
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 400 }}>
@@ -34,7 +34,7 @@ export default function ActualizarContrasenaPage() {
           <VisionLogoWhite size={60} animate />
         </div>
 
-        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(37,99,255,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(37,99,255,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
           <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Nueva contraseña</h2>
           <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Elegí una contraseña nueva para tu cuenta.</p>
 
@@ -58,7 +58,7 @@ export default function ActualizarContrasenaPage() {
               <button
                 type="submit"
                 disabled={pending}
-                style={{ background: pending ? 'rgba(37,99,255,0.4)' : 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(37,99,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
               >
                 {pending ? (
                   <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Guardando…</>
@@ -68,7 +68,7 @@ export default function ActualizarContrasenaPage() {
           </form>
 
           <p style={{ textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-            <Link href="/login" style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'none' }}>Volver a ingresar</Link>
+            <Link href="/login" style={{ color: '#eda45f', fontWeight: 700, textDecoration: 'none' }}>Volver a ingresar</Link>
           </p>
         </div>
 

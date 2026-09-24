@@ -74,7 +74,7 @@ export function BlocksManager({
                   <Ban size={15} color="rgba(255,255,255,0.5)" />
                   <span style={{ color: 'white', fontWeight: 600, fontSize: 15 }}>{b.title}</span>
                   {b.recurring_rule && (
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#60a5fa', background: 'rgba(37,99,255,0.12)', borderRadius: 6, padding: '2px 7px' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#eda45f', background: 'rgba(229,136,62,0.12)', borderRadius: 6, padding: '2px 7px' }}>
                       <Repeat size={11} /> {recurrenceLabel(b.recurring_rule)}
                     </span>
                   )}
@@ -109,9 +109,9 @@ export function BlocksManager({
 }
 
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',

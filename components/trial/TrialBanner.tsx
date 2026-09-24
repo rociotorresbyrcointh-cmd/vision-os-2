@@ -9,9 +9,9 @@ export function TrialBanner({ daysLeft }: { daysLeft: number }) {
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'center',
       padding: '9px 16px', fontSize: 13.5, fontWeight: 600,
-      background: urgent ? 'rgba(251,191,36,0.12)' : 'rgba(37,99,255,0.1)',
-      borderBottom: `1px solid ${urgent ? 'rgba(251,191,36,0.3)' : 'rgba(37,99,255,0.25)'}`,
-      color: urgent ? '#fbbf24' : '#93c5fd',
+      background: urgent ? 'rgba(251,191,36,0.12)' : 'rgba(229,136,62,0.1)',
+      borderBottom: `1px solid ${urgent ? 'rgba(251,191,36,0.3)' : 'rgba(229,136,62,0.25)'}`,
+      color: urgent ? '#fbbf24' : '#e5883e',
     }}>
       <Gift size={15} />
       <span>{daysLeft === 1 ? 'Te queda 1 día de prueba gratis' : `Te quedan ${daysLeft} días de prueba gratis`}</span>

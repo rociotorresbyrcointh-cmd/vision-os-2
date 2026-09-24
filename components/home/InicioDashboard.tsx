@@ -17,9 +17,9 @@ const hhmm = (iso: string) => new Date(iso).toLocaleTimeString('es-AR', { hour: 
 const STATUS: Record<string, { label: string; color: string }> = {
   pending: { label: 'Pendiente', color: '#fbbf24' },
   confirmed: { label: 'Confirmado', color: '#34d399' },
-  completed: { label: 'Atendido', color: '#60a5fa' },
+  completed: { label: 'Atendido', color: '#eda45f' },
   cancelled: { label: 'Cancelado', color: '#f87171' },
-  no_show: { label: 'No vino', color: '#9ca3af' },
+  no_show: { label: 'No vino', color: '#bcc4ce' },
 }
 
 export function InicioDashboard({
@@ -64,7 +64,7 @@ export function InicioDashboard({
   }, [])
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
 
   const m = useMemo(() => {
@@ -89,7 +89,7 @@ export function InicioDashboard({
     <div style={{ padding: '28px 32px', maxWidth: 960 }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ color: 'white', fontSize: 24, fontWeight: 800, margin: 0, textTransform: 'capitalize' }}>
-          {saludo && <>{saludo}, </>}<span style={{ color: '#60a5fa' }}>{businessName}</span>
+          {saludo && <>{saludo}, </>}<span style={{ color: '#eda45f' }}>{businessName}</span>
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, marginTop: 5, textTransform: 'capitalize', minHeight: 20 }}>
           {fechaLarga}
@@ -97,7 +97,7 @@ export function InicioDashboard({
       </div>
 
       {setupPending ? (
-        <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 14, padding: 24, maxWidth: 640 }}>
+        <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 14, padding: 24, maxWidth: 640 }}>
           <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 6px' }}>¡Bienvenido a Vision OS! 🚀</h2>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 18px', lineHeight: 1.6 }}>
             Configurá tu negocio en 2 pasos. O cargá <b>datos de ejemplo</b> para explorar la app ya funcionando.
@@ -123,10 +123,10 @@ export function InicioDashboard({
 
           {/* KPIs del día */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 26 }}>
-            <Kpi icon={<CalendarDays size={18} />} color="#60a5fa" label="Turnos hoy" value={loading ? '—' : String(m.total)} />
+            <Kpi icon={<CalendarDays size={18} />} color="#eda45f" label="Turnos hoy" value={loading ? '—' : String(m.total)} />
             <Kpi icon={<Clock size={18} />} color="#fbbf24" label="Próximos" value={loading ? '—' : String(m.proximos.length)} />
             <Kpi icon={<CheckCircle2 size={18} />} color="#34d399" label="Atendidos" value={loading ? '—' : String(m.atendidos)} />
-            <Kpi icon={<Wallet size={18} />} color="#a78bfa" label="Cobrado hoy" value={loading ? '—' : money(m.cobrado)} />
+            <Kpi icon={<Wallet size={18} />} color="#e5883e" label="Cobrado hoy" value={loading ? '—' : money(m.cobrado)} />
           </div>
 
           {/* Próximos turnos */}
@@ -139,7 +139,7 @@ export function InicioDashboard({
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
           ) : m.proximos.length === 0 ? (
             <div style={emptyBox}>
-              No hay más turnos por hoy. <Link href="/agenda" style={{ color: '#60a5fa', textDecoration: 'none' }}>Agendar uno →</Link>
+              No hay más turnos por hoy. <Link href="/agenda" style={{ color: '#eda45f', textDecoration: 'none' }}>Agendar uno →</Link>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -194,7 +194,7 @@ function Step({ n, done, title, desc, href }: { n: number; done: boolean; title:
   return (
     <Link href={href} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'rgba(255,255,255,0.03)', border: `1px solid ${done ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 12, padding: '13px 15px', textDecoration: 'none' }}>
       <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14,
-        background: done ? '#34d399' : 'rgba(37,99,255,0.2)', color: done ? '#07241a' : '#60a5fa' }}>
+        background: done ? '#34d399' : 'rgba(229,136,62,0.2)', color: done ? '#07241a' : '#eda45f' }}>
         {done ? <Check size={16} /> : n}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -216,9 +216,9 @@ const row: React.CSSProperties = {
   border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '11px 14px', cursor: 'pointer',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'inline-flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
-  cursor: 'pointer', textDecoration: 'none', boxShadow: '0 0 20px rgba(37,99,255,0.3)',
+  cursor: 'pointer', textDecoration: 'none', boxShadow: '0 0 20px rgba(229,136,62,0.3)',
 }
 const btnGhost: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
@@ -226,7 +226,7 @@ const btnGhost: React.CSSProperties = {
   padding: '10px 16px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', textDecoration: 'none',
 }
 const linkBtn: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 5, color: '#60a5fa', fontSize: 13, fontWeight: 600, textDecoration: 'none',
+  display: 'inline-flex', alignItems: 'center', gap: 5, color: '#eda45f', fontSize: 13, fontWeight: 600, textDecoration: 'none',
 }
 const emptyBox: React.CSSProperties = {
   padding: 32, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',

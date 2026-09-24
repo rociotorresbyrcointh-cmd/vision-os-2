@@ -13,20 +13,20 @@ type Slide = {
 
 const wordmark = (
   <span style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.85)' }}>
-    VISION <span style={{ color: '#60a5fa' }}>OS</span>
+    VISION <span style={{ color: '#eda45f' }}>OS</span>
   </span>
 )
 
 const SLIDES: Slide[] = [
   {
-    accent: '#2563FF',
+    accent: '#e5883e',
     render: () => (
       <>
         <div style={{ position: 'absolute', top: 28, left: 30 }}>
           <span style={{ display: 'inline-block', padding: '5px 12px', borderRadius: 999, background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.5)', color: '#6ee7b7', fontSize: 11, fontWeight: 800, letterSpacing: '0.05em' }}>NUEVO ✨</span>
         </div>
         <div style={{ textAlign: 'center', padding: '0 34px' }}>
-          <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 46, letterSpacing: '0.06em', lineHeight: 1 }}>VISION<span style={{ color: '#60a5fa' }}> OS</span></div>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 46, letterSpacing: '0.06em', lineHeight: 1 }}>VISION<span style={{ color: '#eda45f' }}> OS</span></div>
           <p style={{ margin: '18px 0 0', fontSize: 19, fontWeight: 600, color: 'rgba(255,255,255,0.72)', lineHeight: 1.4 }}>La app que ordena tu negocio de turnos 💙</p>
         </div>
         <div style={{ position: 'absolute', bottom: 26, right: 30, display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 700 }}>Deslizá <ArrowRight size={15} /></div>
@@ -44,9 +44,9 @@ const SLIDES: Slide[] = [
     ),
   },
   {
-    accent: '#2563FF',
+    accent: '#e5883e',
     render: () => (
-      <SlideFeature icon={Calendar} color="#60a5fa" title="Tu agenda, inteligente" points={['Turnos por día, semana y profesional', 'Turnos recurrentes automáticos', 'Todo ordenado y en la nube']} />
+      <SlideFeature icon={Calendar} color="#eda45f" title="Tu agenda, inteligente" points={['Turnos por día, semana y profesional', 'Turnos recurrentes automáticos', 'Todo ordenado y en la nube']} />
     ),
   },
   {
@@ -62,17 +62,17 @@ const SLIDES: Slide[] = [
     ),
   },
   {
-    accent: '#a78bfa',
+    accent: '#e5883e',
     render: () => (
-      <SlideFeature icon={Sparkles} color="#c4b5fd" title="Contenido con IA" points={['Imágenes para Instagram', 'Textos y captions listos', 'Ideas de qué publicar']} />
+      <SlideFeature icon={Sparkles} color="#eda45f" title="Contenido con IA" points={['Imágenes para Instagram', 'Textos y captions listos', 'Ideas de qué publicar']} />
     ),
   },
   {
-    accent: '#2563FF',
+    accent: '#e5883e',
     render: () => (
       <div style={{ textAlign: 'center', padding: '0 34px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 16px', borderRadius: 999, background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.5)', color: '#6ee7b7', fontSize: 13, fontWeight: 800, marginBottom: 18 }}><Gift size={15} /> 14 DÍAS GRATIS</div>
-        <h2 style={{ fontSize: 30, fontWeight: 900, lineHeight: 1.15, margin: 0 }}>Probala <span style={{ color: '#60a5fa' }}>gratis</span>, sin tarjeta</h2>
+        <h2 style={{ fontSize: 30, fontWeight: 900, lineHeight: 1.15, margin: 0 }}>Probala <span style={{ color: '#eda45f' }}>gratis</span>, sin tarjeta</h2>
         <p style={{ margin: '18px 0 0', fontSize: 17, fontWeight: 700, color: 'white' }}>👉 visionturnos.online</p>
         <p style={{ margin: '8px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>Empezá hoy en 5 minutos</p>
       </div>
@@ -122,13 +122,13 @@ export default function CarruselPage() {
   }
 
   return (
-    <div style={{ background: '#06060d', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
+    <div style={{ background: '#0b0f17', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
       <div style={{ maxWidth: 440, margin: '0 auto', textAlign: 'center', marginBottom: 26 }}>
         <h1 style={{ fontSize: 26, fontWeight: 900, margin: 0 }}>Carrusel de lanzamiento 🚀</h1>
         <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14.5, margin: '10px 0 18px' }}>
           Descargá cada slide (1080×1080) y subilos a Instagram en orden. ¡Ya vienen con tu marca!
         </p>
-        <button onClick={downloadAll} disabled={busy} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#2563FF', color: 'white', border: 'none', borderRadius: 11, padding: '12px 22px', fontSize: 14.5, fontWeight: 800, cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
+        <button onClick={downloadAll} disabled={busy} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#e5883e', color: 'white', border: 'none', borderRadius: 11, padding: '12px 22px', fontSize: 14.5, fontWeight: 800, cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
           <Download size={17} /> {busy ? 'Descargando…' : 'Descargar todas'}
         </button>
       </div>
@@ -141,7 +141,7 @@ export default function CarruselPage() {
               style={{
                 width: SIZE, height: SIZE, position: 'relative', overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: `radial-gradient(120% 90% at 80% 0%, ${s.accent}33, transparent 55%), linear-gradient(160deg, #0c0c18, #07070f)`,
+                background: `radial-gradient(120% 90% at 80% 0%, ${s.accent}33, transparent 55%), linear-gradient(160deg, #0c0c18, #0b0f17)`,
                 border: '1px solid rgba(255,255,255,0.08)',
               }}
             >

@@ -23,15 +23,15 @@ export function SupportButton({ onNavigate }: { onNavigate?: () => void }) {
 
       {open && (
         <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 18 }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(400px, 94vw)', background: '#10101c', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24, position: 'relative' }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(400px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24, position: 'relative' }}>
             <button onClick={() => setOpen(false)} style={{ position: 'absolute', top: 14, right: 14, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}><X size={18} /></button>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(37,99,255,0.15)', border: '1px solid rgba(37,99,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-              <HelpCircle size={22} color="#60a5fa" />
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(229,136,62,0.15)', border: '1px solid rgba(229,136,62,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <HelpCircle size={22} color="#eda45f" />
             </div>
             <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>¿Necesitás ayuda?</h3>
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13.5, margin: '6px 0 14px', lineHeight: 1.5 }}>Mirá la guía de uso o escribinos.</p>
 
-            <a href="/guia" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'rgba(37,99,255,0.12)', border: '1px solid rgba(37,99,255,0.35)', color: '#93c5fd', textDecoration: 'none', borderRadius: 10, padding: '11px', fontSize: 14, fontWeight: 700, marginBottom: 16 }}>
+            <a href="/guia" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'rgba(229,136,62,0.12)', border: '1px solid rgba(229,136,62,0.35)', color: '#e5883e', textDecoration: 'none', borderRadius: 10, padding: '11px', fontSize: 14, fontWeight: 700, marginBottom: 16 }}>
               📖 Ver la guía de uso
             </a>
 
@@ -39,13 +39,13 @@ export function SupportButton({ onNavigate }: { onNavigate?: () => void }) {
             <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 7px' }}>Email</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px' }}>
               <span style={{ flex: 1, color: 'white', fontSize: 14, wordBreak: 'break-all' }}>{SUPPORT_EMAIL}</span>
-              <button onClick={copy} title="Copiar" style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(37,99,255,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.4)' : 'rgba(37,99,255,0.35)'}`, color: copied ? '#34d399' : '#60a5fa', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, fontWeight: 700 }}>
+              <button onClick={copy} title="Copiar" style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(229,136,62,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.4)' : 'rgba(229,136,62,0.35)'}`, color: copied ? '#34d399' : '#eda45f', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, fontWeight: 700 }}>
                 {copied ? <><Check size={14} /> Copiado</> : <><Copy size={14} /> Copiar</>}
               </button>
             </div>
 
             <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
-              <a href={`mailto:${SUPPORT_EMAIL}?subject=Ayuda%20con%20Vision%20OS`} style={{ flex: 1, textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: '#2563FF', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '11px', fontSize: 13.5, fontWeight: 700 }}>
+              <a href={`mailto:${SUPPORT_EMAIL}?subject=Ayuda%20con%20Vision%20OS`} style={{ flex: 1, textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: '#e5883e', color: 'white', textDecoration: 'none', borderRadius: 10, padding: '11px', fontSize: 13.5, fontWeight: 700 }}>
                 <Mail size={15} /> Escribir un email
               </a>
               {SUPPORT_WHATSAPP && (

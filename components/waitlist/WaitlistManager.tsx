@@ -177,13 +177,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
 const input: React.CSSProperties = {
   width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }
@@ -205,6 +205,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 440, boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

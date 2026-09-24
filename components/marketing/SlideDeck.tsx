@@ -40,11 +40,11 @@ export function SlideDeck({
   }
 
   return (
-    <div style={{ background: '#06060d', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
+    <div style={{ background: '#0b0f17', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
       <div style={{ maxWidth: 460, margin: '0 auto', textAlign: 'center', marginBottom: 26 }}>
         <h1 style={{ fontSize: 25, fontWeight: 900, margin: 0 }}>{title}</h1>
         <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, margin: '10px 0 18px' }}>{subtitle}</p>
-        <button onClick={downloadAll} disabled={busy} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#2563FF', color: 'white', border: 'none', borderRadius: 11, padding: '12px 22px', fontSize: 14.5, fontWeight: 800, cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
+        <button onClick={downloadAll} disabled={busy} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#e5883e', color: 'white', border: 'none', borderRadius: 11, padding: '12px 22px', fontSize: 14.5, fontWeight: 800, cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
           <Download size={17} /> {busy ? 'Descargando…' : 'Descargar todas'}
         </button>
       </div>
@@ -57,12 +57,12 @@ export function SlideDeck({
               style={{
                 width, height, position: 'relative', overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: `radial-gradient(120% 80% at 80% 0%, ${s.accent}33, transparent 55%), linear-gradient(160deg, #0c0c18, #07070f)`,
+                background: `radial-gradient(120% 80% at 80% 0%, ${s.accent}33, transparent 55%), linear-gradient(160deg, #0c0c18, #0b0f17)`,
                 border: '1px solid rgba(255,255,255,0.08)',
               }}
             >
               <span style={{ position: 'absolute', bottom: 22, left: 26, fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 14, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.85)' }}>
-                VISION <span style={{ color: '#60a5fa' }}>OS</span>
+                VISION <span style={{ color: '#eda45f' }}>OS</span>
               </span>
               {s.render()}
             </div>

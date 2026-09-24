@@ -7,22 +7,22 @@ const S = 360
 
 const slides: DeckSlide[] = [
   // 1 · Portada — QUÉ es, claro
-  { accent: '#2563FF', render: () => (
+  { accent: '#e5883e', render: () => (
     <div style={{ textAlign: 'center', padding: '0 40px' }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 30, letterSpacing: '0.05em', marginBottom: 18 }}>VISION<span style={{ color: '#60a5fa' }}> OS</span></div>
-      <h2 style={{ fontSize: 33, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>La app que ordena tu <span style={{ color: '#60a5fa' }}>negocio de turnos</span></h2>
+      <div style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: 30, letterSpacing: '0.05em', marginBottom: 18 }}>VISION<span style={{ color: '#eda45f' }}> OS</span></div>
+      <h2 style={{ fontSize: 33, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>La app que ordena tu <span style={{ color: '#eda45f' }}>negocio de turnos</span></h2>
       <p style={{ margin: '18px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.45 }}>Agenda, reservas online, señas y números. Todo en un lugar.</p>
     </div>
   ) },
   // 2 · Qué hace (valor claro, de un vistazo)
-  { accent: '#60a5fa', render: () => (
+  { accent: '#eda45f', render: () => (
     <div style={{ padding: '0 40px', width: '100%' }}>
       <h2 style={{ fontSize: 26, fontWeight: 900, margin: '0 0 22px', lineHeight: 1.15 }}>Todo lo que hace por vos</h2>
       {[
-        { icon: Calendar, color: '#60a5fa', t: 'Agenda ordenada', d: 'Cargás turnos en segundos, sin superponerte' },
+        { icon: Calendar, color: '#eda45f', t: 'Agenda ordenada', d: 'Cargás turnos en segundos, sin superponerte' },
         { icon: Globe, color: '#67e8f9', t: 'Reservas online 24/7', d: 'Tus clientas reservan solas por un link' },
         { icon: Wallet, color: '#6ee7b7', t: 'Cobrás la seña', d: 'Por adelantado, y se acaban las ausencias' },
-        { icon: BarChart3, color: '#c4b5fd', t: 'Caja y reportes', d: 'Sabés cuánto entra y cuánto facturás' },
+        { icon: BarChart3, color: '#eda45f', t: 'Caja y reportes', d: 'Sabés cuánto entra y cuánto facturás' },
       ].map((f) => (
         <div key={f.t} style={{ display: 'flex', gap: 13, alignItems: 'center', marginBottom: 15 }}>
           <div style={{ flexShrink: 0, width: 42, height: 42, borderRadius: 12, background: `${f.color}22`, border: `1px solid ${f.color}55`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -66,11 +66,11 @@ const slides: DeckSlide[] = [
     </div>
   ) },
   // 6 · Cierre — CTA claro
-  { accent: '#2563FF', render: () => (
+  { accent: '#e5883e', render: () => (
     <div style={{ textAlign: 'center', padding: '0 38px' }}>
-      <h2 style={{ fontSize: 32, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Probala <span style={{ color: '#60a5fa' }}>gratis</span> primero</h2>
+      <h2 style={{ fontSize: 32, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Probala <span style={{ color: '#eda45f' }}>gratis</span> primero</h2>
       <p style={{ margin: '15px 0 22px', fontSize: 16, color: 'rgba(255,255,255,0.62)', lineHeight: 1.45 }}>14 días sin costo y sin tarjeta. Si te sirve, entrás como fundadora.</p>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#2563FF', borderRadius: 12, padding: '13px 22px', fontSize: 17, fontWeight: 800 }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#e5883e', borderRadius: 12, padding: '13px 22px', fontSize: 17, fontWeight: 800 }}>
         visionturnos.online <ArrowRight size={18} />
       </div>
     </div>

@@ -107,7 +107,7 @@ export function PatientsManager({
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 760 }}>
           {filtered.map((p) => (
             <div key={p.id} style={row} onClick={() => setDetail(p)}>
-              <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(37,99,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa', fontWeight: 700, fontSize: 15, flexShrink: 0 }}>
+              <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(229,136,62,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#eda45f', fontWeight: 700, fontSize: 15, flexShrink: 0 }}>
                 {p.first_name[0]?.toUpperCase()}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -265,9 +265,9 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
@@ -288,6 +288,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 440, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

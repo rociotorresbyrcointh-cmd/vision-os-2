@@ -359,7 +359,7 @@ export function AppointmentModal({
                 </span>
               )}
               {showSug && clientName.trim().length >= 2 && !patientId && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20, boxShadow: '0 12px 30px rgba(0,0,0,0.5)' }}>
+                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20, boxShadow: '0 12px 30px rgba(0,0,0,0.5)' }}>
                   {suggestions.map((p) => (
                     <button key={p.id} type="button" onMouseDown={(e) => { e.preventDefault(); pickPatient(p) }}
                       style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
@@ -373,7 +373,7 @@ export function AppointmentModal({
                   ))}
                   {/* Crear paciente nuevo con lo tipeado */}
                   <button type="button" onMouseDown={(e) => { e.preventDefault(); setShowSug(false); setQuickOpen(true) }}
-                    style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'rgba(37,99,255,0.1)', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: '#60a5fa', fontSize: 13, fontWeight: 600 }}>
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'rgba(229,136,62,0.1)', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: '#eda45f', fontSize: 13, fontWeight: 600 }}>
                     <UserPlus size={15} /> Crear {term.one} “{clientName.trim()}”
                   </button>
                 </div>
@@ -444,7 +444,7 @@ export function AppointmentModal({
                       return (
                         <button key={i} onClick={() => setRecurDays((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i])}
                           style={{ width: 40, height: 40, borderRadius: 9, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-                            background: on ? 'rgba(37,99,255,0.25)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(37,99,255,0.6)' : '1px solid rgba(255,255,255,0.12)', color: on ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                            background: on ? 'rgba(229,136,62,0.25)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(229,136,62,0.6)' : '1px solid rgba(255,255,255,0.12)', color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
                           {d}
                         </button>
                       )
@@ -603,15 +603,15 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
 const input: React.CSSProperties = {
   width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnCobrar: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(52,211,153,0.15)', color: '#34d399',
@@ -634,6 +634,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 420, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

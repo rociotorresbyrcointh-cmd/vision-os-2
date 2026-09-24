@@ -210,8 +210,8 @@ export function CalendarContainer({
             {(['day', 'list', 'week', 'month'] as View[]).map((v) => (
               <button key={v} onClick={() => setView(v)}
                 style={{ padding: isMobile ? '8px 0' : '6px 14px', flex: isMobile ? 1 : 'none', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-                  background: view === v ? 'rgba(37,99,255,0.25)' : 'transparent',
-                  color: view === v ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                  background: view === v ? 'rgba(229,136,62,0.25)' : 'transparent',
+                  color: view === v ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
                 {v === 'day' ? 'Día' : v === 'list' ? 'Lista' : v === 'week' ? 'Semana' : 'Mes'}
               </button>
             ))}
@@ -229,7 +229,7 @@ export function CalendarContainer({
           <button
             onClick={() => setModal({ professionalId: professionals[0]?.id ?? '', date, startMin: openMin })}
             disabled={!ready}
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', border: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', opacity: ready ? 1 : 0.4 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', opacity: ready ? 1 : 0.4 }}
           >
             <Plus size={15} /> Nuevo turno
           </button>
@@ -240,14 +240,14 @@ export function CalendarContainer({
           completa (en la agenda por día no entran todas las columnas juntas). */}
       {isMobile && ready && view === 'day' && professionals.length > 1 && (
         <div style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.07)', WebkitOverflowScrolling: 'touch' }}>
-          {[{ id: 'all', name: 'Todos', color: '#60a5fa' }, ...professionals].map((p) => {
+          {[{ id: 'all', name: 'Todos', color: '#eda45f' }, ...professionals].map((p) => {
             const on = profFilter === p.id
             return (
               <button key={p.id} onClick={() => setProfFilter(p.id)}
                 style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6, padding: '7px 13px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600,
-                  background: on ? 'rgba(37,99,255,0.2)' : 'rgba(255,255,255,0.05)',
-                  border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                  color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)' }}>
+                  background: on ? 'rgba(229,136,62,0.2)' : 'rgba(255,255,255,0.05)',
+                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                  color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
                 {p.id !== 'all' && <span style={{ width: 8, height: 8, borderRadius: '50%', background: p.color }} />}
                 {p.name}
               </button>
@@ -349,18 +349,18 @@ function AgendaSetup({ needProf, needSvc }: { needProf: boolean; needSvc: boolea
   const link: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 7, padding: '10px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, textDecoration: 'none' }
   return (
     <div style={{ flex: 1, overflow: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <div style={{ background: 'rgba(37,99,255,0.08)', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 16, padding: 28, maxWidth: 480, textAlign: 'center' }}>
+      <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 16, padding: 28, maxWidth: 480, textAlign: 'center' }}>
         <div style={{ fontSize: 40, marginBottom: 8 }}>📅</div>
         <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: '0 0 8px' }}>Configurá tu agenda</h2>
         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
           Para ver el calendario y crear turnos, primero cargá {needProf ? 'tus profesionales' : ''}{needProf && needSvc ? ' y ' : ''}{needSvc ? 'tus servicios' : ''}.
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-          {needProf && <a href="/profesionales" style={{ ...link, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white' }}>Cargar profesionales</a>}
-          {needSvc && <a href="/servicios" style={{ ...link, background: needProf ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#3b82f6,#2563FF)', color: needProf ? 'rgba(255,255,255,0.75)' : 'white', border: needProf ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>Cargar servicios</a>}
+          {needProf && <a href="/profesionales" style={{ ...link, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white' }}>Cargar profesionales</a>}
+          {needSvc && <a href="/servicios" style={{ ...link, background: needProf ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: needProf ? 'rgba(255,255,255,0.75)' : 'white', border: needProf ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>Cargar servicios</a>}
         </div>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, margin: '18px 0 0' }}>
-          ¿Querés probar primero? Cargá <a href="/inicio" style={{ color: '#60a5fa', textDecoration: 'none' }}>datos de ejemplo</a> desde el Inicio.
+          ¿Querés probar primero? Cargá <a href="/inicio" style={{ color: '#eda45f', textDecoration: 'none' }}>datos de ejemplo</a> desde el Inicio.
         </p>
       </div>
     </div>

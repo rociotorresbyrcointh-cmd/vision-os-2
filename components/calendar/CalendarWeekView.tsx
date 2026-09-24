@@ -69,7 +69,7 @@ export function CalendarWeekView({
   const isMobile = useIsMobile()
   const totalMin = closeMin - openMin
   const bodyH = totalMin * PX_PER_MIN
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
   const serviceName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
 
   const days = useMemo(
@@ -105,7 +105,7 @@ export function CalendarWeekView({
     <div style={{ flex: 1, overflow: 'auto' }}>
       <div style={{ display: 'flex', minWidth: isMobile ? '100%' : GUTTER + 7 * 120 }}>
         {/* Gutter horas */}
-        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#07070F' }}>
+        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#0b0f17' }}>
           <div style={{ height: HEADER_H }} />
           <div style={{ position: 'relative', height: bodyH }}>
             {hourLines.map((m) => (
@@ -124,9 +124,9 @@ export function CalendarWeekView({
           const isToday = k === todayKey
           return (
             <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: '#0a0a14', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{day.toLocaleDateString('es-AR', { weekday: 'short' })}</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#60a5fa' : 'white', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#eda45f' : 'white', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>
               </div>
 
               <div onClick={(e) => handleClick(e, day)} style={{ position: 'relative', height: bodyH, cursor: 'pointer' }}>
@@ -155,7 +155,7 @@ export function CalendarWeekView({
                   return (
                     <div key={i} onClick={(ev) => { ev.stopPropagation(); onShowDay(day) }}
                       title={`${cl.appts.length} turnos · click para ver el día`}
-                      style={{ position: 'absolute', top, height, left: 2, right: 2, background: 'rgba(37,99,255,0.14)', border: '1px solid rgba(37,99,255,0.35)',
+                      style={{ position: 'absolute', top, height, left: 2, right: 2, background: 'rgba(229,136,62,0.14)', border: '1px solid rgba(229,136,62,0.35)',
                         borderRadius: 6, padding: '3px 7px', overflow: 'hidden', zIndex: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
                       <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>{cl.appts.length} turnos</span>
                       <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>

@@ -61,13 +61,13 @@ export function TrashManager() {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <Section
-            icon={<UserRound size={16} color="#60a5fa" />} title="Pacientes" count={patients.length}
+            icon={<UserRound size={16} color="#eda45f" />} title="Pacientes" count={patients.length}
             rows={patients.map((p) => ({ id: p.id, title: fullName(p), sub: [p.dni && `DNI ${p.dni}`, p.phone].filter(Boolean).join(' · ') || 'sin datos extra' }))}
             onRestore={async (id) => { await restorePatient(id); reload() }}
             onDelete={async (id) => { await hardDeletePatient(id); reload() }}
           />
           <Section
-            icon={<Calendar size={16} color="#a78bfa" />} title="Turnos" count={appts.length}
+            icon={<Calendar size={16} color="#e5883e" />} title="Turnos" count={appts.length}
             rows={appts.map(apptRow)}
             onRestore={async (id) => { try { await restoreAppointment(id); reload() } catch (e: any) { toast(e.message ?? 'No se pudo recuperar (quizás el horario ya está ocupado).', 'error') } }}
             onDelete={async (id) => { await hardDeleteAppointment(id); reload() }}

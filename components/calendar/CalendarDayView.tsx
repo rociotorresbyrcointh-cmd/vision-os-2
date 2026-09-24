@@ -127,7 +127,7 @@ export function CalendarDayView({
     <div style={{ flex: 1, overflow: 'auto' }}>
       <div style={{ display: 'flex', minWidth: totalWidth }}>
         {/* Columna de horas */}
-        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#07070F' }}>
+        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#0b0f17' }}>
           <div style={{ height: HEADER_H }} />
           <div style={{ position: 'relative', height: bodyH }}>
             {hourLines.map((m) => (
@@ -143,7 +143,7 @@ export function CalendarDayView({
           return (
             <div key={p.id} style={{ flex: `1 0 ${width}px`, minWidth: width, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
               {/* Encabezado */}
-              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: '#0a0a14', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 <span style={{ width: 9, height: 9, borderRadius: '50%', background: p.color, boxShadow: `0 0 8px ${p.color}` }} />
                 <span style={{ color: 'white', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
               </div>

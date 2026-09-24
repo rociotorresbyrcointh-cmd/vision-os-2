@@ -21,9 +21,9 @@ const moneyCur = (n: number, cur: string) => {
 export type PublicTheme = 'light' | 'dark'
 const THEME_VARS: Record<PublicTheme, React.CSSProperties> = {
   dark: {
-    ['--pb-page' as string]: '#07070F',
-    ['--pb-card' as string]: '#0d0d18',
-    ['--pb-card-border' as string]: 'rgba(37,99,255,0.2)',
+    ['--pb-page' as string]: '#0b0f17',
+    ['--pb-card' as string]: '#1a212e',
+    ['--pb-card-border' as string]: 'rgba(229,136,62,0.2)',
     ['--pb-text' as string]: '#ffffff',
     ['--pb-text-mut' as string]: 'rgba(255,255,255,0.6)',
     ['--pb-text-faint' as string]: 'rgba(255,255,255,0.42)',
@@ -32,13 +32,13 @@ const THEME_VARS: Record<PublicTheme, React.CSSProperties> = {
     ['--pb-input-border' as string]: 'rgba(255,255,255,0.1)',
     ['--pb-soft-bg' as string]: 'rgba(255,255,255,0.04)',
     ['--pb-soft-border' as string]: 'rgba(255,255,255,0.1)',
-    ['--pb-opt-bg' as string]: '#0d0d1a',
+    ['--pb-opt-bg' as string]: '#1a212e',
     ['--pb-shadow' as string]: '0 24px 60px rgba(0,0,0,0.5)',
   },
   light: {
     ['--pb-page' as string]: '#f4f5fa',
     ['--pb-card' as string]: '#ffffff',
-    ['--pb-card-border' as string]: 'rgba(37,99,255,0.25)',
+    ['--pb-card-border' as string]: 'rgba(229,136,62,0.25)',
     ['--pb-text' as string]: '#15162a',
     ['--pb-text-mut' as string]: 'rgba(20,22,42,0.62)',
     ['--pb-text-faint' as string]: 'rgba(20,22,42,0.45)',
@@ -257,9 +257,9 @@ export function PublicBooking({ orgId }: { orgId: string }) {
                 {slots.map((s) => (
                   <button key={s} onClick={() => setSlot(s)}
                     style={{ padding: '9px 0', borderRadius: 9, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontVariantNumeric: 'tabular-nums',
-                      background: slot === s ? 'rgba(37,99,255,0.3)' : 'var(--pb-soft-bg)',
-                      border: slot === s ? '1px solid #2563FF' : '1px solid var(--pb-soft-border)',
-                      color: slot === s ? '#2563FF' : 'var(--pb-text-mut)' }}>
+                      background: slot === s ? 'rgba(229,136,62,0.3)' : 'var(--pb-soft-bg)',
+                      border: slot === s ? '1px solid #e5883e' : '1px solid var(--pb-soft-border)',
+                      color: slot === s ? '#e5883e' : 'var(--pb-text-mut)' }}>
                     {s}
                   </button>
                 ))}
@@ -339,7 +339,7 @@ function Msg({ title, text }: { title: string; text: string }) {
 function Row({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--pb-text)', fontSize: 14.5, textTransform: 'capitalize' }}>
-      <span style={{ color: '#60a5fa' }}>{icon}</span>{text}
+      <span style={{ color: '#eda45f' }}>{icon}</span>{text}
     </div>
   )
 }
@@ -361,6 +361,6 @@ const input: React.CSSProperties = {
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, width: '100%',
-  background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', border: 'none', borderRadius: 10,
-  padding: '13px 16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 24px rgba(37,99,255,0.35)', fontFamily: 'inherit',
+  background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10,
+  padding: '13px 16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 24px rgba(229,136,62,0.35)', fontFamily: 'inherit',
 }

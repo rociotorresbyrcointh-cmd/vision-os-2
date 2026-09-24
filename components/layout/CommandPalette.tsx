@@ -130,7 +130,7 @@ export function CommandPalette({ role = 'owner', clinical = false }: { role?: Ro
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          width: 'min(560px, 92vw)', background: '#10101c',
+          width: 'min(560px, 92vw)', background: '#1a212e',
           border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14,
           boxShadow: '0 24px 60px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}
@@ -164,10 +164,10 @@ export function CommandPalette({ role = 'owner', clinical = false }: { role?: Ro
                   style={{
                     width: '100%', display: 'flex', alignItems: 'center', gap: 12,
                     padding: '10px 12px', borderRadius: 9, border: 'none', cursor: 'pointer',
-                    textAlign: 'left', background: on ? 'rgba(37,99,255,0.16)' : 'transparent',
+                    textAlign: 'left', background: on ? 'rgba(229,136,62,0.16)' : 'transparent',
                   }}
                 >
-                  <Icon size={17} color={on ? '#60a5fa' : 'rgba(255,255,255,0.5)'} />
+                  <Icon size={17} color={on ? '#eda45f' : 'rgba(255,255,255,0.5)'} />
                   <span style={{ flex: 1, minWidth: 0 }}>
                     <span style={{ display: 'block', color: 'white', fontSize: 14, fontWeight: 600 }}>{item.label}</span>
                     {item.sub && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.sub}</span>}

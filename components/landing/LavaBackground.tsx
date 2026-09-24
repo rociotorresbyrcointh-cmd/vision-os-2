@@ -87,10 +87,10 @@ export function LavaBackground() {
     const U = (n: string) => gl.getUniformLocation(prog, n)
     gl.uniform1f(U('u_speed'), 0.15)
     gl.uniform1f(U('u_blend'), 1.0)
-    gl.uniform3f(U('u_col1'), 0.145, 0.388, 1.0)   // azul #2563FF
+    gl.uniform3f(U('u_col1'), 0.145, 0.388, 1.0)   // azul #e5883e
     gl.uniform3f(U('u_col2'), 0.31, 0.275, 0.898)  // indigo #4f46e5
-    gl.uniform3f(U('u_col3'), 0.486, 0.227, 0.929) // violeta #7c3aed
-    gl.uniform3f(U('u_col4'), 0.769, 0.71, 0.992)  // lila claro #c4b5fd
+    gl.uniform3f(U('u_col3'), 0.486, 0.227, 0.929) // violeta #e5883e
+    gl.uniform3f(U('u_col4'), 0.769, 0.71, 0.992)  // lila claro #eda45f
     gl.uniform3f(U('u_col5'), 0.133, 0.827, 0.933) // cyan #22d3ee
     const uRes = U('u_resolution'), uTime = U('u_time')
 

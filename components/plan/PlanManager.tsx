@@ -132,7 +132,7 @@ export function PlanManager({
       {/* Bienvenida después de pagar */}
       {welcome && (
         <div onClick={() => setWelcome(false)} style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(6,6,13,0.85)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(460px, 94vw)', textAlign: 'center', background: 'linear-gradient(160deg, #10101c, #0a0a14)', border: '1px solid rgba(52,211,153,0.35)', borderRadius: 18, padding: '36px 28px', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(460px, 94vw)', textAlign: 'center', background: 'linear-gradient(160deg, #1a212e, #0b0f17)', border: '1px solid rgba(52,211,153,0.35)', borderRadius: 18, padding: '36px 28px', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}>
             <div style={{ width: 66, height: 66, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
               <PartyPopper size={32} color="#34d399" />
             </div>
@@ -140,7 +140,7 @@ export function PlanManager({
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, margin: '12px 0 0', lineHeight: 1.55 }}>
               Tu suscripción está en camino de activarse (puede tardar unos segundos). ¡Ya podés usar todo sin límites!
             </p>
-            <Link href="/inicio" style={{ display: 'inline-block', marginTop: 24, background: 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', textDecoration: 'none', borderRadius: 11, padding: '13px 26px', fontSize: 15, fontWeight: 800 }}>
+            <Link href="/inicio" style={{ display: 'inline-block', marginTop: 24, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', textDecoration: 'none', borderRadius: 11, padding: '13px 26px', fontSize: 15, fontWeight: 800 }}>
               Ir a mi negocio
             </Link>
           </div>
@@ -156,9 +156,9 @@ export function PlanManager({
 
       {/* Estado actual */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', borderRadius: 14, padding: '16px 20px', margin: '18px 0 26px',
-        background: cortesia ? 'rgba(52,211,153,0.08)' : 'rgba(37,99,255,0.08)',
-        border: cortesia ? '1px solid rgba(52,211,153,0.3)' : '1px solid rgba(37,99,255,0.25)' }}>
-        {cortesia ? <Gift size={22} color="#34d399" /> : <Zap size={22} color="#60a5fa" />}
+        background: cortesia ? 'rgba(52,211,153,0.08)' : 'rgba(229,136,62,0.08)',
+        border: cortesia ? '1px solid rgba(52,211,153,0.3)' : '1px solid rgba(229,136,62,0.25)' }}>
+        {cortesia ? <Gift size={22} color="#34d399" /> : <Zap size={22} color="#eda45f" />}
         <div style={{ flex: 1, minWidth: 200 }}>
           <p style={{ color: 'white', fontWeight: 700, fontSize: 15, margin: 0 }}>
             {cortesia ? '🎁 Plan Cortesía — acceso libre y gratuito' : trial ? 'Estás en período de prueba' : `Plan actual: ${current?.name}`}
@@ -187,7 +187,7 @@ export function PlanManager({
             return (
               <button key={c} onClick={() => setCycle(c)}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 700,
-                  background: on ? 'rgba(37,99,255,0.25)' : 'transparent', color: on ? '#60a5fa' : 'rgba(255,255,255,0.55)' }}>
+                  background: on ? 'rgba(229,136,62,0.25)' : 'transparent', color: on ? '#eda45f' : 'rgba(255,255,255,0.55)' }}>
                 {c === 'monthly' ? 'Mensual' : 'Anual'}
                 {c === 'annual' && <span style={{ fontSize: 10.5, fontWeight: 800, color: '#34d399', background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.35)', borderRadius: 6, padding: '1px 6px' }}>2 meses gratis</span>}
               </button>
@@ -201,7 +201,7 @@ export function PlanManager({
             return (
               <button key={c} onClick={() => changeCurrency(c)}
                 style={{ padding: '8px 14px', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 700,
-                  background: on ? 'rgba(37,99,255,0.25)' : 'transparent', color: on ? '#60a5fa' : 'rgba(255,255,255,0.55)' }}>
+                  background: on ? 'rgba(229,136,62,0.25)' : 'transparent', color: on ? '#eda45f' : 'rgba(255,255,255,0.55)' }}>
                 {c === 'ARS' ? '🇦🇷 Pesos' : '🌎 Dólares'}
               </button>
             )
@@ -217,8 +217,8 @@ export function PlanManager({
           return (
             <div key={p.id} style={{
               position: 'relative', display: 'flex', flexDirection: 'column',
-              background: active ? 'rgba(37,99,255,0.1)' : 'rgba(255,255,255,0.03)',
-              border: active ? '2px solid #2563FF' : p.popular ? '1px solid rgba(251,191,36,0.4)' : '1px solid rgba(255,255,255,0.1)',
+              background: active ? 'rgba(229,136,62,0.1)' : 'rgba(255,255,255,0.03)',
+              border: active ? '2px solid #e5883e' : p.popular ? '1px solid rgba(251,191,36,0.4)' : '1px solid rgba(255,255,255,0.1)',
               borderRadius: 16, padding: '22px 20px',
             }}>
               {p.popular && (
@@ -260,7 +260,7 @@ export function PlanManager({
                   title={overLimit ? `Tenés ${professionalCount} profesionales; este plan permite ${p.maxProf}` : ''}
                   style={{
                     padding: '11px', borderRadius: 10, border: 'none', cursor: overLimit ? 'not-allowed' : 'pointer', width: '100%',
-                    background: overLimit ? 'rgba(255,255,255,0.06)' : '#2563FF',
+                    background: overLimit ? 'rgba(255,255,255,0.06)' : '#e5883e',
                     color: overLimit ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 14, fontWeight: 700,
                   }}
                 >
@@ -288,14 +288,14 @@ export function PlanManager({
         const p = planById(choosing)!
         return (
           <div onClick={() => setChoosing(null)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#10101c', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}>
+            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.5)' }}>
               <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>Suscribirte a {p.name}</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, margin: '4px 0 18px' }}>
                 Plan {cycle === 'annual' ? 'anual (un cobro por año)' : 'mensual'} · elegí cómo querés pagar:
               </p>
 
               <button onClick={() => subscribe(p.id)} disabled={busy === p.id}
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(37,99,255,0.4)', background: 'rgba(37,99,255,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10, opacity: busy === p.id ? 0.6 : 1 }}>
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(229,136,62,0.4)', background: 'rgba(229,136,62,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10, opacity: busy === p.id ? 0.6 : 1 }}>
                 <span style={{ textAlign: 'left' }}>
                   <span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>💳 Tarjeta internacional</span>
                   <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Visa, Mastercard, etc. · en tu moneda</span>

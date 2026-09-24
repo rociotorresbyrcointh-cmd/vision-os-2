@@ -17,7 +17,7 @@ export function CalendarMonthView({
   monthDate: Date
   onDayClick: (day: Date) => void
 }) {
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#888'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
 
   // Celdas del mes: arranca el domingo de la semana del día 1
   const cells = useMemo(() => {
@@ -70,11 +70,11 @@ export function CalendarMonthView({
                 display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6,
                 padding: 10, borderRadius: 11, cursor: 'pointer', textAlign: 'left',
                 background: inMonth ? 'rgba(255,255,255,0.03)' : 'transparent',
-                border: isToday ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.06)',
+                border: isToday ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.06)',
                 opacity: inMonth ? 1 : 0.35, fontFamily: 'inherit', minHeight: 70,
               }}
             >
-              <span style={{ fontSize: 14, fontWeight: 700, color: isToday ? '#60a5fa' : 'white', fontVariantNumeric: 'tabular-nums' }}>{d.getDate()}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: isToday ? '#eda45f' : 'white', fontVariantNumeric: 'tabular-nums' }}>{d.getDate()}</span>
               {appts.length > 0 && (
                 <>
                   <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>

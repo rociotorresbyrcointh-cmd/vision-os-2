@@ -215,9 +215,9 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
                 return (
                   <button key={v} onClick={() => setKind(v)}
                     style={{ flex: 1, padding: '9px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-                      background: on ? 'rgba(37,99,255,0.2)' : 'rgba(0,0,0,0.3)',
-                      border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#60a5fa' : 'rgba(255,255,255,0.5)' }}>
+                      background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                      color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
                     {lbl}
                   </button>
                 )
@@ -237,7 +237,7 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
                 onBlur={() => setTimeout(() => setShowSug(false), 150)}
                 placeholder="Buscar por nombre o DNI" style={input} autoComplete="off" />
               {showSug && sug.length > 0 && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(37,99,255,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20 }}>
+                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20 }}>
                   {sug.map((p) => (
                     <button key={p.id} type="button" onMouseDown={(e) => { e.preventDefault(); setPatient(p); setShowSug(false) }}
                       style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'white', fontSize: 13.5, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -272,15 +272,15 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-const opt: React.CSSProperties = { background: '#0d0d1a', color: 'white' }
+const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
 const input: React.CSSProperties = {
   width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
@@ -317,6 +317,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 420, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

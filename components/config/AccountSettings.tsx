@@ -24,14 +24,14 @@ export function AccountSettings({ embedded = false }: { embedded?: boolean }) {
 
   const wrapStyle: React.CSSProperties = embedded
     ? {}
-    : { background: 'linear-gradient(145deg, rgba(37,99,255,0.12), rgba(37,99,255,0.04))', border: '1px solid rgba(37,99,255,0.4)', borderRadius: 14, padding: '20px 22px', marginBottom: 18, boxShadow: '0 0 24px rgba(37,99,255,0.12)' }
+    : { background: 'linear-gradient(145deg, rgba(229,136,62,0.12), rgba(229,136,62,0.04))', border: '1px solid rgba(229,136,62,0.4)', borderRadius: 14, padding: '20px 22px', marginBottom: 18, boxShadow: '0 0 24px rgba(229,136,62,0.12)' }
 
   return (
     <div style={wrapStyle}>
       {!embedded && (
         <h2 style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
-          <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(37,99,255,0.2)', border: '1px solid rgba(37,99,255,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-            <KeyRound size={18} color="#60a5fa" />
+          <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(229,136,62,0.2)', border: '1px solid rgba(229,136,62,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+            <KeyRound size={18} color="#eda45f" />
           </span>
           Acceso a la cuenta
         </h2>
@@ -83,7 +83,7 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }

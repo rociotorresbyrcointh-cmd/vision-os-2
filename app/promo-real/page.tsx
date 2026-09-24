@@ -41,7 +41,7 @@ export default function PromoRealPage() {
   }
 
   return (
-    <div style={{ background: '#06060d', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
+    <div style={{ background: '#0b0f17', color: 'white', minHeight: '100vh', padding: '36px 16px 60px' }}>
       <div style={{ maxWidth: 460, margin: '0 auto 26px', textAlign: 'center' }}>
         <h1 style={{ fontSize: 24, fontWeight: 900, margin: 0 }}>Carrusel con tus capturas reales</h1>
         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '10px 0 0', lineHeight: 1.5 }}>
@@ -57,14 +57,14 @@ export default function PromoRealPage() {
               ref={(el) => { refs.current[i] = el }}
               style={{
                 width: W, height: H, position: 'relative', overflow: 'hidden',
-                background: 'radial-gradient(120% 70% at 80% 0%, rgba(37,99,255,0.28), transparent 55%), linear-gradient(165deg, #0c0c1a, #07070f)',
+                background: 'radial-gradient(120% 70% at 80% 0%, rgba(229,136,62,0.28), transparent 55%), linear-gradient(165deg, #0c0c1a, #0b0f17)',
                 display: 'flex', flexDirection: 'column', border: '1px solid rgba(255,255,255,0.08)',
               }}
             >
               {/* Encabezado */}
               <div style={{ padding: '22px 24px 14px', textAlign: 'center' }}>
-                <div style={{ display: 'inline-block', fontFamily: "'Orbitron', sans-serif", fontSize: 9.5, fontWeight: 800, letterSpacing: '0.16em', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.4)', borderRadius: 999, padding: '5px 12px', marginBottom: 12 }}>{s.badge}</div>
-                <h2 style={{ fontSize: 21, fontWeight: 900, margin: 0, lineHeight: 1.15 }}>{s.title}<span style={{ color: '#60a5fa' }}>{s.accentTitle}</span></h2>
+                <div style={{ display: 'inline-block', fontFamily: "'Orbitron', sans-serif", fontSize: 9.5, fontWeight: 800, letterSpacing: '0.16em', color: '#eda45f', border: '1px solid rgba(229,136,62,0.4)', borderRadius: 999, padding: '5px 12px', marginBottom: 12 }}>{s.badge}</div>
+                <h2 style={{ fontSize: 21, fontWeight: 900, margin: 0, lineHeight: 1.15 }}>{s.title}<span style={{ color: '#eda45f' }}>{s.accentTitle}</span></h2>
               </div>
 
               {/* Captura real (o placeholder) */}
@@ -82,7 +82,7 @@ export default function PromoRealPage() {
 
               {/* Pie con marca */}
               <div style={{ padding: '14px 24px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 13, letterSpacing: '0.1em' }}>VISION <span style={{ color: '#60a5fa' }}>OS</span></span>
+                <span style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 800, fontSize: 13, letterSpacing: '0.1em' }}>VISION <span style={{ color: '#eda45f' }}>OS</span></span>
                 <span style={{ fontSize: 11.5, fontWeight: 700, color: '#6ee7b7' }}>visionturnos.online</span>
               </div>
             </div>
@@ -92,7 +92,7 @@ export default function PromoRealPage() {
                 <ImagePlus size={14} /> Subir captura
                 <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => onPick(i, e.target.files?.[0])} />
               </label>
-              <button onClick={() => download(i)} disabled={!imgs[i]} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: imgs[i] ? '#2563FF' : 'rgba(255,255,255,0.06)', border: 'none', color: 'white', borderRadius: 9, padding: '8px 14px', fontSize: 13, fontWeight: 800, cursor: imgs[i] ? 'pointer' : 'not-allowed', opacity: imgs[i] ? 1 : 0.5 }}>
+              <button onClick={() => download(i)} disabled={!imgs[i]} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: imgs[i] ? '#e5883e' : 'rgba(255,255,255,0.06)', border: 'none', color: 'white', borderRadius: 9, padding: '8px 14px', fontSize: 13, fontWeight: 800, cursor: imgs[i] ? 'pointer' : 'not-allowed', opacity: imgs[i] ? 1 : 0.5 }}>
                 <Download size={14} /> Descargar {i + 1}
               </button>
             </div>

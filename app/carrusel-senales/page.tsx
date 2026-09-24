@@ -27,16 +27,16 @@ const slides: DeckSlide[] = [
       <p style={{ margin: '18px 0 0', fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.45 }}>Si te pasa alguna, esto es para vos</p>
     </div>
   ) },
-  { accent: '#60a5fa', render: () => <Sign n="01" icon={MessageCircleOff} color="#60a5fa" title="Vivís contestando WhatsApp" text="Pasás el día respondiendo “¿tenés lugar?” en vez de trabajar en lo tuyo." /> },
+  { accent: '#eda45f', render: () => <Sign n="01" icon={MessageCircleOff} color="#eda45f" title="Vivís contestando WhatsApp" text="Pasás el día respondiendo “¿tenés lugar?” en vez de trabajar en lo tuyo." /> },
   { accent: '#f472b6', render: () => <Sign n="02" icon={UserX} color="#f9a8d4" title="Te faltan clientas sin avisar" text="Reservás el horario, no aparecen y perdés esa plata que no vuelve." /> },
-  { accent: '#a78bfa', render: () => <Sign n="03" icon={NotebookPen} color="#c4b5fd" title="Anotás los turnos en un cuaderno" text="Papel, notas del celu y cabeza. Si se pierde o te olvidás, es un lío." /> },
+  { accent: '#e5883e', render: () => <Sign n="03" icon={NotebookPen} color="#eda45f" title="Anotás los turnos en un cuaderno" text="Papel, notas del celu y cabeza. Si se pierde o te olvidás, es un lío." /> },
   { accent: '#22d3ee', render: () => <Sign n="04" icon={HelpCircle} color="#67e8f9" title="No sabés cuánto facturaste" text="A fin de mes es todo a ojo: no sabés qué servicio deja más ni cuánto entró." /> },
   { accent: '#34d399', render: () => <Sign n="05" icon={CalendarX} color="#6ee7b7" title="Te superponés o dejás huecos" text="Dos turnos a la misma hora, o agenda con espacios vacíos que podrías llenar." /> },
-  { accent: '#2563FF', render: () => (
+  { accent: '#e5883e', render: () => (
     <div style={{ textAlign: 'center', padding: '0 38px' }}>
-      <h2 style={{ fontSize: 32, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Vision OS lo <span style={{ color: '#60a5fa' }}>ordena todo</span></h2>
+      <h2 style={{ fontSize: 32, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Vision OS lo <span style={{ color: '#eda45f' }}>ordena todo</span></h2>
       <p style={{ margin: '16px 0 22px', fontSize: 16, color: 'rgba(255,255,255,0.62)', lineHeight: 1.45 }}>Agenda, reservas online, señas y reportes en un solo lugar</p>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#2563FF', borderRadius: 12, padding: '13px 22px', fontSize: 17, fontWeight: 800 }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#e5883e', borderRadius: 12, padding: '13px 22px', fontSize: 17, fontWeight: 800 }}>
         visionturnos.online <ArrowRight size={18} />
       </div>
       <p style={{ margin: '14px 0 0', fontSize: 13.5, color: 'rgba(255,255,255,0.5)' }}>14 días gratis, sin tarjeta</p>

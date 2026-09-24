@@ -19,7 +19,7 @@ const labelStyle: React.CSSProperties = {
   textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif",
 }
 const focus = (e: React.FocusEvent<HTMLInputElement>) =>
-  (e.target.style.borderColor = 'rgba(37,99,255,0.6)')
+  (e.target.style.borderColor = 'rgba(229,136,62,0.6)')
 const blur = (e: React.FocusEvent<HTMLInputElement>) =>
   (e.target.style.borderColor = 'rgba(255,255,255,0.1)')
 
@@ -33,7 +33,7 @@ export default function RegisterPage() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: '#0b0f17', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
       <AuthBackground />
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 440 }}>
@@ -41,7 +41,7 @@ export default function RegisterPage() {
           <VisionLogoWhite size={60} animate />
         </div>
 
-        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(37,99,255,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(37,99,255,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
           <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Crear cuenta</h2>
           <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Registrá tu negocio en Vision OS</p>
 
@@ -77,7 +77,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={pending}
-                style={{ background: pending ? 'rgba(37,99,255,0.4)' : 'linear-gradient(135deg,#3b82f6,#2563FF)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(37,99,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
               >
                 {pending ? (
                   <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Creando cuenta…</>
@@ -88,13 +88,13 @@ export default function RegisterPage() {
 
           <p style={{ textAlign: 'center', marginTop: 14, fontSize: 11.5, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
             Al crear tu cuenta aceptás los{' '}
-            <Link href="/terminos" style={{ color: '#60a5fa', textDecoration: 'none' }}>Términos</Link> y la{' '}
-            <Link href="/privacidad" style={{ color: '#60a5fa', textDecoration: 'none' }}>Política de Privacidad</Link>.
+            <Link href="/terminos" style={{ color: '#eda45f', textDecoration: 'none' }}>Términos</Link> y la{' '}
+            <Link href="/privacidad" style={{ color: '#eda45f', textDecoration: 'none' }}>Política de Privacidad</Link>.
           </p>
 
           <p style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
             ¿Ya tenés cuenta?{' '}
-            <Link href="/login" style={{ color: '#60a5fa', fontWeight: 700, textDecoration: 'none' }}>Ingresá</Link>
+            <Link href="/login" style={{ color: '#eda45f', fontWeight: 700, textDecoration: 'none' }}>Ingresá</Link>
           </p>
         </div>
 

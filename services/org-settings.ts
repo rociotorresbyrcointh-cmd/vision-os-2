@@ -45,7 +45,7 @@ export type Brand = {
 
 export const EMPTY_BRAND: Brand = {
   name: '', description: '', rubro: '', tone: 'cercano',
-  audience: '', color: '#2563FF', color2: '#22d3ee', instagram: '', facebook: '',
+  audience: '', color: '#e5883e', color2: '#22d3ee', instagram: '', facebook: '',
   city: '', services: '', differentiator: '', goal: '', extra: '',
 }
 

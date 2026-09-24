@@ -22,15 +22,15 @@ function layout(heading: string, bodyHtml: string, ctaText?: string, ctaUrl?: st
   return `<!doctype html><html><body style="margin:0;background:#f4f5f7;font-family:Arial,Helvetica,sans-serif;color:#1a1a2e;">
     <div style="max-width:520px;margin:0 auto;padding:32px 20px;">
       <div style="text-align:center;margin-bottom:24px;">
-        <span style="font-size:22px;font-weight:800;letter-spacing:2px;color:#2563FF;">VISION OS</span>
+        <span style="font-size:22px;font-weight:800;letter-spacing:2px;color:#e5883e;">VISION OS</span>
       </div>
       <div style="background:#ffffff;border-radius:14px;padding:32px 28px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
         <h1 style="margin:0 0 14px;font-size:21px;color:#111;">${heading}</h1>
         <div style="font-size:15px;line-height:1.6;color:#444;">${bodyHtml}</div>
-        ${ctaText && ctaUrl ? `<div style="text-align:center;margin-top:26px;"><a href="${ctaUrl}" style="display:inline-block;background:#2563FF;color:#fff;text-decoration:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:700;">${ctaText}</a></div>` : ''}
+        ${ctaText && ctaUrl ? `<div style="text-align:center;margin-top:26px;"><a href="${ctaUrl}" style="display:inline-block;background:#e5883e;color:#fff;text-decoration:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:700;">${ctaText}</a></div>` : ''}
       </div>
       <p style="text-align:center;color:#9aa0aa;font-size:12px;margin-top:20px;">
-        ¿Necesitás ayuda? Escribinos a <a href="mailto:${SUPPORT_EMAIL}" style="color:#2563FF;">${SUPPORT_EMAIL}</a><br/>
+        ¿Necesitás ayuda? Escribinos a <a href="mailto:${SUPPORT_EMAIL}" style="color:#e5883e;">${SUPPORT_EMAIL}</a><br/>
         © ${PRODUCT} · Byrcointh LLC
       </p>
     </div>
@@ -47,7 +47,7 @@ export async function sendWelcomeEmail(to: string, businessName: string): Promis
       `¡Hola${businessName ? `, ${businessName}` : ''}! 👋`,
       `Tu cuenta en <b>${PRODUCT}</b> ya está lista. Tenés <b>14 días gratis</b> para probar todo.<br/><br/>
        Para arrancar, te recomendamos cargar tus <b>profesionales</b> y <b>servicios</b>, y activar tu <b>link de reservas online</b>. La app te guía paso a paso.<br/><br/>
-       📖 ¿Querés aprender a usarla sin dudas? Mirá nuestra <a href="${APP_URL}/guia" style="color:#2563FF;font-weight:bold;">guía de uso completa</a>.`,
+       📖 ¿Querés aprender a usarla sin dudas? Mirá nuestra <a href="${APP_URL}/guia" style="color:#e5883e;font-weight:bold;">guía de uso completa</a>.`,
       'Ir a mi negocio', `${APP_URL}/inicio`,
     ),
   )
@@ -62,7 +62,7 @@ export async function sendActivationEmail(to: string, businessName: string): Pro
       `¡Hola${businessName ? `, ${businessName}` : ''}! 👋`,
       `Vi que empezaste a probar <b>${PRODUCT}</b> hace unos días. ¿Pudiste cargar tu agenda de la semana?<br/><br/>
        El "click" suele pasar cuando cargás <b>un día real de turnos</b>: ahí ves lo fácil que se vuelve todo. Si querés, te ayudo a dejarla lista en 5 minutos.<br/><br/>
-       📖 Te dejo la <a href="${APP_URL}/guia" style="color:#2563FF;font-weight:bold;">guía de uso</a> para arrancar sin dudas. Y si necesitás una mano, respondé este mail y te ayudo. 💙`,
+       📖 Te dejo la <a href="${APP_URL}/guia" style="color:#e5883e;font-weight:bold;">guía de uso</a> para arrancar sin dudas. Y si necesitás una mano, respondé este mail y te ayudo. 💙`,
       'Cargar mi agenda', `${APP_URL}/inicio`,
     ),
   )

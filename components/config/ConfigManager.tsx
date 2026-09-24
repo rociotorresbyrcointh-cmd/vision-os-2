@@ -138,19 +138,19 @@ export function ConfigManager({
   return (
     <div style={{ padding: '28px 32px', maxWidth: 720 }}>
       <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-        <Settings size={20} color="#60a5fa" /> Configuración
+        <Settings size={20} color="#eda45f" /> Configuración
       </h1>
       <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
         Datos de tu negocio y funciones según tu rubro.
       </p>
 
       {/* Acceso a la cuenta */}
-      <Accordion id="acceso" title="Acceso a la cuenta" subtitle="Cambiá tu email y contraseña" icon={<KeyRound size={18} color="#60a5fa" />} open={abierta === 'acceso'} onToggle={() => toggleSeccion('acceso')}>
+      <Accordion id="acceso" title="Acceso a la cuenta" subtitle="Cambiá tu email y contraseña" icon={<KeyRound size={18} color="#eda45f" />} open={abierta === 'acceso'} onToggle={() => toggleSeccion('acceso')}>
         <AccountSettings embedded />
       </Accordion>
 
       {/* Datos del negocio */}
-      <Accordion id="datos" title="Datos del negocio" subtitle="Logo, nombre, teléfono, horarios" icon={<Store size={18} color="#60a5fa" />} open={abierta === 'datos'} onToggle={() => toggleSeccion('datos')}>
+      <Accordion id="datos" title="Datos del negocio" subtitle="Logo, nombre, teléfono, horarios" icon={<Store size={18} color="#eda45f" />} open={abierta === 'datos'} onToggle={() => toggleSeccion('datos')}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
           <div>
             <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>Logo</p>
@@ -193,7 +193,7 @@ export function ConfigManager({
       </Accordion>
 
       {/* Página de reservas */}
-      <Accordion id="reservas" title="Página de reservas" subtitle="Tema claro u oscuro para tus clientes" icon={<Sparkles size={18} color="#60a5fa" />} open={abierta === 'reservas'} onToggle={() => toggleSeccion('reservas')}>
+      <Accordion id="reservas" title="Página de reservas" subtitle="Tema claro u oscuro para tus clientes" icon={<Sparkles size={18} color="#eda45f" />} open={abierta === 'reservas'} onToggle={() => toggleSeccion('reservas')}>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '0 0 14px' }}>
           Tema con el que tus clientes ven la página pública para reservar.
         </p>
@@ -205,11 +205,11 @@ export function ConfigManager({
                 style={{
                   flex: 1, padding: '12px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
                   fontSize: 13.5, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  background: on ? 'rgba(37,99,255,0.15)' : 'rgba(255,255,255,0.04)',
-                  border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                  color: on ? '#60a5fa' : 'rgba(255,255,255,0.6)',
+                  background: on ? 'rgba(229,136,62,0.15)' : 'rgba(255,255,255,0.04)',
+                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                  color: on ? '#eda45f' : 'rgba(255,255,255,0.6)',
                 }}>
-                <span style={{ width: 16, height: 16, borderRadius: 5, border: '1px solid rgba(255,255,255,0.25)', background: t === 'light' ? '#f4f5fa' : '#0d0d18' }} />
+                <span style={{ width: 16, height: 16, borderRadius: 5, border: '1px solid rgba(255,255,255,0.25)', background: t === 'light' ? '#f4f5fa' : '#1a212e' }} />
                 {t === 'light' ? 'Claro' : 'Oscuro'}{on && <Check size={14} />}
               </button>
             )
@@ -218,7 +218,7 @@ export function ConfigManager({
       </Accordion>
 
       {/* Funciones */}
-      <Accordion id="funciones" title="Funciones" subtitle="Historia clínica, redes sociales, seña" icon={<SlidersHorizontal size={18} color="#60a5fa" />} open={abierta === 'funciones'} onToggle={() => toggleSeccion('funciones')}>
+      <Accordion id="funciones" title="Funciones" subtitle="Historia clínica, redes sociales, seña" icon={<SlidersHorizontal size={18} color="#eda45f" />} open={abierta === 'funciones'} onToggle={() => toggleSeccion('funciones')}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <ToggleRow
           icon={<FileHeart size={20} color="#f472b6" />}
@@ -297,9 +297,9 @@ function Accordion({ title, subtitle, icon, open, onToggle, children }: {
   id?: string; title: string; subtitle?: string; icon: React.ReactNode; open: boolean; onToggle: () => void; children: React.ReactNode
 }) {
   return (
-    <div style={{ border: `1px solid ${open ? 'rgba(37,99,255,0.4)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 14, marginBottom: 12, overflow: 'hidden', background: 'rgba(255,255,255,0.03)', transition: 'border-color 0.2s' }}>
-      <button onClick={onToggle} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '16px 18px', background: open ? 'rgba(37,99,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
-        <span style={{ width: 36, height: 36, borderRadius: 9, background: 'rgba(37,99,255,0.14)', border: '1px solid rgba(37,99,255,0.3)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</span>
+    <div style={{ border: `1px solid ${open ? 'rgba(229,136,62,0.4)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 14, marginBottom: 12, overflow: 'hidden', background: 'rgba(255,255,255,0.03)', transition: 'border-color 0.2s' }}>
+      <button onClick={onToggle} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '16px 18px', background: open ? 'rgba(229,136,62,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
+        <span style={{ width: 36, height: 36, borderRadius: 9, background: 'rgba(229,136,62,0.14)', border: '1px solid rgba(229,136,62,0.3)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', color: 'white', fontSize: 15, fontWeight: 700 }}>{title}</span>
           {subtitle && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12.5, marginTop: 2 }}>{subtitle}</span>}
@@ -325,7 +325,7 @@ function ToggleRow({ icon, title, desc, on, disabled, onToggle }: {
       </div>
       <button onClick={onToggle} disabled={disabled} aria-label="Activar"
         style={{ width: 52, height: 30, borderRadius: 15, border: 'none', cursor: 'pointer', position: 'relative', flexShrink: 0, transition: 'background 0.2s',
-          background: on ? '#2563FF' : 'rgba(255,255,255,0.15)' }}>
+          background: on ? '#e5883e' : 'rgba(255,255,255,0.15)' }}>
         <span style={{ position: 'absolute', top: 3, left: on ? 25 : 3, width: 24, height: 24, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
       </button>
     </div>
@@ -346,7 +346,7 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }

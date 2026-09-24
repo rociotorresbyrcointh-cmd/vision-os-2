@@ -126,7 +126,7 @@ export function ProfessionalsManager({
           <span style={{ flex: 1, minWidth: 200, color: 'rgba(255,255,255,0.8)', fontSize: 13.5 }}>
             Tu plan {planById(plan)?.name ? `(${planById(plan)!.name})` : ''} permite hasta <strong>{maxProf}</strong> profesional{maxProf === 1 ? '' : 'es'}. Para sumar más, pasá a un plan más grande.
           </span>
-          <Link href="/plan" style={{ background: '#2563FF', color: 'white', textDecoration: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
+          <Link href="/plan" style={{ background: '#e5883e', color: 'white', textDecoration: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
             Ver planes
           </Link>
         </div>
@@ -211,9 +211,9 @@ export function ProfessionalsManager({
                     return (
                       <button key={n} onClick={() => toggleDay(n)}
                         style={{ width: 34, height: 34, borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer',
-                          background: on ? 'rgba(37,99,255,0.2)' : 'rgba(0,0,0,0.3)',
-                          border: on ? '1px solid rgba(37,99,255,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                          color: on ? '#60a5fa' : 'rgba(255,255,255,0.4)' }}>
+                          background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
+                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
+                          color: on ? '#eda45f' : 'rgba(255,255,255,0.4)' }}>
                         {label}
                       </button>
                     )
@@ -268,9 +268,9 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#3b82f6,#2563FF)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
-  cursor: 'pointer', boxShadow: '0 0 20px rgba(37,99,255,0.3)', fontFamily: 'inherit',
+  cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
@@ -292,6 +292,6 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#0d0d18', border: '1px solid rgba(37,99,255,0.25)', borderRadius: 18, padding: 24,
+  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 440, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }
