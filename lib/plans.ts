@@ -93,10 +93,15 @@ export function isCortesia(planId: string | null | undefined): boolean {
   return planId === 'cortesia'
 }
 
-// Límite de profesionales del plan. Cortesía y trial = sin límite.
+// Tope de profesionales durante la PRUEBA (sin plan pago). Se cambia con este
+// solo número. Así, aunque esté en trial, siente que los planes tienen límite.
+export const TRIAL_MAX_PROF = 5
+
+// Límite de profesionales del plan. Cortesía = sin límite; trial = TRIAL_MAX_PROF.
 export function maxProfessionalsFor(planId: string | null | undefined): number {
+  if (isCortesia(planId)) return Infinity
   const p = planById(planId)
-  return p ? p.maxProf : Infinity
+  return p ? p.maxProf : TRIAL_MAX_PROF
 }
 
 // Está en período de prueba (sin plan pago ni cortesía).
