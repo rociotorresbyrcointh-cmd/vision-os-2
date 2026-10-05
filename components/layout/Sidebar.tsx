@@ -63,10 +63,10 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
   const inner = (
     <>
       {/* Marca */}
-      <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid rgba(var(--ui-rgb),0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ minWidth: 0 }}>
           <VisionLogoWhite size={34} />
-          <p style={{ marginTop: 12, fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>
+          <p style={{ marginTop: 12, fontSize: 12, color: 'rgba(var(--ui-rgb),0.45)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>
             {businessName}
           </p>
           <span style={{ display: 'inline-block', marginTop: 6, fontSize: 10.5, fontWeight: 700, color: '#eda45f', background: 'rgba(229,136,62,0.12)', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 6, padding: '2px 7px' }}>
@@ -74,7 +74,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
           </span>
         </div>
         {isMobile ? (
-          <button onClick={() => setOpen(false)} aria-label="Cerrar menú" style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }}>
+          <button onClick={() => setOpen(false)} aria-label="Cerrar menú" style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4 }}>
             <X size={20} />
           </button>
         ) : (
@@ -89,12 +89,12 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
           style={{
             width: '100%', display: 'flex', alignItems: 'center', gap: 9,
             padding: '9px 12px', borderRadius: 9, cursor: 'pointer',
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)',
-            color: 'rgba(255,255,255,0.5)', fontSize: 13.5, fontWeight: 600,
+            background: 'rgba(var(--ui-rgb),0.04)', border: '1px solid rgba(var(--ui-rgb),0.09)',
+            color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13.5, fontWeight: 600,
           }}>
           <Search size={16} />
           <span style={{ flex: 1, textAlign: 'left' }}>Buscar…</span>
-          {!isMobile && <kbd style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '1px 6px' }}>Ctrl K</kbd>}
+          {!isMobile && <kbd style={{ fontSize: 10.5, color: 'rgba(var(--ui-rgb),0.4)', background: 'rgba(var(--ui-rgb),0.06)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 5, padding: '1px 6px' }}>Ctrl K</kbd>}
         </button>
       </div>
 
@@ -108,7 +108,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
                 display: 'flex', alignItems: 'center', gap: 11,
                 padding: '11px 12px', borderRadius: 9,
                 fontSize: 14, fontWeight: 600, textDecoration: 'none',
-                color: active ? 'white' : 'rgba(255,255,255,0.55)',
+                color: active ? 'var(--text)' : 'rgba(var(--ui-rgb),0.55)',
                 background: active ? 'rgba(229,136,62,0.15)' : 'transparent',
                 border: active ? '1px solid rgba(229,136,62,0.35)' : '1px solid transparent',
                 transition: 'all 0.15s',
@@ -124,8 +124,8 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
       <SupportButton />
 
       {/* Logout */}
-      <form action={logout} style={{ padding: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <button type="submit" style={{ display: 'flex', alignItems: 'center', gap: 11, width: '100%', padding: '11px 12px', borderRadius: 9, background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.5)', fontFamily: 'inherit' }}>
+      <form action={logout} style={{ padding: '12px', borderTop: '1px solid rgba(var(--ui-rgb),0.06)' }}>
+        <button type="submit" style={{ display: 'flex', alignItems: 'center', gap: 11, width: '100%', padding: '11px 12px', borderRadius: 9, background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'rgba(var(--ui-rgb),0.5)', fontFamily: 'inherit' }}>
           <LogOut size={17} /> Cerrar sesión
         </button>
       </form>
@@ -135,7 +135,7 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
   // ─── Escritorio: menú fijo a la izquierda ───
   if (!isMobile) {
     return (
-      <aside style={{ width: 240, minWidth: 240, background: '#0b0f17', borderRight: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}>
+      <aside style={{ width: 240, minWidth: 240, background: 'var(--sidebar-bg)', borderRight: '1px solid rgba(var(--ui-rgb),0.07)', display: 'flex', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0 }}>
         {inner}
       </aside>
     )
@@ -144,18 +144,18 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
   // ─── Móvil: barra superior + menú deslizable ───
   return (
     <>
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 56, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 12, padding: '0 14px', zIndex: 45 }}>
-        <button onClick={() => setOpen(true)} aria-label="Abrir menú" style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', padding: 4, display: 'flex' }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 56, background: 'var(--sidebar-bg)', borderBottom: '1px solid rgba(var(--ui-rgb),0.08)', display: 'flex', alignItems: 'center', gap: 12, padding: '0 14px', zIndex: 45 }}>
+        <button onClick={() => setOpen(true)} aria-label="Abrir menú" style={{ background: 'transparent', border: 'none', color: 'var(--text)', cursor: 'pointer', padding: 4, display: 'flex' }}>
           <Menu size={24} />
         </button>
         <VisionLogoWhite size={26} />
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>{businessName}</span>
+        <span style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'capitalize' }}>{businessName}</span>
         <div style={{ marginLeft: 'auto' }}><NotificationBell role={role} align="right" /></div>
       </div>
 
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 55 }} />}
 
-      <aside style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: 270, maxWidth: '82vw', background: '#0b0f17', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', zIndex: 60, transform: open ? 'translateX(0)' : 'translateX(-105%)', transition: 'transform 0.25s ease', boxShadow: open ? '0 0 50px rgba(0,0,0,0.7)' : 'none' }}>
+      <aside style={{ position: 'fixed', top: 0, left: 0, bottom: 0, width: 270, maxWidth: '82vw', background: 'var(--sidebar-bg)', borderRight: '1px solid rgba(var(--ui-rgb),0.08)', display: 'flex', flexDirection: 'column', zIndex: 60, transform: open ? 'translateX(0)' : 'translateX(-105%)', transition: 'transform 0.25s ease', boxShadow: open ? '0 0 50px rgba(0,0,0,0.7)' : 'none' }}>
         {inner}
       </aside>
     </>
