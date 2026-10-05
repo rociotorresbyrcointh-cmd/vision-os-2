@@ -20,7 +20,7 @@ const STATUS_STYLE: Record<AppointmentStatus, { label: string; color: string; bg
   confirmed: { label: 'Confirmado', color: '#34d399', bg: 'rgba(52,211,153,0.12)' },
   completed: { label: 'Completado', color: '#eda45f', bg: 'rgba(229,136,62,0.12)' },
   cancelled: { label: 'Cancelado',  color: '#f87171', bg: 'rgba(248,113,113,0.12)' },
-  no_show:   { label: 'No asistió', color: '#bcc4ce', bg: 'rgba(156,163,175,0.12)' },
+  no_show:   { label: 'No asistió', color: 'var(--text-muted)', bg: 'rgba(156,163,175,0.12)' },
 }
 
 export function CalendarListView({
@@ -61,7 +61,7 @@ export function CalendarListView({
 
   if (!appointments.length && !blocks.length) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 15 }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(var(--ui-rgb),0.35)', fontSize: 15 }}>
         No hay turnos este día.
       </div>
     )
@@ -69,7 +69,7 @@ export function CalendarListView({
 
   return (
     <div style={{ flex: 1, overflow: 'auto', padding: '20px 28px 40px' }}>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '0 0 18px' }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 13, margin: '0 0 18px' }}>
         {appointments.length} {appointments.length === 1 ? 'turno' : 'turnos'} en total
       </p>
 
@@ -78,10 +78,10 @@ export function CalendarListView({
           {blocks.map((b) => (
             <button key={b.sourceId + b.start_time} onClick={() => onBlockClick(b)}
               title="Click para eliminar el bloqueo"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9, padding: '8px 12px', cursor: 'pointer', fontFamily: 'inherit' }}>
-              <Ban size={13} color="rgba(255,255,255,0.45)" />
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.75)' }}>{b.title}</span>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontVariantNumeric: 'tabular-nums' }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9, padding: '8px 12px', cursor: 'pointer', fontFamily: 'inherit' }}>
+              <Ban size={13} color="rgba(var(--ui-rgb),0.45)" />
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(var(--ui-rgb),0.75)' }}>{b.title}</span>
+              <span style={{ fontSize: 12, color: 'rgba(var(--ui-rgb),0.4)', fontVariantNumeric: 'tabular-nums' }}>
                 {localTime(b.start_time)}–{localTime(b.end_time)}
               </span>
             </button>
@@ -94,11 +94,11 @@ export function CalendarListView({
           <div key={time} style={{ display: 'flex', gap: 16 }}>
             {/* Columna de hora */}
             <div style={{ width: 56, flexShrink: 0, textAlign: 'right', paddingTop: 4 }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{time}</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{time}</span>
             </div>
 
             {/* Turnos de esa hora */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8, borderLeft: '1px solid rgba(255,255,255,0.08)', paddingLeft: 16 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8, borderLeft: '1px solid rgba(var(--ui-rgb),0.08)', paddingLeft: 16 }}>
               {appts.map((a) => {
                 const p = prof(a.professional_id)
                 const st = STATUS_STYLE[a.status]
@@ -111,15 +111,15 @@ export function CalendarListView({
                     onClick={() => onApptClick(a)}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
-                      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                      borderLeft: `3px solid ${p?.color ?? '#bcc4ce'}`, borderRadius: 11, padding: '12px 16px',
+                      background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)',
+                      borderLeft: `3px solid ${p?.color ?? 'var(--text-muted)'}`, borderRadius: 11, padding: '12px 16px',
                       cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--card-2)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--card)')}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', alignItems: 'center', gap: 8 }}>
                         {a.client_name}
                         {a.patient_id && obraByPatient?.get(a.patient_id) && (
                           <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: 11, fontWeight: 700, color: '#c084fc', background: 'rgba(192,132,252,0.12)', border: '1px solid rgba(192,132,252,0.35)', borderRadius: 6, padding: '2px 8px' }}>
@@ -133,16 +133,16 @@ export function CalendarListView({
                         )}
                       </p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)' }}>{serviceName(a.service_id)}</span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>
+                        <span style={{ fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.6)' }}>{serviceName(a.service_id)}</span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.45)' }}>
                           <Clock size={12} /> {localTime(a.start_time)}–{localTime(a.end_time)}
                         </span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>
-                          <span style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? '#bcc4ce' }} />
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.45)' }}>
+                          <span style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? 'var(--text-muted)' }} />
                           {p?.name ?? '—'}
                         </span>
                         {(p?.max_capacity_per_hour ?? 1) > 1 && (
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.45)' }}>
                             <User size={12} /> {a.capacity_consumed}/{p?.max_capacity_per_hour}
                           </span>
                         )}

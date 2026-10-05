@@ -20,8 +20,8 @@ export function EmptyState({
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
       padding: 'clamp(32px, 7vw, 56px) 24px',
-      background: 'rgba(255,255,255,0.025)',
-      border: '1px dashed rgba(255,255,255,0.12)', borderRadius: 16,
+      background: 'var(--card)',
+      border: '1px dashed rgba(var(--ui-rgb),0.12)', borderRadius: 16,
     }}>
       <div style={{
         width: 56, height: 56, borderRadius: 16, marginBottom: 16,
@@ -30,9 +30,9 @@ export function EmptyState({
       }}>
         <Icon size={26} color="#eda45f" />
       </div>
-      <h3 style={{ margin: 0, color: 'white', fontSize: 16.5, fontWeight: 700 }}>{title}</h3>
+      <h3 style={{ margin: 0, color: 'var(--text)', fontSize: 16.5, fontWeight: 700 }}>{title}</h3>
       {description && (
-        <p style={{ margin: '8px 0 0', color: 'rgba(255,255,255,0.5)', fontSize: 14, maxWidth: 360, lineHeight: 1.5 }}>
+        <p style={{ margin: '8px 0 0', color: 'rgba(var(--ui-rgb),0.5)', fontSize: 14, maxWidth: 360, lineHeight: 1.5 }}>
           {description}
         </p>
       )}
@@ -40,7 +40,7 @@ export function EmptyState({
         <button
           onClick={onAction}
           style={{
-            marginTop: 18, background: '#e5883e', color: 'white', border: 'none',
+            marginTop: 18, background: '#e5883e', color: 'var(--text)', border: 'none',
             borderRadius: 10, padding: '11px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer',
           }}
         >

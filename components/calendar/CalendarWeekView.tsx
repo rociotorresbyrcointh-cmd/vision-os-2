@@ -69,7 +69,7 @@ export function CalendarWeekView({
   const isMobile = useIsMobile()
   const totalMin = closeMin - openMin
   const bodyH = totalMin * PX_PER_MIN
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? 'var(--text-muted)'
   const serviceName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
 
   const days = useMemo(
@@ -105,11 +105,11 @@ export function CalendarWeekView({
     <div style={{ flex: 1, overflow: 'auto' }}>
       <div style={{ display: 'flex', minWidth: isMobile ? '100%' : GUTTER + 7 * 120 }}>
         {/* Gutter horas */}
-        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#0b0f17' }}>
+        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: 'var(--bg)' }}>
           <div style={{ height: HEADER_H }} />
           <div style={{ position: 'relative', height: bodyH }}>
             {hourLines.map((m) => (
-              <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, right: 6, transform: 'translateY(-50%)', fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.45)', fontVariantNumeric: 'tabular-nums' }}>
+              <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, right: 6, transform: 'translateY(-50%)', fontSize: 11, fontWeight: 500, color: 'rgba(var(--ui-rgb),0.45)', fontVariantNumeric: 'tabular-nums' }}>
                 {minutesToTime(m)}
               </div>
             ))}
@@ -123,15 +123,15 @@ export function CalendarWeekView({
           const clusters = clusterize(appts)
           const isToday = k === todayKey
           return (
-            <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{day.toLocaleDateString('es-AR', { weekday: 'short' })}</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#eda45f' : 'white', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>
+            <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid var(--card-2)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--card-2)' }}>
+                <span style={{ fontSize: 11, color: 'rgba(var(--ui-rgb),0.4)', textTransform: 'uppercase' }}>{day.toLocaleDateString('es-AR', { weekday: 'short' })}</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#eda45f' : 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>
               </div>
 
               <div onClick={(e) => handleClick(e, day)} style={{ position: 'relative', height: bodyH, cursor: 'pointer' }}>
                 {hourLines.map((m) => (
-                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: '1px solid rgba(255,255,255,0.05)' }} />
+                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: '1px solid var(--card-2)' }} />
                 ))}
                 {clusters.map((cl, i) => {
                   const top = (cl.start - openMin) * PX_PER_MIN + 1
@@ -145,8 +145,8 @@ export function CalendarWeekView({
                         title={`${a.client_name} · ${serviceName(a.service_id)}`}
                         style={{ position: 'absolute', top, height, left: 2, right: 2, background: c + '26', borderLeft: `3px solid ${c}`,
                           borderRadius: 5, padding: '2px 6px', overflow: 'hidden', zIndex: 4 }}>
-                        <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
-                        <p style={{ margin: 0, fontSize: 10, color: 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{serviceName(a.service_id)}</p>
+                        <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
+                        <p style={{ margin: 0, fontSize: 10, color: 'rgba(var(--ui-rgb),0.55)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{serviceName(a.service_id)}</p>
                       </div>
                     )
                   }
@@ -157,7 +157,7 @@ export function CalendarWeekView({
                       title={`${cl.appts.length} turnos · click para ver el día`}
                       style={{ position: 'absolute', top, height, left: 2, right: 2, background: 'rgba(229,136,62,0.14)', border: '1px solid rgba(229,136,62,0.35)',
                         borderRadius: 6, padding: '3px 7px', overflow: 'hidden', zIndex: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>{cl.appts.length} turnos</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text)' }}>{cl.appts.length} turnos</span>
                       <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
                         {colors.map((c, j) => <span key={j} style={{ width: 7, height: 7, borderRadius: '50%', background: c }} />)}
                       </div>

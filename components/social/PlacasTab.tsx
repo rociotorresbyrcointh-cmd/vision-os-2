@@ -117,7 +117,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
     } else {
       // Fondo oscuro con acentos de los 2 colores de marca
       const bg = ctx.createLinearGradient(0, 0, S, S)
-      bg.addColorStop(0, '#1a212e'); bg.addColorStop(1, '#0b0f17')
+      bg.addColorStop(0, 'var(--surface)'); bg.addColorStop(1, 'var(--bg)')
       ctx.fillStyle = bg; ctx.fillRect(0, 0, S, S)
       ctx.save()
       ctx.globalAlpha = 0.18; ctx.fillStyle = color
@@ -128,7 +128,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
     }
 
     // Marco
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 3
+    ctx.strokeStyle = 'rgba(var(--ui-rgb),0.15)'; ctx.lineWidth = 3
     ctx.strokeRect(48, 48, S - 96, S - 96)
 
     // Sombra para que el texto se lea bien sobre fotos
@@ -158,20 +158,20 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
     }
 
     // Título grande
-    ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'
+    ctx.fillStyle = 'var(--text)'; ctx.textAlign = 'center'
     ctx.font = '800 84px Inter, Arial, sans-serif'
     y = drawWrapped(ctx, title || ' ', cx, y + 30, S - 220, 96) + 20
 
     // Subtítulo
     if (subtitle.trim()) {
-      ctx.fillStyle = 'rgba(255,255,255,0.75)'
+      ctx.fillStyle = 'rgba(var(--ui-rgb),0.75)'
       ctx.font = '400 40px Inter, Arial, sans-serif'
       drawWrapped(ctx, subtitle, cx, y + 40, S - 260, 56)
     }
 
     // Pie: handle / nombre
     if (handle) {
-      ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'
+      ctx.fillStyle = 'var(--text)'; ctx.textAlign = 'center'
       ctx.font = '700 38px Inter, Arial, sans-serif'
       ctx.fillText(handle, cx, S - 110)
     }
@@ -229,7 +229,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
             </div>
           </div>
         </div>
-        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11.5, margin: '-2px 0 0' }}>Los colores los toma de tu marca. Cambialos en “Mi Marca”.</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 11.5, margin: '-2px 0 0' }}>Los colores los toma de tu marca. Cambialos en “Mi Marca”.</p>
 
         <button onClick={download} style={btnDl}><Download size={16} /> Descargar placa (PNG)</button>
 
@@ -244,7 +244,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
               <button onClick={() => { navigator.clipboard.writeText(caption); setCapCopied(true); setTimeout(() => setCapCopied(false), 1500) }}
                 style={chip}>{capCopied ? <Check size={13} /> : <Copy size={13} />}</button>
             </div>
-            <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{caption}</p>
+            <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.9)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{caption}</p>
           </div>
         )}
       </div>
@@ -253,7 +253,7 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
       <div style={{ flex: '0 0 auto' }}>
         <p style={lbl}>Vista previa (1080×1080)</p>
         <canvas ref={canvasRef} width={1080} height={1080}
-          style={{ width: '100%', maxWidth: 340, height: 'auto', aspectRatio: '1 / 1', borderRadius: 14, border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)' }} />
+          style={{ width: '100%', maxWidth: 340, height: 'auto', aspectRatio: '1 / 1', borderRadius: 14, border: '1px solid rgba(var(--ui-rgb),0.12)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)' }} />
       </div>
     </div>
   )
@@ -263,13 +263,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   return <div><p style={lbl}>{label}</p>{children}</div>
 }
 
-const lbl: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 7px', fontFamily: "'Orbitron', sans-serif" }
+const lbl: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 7px', fontFamily: "'Orbitron', sans-serif" }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const chip: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)',
+  background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.75)', border: '1px solid rgba(var(--ui-rgb),0.12)',
   borderRadius: 8, padding: '7px 12px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const btnDl: React.CSSProperties = {

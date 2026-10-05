@@ -21,33 +21,33 @@ const moneyCur = (n: number, cur: string) => {
 export type PublicTheme = 'light' | 'dark'
 const THEME_VARS: Record<PublicTheme, React.CSSProperties> = {
   dark: {
-    ['--pb-page' as string]: '#0b0f17',
-    ['--pb-card' as string]: '#1a212e',
+    ['--pb-page' as string]: 'var(--bg)',
+    ['--pb-card' as string]: 'var(--surface)',
     ['--pb-card-border' as string]: 'rgba(229,136,62,0.2)',
-    ['--pb-text' as string]: '#ffffff',
-    ['--pb-text-mut' as string]: 'rgba(255,255,255,0.6)',
-    ['--pb-text-faint' as string]: 'rgba(255,255,255,0.42)',
-    ['--pb-text-dim' as string]: 'rgba(255,255,255,0.25)',
+    ['--pb-text' as string]: 'var(--text)',
+    ['--pb-text-mut' as string]: 'rgba(var(--ui-rgb),0.6)',
+    ['--pb-text-faint' as string]: 'rgba(var(--ui-rgb),0.42)',
+    ['--pb-text-dim' as string]: 'rgba(var(--ui-rgb),0.25)',
     ['--pb-input-bg' as string]: 'rgba(0,0,0,0.35)',
-    ['--pb-input-border' as string]: 'rgba(255,255,255,0.1)',
-    ['--pb-soft-bg' as string]: 'rgba(255,255,255,0.04)',
-    ['--pb-soft-border' as string]: 'rgba(255,255,255,0.1)',
-    ['--pb-opt-bg' as string]: '#1a212e',
+    ['--pb-input-border' as string]: 'rgba(var(--ui-rgb),0.1)',
+    ['--pb-soft-bg' as string]: 'var(--card)',
+    ['--pb-soft-border' as string]: 'rgba(var(--ui-rgb),0.1)',
+    ['--pb-opt-bg' as string]: 'var(--surface)',
     ['--pb-shadow' as string]: '0 24px 60px rgba(0,0,0,0.5)',
   },
   light: {
     ['--pb-page' as string]: '#f4f5fa',
-    ['--pb-card' as string]: '#ffffff',
+    ['--pb-card' as string]: 'var(--text)',
     ['--pb-card-border' as string]: 'rgba(229,136,62,0.25)',
     ['--pb-text' as string]: '#15162a',
     ['--pb-text-mut' as string]: 'rgba(20,22,42,0.62)',
     ['--pb-text-faint' as string]: 'rgba(20,22,42,0.45)',
     ['--pb-text-dim' as string]: 'rgba(20,22,42,0.3)',
-    ['--pb-input-bg' as string]: '#ffffff',
+    ['--pb-input-bg' as string]: 'var(--text)',
     ['--pb-input-border' as string]: 'rgba(20,22,42,0.18)',
     ['--pb-soft-bg' as string]: 'rgba(20,22,42,0.035)',
     ['--pb-soft-border' as string]: 'rgba(20,22,42,0.1)',
-    ['--pb-opt-bg' as string]: '#ffffff',
+    ['--pb-opt-bg' as string]: 'var(--text)',
     ['--pb-shadow' as string]: '0 24px 60px rgba(20,22,42,0.14)',
   },
 }
@@ -321,7 +321,7 @@ function InitialsAvatar({ name }: { name: string }) {
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
   const hue = Math.abs(hash) % 360
   return (
-    <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 26, fontWeight: 800, fontFamily: "'Orbitron', sans-serif", background: `linear-gradient(135deg, hsl(${hue} 70% 52%), hsl(${(hue + 40) % 360} 70% 42%))`, boxShadow: '0 8px 24px rgba(0,0,0,0.25)' }}>
+    <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text)', fontSize: 26, fontWeight: 800, fontFamily: "'Orbitron', sans-serif", background: `linear-gradient(135deg, hsl(${hue} 70% 52%), hsl(${(hue + 40) % 360} 70% 42%))`, boxShadow: '0 8px 24px rgba(0,0,0,0.25)' }}>
       {initials || '★'}
     </div>
   )
@@ -361,6 +361,6 @@ const input: React.CSSProperties = {
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, width: '100%',
-  background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10,
+  background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', border: 'none', borderRadius: 10,
   padding: '13px 16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 24px rgba(229,136,62,0.35)', fontFamily: 'inherit',
 }

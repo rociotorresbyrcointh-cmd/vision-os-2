@@ -45,10 +45,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           const s = STYLE[t.kind]
           return (
             <div key={t.id}
-              style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10, background: '#1a212e', border: `1px solid ${s.border}`, borderRadius: 12, padding: '12px 14px', boxShadow: '0 16px 40px rgba(0,0,0,0.5)' }}>
+              style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'flex-start', gap: 10, background: 'var(--surface)', border: `1px solid ${s.border}`, borderRadius: 12, padding: '12px 14px', boxShadow: '0 16px 40px rgba(0,0,0,0.5)' }}>
               <div style={{ flexShrink: 0, marginTop: 1, color: s.color }}><s.Icon size={18} /></div>
-              <p style={{ flex: 1, margin: 0, color: 'white', fontSize: 13.5, lineHeight: 1.5, whiteSpace: 'pre-line' }}>{t.message}</p>
-              <button onClick={() => dismiss(t.id)} aria-label="Cerrar" style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+              <p style={{ flex: 1, margin: 0, color: 'var(--text)', fontSize: 13.5, lineHeight: 1.5, whiteSpace: 'pre-line' }}>{t.message}</p>
+              <button onClick={() => dismiss(t.id)} aria-label="Cerrar" style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.4)', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
                 <X size={16} />
               </button>
             </div>

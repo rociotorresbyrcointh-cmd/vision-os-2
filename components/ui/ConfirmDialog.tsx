@@ -46,33 +46,33 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            style={{ width: 'min(420px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, boxShadow: '0 24px 60px rgba(0,0,0,0.55)', padding: 22 }}
+            style={{ width: 'min(420px, 94vw)', background: 'var(--surface)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 14, boxShadow: '0 24px 60px rgba(0,0,0,0.55)', padding: 22 }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
               <div style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: opts.destructive ? 'rgba(248,113,113,0.12)' : 'rgba(229,136,62,0.14)' }}>
                 <AlertTriangle size={19} color={opts.destructive ? '#f87171' : '#eda45f'} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, margin: 0 }}>{opts.title}</h2>
+                <h2 style={{ color: 'var(--text)', fontSize: 16, fontWeight: 700, margin: 0 }}>{opts.title}</h2>
                 {opts.description && (
-                  <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13.5, lineHeight: 1.5, margin: '7px 0 0' }}>{opts.description}</p>
+                  <p style={{ color: 'rgba(var(--ui-rgb),0.55)', fontSize: 13.5, lineHeight: 1.5, margin: '7px 0 0' }}>{opts.description}</p>
                 )}
               </div>
-              <button onClick={() => close(false)} aria-label="Cerrar" style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', display: 'flex' }}>
+              <button onClick={() => close(false)} aria-label="Cerrar" style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.4)', cursor: 'pointer', display: 'flex' }}>
                 <X size={18} />
               </button>
             </div>
             <div style={{ display: 'flex', gap: 9, marginTop: 20, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => close(false)}
-                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', background: 'transparent', border: '1px solid rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.7)' }}
+                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', background: 'transparent', border: '1px solid rgba(var(--ui-rgb),0.14)', color: 'rgba(var(--ui-rgb),0.7)' }}
               >
                 {opts.cancelLabel ?? 'Cancelar'}
               </button>
               <button
                 onClick={() => close(true)}
                 autoFocus
-                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', border: 'none', color: 'white', background: opts.destructive ? '#dc2626' : '#e5883e' }}
+                style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', border: 'none', color: 'var(--text)', background: opts.destructive ? '#dc2626' : '#e5883e' }}
               >
                 {opts.actionLabel ?? 'Confirmar'}
               </button>

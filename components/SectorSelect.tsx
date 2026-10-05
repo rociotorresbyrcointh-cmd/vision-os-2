@@ -10,8 +10,8 @@ export function SectorSelect() {
 
   const base: React.CSSProperties = {
     width: '100%', background: 'rgba(0,0,0,0.4)',
-    border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10,
-    padding: '11px 36px 11px 14px', color: value ? 'white' : 'rgba(255,255,255,0.3)',
+    border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 10,
+    padding: '11px 36px 11px 14px', color: value ? 'var(--text)' : 'rgba(var(--ui-rgb),0.3)',
     fontSize: 14, outline: 'none', fontFamily: "'Inter', sans-serif",
     transition: 'border-color 0.2s', appearance: 'none', WebkitAppearance: 'none',
     cursor: 'pointer',
@@ -25,7 +25,7 @@ export function SectorSelect() {
         onChange={(e) => setValue(e.target.value)}
         style={base}
         onFocus={(e) => (e.target.style.borderColor = 'rgba(229,136,62,0.6)')}
-        onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+        onBlur={(e) => (e.target.style.borderColor = 'rgba(var(--ui-rgb),0.1)')}
       >
         <option value="" disabled style={{ background: '#0a0a18' }}>
           Seleccioná el rubro de tu negocio
@@ -34,10 +34,10 @@ export function SectorSelect() {
           <optgroup
             key={group.label}
             label={group.label}
-            style={{ background: '#0a0a18', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}
+            style={{ background: '#0a0a18', color: 'rgba(var(--ui-rgb),0.5)', fontWeight: 700 }}
           >
             {group.sectors.map((s) => (
-              <option key={s} value={s} style={{ background: '#1a212e', color: 'white' }}>
+              <option key={s} value={s} style={{ background: 'var(--surface)', color: 'var(--text)' }}>
                 {s}
               </option>
             ))}
@@ -46,7 +46,7 @@ export function SectorSelect() {
       </select>
       <ChevronDown
         size={14}
-        style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.3)', pointerEvents: 'none' }}
+        style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: 'rgba(var(--ui-rgb),0.3)', pointerEvents: 'none' }}
       />
     </div>
   )

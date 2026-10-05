@@ -76,7 +76,7 @@ export function PatientFormModal({
     <div style={overlay} onClick={onClose}>
       <div className="v-modal" style={modal} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>{editing ? `Editar ${term.one}` : `Nuevo ${term.one}`}</h2>
+          <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 700, margin: 0 }}>{editing ? `Editar ${term.one}` : `Nuevo ${term.one}`}</h2>
           <button onClick={onClose} style={iconBtn}><X size={18} /></button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
@@ -109,27 +109,27 @@ export function PatientFormModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }
-const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
+const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4 }
 const overlay: React.CSSProperties = {
   position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 60, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
+  background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 440, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

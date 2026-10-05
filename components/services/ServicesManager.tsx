@@ -71,8 +71,8 @@ export function ServicesManager({
     <div style={{ padding: '28px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Servicios</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>
+          <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0 }}>Servicios</h1>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 4 }}>
             Lo que ofrecés. La duración define cuánto ocupa el turno en el calendario.
           </p>
         </div>
@@ -91,9 +91,9 @@ export function ServicesManager({
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
           {list.map((s) => (
             <div key={s.id} style={card}>
-              <p style={{ color: 'white', fontWeight: 600, fontSize: 15, margin: 0 }}>{s.name}</p>
-              {s.description && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '4px 0 0' }}>{s.description}</p>}
-              <div style={{ display: 'flex', gap: 16, fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 12 }}>
+              <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: 15, margin: 0 }}>{s.name}</p>
+              {s.description && <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, margin: '4px 0 0' }}>{s.description}</p>}
+              <div style={{ display: 'flex', gap: 16, fontSize: 13, color: 'rgba(var(--ui-rgb),0.55)', marginTop: 12 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}><Clock size={13} /> {s.duration_minutes} min</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><DollarSign size={13} /> {s.price}</span>
               </div>
@@ -110,7 +110,7 @@ export function ServicesManager({
         <div style={overlay} onClick={() => setOpen(false)}>
           <div style={modal} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>
+              <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 700, margin: 0 }}>
                 {editingId ? 'Editar servicio' : 'Nuevo servicio'}
               </h2>
               <button onClick={() => setOpen(false)} style={iconBtn}><X size={18} /></button>
@@ -129,8 +129,8 @@ export function ServicesManager({
                       <button key={d} onClick={() => setForm((f) => ({ ...f, duration_minutes: d }))}
                         style={{ padding: '8px 12px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer',
                           background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
-                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                          color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
+                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                          color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)' }}>
                         {d}m
                       </button>
                     )
@@ -162,28 +162,28 @@ export function ServicesManager({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+  display: 'flex', alignItems: 'center', gap: 5, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 8,
   padding: '7px 11px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
-const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
-const card: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 16 }
-const emptyBox: React.CSSProperties = { padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 14, lineHeight: 1.7 }
+const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4 }
+const card: React.CSSProperties = { background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 16 }
+const emptyBox: React.CSSProperties = { padding: 48, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center', color: 'rgba(var(--ui-rgb),0.35)', fontSize: 14, lineHeight: 1.7 }
 const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20 }
-const modal: React.CSSProperties = { background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24, width: '100%', maxWidth: 420, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }
+const modal: React.CSSProperties = { background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24, width: '100%', maxWidth: 420, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }

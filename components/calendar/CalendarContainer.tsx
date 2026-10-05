@@ -188,15 +188,15 @@ export function CalendarContainer({
 
   return (
     <div className="agenda-shell" style={{ display: 'flex', flexDirection: 'column' }}>
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', flexWrap: 'wrap', gap: 10 }}>
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid var(--card-2)', flexWrap: 'wrap', gap: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', gap: 4 }}>
             <button onClick={() => shift(-1)} style={navBtn}><ChevronLeft size={18} /></button>
             <button onClick={() => shift(1)} style={navBtn}><ChevronRight size={18} /></button>
           </div>
           <button onClick={() => setDate(new Date())} style={{ ...navBtn, width: 'auto', padding: '0 14px', fontSize: 13, fontWeight: 600, opacity: isToday ? 0.5 : 1 }}>Hoy</button>
-          <h1 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: 0, textTransform: 'capitalize' }}>{label}</h1>
-          {loading && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>actualizando…</span>}
+          <h1 style={{ color: 'var(--text)', fontSize: 18, fontWeight: 700, margin: 0, textTransform: 'capitalize' }}>{label}</h1>
+          {loading && <span style={{ fontSize: 12, color: 'rgba(var(--ui-rgb),0.3)' }}>actualizando…</span>}
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
@@ -206,12 +206,12 @@ export function CalendarContainer({
           </button>
 
           {/* Selector de vista — en celular ocupa todo el ancho y entra completo */}
-          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 9, padding: 3, border: '1px solid rgba(255,255,255,0.08)', width: isMobile ? '100%' : 'auto' }}>
+          <div style={{ display: 'flex', background: 'var(--card-2)', borderRadius: 9, padding: 3, border: '1px solid rgba(var(--ui-rgb),0.08)', width: isMobile ? '100%' : 'auto' }}>
             {(['day', 'list', 'week', 'month'] as View[]).map((v) => (
               <button key={v} onClick={() => setView(v)}
                 style={{ padding: isMobile ? '8px 0' : '6px 14px', flex: isMobile ? 1 : 'none', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
                   background: view === v ? 'rgba(229,136,62,0.25)' : 'transparent',
-                  color: view === v ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
+                  color: view === v ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)' }}>
                 {v === 'day' ? 'Día' : v === 'list' ? 'Lista' : v === 'week' ? 'Semana' : 'Mes'}
               </button>
             ))}
@@ -221,7 +221,7 @@ export function CalendarContainer({
             onClick={() => setBlockOpen(true)}
             disabled={!professionals.length}
             title="Bloquear horario (almuerzo, vacaciones…)"
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 9, padding: '9px 13px', fontSize: 13, fontWeight: 600, cursor: 'pointer', opacity: professionals.length ? 1 : 0.4 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 9, padding: '9px 13px', fontSize: 13, fontWeight: 600, cursor: 'pointer', opacity: professionals.length ? 1 : 0.4 }}
           >
             <Ban size={15} /> Bloqueo
           </button>
@@ -229,7 +229,7 @@ export function CalendarContainer({
           <button
             onClick={() => setModal({ professionalId: professionals[0]?.id ?? '', date, startMin: openMin })}
             disabled={!ready}
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', opacity: ready ? 1 : 0.4 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', border: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', opacity: ready ? 1 : 0.4 }}
           >
             <Plus size={15} /> Nuevo turno
           </button>
@@ -239,15 +239,15 @@ export function CalendarContainer({
       {/* Selector de profesional en el celular: una columna a la vez a pantalla
           completa (en la agenda por día no entran todas las columnas juntas). */}
       {isMobile && ready && view === 'day' && professionals.length > 1 && (
-        <div style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.07)', WebkitOverflowScrolling: 'touch' }}>
+        <div style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '10px 12px', borderBottom: '1px solid var(--card-2)', WebkitOverflowScrolling: 'touch' }}>
           {[{ id: 'all', name: 'Todos', color: '#eda45f' }, ...professionals].map((p) => {
             const on = profFilter === p.id
             return (
               <button key={p.id} onClick={() => setProfFilter(p.id)}
                 style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6, padding: '7px 13px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600,
-                  background: on ? 'rgba(229,136,62,0.2)' : 'rgba(255,255,255,0.05)',
-                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                  color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
+                  background: on ? 'rgba(229,136,62,0.2)' : 'var(--card-2)',
+                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                  color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.6)' }}>
                 {p.id !== 'all' && <span style={{ width: 8, height: 8, borderRadius: '50%', background: p.color }} />}
                 {p.name}
               </button>
@@ -351,15 +351,15 @@ function AgendaSetup({ needProf, needSvc }: { needProf: boolean; needSvc: boolea
     <div style={{ flex: 1, overflow: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 16, padding: 28, maxWidth: 480, textAlign: 'center' }}>
         <div style={{ fontSize: 40, marginBottom: 8 }}>📅</div>
-        <h2 style={{ color: 'white', fontSize: 19, fontWeight: 700, margin: '0 0 8px' }}>Configurá tu agenda</h2>
-        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
+        <h2 style={{ color: 'var(--text)', fontSize: 19, fontWeight: 700, margin: '0 0 8px' }}>Configurá tu agenda</h2>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
           Para ver el calendario y crear turnos, primero cargá {needProf ? 'tus profesionales' : ''}{needProf && needSvc ? ' y ' : ''}{needSvc ? 'tus servicios' : ''}.
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-          {needProf && <a href="/profesionales" style={{ ...link, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white' }}>Cargar profesionales</a>}
-          {needSvc && <a href="/servicios" style={{ ...link, background: needProf ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: needProf ? 'rgba(255,255,255,0.75)' : 'white', border: needProf ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>Cargar servicios</a>}
+          {needProf && <a href="/profesionales" style={{ ...link, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)' }}>Cargar profesionales</a>}
+          {needSvc && <a href="/servicios" style={{ ...link, background: needProf ? 'var(--card-2)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: needProf ? 'rgba(var(--ui-rgb),0.75)' : 'var(--text)', border: needProf ? '1px solid rgba(var(--ui-rgb),0.12)' : 'none' }}>Cargar servicios</a>}
         </div>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, margin: '18px 0 0' }}>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12.5, margin: '18px 0 0' }}>
           ¿Querés probar primero? Cargá <a href="/inicio" style={{ color: '#eda45f', textDecoration: 'none' }}>datos de ejemplo</a> desde el Inicio.
         </p>
       </div>
@@ -369,6 +369,6 @@ function AgendaSetup({ needProf, needSvc }: { needProf: boolean; needSvc: boolea
 
 const navBtn: React.CSSProperties = {
   width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 8, color: 'rgba(255,255,255,0.7)', cursor: 'pointer', fontFamily: 'inherit',
+  background: 'var(--card-2)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 8, color: 'rgba(var(--ui-rgb),0.7)', cursor: 'pointer', fontFamily: 'inherit',
 }

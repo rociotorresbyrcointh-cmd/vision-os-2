@@ -51,7 +51,7 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   confirmed: { label: 'Confirmados', color: '#34d399' },
   completed: { label: 'Completados', color: '#eda45f' },
   cancelled: { label: 'Cancelados', color: '#f87171' },
-  no_show: { label: 'No asistió', color: '#bcc4ce' },
+  no_show: { label: 'No asistió', color: 'var(--text-muted)' },
 }
 
 export function ReportsManager({
@@ -155,19 +155,19 @@ export function ReportsManager({
     <div style={{ padding: '28px 32px', maxWidth: 960 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Reportes</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5 }}>{label} · {loading ? 'cargando…' : `${m.turnos} turnos`}</p>
+          <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0 }}>Reportes</h1>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5 }}>{label} · {loading ? 'cargando…' : `${m.turnos} turnos`}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <button onClick={exportExcel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+        <button onClick={exportExcel} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
           <Download size={15} /> Exportar
         </button>
-        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 9, padding: 3, border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display: 'flex', background: 'var(--card-2)', borderRadius: 9, padding: 3, border: '1px solid rgba(var(--ui-rgb),0.08)' }}>
           {(['mes', 'mesPasado', 'dias30'] as Period[]).map((p) => (
             <button key={p} onClick={() => setPeriod(p)}
               style={{ padding: '6px 13px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
                 background: period === p ? 'rgba(229,136,62,0.25)' : 'transparent',
-                color: period === p ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
+                color: period === p ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)' }}>
               {p === 'mes' ? 'Este mes' : p === 'mesPasado' ? 'Mes pasado' : 'Últimos 30 días'}
             </button>
           ))}
@@ -200,7 +200,7 @@ export function ReportsManager({
           {m.byStatus.size === 0 ? <Empty /> : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[...m.byStatus.entries()].sort((a, b) => b[1] - a[1]).map(([st, count]) => (
-                <Bar key={st} label={STATUS_LABELS[st]?.label ?? st} value={String(count)} pct={(count / m.turnos) * 100} color={STATUS_LABELS[st]?.color ?? '#bcc4ce'} />
+                <Bar key={st} label={STATUS_LABELS[st]?.label ?? st} value={String(count)} pct={(count / m.turnos) * 100} color={STATUS_LABELS[st]?.color ?? 'var(--text-muted)'} />
               ))}
             </div>
           )}
@@ -212,8 +212,8 @@ export function ReportsManager({
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[...m.profStats.entries()].sort((a, b) => b[1].ingresos - a[1].ingresos).map(([id, s]) => (
                 <div key={id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13.5 }}>
-                  <span style={{ color: 'white' }}>{profName(id)}</span>
-                  <span style={{ color: 'rgba(255,255,255,0.55)' }}>{s.turnos} turnos · <span style={{ color: '#34d399', fontWeight: 600 }}>{money(s.ingresos)}</span></span>
+                  <span style={{ color: 'var(--text)' }}>{profName(id)}</span>
+                  <span style={{ color: 'rgba(var(--ui-rgb),0.55)' }}>{s.turnos} turnos · <span style={{ color: '#34d399', fontWeight: 600 }}>{money(s.ingresos)}</span></span>
                 </div>
               ))}
             </div>
@@ -238,29 +238,29 @@ export function ReportsManager({
 function Kpi({ icon, color, label, value, pct, goodUp }: { icon: React.ReactNode; color: string; label: string; value: string; pct?: number | null; goodUp?: boolean }) {
   const showPct = pct !== null && pct !== undefined && pct !== 0
   const isGood = goodUp ? (pct ?? 0) > 0 : (pct ?? 0) < 0
-  const pctColor = showPct ? (isGood ? '#34d399' : '#f87171') : 'rgba(255,255,255,0.4)'
+  const pctColor = showPct ? (isGood ? '#34d399' : '#f87171') : 'rgba(var(--ui-rgb),0.4)'
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '16px 18px' }}>
+    <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 14, padding: '16px 18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, color, marginBottom: 8 }}>
-        {icon}<span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
+        {icon}<span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.45)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 26, fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+        <span style={{ fontSize: 26, fontWeight: 800, color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
         {showPct && (
           <span style={{ fontSize: 13, fontWeight: 700, color: pctColor }}>
             {(pct ?? 0) > 0 ? '▲' : '▼'} {Math.abs(pct ?? 0)}%
           </span>
         )}
       </div>
-      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>vs. período anterior</span>
+      <span style={{ fontSize: 11, color: 'rgba(var(--ui-rgb),0.35)' }}>vs. período anterior</span>
     </div>
   )
 }
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 18 }}>
-      <h3 style={{ color: 'white', fontSize: 14, fontWeight: 700, margin: '0 0 14px' }}>{title}</h3>
+    <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 14, padding: 18 }}>
+      <h3 style={{ color: 'var(--text)', fontSize: 14, fontWeight: 700, margin: '0 0 14px' }}>{title}</h3>
       {children}
     </div>
   )
@@ -270,10 +270,10 @@ function Bar({ label, value, pct, color }: { label: string; value: string; pct: 
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
-        <span style={{ color: 'rgba(255,255,255,0.75)' }}>{label}</span>
-        <span style={{ color: 'white', fontWeight: 600 }}>{value}</span>
+        <span style={{ color: 'rgba(var(--ui-rgb),0.75)' }}>{label}</span>
+        <span style={{ color: 'var(--text)', fontWeight: 600 }}>{value}</span>
       </div>
-      <div style={{ height: 7, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ height: 7, background: 'var(--card-2)', borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${Math.max(2, Math.min(100, pct))}%`, background: color, borderRadius: 4 }} />
       </div>
     </div>
@@ -281,5 +281,5 @@ function Bar({ label, value, pct, color }: { label: string; value: string; pct: 
 }
 
 function Empty() {
-  return <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13, margin: 0 }}>Sin datos en este período.</p>
+  return <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 13, margin: 0 }}>Sin datos en este período.</p>
 }

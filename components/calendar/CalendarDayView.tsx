@@ -127,11 +127,11 @@ export function CalendarDayView({
     <div style={{ flex: 1, overflow: 'auto' }}>
       <div style={{ display: 'flex', minWidth: totalWidth }}>
         {/* Columna de horas */}
-        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: '#0b0f17' }}>
+        <div style={{ width: GUTTER, minWidth: GUTTER, position: 'sticky', left: 0, zIndex: 3, background: 'var(--bg)' }}>
           <div style={{ height: HEADER_H }} />
           <div style={{ position: 'relative', height: bodyH }}>
             {hourLines.map((m) => (
-              <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, right: 8, transform: 'translateY(-50%)', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)', fontFamily: "'Inter', sans-serif", fontVariantNumeric: 'tabular-nums', letterSpacing: '0.02em' }}>
+              <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, right: 8, transform: 'translateY(-50%)', fontSize: 12, fontWeight: 500, color: 'rgba(var(--ui-rgb),0.5)', fontFamily: "'Inter', sans-serif", fontVariantNumeric: 'tabular-nums', letterSpacing: '0.02em' }}>
                 {m % 60 === 0 ? minutesToTime(m) : ''}
               </div>
             ))}
@@ -141,18 +141,18 @@ export function CalendarDayView({
         {/* Columnas de profesionales */}
         {profMeta.map(({ p, appts, lanes, width }) => {
           return (
-            <div key={p.id} style={{ flex: `1 0 ${width}px`, minWidth: width, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={p.id} style={{ flex: `1 0 ${width}px`, minWidth: width, borderLeft: '1px solid var(--card-2)' }}>
               {/* Encabezado */}
-              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: '#0b0f17', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--card-2)' }}>
                 <span style={{ width: 9, height: 9, borderRadius: '50%', background: p.color, boxShadow: `0 0 8px ${p.color}` }} />
-                <span style={{ color: 'white', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+                <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
               </div>
 
               {/* Cuerpo */}
               <div onClick={(e) => handleColumnClick(e, p.id)} style={{ position: 'relative', height: bodyH, cursor: 'pointer' }}>
                 {/* líneas */}
                 {hourLines.map((m) => (
-                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: m % 60 === 0 ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.03)' }} />
+                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: m % 60 === 0 ? '1px solid rgba(var(--ui-rgb),0.08)' : '1px solid var(--card)' }} />
                 ))}
 
                 {/* bloqueos (almuerzo, vacaciones…) */}
@@ -171,12 +171,12 @@ export function CalendarDayView({
                           top: (bs - openMin) * PX_PER_MIN + 1,
                           height: Math.max((be - bs) * PX_PER_MIN - 2, 16),
                           left: 2, right: 2,
-                          background: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.06), rgba(255,255,255,0.06) 8px, rgba(255,255,255,0.02) 8px, rgba(255,255,255,0.02) 16px)',
-                          border: '1px solid rgba(255,255,255,0.12)',
+                          background: 'repeating-linear-gradient(45deg, var(--card-2), var(--card-2) 8px, var(--card) 8px, var(--card) 16px)',
+                          border: '1px solid rgba(var(--ui-rgb),0.12)',
                           borderRadius: 6, padding: '3px 8px', overflow: 'hidden', zIndex: 3, cursor: 'pointer',
                         }}
                       >
-                        <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.title}</p>
+                        <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: 'rgba(var(--ui-rgb),0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.title}</p>
                       </div>
                     )
                   })}
@@ -224,7 +224,7 @@ export function CalendarDayView({
                           {ps === 'paid' ? '$' : '½'}
                         </span>
                       )}
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.25, paddingRight: ps !== 'none' ? 18 : 0 }}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.25, paddingRight: ps !== 'none' ? 18 : 0 }}>
                         {a.source === 'public' && <Globe size={11} color="#22d3ee" style={{ marginRight: 4, verticalAlign: 'middle' }} />}
                         {a.client_name}
                       </p>
@@ -234,10 +234,10 @@ export function CalendarDayView({
                         </p>
                       )}
                       {showService && (
-                        <p style={{ margin: '2px 0 0', fontSize: 11.5, color: 'rgba(255,255,255,0.65)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>{serviceName(a.service_id)}</p>
+                        <p style={{ margin: '2px 0 0', fontSize: 11.5, color: 'rgba(var(--ui-rgb),0.65)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>{serviceName(a.service_id)}</p>
                       )}
                       {showTime && (
-                        <p style={{ margin: '3px 0 0', fontSize: 11, color: 'rgba(255,255,255,0.45)', fontVariantNumeric: 'tabular-nums' }}>{minutesToTime(s)}–{minutesToTime(e)}</p>
+                        <p style={{ margin: '3px 0 0', fontSize: 11, color: 'rgba(var(--ui-rgb),0.45)', fontVariantNumeric: 'tabular-nums' }}>{minutesToTime(s)}–{minutesToTime(e)}</p>
                       )}
                     </div>
                   )

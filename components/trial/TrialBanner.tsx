@@ -15,7 +15,7 @@ export function TrialBanner({ daysLeft }: { daysLeft: number }) {
     }}>
       <Gift size={15} />
       <span>{daysLeft === 1 ? 'Te queda 1 día de prueba gratis' : `Te quedan ${daysLeft} días de prueba gratis`}</span>
-      <Link href="/plan" style={{ color: 'white', textDecoration: 'underline', fontWeight: 700 }}>Elegir un plan</Link>
+      <Link href="/plan" style={{ color: 'var(--text)', textDecoration: 'underline', fontWeight: 700 }}>Elegir un plan</Link>
     </div>
   )
 }
