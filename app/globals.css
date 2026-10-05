@@ -60,7 +60,7 @@ html[data-theme="light"] {
   --border-2: rgba(20,32,46,.1);
   --border-3: rgba(20,32,46,.08);
   --ui-rgb: 20,32,46;
-  --sidebar-bg: #fbe5cd;     /* menú lateral en día: durazno clarito (como el logo, más suave) */
+  --sidebar-bg: #edeef1;     /* menú lateral en día: gris neutro profesional */
   --background: var(--bg);
   --foreground: var(--text);
 }
