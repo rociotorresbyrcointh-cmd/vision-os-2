@@ -7,7 +7,7 @@ import { VisionLogoWhite } from '@/components/VisionLogo'
 import { AuthBackground } from '@/components/auth/AuthBackground'
 
 const fieldStyle: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.4)',
+  width: '100%', background: 'var(--field-bg)',
   border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 10,
   padding: '11px 14px', color: 'var(--text)', fontSize: 14,
   outline: 'none', fontFamily: "'Inter', sans-serif", transition: 'border-color 0.2s',
@@ -63,7 +63,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={pending}
-                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: '#fff', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
               >
                 {pending ? (
                   <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(var(--ui-rgb),0.3)', borderTopColor: 'var(--text)', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Ingresando…</>

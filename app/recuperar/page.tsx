@@ -7,7 +7,7 @@ import { VisionLogoWhite } from '@/components/VisionLogo'
 import { AuthBackground } from '@/components/auth/AuthBackground'
 
 const fieldStyle: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.4)',
+  width: '100%', background: 'var(--field-bg)',
   border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 10,
   padding: '11px 14px', color: 'var(--text)', fontSize: 14,
   outline: 'none', fontFamily: "'Inter', sans-serif", transition: 'border-color 0.2s',
