@@ -141,9 +141,9 @@ export function CalendarDayView({
         {/* Columnas de profesionales */}
         {profMeta.map(({ p, appts, lanes, width }) => {
           return (
-            <div key={p.id} style={{ flex: `1 0 ${width}px`, minWidth: width, borderLeft: '1px solid var(--card-2)' }}>
+            <div key={p.id} style={{ flex: `1 0 ${width}px`, minWidth: width, borderLeft: '1px solid var(--grid)' }}>
               {/* Encabezado */}
-              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--card-2)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', alignItems: 'center', gap: 8, padding: '0 12px', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--grid)' }}>
                 <span style={{ width: 9, height: 9, borderRadius: '50%', background: p.color, boxShadow: `0 0 8px ${p.color}` }} />
                 <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
               </div>

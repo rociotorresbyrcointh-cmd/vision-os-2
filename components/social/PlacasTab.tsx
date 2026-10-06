@@ -234,13 +234,13 @@ export function PlacasTab({ brand, seed, logoUrl }: { brand: Brand; seed?: { tex
         <button onClick={download} style={btnDl}><Download size={16} /> Descargar placa (PNG)</button>
 
         {/* Caption con IA */}
-        <button onClick={genCaption} disabled={capLoading} style={{ ...btnDl, background: 'rgba(34,211,238,0.12)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.4)' }}>
+        <button onClick={genCaption} disabled={capLoading} style={{ ...btnDl, background: 'rgba(229,136,62,0.12)', color: '#e5883e', border: '1px solid rgba(229,136,62,0.4)' }}>
           <Wand2 size={16} /> {capLoading ? 'Escribiendo…' : 'Escribir el texto del posteo con IA'}
         </button>
         {caption && (
-          <div style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: 11, padding: 14 }}>
+          <div style={{ background: 'rgba(229,136,62,0.06)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 11, padding: 14 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ color: '#22d3ee', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>Texto del posteo</span>
+              <span style={{ color: '#e5883e', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>Texto del posteo</span>
               <button onClick={() => { navigator.clipboard.writeText(caption); setCapCopied(true); setTimeout(() => setCapCopied(false), 1500) }}
                 style={chip}>{capCopied ? <Check size={13} /> : <Copy size={13} />}</button>
             </div>
@@ -273,6 +273,6 @@ const chip: React.CSSProperties = {
   borderRadius: 8, padding: '7px 12px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const btnDl: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: '#062a30', border: 'none', borderRadius: 10, padding: '13px 18px', fontSize: 14.5, fontWeight: 800, cursor: 'pointer', fontFamily: 'inherit', marginTop: 4,
 }

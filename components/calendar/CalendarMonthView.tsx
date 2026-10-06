@@ -70,7 +70,7 @@ export function CalendarMonthView({
                 display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6,
                 padding: 10, borderRadius: 11, cursor: 'pointer', textAlign: 'left',
                 background: inMonth ? 'var(--card)' : 'transparent',
-                border: isToday ? '1px solid rgba(229,136,62,0.5)' : '1px solid var(--card-2)',
+                border: isToday ? '1px solid rgba(229,136,62,0.5)' : '1px solid var(--grid)',
                 opacity: inMonth ? 1 : 0.35, fontFamily: 'inherit', minHeight: 70,
               }}
             >

@@ -44,6 +44,7 @@
   --ui-rgb: 255,255,255;
   --sidebar-bg: #0b0f17;     /* menú lateral */
   --field-bg: rgba(0,0,0,0.4);
+  --grid: rgba(255,255,255,0.07);
 }
 
 /* ─── MODO DÍA: solo cambian los colores de estructura; acentos iguales ─── */
@@ -63,6 +64,7 @@ html[data-theme="light"] {
   --ui-rgb: 20,32,46;
   --sidebar-bg: #edeef1;     /* menú lateral en día: gris neutro profesional */
   --field-bg: #eceef2;
+  --grid: rgba(20,32,46,0.16);
   --background: var(--bg);
   --foreground: var(--text);
 }

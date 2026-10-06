@@ -123,15 +123,15 @@ export function CalendarWeekView({
           const clusters = clusterize(appts)
           const isToday = k === todayKey
           return (
-            <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid var(--card-2)' }}>
-              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--card-2)' }}>
+            <div key={k} style={{ flex: 1, minWidth: isMobile ? 0 : 120, borderLeft: '1px solid var(--grid)' }}>
+              <div style={{ height: HEADER_H, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 2, background: 'var(--bg)', borderBottom: '1px solid var(--grid)' }}>
                 <span style={{ fontSize: 11, color: 'rgba(var(--ui-rgb),0.4)', textTransform: 'uppercase' }}>{day.toLocaleDateString('es-AR', { weekday: 'short' })}</span>
                 <span style={{ fontSize: 16, fontWeight: 700, color: isToday ? '#eda45f' : 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{day.getDate()}</span>
               </div>
 
               <div onClick={(e) => handleClick(e, day)} style={{ position: 'relative', height: bodyH, cursor: 'pointer' }}>
                 {hourLines.map((m) => (
-                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: '1px solid var(--card-2)' }} />
+                  <div key={m} style={{ position: 'absolute', top: (m - openMin) * PX_PER_MIN, left: 0, right: 0, borderTop: '1px solid var(--grid)' }} />
                 ))}
                 {clusters.map((cl, i) => {
                   const top = (cl.start - openMin) * PX_PER_MIN + 1

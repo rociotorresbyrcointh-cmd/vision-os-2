@@ -47,7 +47,7 @@ export function RedesManager({
   return (
     <div style={{ padding: '28px 32px', maxWidth: 860 }}>
       <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-        <Sparkles size={20} color="#22d3ee" /> Redes sociales
+        <Sparkles size={20} color="#e5883e" /> Redes sociales
       </h1>
       <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, marginBottom: 20 }}>
         Tu marca, ideas de contenido y una auditoría para mejorar tu perfil.
@@ -58,7 +58,7 @@ export function RedesManager({
         {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['placas', 'Placas', ImageIcon], ['guardados', 'Guardados', Bookmark], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-              background: tab === t ? 'rgba(34,211,238,0.18)' : 'transparent', color: tab === t ? '#22d3ee' : 'rgba(var(--ui-rgb),0.5)' }}>
+              background: tab === t ? 'rgba(229,136,62,0.18)' : 'transparent', color: tab === t ? '#e5883e' : 'rgba(var(--ui-rgb),0.5)' }}>
             <Icon size={15} /> {label}
           </button>
         ))}
@@ -111,7 +111,7 @@ export function RedesManager({
                 return (
                   <button key={t} onClick={() => set('tone', t)}
                     style={{ flex: 1, padding: '9px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', textTransform: 'capitalize',
-                      background: on ? 'rgba(34,211,238,0.15)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)', color: on ? '#22d3ee' : 'rgba(var(--ui-rgb),0.5)' }}>
+                      background: on ? 'rgba(229,136,62,0.15)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)', color: on ? '#e5883e' : 'rgba(var(--ui-rgb),0.5)' }}>
                     {t}
                   </button>
                 )
@@ -179,7 +179,7 @@ function SavedTab() {
       {items.map((it) => (
         <div key={it.id} style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#22d3ee' }}>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#e5883e' }}>
               {KIND_LABEL[it.kind] ?? it.kind} · <span style={{ color: 'rgba(var(--ui-rgb),0.4)', fontWeight: 500 }}>{new Date(it.created_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
             </span>
             <div style={{ display: 'flex', gap: 6 }}>
@@ -269,9 +269,9 @@ function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organiz
       )}
 
       {result && (
-        <div style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: 13, padding: 18 }}>
+        <div style={{ background: 'rgba(229,136,62,0.06)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 13, padding: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ color: '#22d3ee', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: '#e5883e', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Wand2 size={14} /> Generado con IA
             </span>
             <div style={{ display: 'flex', gap: 6 }}>
@@ -303,10 +303,10 @@ function IdeasTab({ brand }: { brand: Brand }) {
 
   return (
     <div>
-      <div style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
+      <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
         <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.6)', textTransform: 'uppercase' }}>Hashtags sugeridos</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          <span style={{ color: '#22d3ee', fontSize: 13.5, fontFamily: 'monospace' }}>{hashtags}</span>
+          <span style={{ color: '#e5883e', fontSize: 13.5, fontFamily: 'monospace' }}>{hashtags}</span>
           <button onClick={() => copy('hash', hashtags)} style={copyBtn}>{copied === 'hash' ? <Check size={13} /> : <Copy size={13} />}</button>
         </div>
       </div>
@@ -401,18 +401,18 @@ const input: React.CSSProperties = {
   borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: '#062a30', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const aiBtn: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: '#062a30', border: 'none', borderRadius: 10, padding: '10px 15px', fontSize: 13.5, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const aiBtnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,211,238,0.1)', color: '#22d3ee',
-  border: '1px solid rgba(34,211,238,0.35)', borderRadius: 9, padding: '9px 14px', fontSize: 13, fontWeight: 700,
+  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(229,136,62,0.1)', color: '#e5883e',
+  border: '1px solid rgba(229,136,62,0.35)', borderRadius: 9, padding: '9px 14px', fontSize: 13, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const lbl2: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px', fontFamily: "'Orbitron', sans-serif" }
