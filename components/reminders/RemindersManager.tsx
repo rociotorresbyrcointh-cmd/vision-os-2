@@ -39,7 +39,7 @@ export function RemindersManager({
   }, [tomorrow])
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? 'var(--text-muted)'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
   const tpl = templates.find((t) => t.id === tplId) ?? templates[0]
 
@@ -68,24 +68,24 @@ export function RemindersManager({
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 820 }}>
-      <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+      <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
         <BellRing size={20} color="#fbbf24" /> Recordatorios de mañana
       </h1>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, textTransform: 'capitalize' }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, textTransform: 'capitalize' }}>
         {tomorrow.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
         <span style={{ textTransform: 'none' }}> · {loading ? 'cargando…' : `${conTelefono.length} con teléfono · ${enviados} enviados`}</span>
       </p>
 
       {/* Selector de mensaje */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0 20px', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Mensaje a enviar:</span>
+        <span style={{ fontSize: 13, color: 'rgba(var(--ui-rgb),0.5)', fontWeight: 600 }}>Mensaje a enviar:</span>
         <select value={tplId} onChange={(e) => setTplId(e.target.value)} style={select}>
-          {templates.map((t) => <option key={t.id} value={t.id} style={{ background: '#1a212e' }}>{t.title}</option>)}
+          {templates.map((t) => <option key={t.id} value={t.id} style={{ background: 'var(--surface)' }}>{t.title}</option>)}
         </select>
       </div>
 
       {loading ? (
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando turnos de mañana…</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Cargando turnos de mañana…</p>
       ) : sorted.length === 0 ? (
         <div style={emptyBox}>No hay turnos agendados para mañana.</div>
       ) : (
@@ -96,15 +96,15 @@ export function RemindersManager({
             return (
               <div key={a.id} style={row}>
                 <div style={{ width: 52, textAlign: 'center', flexShrink: 0 }}>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{hhmm(a.start_time)}</span>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{hhmm(a.start_time)}</span>
                 </div>
                 <div style={{ width: 3, alignSelf: 'stretch', borderRadius: 3, background: profColor(a.professional_id) }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
-                  <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5 }}>{svcName(a.service_id)} · {profName(a.professional_id)}</p>
+                  <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: 14.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
+                  <p style={{ margin: '2px 0 0', color: 'rgba(var(--ui-rgb),0.45)', fontSize: 12.5 }}>{svcName(a.service_id)} · {profName(a.professional_id)}</p>
                 </div>
                 {!phone ? (
-                  <span style={{ flexShrink: 0, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>sin teléfono</span>
+                  <span style={{ flexShrink: 0, fontSize: 12, color: 'rgba(var(--ui-rgb),0.35)' }}>sin teléfono</span>
                 ) : (
                   <button onClick={() => send(a)} style={sent ? btnSent : btnWhats}>
                     {sent ? <><Check size={14} /> Enviado · reenviar</> : <><MessageCircle size={15} /> Enviar</>}
@@ -120,12 +120,12 @@ export function RemindersManager({
 }
 
 const select: React.CSSProperties = {
-  background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
-  padding: '8px 12px', color: 'white', fontSize: 13.5, outline: 'none', fontFamily: 'inherit',
+  background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9,
+  padding: '8px 12px', color: 'var(--text)', fontSize: 13.5, outline: 'none', fontFamily: 'inherit',
 }
 const row: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '11px 14px',
+  display: 'flex', alignItems: 'center', gap: 12, background: 'var(--card)',
+  border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: '11px 14px',
 }
 const btnWhats: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, background: 'rgba(37,211,102,0.12)', color: '#25d366',
@@ -133,11 +133,11 @@ const btnWhats: React.CSSProperties = {
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const btnSent: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)',
-  border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '8px 13px', fontSize: 12.5, fontWeight: 600,
+  display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.5)',
+  border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 8, padding: '8px 13px', fontSize: 12.5, fontWeight: 600,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const emptyBox: React.CSSProperties = {
-  padding: 40, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',
-  color: 'rgba(255,255,255,0.35)', fontSize: 14,
+  padding: 40, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center',
+  color: 'rgba(var(--ui-rgb),0.35)', fontSize: 14,
 }

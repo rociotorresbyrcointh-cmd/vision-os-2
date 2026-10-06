@@ -33,31 +33,31 @@ export function OnboardingChecklist({ setup }: { setup: SetupState }) {
   const pct = Math.round((doneCount / total) * 100)
 
   return (
-    <div style={{ background: 'linear-gradient(165deg, rgba(229,136,62,0.1), rgba(255,255,255,0.025))', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 16, padding: 'clamp(18px, 3vw, 24px)', marginBottom: 22, position: 'relative' }}>
-      <button onClick={() => setHidden(true)} title="Ocultar" style={{ position: 'absolute', top: 14, right: 14, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}><X size={18} /></button>
+    <div style={{ background: 'linear-gradient(165deg, rgba(229,136,62,0.1), var(--card))', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 16, padding: 'clamp(18px, 3vw, 24px)', marginBottom: 22, position: 'relative' }}>
+      <button onClick={() => setHidden(true)} title="Ocultar" style={{ position: 'absolute', top: 14, right: 14, background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.4)', cursor: 'pointer' }}><X size={18} /></button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 4 }}>
         <span style={{ width: 40, height: 40, borderRadius: 11, background: 'rgba(229,136,62,0.18)', border: '1px solid rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Rocket size={20} color="#eda45f" /></span>
         <div>
-          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'white' }}>Configurá tu negocio en 5 pasos</h2>
-          <p style={{ margin: '2px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>Completaste {doneCount} de {total}. {next ? `Lo próximo: ${next.title.toLowerCase()}.` : ''}</p>
+          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--text)' }}>Configurá tu negocio en 5 pasos</h2>
+          <p style={{ margin: '2px 0 0', fontSize: 13, color: 'rgba(var(--ui-rgb),0.5)' }}>Completaste {doneCount} de {total}. {next ? `Lo próximo: ${next.title.toLowerCase()}.` : ''}</p>
         </div>
       </div>
 
       {/* barra de progreso */}
-      <div style={{ height: 7, borderRadius: 4, background: 'rgba(255,255,255,0.08)', overflow: 'hidden', margin: '14px 0 18px' }}>
+      <div style={{ height: 7, borderRadius: 4, background: 'rgba(var(--ui-rgb),0.08)', overflow: 'hidden', margin: '14px 0 18px' }}>
         <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#e5883e,#e5883e)', borderRadius: 4, transition: 'width 0.4s' }} />
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {steps.map((s) => (
-          <Link key={s.title} href={s.href} style={{ display: 'flex', alignItems: 'center', gap: 13, padding: '11px 13px', borderRadius: 11, textDecoration: 'none', background: s.done ? 'rgba(52,211,153,0.06)' : 'rgba(255,255,255,0.03)', border: `1px solid ${s.done ? 'rgba(52,211,153,0.2)' : 'rgba(255,255,255,0.07)'}` }}>
+          <Link key={s.title} href={s.href} style={{ display: 'flex', alignItems: 'center', gap: 13, padding: '11px 13px', borderRadius: 11, textDecoration: 'none', background: s.done ? 'rgba(52,211,153,0.06)' : 'var(--card)', border: `1px solid ${s.done ? 'rgba(52,211,153,0.2)' : 'var(--card-2)'}` }}>
             {s.done
               ? <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Check size={15} color="#06281c" /></span>
-              : <Circle size={24} color="rgba(255,255,255,0.25)" style={{ flexShrink: 0 }} />}
+              : <Circle size={24} color="rgba(var(--ui-rgb),0.25)" style={{ flexShrink: 0 }} />}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ margin: 0, fontSize: 14.5, fontWeight: 600, color: s.done ? 'rgba(255,255,255,0.55)' : 'white', textDecoration: s.done ? 'line-through' : 'none' }}>{s.title}</p>
-              {!s.done && <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>{s.desc}</p>}
+              <p style={{ margin: 0, fontSize: 14.5, fontWeight: 600, color: s.done ? 'rgba(var(--ui-rgb),0.55)' : 'var(--text)', textDecoration: s.done ? 'line-through' : 'none' }}>{s.title}</p>
+              {!s.done && <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.45)' }}>{s.desc}</p>}
             </div>
             {!s.done && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12.5, fontWeight: 700, color: '#eda45f', whiteSpace: 'nowrap' }}>{s.cta} <ArrowRight size={13} /></span>}
           </Link>

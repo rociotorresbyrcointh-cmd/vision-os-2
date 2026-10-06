@@ -46,19 +46,19 @@ export function RedesManager({
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 860 }}>
-      <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-        <Sparkles size={20} color="#22d3ee" /> Redes sociales
+      <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+        <Sparkles size={20} color="#e5883e" /> Redes sociales
       </h1>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 20 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, marginBottom: 20 }}>
         Tu marca, ideas de contenido y una auditoría para mejorar tu perfil.
       </p>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, background: 'var(--card-2)', borderRadius: 10, padding: 4, border: '1px solid rgba(var(--ui-rgb),0.08)', marginBottom: 24 }}>
         {([['marca', 'Mi Marca', Palette], ['ia', 'Asistente IA', Wand2], ['placas', 'Placas', ImageIcon], ['guardados', 'Guardados', Bookmark], ['ideas', 'Ideas rápidas', Lightbulb], ['auditoria', 'Auditoría', ClipboardCheck]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-              background: tab === t ? 'rgba(34,211,238,0.18)' : 'transparent', color: tab === t ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
+              background: tab === t ? 'rgba(229,136,62,0.18)' : 'transparent', color: tab === t ? '#e5883e' : 'rgba(var(--ui-rgb),0.5)' }}>
             <Icon size={15} /> {label}
           </button>
         ))}
@@ -66,7 +66,7 @@ export function RedesManager({
 
       {tab === 'marca' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 620 }}>
-          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: 0, lineHeight: 1.6 }}>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, margin: 0, lineHeight: 1.6 }}>
             Cargá tu identidad una vez. Con esto, las <b>ideas de contenido</b> se personalizan a tu marca. 💡
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -111,7 +111,7 @@ export function RedesManager({
                 return (
                   <button key={t} onClick={() => set('tone', t)}
                     style={{ flex: 1, padding: '9px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', textTransform: 'capitalize',
-                      background: on ? 'rgba(34,211,238,0.15)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(255,255,255,0.1)', color: on ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
+                      background: on ? 'rgba(229,136,62,0.15)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)', color: on ? '#e5883e' : 'rgba(var(--ui-rgb),0.5)' }}>
                     {t}
                   </button>
                 )
@@ -122,13 +122,13 @@ export function RedesManager({
             <Field label="Color principal">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <input type="color" value={brand.color} onChange={(e) => set('color', e.target.value)} style={{ width: 48, height: 42, border: 'none', borderRadius: 9, background: 'transparent', cursor: 'pointer' }} />
-                <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color}</span>
+                <span style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color}</span>
               </div>
             </Field>
             <Field label="Color secundario">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <input type="color" value={brand.color2} onChange={(e) => set('color2', e.target.value)} style={{ width: 48, height: 42, border: 'none', borderRadius: 9, background: 'transparent', cursor: 'pointer' }} />
-                <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color2}</span>
+                <span style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13, fontFamily: 'monospace' }}>{brand.color2}</span>
               </div>
             </Field>
             <Field label="Instagram (usuario o link)"><input value={brand.instagram} onChange={(e) => set('instagram', e.target.value)} placeholder="@tucuenta" style={input} /></Field>
@@ -168,26 +168,26 @@ function SavedTab() {
   }
   const copy = (id: string, text: string) => { navigator.clipboard.writeText(text); setCopied(id); setTimeout(() => setCopied(''), 1500) }
 
-  if (items === null) return <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
+  if (items === null) return <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Cargando…</p>
   if (items.length === 0) return (
-    <div style={{ padding: 40, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 14, maxWidth: 680 }}>
+    <div style={{ padding: 40, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center', color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, maxWidth: 680 }}>
       Todavía no guardaste contenido. Generá algo en <b>Asistente IA</b> y tocá <b>Guardar</b>. 📌
     </div>
   )
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 680 }}>
       {items.map((it) => (
-        <div key={it.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 16 }}>
+        <div key={it.id} style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#22d3ee' }}>
-              {KIND_LABEL[it.kind] ?? it.kind} · <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{new Date(it.created_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#e5883e' }}>
+              {KIND_LABEL[it.kind] ?? it.kind} · <span style={{ color: 'rgba(var(--ui-rgb),0.4)', fontWeight: 500 }}>{new Date(it.created_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
             </span>
             <div style={{ display: 'flex', gap: 6 }}>
               <button onClick={() => copy(it.id, it.content)} style={copyBtn}>{copied === it.id ? <Check size={13} /> : <Copy size={13} />}</button>
               <button onClick={() => remove(it.id)} style={{ ...copyBtn, color: '#f87171' }}><Trash2 size={13} /></button>
             </div>
           </div>
-          <p style={{ margin: 0, color: 'rgba(255,255,255,0.85)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{it.content}</p>
+          <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.85)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{it.content}</p>
         </div>
       ))}
     </div>
@@ -229,7 +229,7 @@ function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organiz
 
   return (
     <div style={{ maxWidth: 680 }}>
-      <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.6 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.6 }}>
         La IA crea contenido <b>único y a medida de tu marca</b> (no plantillas). Cargá bien tu marca en la primera pestaña para mejores resultados. ✨
       </p>
 
@@ -243,7 +243,7 @@ function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organiz
       </div>
 
       <p style={lbl2}>Pegá un texto y la IA te ayuda</p>
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
+      <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
         <textarea value={profile} onChange={(e) => setProfile(e.target.value)} rows={3}
           placeholder="Pegá acá: tu bio actual, una reseña/comentario de un cliente, o un texto que querés mejorar…"
           style={{ ...input, resize: 'vertical', lineHeight: 1.5, marginBottom: 10 }} />
@@ -269,9 +269,9 @@ function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organiz
       )}
 
       {result && (
-        <div style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: 13, padding: 18 }}>
+        <div style={{ background: 'rgba(229,136,62,0.06)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 13, padding: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ color: '#22d3ee', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: '#e5883e', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Wand2 size={14} /> Generado con IA
             </span>
             <div style={{ display: 'flex', gap: 6 }}>
@@ -279,7 +279,7 @@ function AITab({ brand, organizationId, onCreatePlaca }: { brand: Brand; organiz
               <button onClick={copy} style={copyBtn}>{copied ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}</button>
             </div>
           </div>
-          <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{result}</p>
+          <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{result}</p>
           <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
             <button onClick={() => run(resultKind, lastInput)} disabled={busy} style={{ ...aiBtnGhost, opacity: busy ? 0.5 : 1 }}>
               <RefreshCw size={14} /> {busy ? 'Generando…' : 'Otra versión'}
@@ -303,23 +303,23 @@ function IdeasTab({ brand }: { brand: Brand }) {
 
   return (
     <div>
-      <div style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
-        <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase' }}>Hashtags sugeridos</p>
+      <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
+        <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.6)', textTransform: 'uppercase' }}>Hashtags sugeridos</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          <span style={{ color: '#22d3ee', fontSize: 13.5, fontFamily: 'monospace' }}>{hashtags}</span>
+          <span style={{ color: '#e5883e', fontSize: 13.5, fontFamily: 'monospace' }}>{hashtags}</span>
           <button onClick={() => copy('hash', hashtags)} style={copyBtn}>{copied === 'hash' ? <Check size={13} /> : <Copy size={13} />}</button>
         </div>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {ideas.map((idea, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 18 }}>
-            <h3 style={{ margin: '0 0 10px', color: 'white', fontSize: 15, fontWeight: 700 }}>{idea.title}</h3>
+          <div key={i} style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 18 }}>
+            <h3 style={{ margin: '0 0 10px', color: 'var(--text)', fontSize: 15, fontWeight: 700 }}>{idea.title}</h3>
             <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 10, padding: '12px 14px', marginBottom: 10 }}>
-              <p style={{ margin: 0, color: 'rgba(255,255,255,0.85)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{idea.caption}</p>
+              <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.85)', fontSize: 13.5, lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>{idea.caption}</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-              <p style={{ margin: 0, color: 'rgba(255,255,255,0.4)', fontSize: 12, lineHeight: 1.5, flex: 1, minWidth: 200 }}>💡 {idea.tip}</p>
+              <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, lineHeight: 1.5, flex: 1, minWidth: 200 }}>💡 {idea.tip}</p>
               <button onClick={() => copy('idea' + i, idea.caption)} style={{ ...copyBtn, padding: '7px 13px' }}>
                 {copied === 'idea' + i ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar texto</>}
               </button>
@@ -353,33 +353,33 @@ function AuditTab() {
 
   return (
     <div style={{ maxWidth: 640 }}>
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: 20, marginBottom: 20 }}>
+      <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 14, padding: 20, marginBottom: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ color: 'white', fontWeight: 700, fontSize: 15 }}>Tu puntaje</span>
+          <span style={{ color: 'var(--text)', fontWeight: 700, fontSize: 15 }}>Tu puntaje</span>
           <span style={{ color, fontSize: 26, fontWeight: 800 }}>{score}%</span>
         </div>
-        <div style={{ height: 9, background: 'rgba(255,255,255,0.06)', borderRadius: 5, overflow: 'hidden' }}>
+        <div style={{ height: 9, background: 'var(--card-2)', borderRadius: 5, overflow: 'hidden' }}>
           <div style={{ height: '100%', width: `${score}%`, background: color, borderRadius: 5, transition: 'width 0.3s' }} />
         </div>
-        <p style={{ margin: '12px 0 0', color: 'rgba(255,255,255,0.6)', fontSize: 13.5 }}>{msg}</p>
+        <p style={{ margin: '12px 0 0', color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13.5 }}>{msg}</p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {AUDIT_ITEMS.map((item, i) => (
           <div key={i} onClick={() => toggle(i)}
-            style={{ display: 'flex', gap: 12, alignItems: 'flex-start', background: 'rgba(255,255,255,0.03)', border: `1px solid ${checked[i] ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 11, padding: '13px 15px', cursor: 'pointer' }}>
+            style={{ display: 'flex', gap: 12, alignItems: 'flex-start', background: 'var(--card)', border: `1px solid ${checked[i] ? 'rgba(52,211,153,0.3)' : 'rgba(var(--ui-rgb),0.08)'}`, borderRadius: 11, padding: '13px 15px', cursor: 'pointer' }}>
             <div style={{ width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: checked[i] ? '#34d399' : 'transparent', border: checked[i] ? 'none' : '1.5px solid rgba(255,255,255,0.25)' }}>
+              background: checked[i] ? '#34d399' : 'transparent', border: checked[i] ? 'none' : '1.5px solid rgba(var(--ui-rgb),0.25)' }}>
               {checked[i] && <Check size={14} color="#07241a" />}
             </div>
             <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, color: 'white', fontSize: 14, fontWeight: 600 }}>{item.q}</p>
-              {!checked[i] && <p style={{ margin: '4px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5, lineHeight: 1.5 }}>→ {item.why}</p>}
+              <p style={{ margin: 0, color: 'var(--text)', fontSize: 14, fontWeight: 600 }}>{item.q}</p>
+              {!checked[i] && <p style={{ margin: '4px 0 0', color: 'rgba(var(--ui-rgb),0.45)', fontSize: 12.5, lineHeight: 1.5 }}>→ {item.why}</p>}
             </div>
           </div>
         ))}
       </div>
-      <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginTop: 16, lineHeight: 1.6 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 12, marginTop: 16, lineHeight: 1.6 }}>
         Tildá lo que ya tenés resuelto. Lo que quede sin tildar es tu lista de mejoras. 🎯
       </p>
     </div>
@@ -389,34 +389,34 @@ function AuditTab() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1, minWidth: 200 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
-const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
+const opt: React.CSSProperties = { background: 'var(--surface)', color: 'var(--text)' }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: '#062a30', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const aiBtn: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#06b6d4,#22d3ee)',
+  display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
   color: '#062a30', border: 'none', borderRadius: 10, padding: '10px 15px', fontSize: 13.5, fontWeight: 800,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const aiBtnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,211,238,0.1)', color: '#22d3ee',
-  border: '1px solid rgba(34,211,238,0.35)', borderRadius: 9, padding: '9px 14px', fontSize: 13, fontWeight: 700,
+  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(229,136,62,0.1)', color: '#e5883e',
+  border: '1px solid rgba(229,136,62,0.35)', borderRadius: 9, padding: '9px 14px', fontSize: 13, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }
-const lbl2: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px', fontFamily: "'Orbitron', sans-serif" }
+const lbl2: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 10px', fontFamily: "'Orbitron', sans-serif" }
 const copyBtn: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)',
-  border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+  display: 'flex', alignItems: 'center', gap: 6, background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.7)',
+  border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
 }

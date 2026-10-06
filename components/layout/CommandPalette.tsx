@@ -130,26 +130,26 @@ export function CommandPalette({ role = 'owner', clinical = false }: { role?: Ro
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          width: 'min(560px, 92vw)', background: '#1a212e',
-          border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14,
+          width: 'min(560px, 92vw)', background: 'var(--surface)',
+          border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 14,
           boxShadow: '0 24px 60px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <Search size={18} color="rgba(255,255,255,0.45)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderBottom: '1px solid var(--card-2)' }}>
+          <Search size={18} color="rgba(var(--ui-rgb),0.45)" />
           <input
             ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onInputKey}
             placeholder={`Buscar sección o ${voc.one}…`}
-            style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 15 }}
+            style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text)', fontSize: 15 }}
           />
-          <button onClick={() => setOpen(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', display: 'flex' }}>
+          <button onClick={() => setOpen(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.4)', cursor: 'pointer', display: 'flex' }}>
             <X size={18} />
           </button>
         </div>
 
         <div style={{ maxHeight: '52vh', overflowY: 'auto', padding: 8 }}>
           {results.length === 0 ? (
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13.5, textAlign: 'center', padding: '22px 0' }}>
+            <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 13.5, textAlign: 'center', padding: '22px 0' }}>
               {q.trim().length >= 2 ? 'Sin resultados' : 'Escribí para buscar…'}
             </p>
           ) : (
@@ -167,12 +167,12 @@ export function CommandPalette({ role = 'owner', clinical = false }: { role?: Ro
                     textAlign: 'left', background: on ? 'rgba(229,136,62,0.16)' : 'transparent',
                   }}
                 >
-                  <Icon size={17} color={on ? '#eda45f' : 'rgba(255,255,255,0.5)'} />
+                  <Icon size={17} color={on ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)'} />
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', color: 'white', fontSize: 14, fontWeight: 600 }}>{item.label}</span>
-                    {item.sub && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.sub}</span>}
+                    <span style={{ display: 'block', color: 'var(--text)', fontSize: 14, fontWeight: 600 }}>{item.label}</span>
+                    {item.sub && <span style={{ display: 'block', color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12 }}>{item.sub}</span>}
                   </span>
-                  <span style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>
+                  <span style={{ fontSize: 10.5, color: 'rgba(var(--ui-rgb),0.3)', fontWeight: 600 }}>
                     {item.type === 'patient' ? voc.oneCap : 'Ir a'}
                   </span>
                 </button>
@@ -181,7 +181,7 @@ export function CommandPalette({ role = 'owner', clinical = false }: { role?: Ro
           )}
         </div>
 
-        <div style={{ display: 'flex', gap: 14, padding: '9px 16px', borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.35)', fontSize: 11.5 }}>
+        <div style={{ display: 'flex', gap: 14, padding: '9px 16px', borderTop: '1px solid var(--card-2)', color: 'rgba(var(--ui-rgb),0.35)', fontSize: 11.5 }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}><CornerDownLeft size={12} /> Abrir</span>
           <span>↑ ↓ Moverse</span>
           <span>Esc Cerrar</span>

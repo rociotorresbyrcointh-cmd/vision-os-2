@@ -50,8 +50,8 @@ export function BlocksManager({
     <div style={{ padding: '28px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Bloqueos</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>
+          <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0 }}>Bloqueos</h1>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 4 }}>
             Almuerzos, vacaciones y horarios no disponibles.
           </p>
         </div>
@@ -62,7 +62,7 @@ export function BlocksManager({
 
       {list.length === 0 ? (
         <div style={emptyBox}>
-          <Ban size={26} color="rgba(255,255,255,0.3)" style={{ marginBottom: 10 }} /><br />
+          <Ban size={26} color="rgba(var(--ui-rgb),0.3)" style={{ marginBottom: 10 }} /><br />
           No hay bloqueos cargados.
         </div>
       ) : (
@@ -71,15 +71,15 @@ export function BlocksManager({
             <div key={b.id} style={card}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                  <Ban size={15} color="rgba(255,255,255,0.5)" />
-                  <span style={{ color: 'white', fontWeight: 600, fontSize: 15 }}>{b.title}</span>
+                  <Ban size={15} color="rgba(var(--ui-rgb),0.5)" />
+                  <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 15 }}>{b.title}</span>
                   {b.recurring_rule && (
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#eda45f', background: 'rgba(229,136,62,0.12)', borderRadius: 6, padding: '2px 7px' }}>
                       <Repeat size={11} /> {recurrenceLabel(b.recurring_rule)}
                     </span>
                   )}
                 </div>
-                <div style={{ display: 'flex', gap: 16, marginTop: 7, fontSize: 12.5, color: 'rgba(255,255,255,0.5)', flexWrap: 'wrap', paddingLeft: 24 }}>
+                <div style={{ display: 'flex', gap: 16, marginTop: 7, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.5)', flexWrap: 'wrap', paddingLeft: 24 }}>
                   <span>{profName(b.professional_id)}</span>
                   <span style={{ fontVariantNumeric: 'tabular-nums' }}>{hhmm(b.start_time)}–{hhmm(b.end_time)}</span>
                   {!b.recurring_rule && <span>{blockDate(b.start_time)}</span>}
@@ -110,19 +110,19 @@ export function BlocksManager({
 
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+  display: 'flex', alignItems: 'center', gap: 5, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 8,
   padding: '7px 11px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const card: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 14,
-  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 16px',
+  background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: '14px 16px',
 }
 const emptyBox: React.CSSProperties = {
-  padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',
-  color: 'rgba(255,255,255,0.35)', fontSize: 14, lineHeight: 1.7, maxWidth: 760,
+  padding: 48, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center',
+  color: 'rgba(var(--ui-rgb),0.35)', fontSize: 14, lineHeight: 1.7, maxWidth: 760,
 }

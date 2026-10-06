@@ -109,8 +109,8 @@ export function ProfessionalsManager({
     <div style={{ padding: '28px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>Profesionales</h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 4 }}>
+          <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0 }}>Profesionales</h1>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 4 }}>
             Personas y recursos (cabinas, salas) que reciben turnos.
           </p>
         </div>
@@ -123,10 +123,10 @@ export function ProfessionalsManager({
       {atLimit && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: 12, padding: '13px 16px', marginBottom: 20, maxWidth: 760 }}>
           <Lock size={18} color="#fbbf24" />
-          <span style={{ flex: 1, minWidth: 200, color: 'rgba(255,255,255,0.8)', fontSize: 13.5 }}>
+          <span style={{ flex: 1, minWidth: 200, color: 'rgba(var(--ui-rgb),0.8)', fontSize: 13.5 }}>
             Tu plan {planById(plan)?.name ? `(${planById(plan)!.name})` : ''} permite hasta <strong>{maxProf}</strong> profesional{maxProf === 1 ? '' : 'es'}. Para sumar más, pasá a un plan más grande.
           </span>
-          <Link href="/plan" style={{ background: '#e5883e', color: 'white', textDecoration: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
+          <Link href="/plan" style={{ background: '#e5883e', color: 'var(--text)', textDecoration: 'none', borderRadius: 9, padding: '9px 15px', fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>
             Ver planes
           </Link>
         </div>
@@ -147,14 +147,14 @@ export function ProfessionalsManager({
               <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
                 <span style={{ width: 12, height: 12, borderRadius: '50%', background: p.color, flexShrink: 0, boxShadow: `0 0 10px ${p.color}88` }} />
                 <div style={{ minWidth: 0, flex: 1 }}>
-                  <p style={{ color: 'white', fontWeight: 600, fontSize: 15, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</p>
-                  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '2px 0 0', display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: 15, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</p>
+                  <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, margin: '2px 0 0', display: 'flex', alignItems: 'center', gap: 5 }}>
                     {p.is_resource ? <Box size={11} /> : <User size={11} />}
                     {p.specialty || (p.is_resource ? 'Recurso' : 'Profesional')}
                   </p>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 14, fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 12 }}>
+              <div style={{ display: 'flex', gap: 14, fontSize: 12, color: 'rgba(var(--ui-rgb),0.45)', marginTop: 12 }}>
                 <span>{p.hours_start.slice(0, 5)}–{p.hours_end.slice(0, 5)}</span>
                 {p.max_capacity_per_hour > 1 && <span>cap. {p.max_capacity_per_hour}/h</span>}
               </div>
@@ -171,7 +171,7 @@ export function ProfessionalsManager({
         <div style={overlay} onClick={() => setOpen(false)}>
           <div style={modal} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>
+              <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 700, margin: 0 }}>
                 {editingId ? 'Editar profesional' : 'Nuevo profesional'}
               </h2>
               <button onClick={() => setOpen(false)} style={iconBtn}><X size={18} /></button>
@@ -212,8 +212,8 @@ export function ProfessionalsManager({
                       <button key={n} onClick={() => toggleDay(n)}
                         style={{ width: 34, height: 34, borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer',
                           background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
-                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                          color: on ? '#eda45f' : 'rgba(255,255,255,0.4)' }}>
+                          border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                          color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.4)' }}>
                         {label}
                       </button>
                     )
@@ -233,7 +233,7 @@ export function ProfessionalsManager({
                   </button>
                 </Field>
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '-4px 0 0', lineHeight: 1.5 }}>
+              <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, margin: '-4px 0 0', lineHeight: 1.5 }}>
                 Cuántos {term.many} puede atender <b>al mismo tiempo</b> en una misma franja horaria.
                 Poné <b>1</b> si atiende de a uno (lo más común). Poné más si atiende a varios a la vez
                 (ej: un kinesiólogo con 3 camillas, o una clase grupal).
@@ -257,41 +257,41 @@ export function ProfessionalsManager({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+  display: 'flex', alignItems: 'center', gap: 5, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 8,
   padding: '7px 11px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const iconBtn: React.CSSProperties = {
-  background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4,
+  background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4,
 }
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 16,
+  background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 16,
 }
 const emptyBox: React.CSSProperties = {
-  padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',
-  color: 'rgba(255,255,255,0.35)', fontSize: 14, lineHeight: 1.7,
+  padding: 48, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center',
+  color: 'rgba(var(--ui-rgb),0.35)', fontSize: 14, lineHeight: 1.7,
 }
 const overlay: React.CSSProperties = {
   position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
+  background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 440, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

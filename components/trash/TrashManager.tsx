@@ -43,15 +43,15 @@ export function TrashManager() {
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 820 }}>
-      <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
-        <Trash2 size={20} color="rgba(255,255,255,0.6)" /> Papelera
+      <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+        <Trash2 size={20} color="rgba(var(--ui-rgb),0.6)" /> Papelera
       </h1>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
         Todo lo borrado queda acá. Podés recuperarlo o eliminarlo para siempre.
       </p>
 
       {loading ? (
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Cargando…</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Cargando…</p>
       ) : total === 0 ? (
         <EmptyState
           icon={Trash2}
@@ -99,15 +99,15 @@ function Section({ icon, title, count, rows, onRestore, onDelete }: {
   const del = async (r: Row) => { if (await confirm({ title: `¿Eliminar "${r.title}" definitivamente?`, description: 'Esta acción no se puede deshacer.', actionLabel: 'Eliminar definitivamente', destructive: true })) onDelete(r.id) }
   return (
     <div>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
-        {icon} {title} <span style={{ color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>({count})</span>
+      <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(var(--ui-rgb),0.7)', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
+        {icon} {title} <span style={{ color: 'rgba(var(--ui-rgb),0.35)', fontWeight: 600 }}>({count})</span>
       </h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {rows.map((r) => (
-          <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, padding: '11px 14px' }}>
+          <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 11, padding: '11px 14px' }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14 }}>{r.title}</p>
-              {r.sub && <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{r.sub}</p>}
+              <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: 14 }}>{r.title}</p>
+              {r.sub && <p style={{ margin: '2px 0 0', color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12 }}>{r.sub}</p>}
             </div>
             <button onClick={() => onRestore(r.id)} style={{ ...btn, color: '#34d399', borderColor: 'rgba(52,211,153,0.35)' }}><RotateCcw size={13} /> Recuperar</button>
             <button onClick={() => del(r)} style={{ ...btn, color: '#f87171', borderColor: 'rgba(248,113,113,0.3)' }}><Trash2 size={13} /></button>
@@ -119,7 +119,7 @@ function Section({ icon, title, count, rows, onRestore, onDelete }: {
 }
 
 const btn: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  display: 'flex', alignItems: 'center', gap: 6, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9,
   padding: '8px 13px', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
 }

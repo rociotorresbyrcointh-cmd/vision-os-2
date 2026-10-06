@@ -49,11 +49,11 @@ export function WhatsAppManager({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 12 }}>
         <div>
           {!embedded && (
-            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+            <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
               <MessageCircle size={20} color="#25d366" /> Mensajes de WhatsApp
             </h1>
           )}
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: embedded ? 0 : 5 }}>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: embedded ? 0 : 5 }}>
             Editá los mensajes que enviás a tus clientes desde la agenda.
           </p>
         </div>
@@ -64,7 +64,7 @@ export function WhatsAppManager({
 
       {/* Variables disponibles */}
       <div style={{ background: 'rgba(229,136,62,0.08)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 11, padding: '12px 16px', marginBottom: 22 }}>
-        <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.6)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Variables que podés usar
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -89,9 +89,9 @@ export function WhatsAppManager({
               <textarea value={t.body} onChange={(e) => update(t.id, { body: e.target.value })}
                 rows={6} style={{ ...input, flex: '1 1 320px', resize: 'vertical', lineHeight: 1.5, fontFamily: 'inherit' }} />
               <div style={{ flex: '1 1 240px', minWidth: 220 }}>
-                <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vista previa</p>
+                <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.35)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vista previa</p>
                 <div style={{ background: '#0b141a', borderRadius: 10, padding: 12 }}>
-                  <div style={{ background: '#005c4b', borderRadius: '8px 8px 8px 2px', padding: '8px 11px', maxWidth: 260, color: 'white', fontSize: 13, lineHeight: 1.45, whiteSpace: 'pre-wrap' }}>
+                  <div style={{ background: '#005c4b', borderRadius: '8px 8px 8px 2px', padding: '8px 11px', maxWidth: 260, color: 'var(--text)', fontSize: 13, lineHeight: 1.45, whiteSpace: 'pre-wrap' }}>
                     {renderTemplate(t.body, PREVIEW)}
                   </div>
                 </div>
@@ -109,17 +109,17 @@ export function WhatsAppManager({
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  display: 'flex', alignItems: 'center', gap: 7, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9,
   padding: '10px 16px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const iconDanger: React.CSSProperties = {
@@ -127,5 +127,5 @@ const iconDanger: React.CSSProperties = {
   borderRadius: 8, padding: 8, cursor: 'pointer',
 }
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 13, padding: 18,
+  background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 13, padding: 18,
 }

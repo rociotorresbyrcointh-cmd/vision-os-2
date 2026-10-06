@@ -13,7 +13,7 @@ export function PaymentBanner() {
     }}>
       <AlertTriangle size={15} />
       <span>Hubo un problema con el cobro de tu suscripción. Actualizá tu método de pago para no perder el acceso.</span>
-      <Link href="/plan" style={{ color: 'white', textDecoration: 'underline', fontWeight: 700 }}>Revisar</Link>
+      <Link href="/plan" style={{ color: 'var(--text)', textDecoration: 'underline', fontWeight: 700 }}>Revisar</Link>
     </div>
   )
 }

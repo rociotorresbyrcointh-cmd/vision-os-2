@@ -137,10 +137,10 @@ export function ConfigManager({
 
   return (
     <div style={{ padding: '28px 32px', maxWidth: 720 }}>
-      <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+      <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
         <Settings size={20} color="#eda45f" /> Configuración
       </h1>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, marginBottom: 24 }}>
         Datos de tu negocio y funciones según tu rubro.
       </p>
 
@@ -153,10 +153,10 @@ export function ConfigManager({
       <Accordion id="datos" title="Datos del negocio" subtitle="Logo, nombre, teléfono, horarios" icon={<Store size={18} color="#eda45f" />} open={abierta === 'datos'} onToggle={() => toggleSeccion('datos')}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
           <div>
-            <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>Logo</p>
+            <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>Logo</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 64, height: 64, borderRadius: 12, background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
-                {logo ? <img src={logo} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <ImagePlus size={22} color="rgba(255,255,255,0.3)" />}
+              <div style={{ width: 64, height: 64, borderRadius: 12, background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                {logo ? <img src={logo} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <ImagePlus size={22} color="rgba(var(--ui-rgb),0.3)" />}
               </div>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <label style={{ ...btnGhostSm, cursor: uploadingLogo ? 'default' : 'pointer', opacity: uploadingLogo ? 0.6 : 1 }}>
@@ -194,7 +194,7 @@ export function ConfigManager({
 
       {/* Página de reservas */}
       <Accordion id="reservas" title="Página de reservas" subtitle="Tema claro u oscuro para tus clientes" icon={<Sparkles size={18} color="#eda45f" />} open={abierta === 'reservas'} onToggle={() => toggleSeccion('reservas')}>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '0 0 14px' }}>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 13, margin: '0 0 14px' }}>
           Tema con el que tus clientes ven la página pública para reservar.
         </p>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -205,11 +205,11 @@ export function ConfigManager({
                 style={{
                   flex: 1, padding: '12px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
                   fontSize: 13.5, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  background: on ? 'rgba(229,136,62,0.15)' : 'rgba(255,255,255,0.04)',
-                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                  color: on ? '#eda45f' : 'rgba(255,255,255,0.6)',
+                  background: on ? 'rgba(229,136,62,0.15)' : 'var(--card)',
+                  border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                  color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.6)',
                 }}>
-                <span style={{ width: 16, height: 16, borderRadius: 5, border: '1px solid rgba(255,255,255,0.25)', background: t === 'light' ? '#f4f5fa' : '#1a212e' }} />
+                <span style={{ width: 16, height: 16, borderRadius: 5, border: '1px solid rgba(var(--ui-rgb),0.25)', background: t === 'light' ? '#f4f5fa' : 'var(--surface)' }} />
                 {t === 'light' ? 'Claro' : 'Oscuro'}{on && <Check size={14} />}
               </button>
             )
@@ -256,11 +256,11 @@ export function ConfigManager({
       {/* Datos de la seña */}
       <Accordion id="sena" title="Datos de la seña" subtitle="Monto y link de cobro para las reservas" icon={<Wallet size={18} color="#34d399" />} open={abierta === 'sena'} onToggle={() => toggleSeccion('sena')}>
         <div>
-          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
             Pegá tu propio link de cobro (Mercado Pago, PayPal, alias bancario…). El cliente lo verá al reservar y abona ahí. Vos confirmás el turno cuando recibís el pago.
           </p>
           {dep.link?.trim() && (
-            <div style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 9, padding: '9px 12px', marginBottom: 14, fontSize: 12.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, wordBreak: 'break-all' }}>
+            <div style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 9, padding: '9px 12px', marginBottom: 14, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.75)', lineHeight: 1.5, wordBreak: 'break-all' }}>
               Las señas se depositan en: <strong style={{ color: '#34d399' }}>{dep.link.trim()}</strong>. Verificá que sea tuyo.
             </div>
           )}
@@ -297,14 +297,14 @@ function Accordion({ title, subtitle, icon, open, onToggle, children }: {
   id?: string; title: string; subtitle?: string; icon: React.ReactNode; open: boolean; onToggle: () => void; children: React.ReactNode
 }) {
   return (
-    <div style={{ border: `1px solid ${open ? 'rgba(229,136,62,0.4)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 14, marginBottom: 12, overflow: 'hidden', background: 'rgba(255,255,255,0.03)', transition: 'border-color 0.2s' }}>
+    <div style={{ border: `1px solid ${open ? 'rgba(229,136,62,0.4)' : 'rgba(var(--ui-rgb),0.1)'}`, borderRadius: 14, marginBottom: 12, overflow: 'hidden', background: 'var(--card)', transition: 'border-color 0.2s' }}>
       <button onClick={onToggle} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '16px 18px', background: open ? 'rgba(229,136,62,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
         <span style={{ width: 36, height: 36, borderRadius: 9, background: 'rgba(229,136,62,0.14)', border: '1px solid rgba(229,136,62,0.3)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', color: 'white', fontSize: 15, fontWeight: 700 }}>{title}</span>
-          {subtitle && <span style={{ display: 'block', color: 'rgba(255,255,255,0.4)', fontSize: 12.5, marginTop: 2 }}>{subtitle}</span>}
+          <span style={{ display: 'block', color: 'var(--text)', fontSize: 15, fontWeight: 700 }}>{title}</span>
+          {subtitle && <span style={{ display: 'block', color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12.5, marginTop: 2 }}>{subtitle}</span>}
         </span>
-        <ChevronDown size={18} color="rgba(255,255,255,0.5)" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
+        <ChevronDown size={18} color="rgba(var(--ui-rgb),0.5)" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }} />
       </button>
       {open && <div style={{ padding: '4px 18px 20px' }}>{children}</div>}
     </div>
@@ -315,18 +315,18 @@ function ToggleRow({ icon, title, desc, on, disabled, onToggle }: {
   icon: React.ReactNode; title: string; desc: string; on: boolean; disabled: boolean; onToggle: () => void
 }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '18px 20px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 14, padding: '18px 20px' }}>
       <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-        <div style={{ width: 42, height: 42, borderRadius: 11, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</div>
+        <div style={{ width: 42, height: 42, borderRadius: 11, background: 'var(--card-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</div>
         <div>
-          <p style={{ color: 'white', fontWeight: 600, fontSize: 15, margin: 0 }}>{title}</p>
-          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '4px 0 0', lineHeight: 1.5 }}>{desc}</p>
+          <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: 15, margin: 0 }}>{title}</p>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, margin: '4px 0 0', lineHeight: 1.5 }}>{desc}</p>
         </div>
       </div>
       <button onClick={onToggle} disabled={disabled} aria-label="Activar"
         style={{ width: 52, height: 30, borderRadius: 15, border: 'none', cursor: 'pointer', position: 'relative', flexShrink: 0, transition: 'background 0.2s',
-          background: on ? '#e5883e' : 'rgba(255,255,255,0.15)' }}>
-        <span style={{ position: 'absolute', top: 3, left: on ? 25 : 3, width: 24, height: 24, borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
+          background: on ? '#e5883e' : 'rgba(var(--ui-rgb),0.15)' }}>
+        <span style={{ position: 'absolute', top: 3, left: on ? 25 : 3, width: 24, height: 24, borderRadius: '50%', background: 'var(--text)', transition: 'left 0.2s' }} />
       </button>
     </div>
   )
@@ -335,23 +335,23 @@ function ToggleRow({ icon, title, desc, on, disabled, onToggle }: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1, minWidth: 200 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', fontFamily: 'inherit',
 }
 const btnGhostSm: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)',
-  color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
+  display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.75)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 8,
   padding: '8px 13px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }

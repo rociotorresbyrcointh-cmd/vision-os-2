@@ -24,18 +24,18 @@ export function CrecimientoManager({
   const [tab, setTab] = useState<Tab>('reactivar')
   return (
     <div style={{ padding: '28px 32px', maxWidth: 820 }}>
-      <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+      <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
         <TrendingUp size={20} color="#34d399" /> Crecimiento
       </h1>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5, marginBottom: 20 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5, marginBottom: 20 }}>
         Herramientas con IA para traer más clientes y llenar tu agenda.
       </p>
 
-      <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 4, border: '1px solid rgba(255,255,255,0.08)', marginBottom: 24, width: 'fit-content', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 4, background: 'var(--card-2)', borderRadius: 10, padding: 4, border: '1px solid rgba(var(--ui-rgb),0.08)', marginBottom: 24, width: 'fit-content', flexWrap: 'wrap' }}>
         {([['reactivar', 'Reactivar clientes', HeartHandshake], ['huecos', 'Llenar huecos', CalendarClock], ['resenas', 'Pedir reseñas', Star]] as [Tab, string, any][]).map(([t, label, Icon]) => (
           <button key={t} onClick={() => setTab(t)}
             style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-              background: tab === t ? 'rgba(52,211,153,0.18)' : 'transparent', color: tab === t ? '#34d399' : 'rgba(255,255,255,0.5)' }}>
+              background: tab === t ? 'rgba(52,211,153,0.18)' : 'transparent', color: tab === t ? '#34d399' : 'rgba(var(--ui-rgb),0.5)' }}>
             <Icon size={15} /> {label}
           </button>
         ))}
@@ -98,7 +98,7 @@ function ResenasTab({ brand, reviewLink }: { brand: Brand; reviewLink: string })
       )}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13.5 }}>Atendidos en los últimos</span>
+        <span style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13.5 }}>Atendidos en los últimos</span>
         <select value={days} onChange={(e) => setDays(Number(e.target.value))} style={{ ...input, width: 'auto' }}>
           <option value={7} style={opt}>7 días</option>
           <option value={15} style={opt}>15 días</option>
@@ -106,27 +106,27 @@ function ResenasTab({ brand, reviewLink }: { brand: Brand; reviewLink: string })
         </select>
       </div>
 
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
+      <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>Mensaje <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>(usá <code style={{ color: '#34d399' }}>{'{nombre}'}</code>; el link se agrega solo)</span></span>
+          <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 600 }}>Mensaje <span style={{ color: 'rgba(var(--ui-rgb),0.4)', fontWeight: 400 }}>(usá <code style={{ color: '#34d399' }}>{'{nombre}'}</code>; el link se agrega solo)</span></span>
           <button onClick={genMsg} disabled={aiLoading} style={aiBtn}><Wand2 size={14} /> {aiLoading ? 'Escribiendo…' : 'Escribir con IA'}</button>
         </div>
         <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={3} style={{ ...input, resize: 'vertical', lineHeight: 1.5 }} />
       </div>
 
       {list === null ? (
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Buscando…</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Buscando…</p>
       ) : list.length === 0 ? (
         <div style={emptyBox}>No hay clientes atendidos (con teléfono) en este período.</div>
       ) : (
         <>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 12px' }}>{list.length} clientes para pedirles reseña:</p>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13, margin: '0 0 12px' }}>{list.length} clientes para pedirles reseña:</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {list.map((a) => (
               <div key={a.id} style={row}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14.5 }}>{a.client_name}</p>
-                  <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5 }}>
+                  <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: 14.5 }}>{a.client_name}</p>
+                  <p style={{ margin: '2px 0 0', color: 'rgba(var(--ui-rgb),0.45)', fontSize: 12.5 }}>
                     Atendido el {new Date(a.start_time).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })} · {a.client_phone}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ function ReactivarTab({ businessName, brand }: { businessName: string; brand: Br
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13.5 }}>No vienen hace más de</span>
+        <span style={{ color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13.5 }}>No vienen hace más de</span>
         <select value={days} onChange={(e) => setDays(Number(e.target.value))} style={{ ...input, width: 'auto' }}>
           <option value={30} style={opt}>30 días</option>
           <option value={60} style={opt}>60 días</option>
@@ -179,27 +179,27 @@ function ReactivarTab({ businessName, brand }: { businessName: string; brand: Br
       </div>
 
       {/* Mensaje */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
+      <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: 16, marginBottom: 18 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>Mensaje a enviar <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>(usá <code style={{ color: '#34d399' }}>{'{nombre}'}</code>)</span></span>
+          <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 600 }}>Mensaje a enviar <span style={{ color: 'rgba(var(--ui-rgb),0.4)', fontWeight: 400 }}>(usá <code style={{ color: '#34d399' }}>{'{nombre}'}</code>)</span></span>
           <button onClick={genMsg} disabled={aiLoading} style={aiBtn}><Wand2 size={14} /> {aiLoading ? 'Escribiendo…' : 'Escribir con IA'}</button>
         </div>
         <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={3} style={{ ...input, resize: 'vertical', lineHeight: 1.5 }} />
       </div>
 
       {list === null ? (
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Buscando…</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Buscando…</p>
       ) : list.length === 0 ? (
         <div style={emptyBox}>🎉 No hay clientes inactivos en este período. ¡Todos vienen seguido!</div>
       ) : (
         <>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 12px' }}>{list.length} clientes para reactivar:</p>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13, margin: '0 0 12px' }}>{list.length} clientes para reactivar:</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {list.map(({ patient, lastVisit }) => (
               <div key={patient.id} style={row}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14.5 }}>{patient.first_name} {patient.last_name ?? ''}</p>
-                  <p style={{ margin: '2px 0 0', color: 'rgba(255,255,255,0.45)', fontSize: 12.5 }}>
+                  <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: 14.5 }}>{patient.first_name} {patient.last_name ?? ''}</p>
+                  <p style={{ margin: '2px 0 0', color: 'rgba(var(--ui-rgb),0.45)', fontSize: 12.5 }}>
                     Última visita: {new Date(lastVisit).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     {patient.phone ? ` · ${patient.phone}` : ' · sin teléfono'}
                   </p>
@@ -273,20 +273,20 @@ function HuecosTab({ brand, professionals }: { brand: Brand; professionals: Prof
 
   return (
     <div>
-      <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, margin: '0 0 16px' }}>
-        Horarios libres de <b style={{ color: 'white' }}>mañana</b> ({tomorrow.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}).
+      <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13.5, margin: '0 0 16px' }}>
+        Horarios libres de <b style={{ color: 'var(--text)' }}>mañana</b> ({tomorrow.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}).
       </p>
 
       {slots === null ? (
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>Calculando huecos…</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14 }}>Calculando huecos…</p>
       ) : totalFree === 0 ? (
         <div style={emptyBox}>🎉 ¡Mañana tenés la agenda llena! No hay huecos.</div>
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 18 }}>
             {slots.map((s) => (
-              <div key={s.name} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, padding: '12px 14px' }}>
-                <p style={{ margin: '0 0 8px', color: 'white', fontWeight: 600, fontSize: 14 }}>{s.name} <span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>· {s.times.length} libres</span></p>
+              <div key={s.name} style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 11, padding: '12px 14px' }}>
+                <p style={{ margin: '0 0 8px', color: 'var(--text)', fontWeight: 600, fontSize: 14 }}>{s.name} <span style={{ color: 'rgba(var(--ui-rgb),0.4)', fontWeight: 400 }}>· {s.times.length} libres</span></p>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {s.times.map((t) => <span key={t} style={{ fontSize: 12.5, color: '#34d399', background: 'rgba(52,211,153,0.1)', borderRadius: 6, padding: '3px 9px', fontVariantNumeric: 'tabular-nums' }}>{t}</span>)}
                 </div>
@@ -306,7 +306,7 @@ function HuecosTab({ brand, professionals }: { brand: Brand; professionals: Prof
                   {copied ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}
                 </button>
               </div>
-              <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{promo}</p>
+              <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.9)', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{promo}</p>
             </div>
           )}
         </>
@@ -315,10 +315,10 @@ function HuecosTab({ brand, professionals }: { brand: Brand; professionals: Prof
   )
 }
 
-const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
+const opt: React.CSSProperties = { background: 'var(--surface)', color: 'var(--text)' }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const aiBtn: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(52,211,153,0.12)', color: '#34d399',
@@ -329,14 +329,14 @@ const waBtn: React.CSSProperties = {
   border: '1px solid rgba(37,211,102,0.4)', borderRadius: 8, padding: '8px 13px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
 }
 const copyBtn: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)',
-  border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+  display: 'flex', alignItems: 'center', gap: 6, background: 'var(--card-2)', color: 'rgba(var(--ui-rgb),0.7)',
+  border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 8, padding: '6px 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const row: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '12px 14px',
+  display: 'flex', alignItems: 'center', gap: 12, background: 'var(--card)',
+  border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: '12px 14px',
 }
 const emptyBox: React.CSSProperties = {
-  padding: 40, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',
-  color: 'rgba(255,255,255,0.45)', fontSize: 14,
+  padding: 40, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center',
+  color: 'rgba(var(--ui-rgb),0.45)', fontSize: 14,
 }

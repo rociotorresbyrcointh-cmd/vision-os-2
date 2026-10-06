@@ -36,28 +36,28 @@ export function BotPanel({
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       {/* Cómo funciona + los dos números */}
       <div style={{ background: 'rgba(229,136,62,0.07)', border: '1px solid rgba(229,136,62,0.2)', borderRadius: 12, padding: '16px 18px' }}>
-        <p style={{ margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 8, color: 'white', fontSize: 14.5, fontWeight: 700 }}>
+        <p style={{ margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)', fontSize: 14.5, fontWeight: 700 }}>
           <Info size={16} color="#eda45f" /> Cómo funciona el bot
         </p>
-        <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.6 }}>
-          El bot responde <strong style={{ color: 'white' }}>solo</strong> a las clientas que te escriben por WhatsApp:
+        <p style={{ margin: 0, color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13, lineHeight: 1.6 }}>
+          El bot responde <strong style={{ color: 'var(--text)' }}>solo</strong> a las clientas que te escriben por WhatsApp:
           contesta dudas, precios y horarios, y agenda el turno en tu agenda. Importante:
         </p>
-        <ul style={{ margin: '10px 0 0', paddingLeft: 18, color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.7 }}>
-          <li>El número que conectás al bot se maneja desde <strong style={{ color: 'white' }}>Meta</strong>: las conversaciones del bot <strong style={{ color: 'white' }}>no</strong> se ven en la app de WhatsApp del celular, sino en el panel de Meta (y los turnos que agenda aparecen acá, en Vision OS). <span style={{ color: 'rgba(255,255,255,0.5)' }}>Esto es <strong style={{ color: 'white' }}>un requisito de Meta</strong>, no una decisión nuestra: es la única forma que Meta permite para que un programa conteste solo por WhatsApp.</span></li>
-          <li>Por eso conviene usar <strong style={{ color: 'white' }}>un número aparte solo para el bot</strong>, y dejar tu WhatsApp de siempre para lo personal y las confirmaciones.</li>
-          <li>Podés usar <strong style={{ color: 'white' }}>los dos, uno, o el otro</strong>: el bot y las confirmaciones se prenden y apagan por separado.</li>
+        <ul style={{ margin: '10px 0 0', paddingLeft: 18, color: 'rgba(var(--ui-rgb),0.6)', fontSize: 13, lineHeight: 1.7 }}>
+          <li>El número que conectás al bot se maneja desde <strong style={{ color: 'var(--text)' }}>Meta</strong>: las conversaciones del bot <strong style={{ color: 'var(--text)' }}>no</strong> se ven en la app de WhatsApp del celular, sino en el panel de Meta (y los turnos que agenda aparecen acá, en Vision OS). <span style={{ color: 'rgba(var(--ui-rgb),0.5)' }}>Esto es <strong style={{ color: 'var(--text)' }}>un requisito de Meta</strong>, no una decisión nuestra: es la única forma que Meta permite para que un programa conteste solo por WhatsApp.</span></li>
+          <li>Por eso conviene usar <strong style={{ color: 'var(--text)' }}>un número aparte solo para el bot</strong>, y dejar tu WhatsApp de siempre para lo personal y las confirmaciones.</li>
+          <li>Podés usar <strong style={{ color: 'var(--text)' }}>los dos, uno, o el otro</strong>: el bot y las confirmaciones se prenden y apagan por separado.</li>
         </ul>
       </div>
 
       {/* Conexión (Fase próxima) */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+      <div style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 12, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
         <div style={{ width: 42, height: 42, borderRadius: 11, background: 'rgba(37,211,102,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <Smartphone size={20} color="#25d366" />
         </div>
         <div style={{ flex: 1, minWidth: 200 }}>
-          <p style={{ margin: 0, color: 'white', fontSize: 14, fontWeight: 700 }}>Conectar mi WhatsApp</p>
-          <p style={{ margin: '3px 0 0', color: 'rgba(255,255,255,0.5)', fontSize: 12.5, lineHeight: 1.5 }}>
+          <p style={{ margin: 0, color: 'var(--text)', fontSize: 14, fontWeight: 700 }}>Conectar mi WhatsApp</p>
+          <p style={{ margin: '3px 0 0', color: 'rgba(var(--ui-rgb),0.5)', fontSize: 12.5, lineHeight: 1.5 }}>
             Muy pronto vas a poder conectar tu número en 2 clics. Mientras tanto, dejá configurado abajo qué debe responder el bot.
           </p>
         </div>
@@ -68,10 +68,10 @@ export function BotPanel({
 
       {/* Onboarding: qué debe responder el bot */}
       <div>
-        <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <h3 style={{ color: 'var(--text)', fontSize: 15, fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <Bot size={17} color="#eda45f" /> Qué debe saber el bot de tu negocio
         </h3>
-        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
           El bot ya conoce tus servicios, precios, profesionales y horarios (de tu cuenta). Completá lo que falta para que responda como vos querés.
         </p>
 
@@ -83,9 +83,9 @@ export function BotPanel({
                 return (
                   <button key={t} onClick={() => set('tone', t)}
                     style={{ padding: '9px 16px', borderRadius: 9, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600,
-                      background: on ? 'rgba(229,136,62,0.18)' : 'rgba(255,255,255,0.04)',
-                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
+                      background: on ? 'rgba(229,136,62,0.18)' : 'var(--card)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                      color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.6)' }}>
                     {t === 'cercano' ? 'Cercano / canchero' : t === 'neutro' ? 'Neutro' : 'Formal'}
                   </button>
                 )
@@ -100,9 +100,9 @@ export function BotPanel({
                 return (
                   <button key={m} onClick={() => set('bookingMode', m)}
                     style={{ padding: '9px 16px', borderRadius: 9, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600,
-                      background: on ? 'rgba(229,136,62,0.18)' : 'rgba(255,255,255,0.04)',
-                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#eda45f' : 'rgba(255,255,255,0.6)' }}>
+                      background: on ? 'rgba(229,136,62,0.18)' : 'var(--card)',
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                      color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.6)' }}>
                     {lbl}
                   </button>
                 )
@@ -128,10 +128,10 @@ export function BotPanel({
           <Field label="Preguntas frecuentes y sus respuestas">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {cfg.faqs.length === 0 && (
-                <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13, margin: 0 }}>Todavía no cargaste ninguna. Agregá las que más te preguntan.</p>
+                <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 13, margin: 0 }}>Todavía no cargaste ninguna. Agregá las que más te preguntan.</p>
               )}
               {cfg.faqs.map((f, i) => (
-                <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div key={i} style={{ background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 11, padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <input value={f.q} onChange={(e) => setFaq(i, { q: e.target.value })} placeholder="Pregunta (ej: ¿Atienden los domingos?)" style={{ ...input, fontWeight: 600, flex: 1 }} />
                     <button onClick={() => removeFaq(i)} style={iconDanger}><Trash2 size={14} /></button>
@@ -147,7 +147,7 @@ export function BotPanel({
             {saved ? <><Check size={16} /> Guardado</> : <><Save size={15} /> {saving ? 'Guardando…' : 'Guardar configuración del bot'}</>}
           </button>
           {!enabled && (
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, margin: 0 }}>
+            <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12.5, margin: 0 }}>
               El bot está apagado. Podés dejar todo configurado y prenderlo cuando conectes tu número.
             </p>
           )}
@@ -160,24 +160,24 @@ export function BotPanel({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9,
   padding: '9px 14px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', alignSelf: 'flex-start',
 }
 const iconDanger: React.CSSProperties = {

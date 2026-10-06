@@ -17,7 +17,7 @@ export function CalendarMonthView({
   monthDate: Date
   onDayClick: (day: Date) => void
 }) {
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? 'var(--text-muted)'
 
   // Celdas del mes: arranca el domingo de la semana del día 1
   const cells = useMemo(() => {
@@ -49,7 +49,7 @@ export function CalendarMonthView({
       {/* Cabecera de días */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 8 }}>
         {WEEKDAYS.map((w) => (
-          <div key={w} style={{ textAlign: 'center', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{w}</div>
+          <div key={w} style={{ textAlign: 'center', fontSize: 11, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.35)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{w}</div>
         ))}
       </div>
 
@@ -69,12 +69,12 @@ export function CalendarMonthView({
               style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6,
                 padding: 10, borderRadius: 11, cursor: 'pointer', textAlign: 'left',
-                background: inMonth ? 'rgba(255,255,255,0.03)' : 'transparent',
-                border: isToday ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.06)',
+                background: inMonth ? 'var(--card)' : 'transparent',
+                border: isToday ? '1px solid rgba(229,136,62,0.5)' : '1px solid var(--grid)',
                 opacity: inMonth ? 1 : 0.35, fontFamily: 'inherit', minHeight: 70,
               }}
             >
-              <span style={{ fontSize: 14, fontWeight: 700, color: isToday ? '#eda45f' : 'white', fontVariantNumeric: 'tabular-nums' }}>{d.getDate()}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: isToday ? '#eda45f' : 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>{d.getDate()}</span>
               {appts.length > 0 && (
                 <>
                   <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
@@ -82,7 +82,7 @@ export function CalendarMonthView({
                       <span key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: c }} />
                     ))}
                   </div>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 'auto' }}>
+                  <span style={{ fontSize: 11, color: 'rgba(var(--ui-rgb),0.45)', marginTop: 'auto' }}>
                     {appts.length} {appts.length === 1 ? 'turno' : 'turnos'}
                   </span>
                 </>

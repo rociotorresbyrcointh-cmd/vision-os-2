@@ -76,10 +76,10 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
     <div style={{ padding: isMobile ? '18px 14px' : '28px 32px', maxWidth: 880 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+          <h1 style={{ color: 'var(--text)', fontSize: 22, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
             <Wallet size={20} color="#34d399" /> Caja
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 5 }}>Pagos y señas del día.</p>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, marginTop: 5 }}>Pagos y señas del día.</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button onClick={exportExcel} disabled={payments.length === 0} style={{ ...btnGhost, opacity: payments.length === 0 ? 0.4 : 1 }} title="Descargar los pagos del día en Excel">
@@ -94,12 +94,12 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
         <button onClick={() => shift(-1)} style={navBtn}><ChevronLeft size={17} /></button>
         <button onClick={() => shift(1)} style={navBtn}><ChevronRight size={17} /></button>
         <button onClick={() => setDate(new Date())} style={{ ...navBtn, width: 'auto', padding: '0 13px', fontSize: 13, fontWeight: 600, opacity: isToday ? 0.5 : 1 }}>Hoy</button>
-        <span style={{ color: 'white', fontSize: 16, fontWeight: 600, textTransform: 'capitalize', minHeight: 20 }}>
+        <span style={{ color: 'var(--text)', fontSize: 16, fontWeight: 600, textTransform: 'capitalize', minHeight: 20 }}>
           {mounted ? date.toLocaleDateString('es-AR', isMobile
             ? { weekday: 'short', day: 'numeric', month: 'short' }
             : { weekday: 'long', day: 'numeric', month: 'long' }) : ''}
         </span>
-        {loading && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>actualizando…</span>}
+        {loading && <span style={{ fontSize: 12, color: 'rgba(var(--ui-rgb),0.3)' }}>actualizando…</span>}
       </div>
 
       {/* Resumen */}
@@ -128,10 +128,10 @@ export function PaymentsManager({ organizationId }: { organizationId: string }) 
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{money(Number(p.amount))}</span>
+                  <span style={{ color: 'var(--text)', fontWeight: 700, fontSize: 16 }}>{money(Number(p.amount))}</span>
                   {p.kind === 'seña' && <span style={tag}>Seña</span>}
                 </div>
-                <div style={{ display: 'flex', gap: 12, marginTop: 3, fontSize: 12.5, color: 'rgba(255,255,255,0.45)', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 12, marginTop: 3, fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.45)', flexWrap: 'wrap' }}>
                   <span>{METHOD_LABELS[p.method]}</span>
                   <span>{new Date(p.paid_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}</span>
                   {p.notes && <span>{p.notes}</span>}
@@ -200,7 +200,7 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
     <div style={overlay} onClick={onClose}>
       <div className="v-modal" style={modal} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>Registrar pago</h2>
+          <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 700, margin: 0 }}>Registrar pago</h2>
           <button onClick={onClose} style={iconBtn}><X size={18} /></button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
@@ -216,8 +216,8 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
                   <button key={v} onClick={() => setKind(v)}
                     style={{ flex: 1, padding: '9px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                       background: on ? 'rgba(229,136,62,0.2)' : 'rgba(0,0,0,0.3)',
-                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(255,255,255,0.1)',
-                      color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
+                      border: on ? '1px solid rgba(229,136,62,0.5)' : '1px solid rgba(var(--ui-rgb),0.1)',
+                      color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)' }}>
                     {lbl}
                   </button>
                 )
@@ -240,7 +240,7 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
                 <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20 }}>
                   {sug.map((p) => (
                     <button key={p.id} type="button" onMouseDown={(e) => { e.preventDefault(); setPatient(p); setShowSug(false) }}
-                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'white', fontSize: 13.5, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid var(--card-2)', color: 'var(--text)', fontSize: 13.5, cursor: 'pointer', fontFamily: 'inherit' }}>
                       {fullName(p)}{p.dni ? ` · DNI ${p.dni}` : ''}
                     </button>
                   ))}
@@ -266,57 +266,57 @@ function PaymentForm({ organizationId, date, onClose, onSaved }: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
-const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
+const opt: React.CSSProperties = { background: 'var(--surface)', color: 'var(--text)' }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 9,
+  display: 'flex', alignItems: 'center', gap: 7, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 9,
   padding: '10px 15px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
 }
 const navBtn: React.CSSProperties = {
   width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 9,
-  color: 'rgba(255,255,255,0.7)', cursor: 'pointer',
+  background: 'var(--card-2)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 9,
+  color: 'rgba(var(--ui-rgb),0.7)', cursor: 'pointer',
 }
-const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
+const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4 }
 const iconDanger: React.CSSProperties = {
   background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171',
   borderRadius: 8, padding: 8, cursor: 'pointer', flexShrink: 0,
 }
 const row: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 13, background: 'rgba(255,255,255,0.03)',
-  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '12px 14px',
+  display: 'flex', alignItems: 'center', gap: 13, background: 'var(--card)',
+  border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 12, padding: '12px 14px',
 }
 const summaryCard: React.CSSProperties = {
   display: 'flex', flexDirection: 'column', gap: 4, minWidth: 150,
-  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 13, padding: '14px 18px',
+  background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 13, padding: '14px 18px',
 }
-const summaryLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em' }
-const summaryValue: React.CSSProperties = { fontSize: 22, fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }
+const summaryLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', textTransform: 'uppercase', letterSpacing: '0.06em' }
+const summaryValue: React.CSSProperties = { fontSize: 22, fontWeight: 800, color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }
 const tag: React.CSSProperties = { fontSize: 10, fontWeight: 700, color: '#fbbf24', background: 'rgba(251,191,36,0.12)', borderRadius: 5, padding: '2px 7px' }
 const emptyBox: React.CSSProperties = {
-  padding: 48, borderRadius: 14, border: '1px dashed rgba(255,255,255,0.12)', textAlign: 'center',
-  color: 'rgba(255,255,255,0.35)', fontSize: 14,
+  padding: 48, borderRadius: 14, border: '1px dashed rgba(var(--ui-rgb),0.12)', textAlign: 'center',
+  color: 'rgba(var(--ui-rgb),0.35)', fontSize: 14,
 }
 const overlay: React.CSSProperties = {
   position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
+  background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 420, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }

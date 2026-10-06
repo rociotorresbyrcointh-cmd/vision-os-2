@@ -8,20 +8,20 @@ import { SectorSelect } from '@/components/SectorSelect'
 import { AuthBackground } from '@/components/auth/AuthBackground'
 
 const fieldStyle: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.4)',
-  border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10,
-  padding: '11px 14px', color: 'white', fontSize: 14,
+  width: '100%', background: 'var(--field-bg)',
+  border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 10,
+  padding: '11px 14px', color: 'var(--text)', fontSize: 14,
   outline: 'none', fontFamily: "'Inter', sans-serif", transition: 'border-color 0.2s',
 }
 const labelStyle: React.CSSProperties = {
   display: 'block', fontSize: 10, fontWeight: 700,
-  color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em',
+  color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.12em',
   textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif",
 }
 const focus = (e: React.FocusEvent<HTMLInputElement>) =>
   (e.target.style.borderColor = 'rgba(229,136,62,0.6)')
 const blur = (e: React.FocusEvent<HTMLInputElement>) =>
-  (e.target.style.borderColor = 'rgba(255,255,255,0.1)')
+  (e.target.style.borderColor = 'rgba(var(--ui-rgb),0.1)')
 
 export default function RegisterPage() {
   const [state, formAction, pending] = useActionState(register, undefined)
@@ -33,7 +33,7 @@ export default function RegisterPage() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0b0f17', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
       <AuthBackground />
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 440 }}>
@@ -41,9 +41,9 @@ export default function RegisterPage() {
           <VisionLogoWhite size={60} animate />
         </div>
 
-        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
-          <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Crear cuenta</h2>
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Registrá tu negocio en Vision OS</p>
+        <div style={{ background: 'linear-gradient(145deg,var(--card-2) 0%,var(--card) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
+          <h2 style={{ color: 'var(--text)', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Crear cuenta</h2>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 12, margin: '0 0 22px' }}>Registrá tu negocio en Vision OS</p>
 
           <form action={formAction}>
             <input type="hidden" name="next" value={next} />
@@ -77,28 +77,28 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={pending}
-                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
               >
                 {pending ? (
-                  <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Creando cuenta…</>
+                  <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(var(--ui-rgb),0.3)', borderTopColor: 'var(--text)', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Creando cuenta…</>
                 ) : 'Crear cuenta →'}
               </button>
             </div>
           </form>
 
-          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 11.5, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
+          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 11.5, color: 'rgba(var(--ui-rgb),0.35)', lineHeight: 1.5 }}>
             Al crear tu cuenta aceptás los{' '}
             <Link href="/terminos" style={{ color: '#eda45f', textDecoration: 'none' }}>Términos</Link> y la{' '}
             <Link href="/privacidad" style={{ color: '#eda45f', textDecoration: 'none' }}>Política de Privacidad</Link>.
           </p>
 
-          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
+          <p style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'rgba(var(--ui-rgb),0.3)' }}>
             ¿Ya tenés cuenta?{' '}
             <Link href="/login" style={{ color: '#eda45f', fontWeight: 700, textDecoration: 'none' }}>Ingresá</Link>
           </p>
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 10, color: 'rgba(255,255,255,0.14)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'Orbitron', sans-serif" }}>
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 10, color: 'rgba(var(--ui-rgb),0.14)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'Orbitron', sans-serif" }}>
           © 2026 Vision OS
         </p>
       </div>

@@ -24,6 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="h-full antialiased">
+      <head>
+        {/* Aplica el tema guardado antes de pintar, para que no parpadee de oscuro a claro */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{var t=localStorage.getItem('vision-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}",
+          }}
+        />
+      </head>
       <body
         className="min-h-full flex flex-col"
         style={{ fontFamily: "'General Sans', sans-serif" }}

@@ -25,6 +25,48 @@
   --crema: #f2eadf; --crema-2: #e7dccb; --blanco: #ffffff;
   --ink: #14202e; --gris-ink: #5a6473; --naranja: #e5883e; --naranja-2: #eda45f;
   --txt: #f4f1ea; --txt-2: #bcc4ce; --borde: rgba(255,255,255,.12);
+
+  /* ─── Semánticos DÍA/NOCHE (default = noche). Los acentos (naranja/verde/…) NO cambian. ─── */
+  --bg: #0b0f17;             /* fondo de la página */
+  --surface: #1a212e;        /* tarjetas */
+  --surface-2: #222a38;      /* tarjetas alternas */
+  --card: rgba(255,255,255,.03);   /* tarjetas sutiles (KPIs, filas) */
+  --card-2: rgba(255,255,255,.05); /* chips / botones fantasma */
+  --text: #f4f1ea;           /* texto principal (reemplaza 'white') */
+  --text-2: rgba(255,255,255,.66); /* texto secundario */
+  --text-3: rgba(255,255,255,.45); /* texto terciario / fechas / placeholder */
+  --text-muted: #bcc4ce;
+  --border: rgba(255,255,255,.12);
+  --border-2: rgba(255,255,255,.1);
+  --border-3: rgba(255,255,255,.08);
+  /* Base RGB del color de interfaz (textos/bordes/velos). Noche=blanco, día=navy.
+     Se usa como rgba(var(--ui-rgb), X) conservando la opacidad original. */
+  --ui-rgb: 255,255,255;
+  --sidebar-bg: #0b0f17;     /* menú lateral */
+  --field-bg: rgba(0,0,0,0.4);
+  --grid: rgba(255,255,255,0.07);
+}
+
+/* ─── MODO DÍA: solo cambian los colores de estructura; acentos iguales ─── */
+html[data-theme="light"] {
+  --bg: #f4f2ec;
+  --surface: #ffffff;
+  --surface-2: #efebe2;
+  --card: #ffffff;
+  --card-2: #f1ede3;
+  --text: #14202e;
+  --text-2: rgba(20,32,46,.62);
+  --text-3: rgba(20,32,46,.5);
+  --text-muted: #5a6473;
+  --border: rgba(20,32,46,.14);
+  --border-2: rgba(20,32,46,.1);
+  --border-3: rgba(20,32,46,.08);
+  --ui-rgb: 20,32,46;
+  --sidebar-bg: #edeef1;     /* menú lateral en día: gris neutro profesional */
+  --field-bg: #eceef2;
+  --grid: rgba(20,32,46,0.16);
+  --background: var(--bg);
+  --foreground: var(--text);
 }
 
 @theme inline {

@@ -34,8 +34,8 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 16px', borderRadius: 999, background: 'rgba(251,191,36,0.14)', border: '1px solid rgba(251,191,36,0.4)', color: '#fbbf24', fontSize: 13, fontWeight: 800, marginBottom: 16 }}>
             <Gift size={15} /> Tu prueba gratis terminó
           </div>
-          <h1 style={{ fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 900, color: 'white', margin: 0 }}>Elegí un plan para seguir</h1>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 15, marginTop: 10 }}>
+          <h1 style={{ fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 900, color: 'var(--text)', margin: 0 }}>Elegí un plan para seguir</h1>
+          <p style={{ color: 'rgba(var(--ui-rgb),0.55)', fontSize: 15, marginTop: 10 }}>
             {isOwner ? 'Tus datos están a salvo. Activá un plan y seguís donde lo dejaste.' : 'El dueño del negocio debe activar un plan para volver a usar la app.'}
           </p>
         </div>
@@ -43,25 +43,25 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
         {isOwner ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             {PLANS.map((p) => (
-              <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', background: 'rgba(255,255,255,0.035)', borderRadius: 16, padding: 24, border: p.popular ? '2px solid #e5883e' : '1px solid rgba(255,255,255,0.1)' }}>
-                {p.popular && <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>}
-                <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: 'white' }}>{p.name}</h3>
-                <p style={{ margin: '4px 0 0', fontSize: 13.5, color: 'rgba(255,255,255,0.5)' }}>{p.blurb}</p>
-                <p style={{ margin: '16px 0 0', color: 'white' }}><span style={{ fontSize: 36, fontWeight: 900 }}>${p.price}</span><span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}> USD/mes</span></p>
+              <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', background: 'rgba(var(--ui-rgb),0.035)', borderRadius: 16, padding: 24, border: p.popular ? '2px solid #e5883e' : '1px solid rgba(var(--ui-rgb),0.1)' }}>
+                {p.popular && <span style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 5, background: 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', fontSize: 12, fontWeight: 800, borderRadius: 999, padding: '4px 14px', whiteSpace: 'nowrap' }}><Star size={12} /> Más elegido</span>}
+                <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: 'var(--text)' }}>{p.name}</h3>
+                <p style={{ margin: '4px 0 0', fontSize: 13.5, color: 'rgba(var(--ui-rgb),0.5)' }}>{p.blurb}</p>
+                <p style={{ margin: '16px 0 0', color: 'var(--text)' }}><span style={{ fontSize: 36, fontWeight: 900 }}>${p.price}</span><span style={{ fontSize: 13, color: 'rgba(var(--ui-rgb),0.5)' }}> USD/mes</span></p>
                 <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0 22px', display: 'flex', flexDirection: 'column', gap: 9, flex: 1 }}>
-                  {p.features.map((f) => <li key={f} style={{ display: 'flex', gap: 9, fontSize: 13.5, color: 'rgba(255,255,255,0.78)' }}><Check size={16} color="#34d399" style={{ flexShrink: 0, marginTop: 1 }} /> {f}</li>)}
+                  {p.features.map((f) => <li key={f} style={{ display: 'flex', gap: 9, fontSize: 13.5, color: 'rgba(var(--ui-rgb),0.78)' }}><Check size={16} color="#34d399" style={{ flexShrink: 0, marginTop: 1 }} /> {f}</li>)}
                 </ul>
-                <button onClick={() => setChoosing(p.id)} style={{ padding: '12px', borderRadius: 10, border: 'none', cursor: 'pointer', background: '#e5883e', color: 'white', fontSize: 14, fontWeight: 700 }}>Suscribirme</button>
+                <button onClick={() => setChoosing(p.id)} style={{ padding: '12px', borderRadius: 10, border: 'none', cursor: 'pointer', background: '#e5883e', color: 'var(--text)', fontSize: 14, fontWeight: 700 }}>Suscribirme</button>
               </div>
             ))}
           </div>
         ) : (
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)' }}>Avisale al dueño para que renueve el plan. 🙌</p>
+          <p style={{ textAlign: 'center', color: 'rgba(var(--ui-rgb),0.6)' }}>Avisale al dueño para que renueve el plan. 🙌</p>
         )}
 
         <div style={{ textAlign: 'center', marginTop: 28 }}>
           <form action={logout}>
-            <button type="submit" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 13.5, cursor: 'pointer' }}>
+            <button type="submit" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13.5, cursor: 'pointer' }}>
               <LogOut size={15} /> Cerrar sesión
             </button>
           </form>
@@ -73,18 +73,18 @@ export function TrialGate({ isOwner }: { isOwner: boolean }) {
         const p = PLANS.find((x) => x.id === choosing)!
         return (
           <div onClick={() => setChoosing(null)} style={{ position: 'fixed', inset: 0, zIndex: 320, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: '#1a212e', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: 24 }}>
-              <h3 style={{ color: 'white', fontSize: 18, fontWeight: 800, margin: 0 }}>Suscribirte a {p.name}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, margin: '4px 0 18px' }}>Elegí cómo querés pagar:</p>
-              <button onClick={() => pay('/api/stripe/checkout', p.id, 's')} disabled={busy === 's'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(229,136,62,0.4)', background: 'rgba(229,136,62,0.12)', color: 'white', cursor: 'pointer', marginBottom: 10 }}>
-                <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>💳 Tarjeta internacional</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>en tu moneda</span></span>
+            <div onClick={(e) => e.stopPropagation()} style={{ width: 'min(420px, 94vw)', background: 'var(--surface)', border: '1px solid rgba(var(--ui-rgb),0.12)', borderRadius: 16, padding: 24 }}>
+              <h3 style={{ color: 'var(--text)', fontSize: 18, fontWeight: 800, margin: 0 }}>Suscribirte a {p.name}</h3>
+              <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13.5, margin: '4px 0 18px' }}>Elegí cómo querés pagar:</p>
+              <button onClick={() => pay('/api/stripe/checkout', p.id, 's')} disabled={busy === 's'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(229,136,62,0.4)', background: 'rgba(229,136,62,0.12)', color: 'var(--text)', cursor: 'pointer', marginBottom: 10 }}>
+                <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>💳 Tarjeta internacional</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(var(--ui-rgb),0.5)' }}>en tu moneda</span></span>
                 <span style={{ fontWeight: 800 }}>US$ {p.price}</span>
               </button>
-              <button onClick={() => pay('/api/mp/subscribe', p.id, 'm')} disabled={busy === 'm'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(0,177,234,0.4)', background: 'rgba(0,177,234,0.12)', color: 'white', cursor: 'pointer' }}>
-                <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>🇦🇷 Mercado Pago</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>en pesos</span></span>
+              <button onClick={() => pay('/api/mp/subscribe', p.id, 'm')} disabled={busy === 'm'} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(0,177,234,0.4)', background: 'rgba(0,177,234,0.12)', color: 'var(--text)', cursor: 'pointer' }}>
+                <span style={{ textAlign: 'left' }}><span style={{ display: 'block', fontWeight: 700, fontSize: 14.5 }}>🇦🇷 Mercado Pago</span><span style={{ display: 'block', fontSize: 12, color: 'rgba(var(--ui-rgb),0.5)' }}>en pesos</span></span>
                 <span style={{ fontWeight: 800 }}>$ {arsFromUsd(p.price).toLocaleString('es-AR')}</span>
               </button>
-              <button onClick={() => setChoosing(null)} style={{ width: '100%', marginTop: 14, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.45)', fontSize: 13, cursor: 'pointer' }}>Cancelar</button>
+              <button onClick={() => setChoosing(null)} style={{ width: '100%', marginTop: 14, background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, cursor: 'pointer' }}>Cancelar</button>
             </div>
           </div>
         )

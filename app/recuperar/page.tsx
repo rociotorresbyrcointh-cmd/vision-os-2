@@ -7,26 +7,26 @@ import { VisionLogoWhite } from '@/components/VisionLogo'
 import { AuthBackground } from '@/components/auth/AuthBackground'
 
 const fieldStyle: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.4)',
-  border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10,
-  padding: '11px 14px', color: 'white', fontSize: 14,
+  width: '100%', background: 'var(--field-bg)',
+  border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 10,
+  padding: '11px 14px', color: 'var(--text)', fontSize: 14,
   outline: 'none', fontFamily: "'Inter', sans-serif", transition: 'border-color 0.2s',
 }
 const labelStyle: React.CSSProperties = {
   display: 'block', fontSize: 10, fontWeight: 700,
-  color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em',
+  color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.12em',
   textTransform: 'uppercase', marginBottom: 7, fontFamily: "'Orbitron', sans-serif",
 }
 const focus = (e: React.FocusEvent<HTMLInputElement>) =>
   (e.target.style.borderColor = 'rgba(229,136,62,0.6)')
 const blur = (e: React.FocusEvent<HTMLInputElement>) =>
-  (e.target.style.borderColor = 'rgba(255,255,255,0.1)')
+  (e.target.style.borderColor = 'rgba(var(--ui-rgb),0.1)')
 
 export default function RecuperarPage() {
   const [state, formAction, pending] = useActionState(requestPasswordReset, undefined)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0b0f17', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: 24 }}>
       <AuthBackground />
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 400 }}>
@@ -34,23 +34,23 @@ export default function RecuperarPage() {
           <VisionLogoWhite size={60} animate />
         </div>
 
-        <div style={{ background: 'linear-gradient(145deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.02) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: 'linear-gradient(145deg,var(--card-2) 0%,var(--card) 100%)', borderRadius: 20, padding: '28px 28px 22px', border: '1px solid rgba(229,136,62,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 0 40px rgba(229,136,62,0.1),0 24px 48px rgba(0,0,0,0.5)' }}>
           {state?.sent ? (
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 40, marginBottom: 12 }}>📩</div>
-              <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 8px' }}>Revisá tu correo</h2>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 6px', lineHeight: 1.5 }}>
+              <h2 style={{ color: 'var(--text)', fontSize: 18, fontWeight: 700, margin: '0 0 8px' }}>Revisá tu correo</h2>
+              <p style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13, margin: '0 0 6px', lineHeight: 1.5 }}>
                 Si ese email tiene una cuenta, te enviamos un link para crear una nueva contraseña.
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11.5, margin: '0 0 20px' }}>
+              <p style={{ color: 'rgba(var(--ui-rgb),0.3)', fontSize: 11.5, margin: '0 0 20px' }}>
                 Puede tardar unos minutos. Revisá también spam / promociones.
               </p>
               <Link href="/login" style={{ color: '#eda45f', fontWeight: 700, textDecoration: 'none', fontSize: 13 }}>← Volver a ingresar</Link>
             </div>
           ) : (
             <>
-              <h2 style={{ color: 'white', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Recuperar contraseña</h2>
-              <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, margin: '0 0 22px' }}>Te enviamos un link a tu email para crear una nueva.</p>
+              <h2 style={{ color: 'var(--text)', fontSize: 18, fontWeight: 700, margin: '0 0 3px' }}>Recuperar contraseña</h2>
+              <p style={{ color: 'rgba(var(--ui-rgb),0.35)', fontSize: 12, margin: '0 0 22px' }}>Te enviamos un link a tu email para crear una nueva.</p>
 
               <form action={formAction}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -68,16 +68,16 @@ export default function RecuperarPage() {
                   <button
                     type="submit"
                     disabled={pending}
-                    style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'white', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                    style={{ background: pending ? 'rgba(229,136,62,0.4)' : 'linear-gradient(135deg,#e5883e,#e5883e)', color: 'var(--text)', border: 'none', borderRadius: 10, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: pending ? 'not-allowed' : 'pointer', boxShadow: pending ? 'none' : '0 0 24px rgba(229,136,62,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
                   >
                     {pending ? (
-                      <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Enviando…</>
+                      <><span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(var(--ui-rgb),0.3)', borderTopColor: 'var(--text)', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />Enviando…</>
                     ) : 'Enviar link →'}
                   </button>
                 </div>
               </form>
 
-              <p style={{ textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
+              <p style={{ textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(var(--ui-rgb),0.3)' }}>
                 ¿Te acordaste?{' '}
                 <Link href="/login" style={{ color: '#eda45f', fontWeight: 700, textDecoration: 'none' }}>Ingresar</Link>
               </p>
@@ -85,7 +85,7 @@ export default function RecuperarPage() {
           )}
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 10, color: 'rgba(255,255,255,0.14)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'Orbitron', sans-serif" }}>
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 10, color: 'rgba(var(--ui-rgb),0.14)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: "'Orbitron', sans-serif" }}>
           © 2026 Vision OS
         </p>
       </div>

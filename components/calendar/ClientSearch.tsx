@@ -11,7 +11,7 @@ const STATUS: Record<AppointmentStatus, { label: string; color: string }> = {
   confirmed: { label: 'Confirmado', color: '#34d399' },
   completed: { label: 'Atendido', color: '#eda45f' },
   cancelled: { label: 'Cancelado', color: '#f87171' },
-  no_show: { label: 'No vino', color: '#bcc4ce' },
+  no_show: { label: 'No vino', color: 'var(--text-muted)' },
 }
 
 export function ClientSearch({
@@ -33,7 +33,7 @@ export function ClientSearch({
   const [searched, setSearched] = useState(false)
 
   const profName = (id: string) => professionals.find((p) => p.id === id)?.name ?? '—'
-  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? '#bcc4ce'
+  const profColor = (id: string) => professionals.find((p) => p.id === id)?.color ?? 'var(--text-muted)'
   const svcName = (id: string) => services.find((s) => s.id === id)?.name ?? ''
   const svcPrice = (id: string) => services.find((s) => s.id === id)?.price ?? 0
 
@@ -53,11 +53,11 @@ export function ClientSearch({
   return (
     <div style={overlay} onClick={onClose}>
       <div style={modal} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '16px 18px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <Search size={18} color="rgba(255,255,255,0.4)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '16px 18px', borderBottom: '1px solid rgba(var(--ui-rgb),0.08)' }}>
+          <Search size={18} color="rgba(var(--ui-rgb),0.4)" />
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar por nombre, teléfono o DNI…"
-            autoFocus style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 15, fontFamily: 'inherit' }} />
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 2 }}><X size={18} /></button>
+            autoFocus style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text)', fontSize: 15, fontFamily: 'inherit' }} />
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 2 }}><X size={18} /></button>
         </div>
 
         <div style={{ maxHeight: '60vh', overflowY: 'auto', padding: 12 }}>
@@ -75,12 +75,12 @@ export function ClientSearch({
                 const ps = payStatus(paidByAppt.get(a.id) ?? 0, svcPrice(a.service_id))
                 return (
                   <button key={a.id} onClick={() => onPick(a)} style={row}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}>
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--card-2)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--card)')}>
                     <div style={{ width: 3, alignSelf: 'stretch', borderRadius: 3, background: profColor(a.professional_id) }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
-                      <div style={{ display: 'flex', gap: 10, marginTop: 3, fontSize: 12, color: 'rgba(255,255,255,0.45)', flexWrap: 'wrap', alignItems: 'center' }}>
+                      <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.client_name}</p>
+                      <div style={{ display: 'flex', gap: 10, marginTop: 3, fontSize: 12, color: 'rgba(var(--ui-rgb),0.45)', flexWrap: 'wrap', alignItems: 'center' }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Clock size={11} /> {d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })} · {d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
                         </span>
@@ -109,12 +109,12 @@ const overlay: React.CSSProperties = {
   display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 50, padding: '60px 20px 20px',
 }
 const modal: React.CSSProperties = {
-  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 16,
+  background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 16,
   width: '100%', maxWidth: 560, boxShadow: '0 24px 60px rgba(0,0,0,0.6)', overflow: 'hidden',
 }
 const row: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 11, width: '100%', textAlign: 'left',
-  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10,
+  background: 'var(--card)', border: '1px solid rgba(var(--ui-rgb),0.08)', borderRadius: 10,
   padding: '10px 12px', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s',
 }
-const msg: React.CSSProperties = { color: 'rgba(255,255,255,0.4)', fontSize: 14, textAlign: 'center', padding: '24px 0', margin: 0 }
+const msg: React.CSSProperties = { color: 'rgba(var(--ui-rgb),0.4)', fontSize: 14, textAlign: 'center', padding: '24px 0', margin: 0 }

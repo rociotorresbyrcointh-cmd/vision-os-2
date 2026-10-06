@@ -29,14 +29,14 @@ export function AccountSettings({ embedded = false }: { embedded?: boolean }) {
   return (
     <div style={wrapStyle}>
       {!embedded && (
-        <h2 style={{ color: 'white', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
+        <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 800, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 9 }}>
           <span style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(229,136,62,0.2)', border: '1px solid rgba(229,136,62,0.45)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
             <KeyRound size={18} color="#eda45f" />
           </span>
           Acceso a la cuenta
         </h2>
       )}
-      <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
+      <p style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.5 }}>
         Cambiá el email y/o la contraseña con la que entrás a la app. Dejá la contraseña en blanco si no la querés cambiar.
       </p>
 
@@ -44,7 +44,7 @@ export function AccountSettings({ embedded = false }: { embedded?: boolean }) {
         <div>
           <label style={labelStyle}>Email de acceso</label>
           <div style={{ position: 'relative' }}>
-            <Mail size={15} style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.3)' }} />
+            <Mail size={15} style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: 'rgba(var(--ui-rgb),0.3)' }} />
             <input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ ...input, paddingLeft: 34 }} placeholder="tu@email.com" />
           </div>
         </div>
@@ -68,22 +68,22 @@ export function AccountSettings({ embedded = false }: { embedded?: boolean }) {
       </form>
 
       {currentEmail && (
-        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, margin: '12px 0 0' }}>Entrás actualmente con: {currentEmail}</p>
+        <p style={{ color: 'rgba(var(--ui-rgb),0.3)', fontSize: 12, margin: '12px 0 0' }}>Entrás actualmente con: {currentEmail}</p>
       )}
     </div>
   )
 }
 
 const labelStyle: React.CSSProperties = {
-  display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)',
+  display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)',
   letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif",
 }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }

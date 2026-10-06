@@ -329,7 +329,7 @@ export function AppointmentModal({
     <div style={overlay} onClick={onClose}>
       <div className="v-modal" style={modal} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <h2 style={{ color: 'white', fontSize: 17, fontWeight: 700, margin: 0 }}>
+          <h2 style={{ color: 'var(--text)', fontSize: 17, fontWeight: 700, margin: 0 }}>
             {editing ? 'Editar turno' : 'Nuevo turno'}
           </h2>
           <button onClick={onClose} style={iconBtn}><X size={18} /></button>
@@ -362,10 +362,10 @@ export function AppointmentModal({
                 <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4, background: '#11111f', border: '1px solid rgba(229,136,62,0.3)', borderRadius: 9, overflow: 'hidden', zIndex: 20, boxShadow: '0 12px 30px rgba(0,0,0,0.5)' }}>
                   {suggestions.map((p) => (
                     <button key={p.id} type="button" onMouseDown={(e) => { e.preventDefault(); pickPatient(p) }}
-                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
-                      <span style={{ color: 'white', fontSize: 13.5, fontWeight: 600 }}>{fullName(p)}</span>
+                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '9px 12px', background: 'transparent', border: 'none', borderBottom: '1px solid var(--card-2)', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>
+                      <span style={{ color: 'var(--text)', fontSize: 13.5, fontWeight: 600 }}>{fullName(p)}</span>
                       {(p.phone || p.health_insurance) && (
-                        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11.5 }}>
+                        <span style={{ color: 'rgba(var(--ui-rgb),0.45)', fontSize: 11.5 }}>
                           {[p.phone, p.health_insurance].filter(Boolean).join(' · ')}
                         </span>
                       )}
@@ -406,7 +406,7 @@ export function AppointmentModal({
               <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} style={input} />
             </Field>
             <Field label="Termina">
-              <div style={{ ...input, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center' }}>{minutesToTime(endMin)}</div>
+              <div style={{ ...input, color: 'rgba(var(--ui-rgb),0.5)', display: 'flex', alignItems: 'center' }}>{minutesToTime(endMin)}</div>
             </Field>
           </div>
 
@@ -431,7 +431,7 @@ export function AppointmentModal({
                     <input type="number" min={1} max={60} value={recurCount}
                       onChange={(e) => setRecurCount(Math.max(1, Math.min(60, Number(e.target.value))))}
                       style={{ ...input, width: 70 }} />
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{recur === 'weekdays' ? 'turnos' : 'veces'}</span>
+                    <span style={{ color: 'rgba(var(--ui-rgb),0.5)', fontSize: 13 }}>{recur === 'weekdays' ? 'turnos' : 'veces'}</span>
                   </div>
                 )}
               </div>
@@ -444,20 +444,20 @@ export function AppointmentModal({
                       return (
                         <button key={i} onClick={() => setRecurDays((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i])}
                           style={{ width: 40, height: 40, borderRadius: 9, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-                            background: on ? 'rgba(229,136,62,0.25)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(229,136,62,0.6)' : '1px solid rgba(255,255,255,0.12)', color: on ? '#eda45f' : 'rgba(255,255,255,0.5)' }}>
+                            background: on ? 'rgba(229,136,62,0.25)' : 'rgba(0,0,0,0.3)', border: on ? '1px solid rgba(229,136,62,0.6)' : '1px solid rgba(var(--ui-rgb),0.12)', color: on ? '#eda45f' : 'rgba(var(--ui-rgb),0.5)' }}>
                           {d}
                         </button>
                       )
                     })}
                   </div>
-                  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '8px 0 0' }}>
-                    Se crearán <strong style={{ color: 'rgba(255,255,255,0.7)' }}>{recurCount}</strong> turnos en total, repartidos en los días elegidos, a partir de la fecha.
+                  <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, margin: '8px 0 0' }}>
+                    Se crearán <strong style={{ color: 'rgba(var(--ui-rgb),0.7)' }}>{recurCount}</strong> turnos en total, repartidos en los días elegidos, a partir de la fecha.
                     {recurDays.length === 0 && ' (si no elegís ninguno, usa el día de la fecha elegida)'}
                   </p>
                 </div>
               )}
               {recur !== 'none' && recur !== 'weekdays' && (
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '7px 0 0' }}>
+                <p style={{ color: 'rgba(var(--ui-rgb),0.4)', fontSize: 12, margin: '7px 0 0' }}>
                   Se crearán {recurCount} turnos {recur === 'weekly' ? 'semanales' : recur === 'biweekly' ? 'cada 2 semanas' : 'mensuales'}, a partir de la fecha elegida.
                 </p>
               )}
@@ -478,7 +478,7 @@ export function AppointmentModal({
           {editing && (
             <div style={{ background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 11, padding: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7, color: 'white', fontWeight: 700, fontSize: 14 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 7, color: 'var(--text)', fontWeight: 700, fontSize: 14 }}>
                   <Wallet size={16} color="#34d399" />
                   {(() => {
                     const price = service?.price ?? 0
@@ -493,7 +493,7 @@ export function AppointmentModal({
                 )}
               </div>
               {service?.price ? (
-                <p style={{ margin: '6px 0 0', fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+                <p style={{ margin: '6px 0 0', fontSize: 12, color: 'rgba(var(--ui-rgb),0.45)' }}>
                   Precio del servicio: {money(service.price)}
                 </p>
               ) : null}
@@ -502,7 +502,7 @@ export function AppointmentModal({
               {payments.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginTop: 10 }}>
                   {payments.map((p) => (
-                    <div key={p.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12.5, color: 'rgba(255,255,255,0.7)' }}>
+                    <div key={p.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12.5, color: 'rgba(var(--ui-rgb),0.7)' }}>
                       <span>{money(Number(p.amount))} · {METHOD_LABELS[p.method]}{p.kind === 'seña' ? ' · seña' : ''}</span>
                       <button onClick={() => removePayment(p.id)} style={{ background: 'transparent', border: 'none', color: '#f87171', cursor: 'pointer', fontSize: 11 }}>Quitar</button>
                     </div>
@@ -549,7 +549,7 @@ export function AppointmentModal({
                 <div style={{ position: 'absolute', bottom: '100%', left: 0, right: 0, marginBottom: 6, background: '#11111f', border: '1px solid rgba(37,211,102,0.3)', borderRadius: 10, overflow: 'hidden', zIndex: 20, boxShadow: '0 12px 30px rgba(0,0,0,0.5)' }}>
                   {whatsappTemplates.map((t) => (
                     <button key={t.id} onClick={() => sendWhatsApp(t)}
-                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'white', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'transparent', border: 'none', borderBottom: '1px solid var(--card-2)', color: 'var(--text)', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                       {t.title}
                     </button>
                   ))}
@@ -560,14 +560,14 @@ export function AppointmentModal({
 
           {confirmDelete ? (
             <div style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: 11, padding: 14 }}>
-              <p style={{ margin: '0 0 10px', color: 'white', fontSize: 13.5, fontWeight: 600 }}>
+              <p style={{ margin: '0 0 10px', color: 'var(--text)', fontSize: 13.5, fontWeight: 600 }}>
                 Este turno se repite (es una serie). ¿Qué querés eliminar?
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <button onClick={deleteOne} style={{ ...btnGhost, flex: 1, justifyContent: 'center', color: '#f87171' }}>Solo este turno</button>
                 <button onClick={deleteSeries} style={{ ...btnGhost, flex: 1, justifyContent: 'center', color: '#f87171', borderColor: 'rgba(248,113,113,0.4)', background: 'rgba(248,113,113,0.12)' }}>Toda la serie</button>
               </div>
-              <button onClick={() => setConfirmDelete(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 12.5, marginTop: 8, fontFamily: 'inherit' }}>Cancelar</button>
+              <button onClick={() => setConfirmDelete(false)} style={{ background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', fontSize: 12.5, marginTop: 8, fontFamily: 'inherit' }}>Cancelar</button>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
@@ -597,20 +597,20 @@ export function AppointmentModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ flex: 1 }}>
-      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'rgba(var(--ui-rgb),0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6, fontFamily: "'Orbitron', sans-serif" }}>{label}</label>
       {children}
     </div>
   )
 }
 
-const opt: React.CSSProperties = { background: '#1a212e', color: 'white' }
+const opt: React.CSSProperties = { background: 'var(--surface)', color: 'var(--text)' }
 const input: React.CSSProperties = {
-  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 9, padding: '10px 12px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit',
+  width: '100%', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(var(--ui-rgb),0.1)',
+  borderRadius: 9, padding: '10px 12px', color: 'var(--text)', fontSize: 14, outline: 'none', fontFamily: 'inherit',
 }
 const btnPrimary: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 7, background: 'linear-gradient(135deg,#e5883e,#e5883e)',
-  color: 'white', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
+  color: 'var(--text)', border: 'none', borderRadius: 9, padding: '11px 16px', fontSize: 14, fontWeight: 700,
   cursor: 'pointer', boxShadow: '0 0 20px rgba(229,136,62,0.3)', fontFamily: 'inherit',
 }
 const btnCobrar: React.CSSProperties = {
@@ -624,16 +624,16 @@ const btnWhats: React.CSSProperties = {
   borderRadius: 9, padding: '11px 16px', fontSize: 13.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
 }
 const btnGhost: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)',
-  color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 9,
+  display: 'flex', alignItems: 'center', gap: 5, background: 'var(--card-2)',
+  color: 'rgba(var(--ui-rgb),0.7)', border: '1px solid rgba(var(--ui-rgb),0.1)', borderRadius: 9,
   cursor: 'pointer', fontFamily: 'inherit', justifyContent: 'center',
 }
-const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 4 }
+const iconBtn: React.CSSProperties = { background: 'transparent', border: 'none', color: 'rgba(var(--ui-rgb),0.5)', cursor: 'pointer', padding: 4 }
 const overlay: React.CSSProperties = {
   position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
   display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 20,
 }
 const modal: React.CSSProperties = {
-  background: '#1a212e', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
+  background: 'var(--surface)', border: '1px solid rgba(229,136,62,0.25)', borderRadius: 18, padding: 24,
   width: '100%', maxWidth: 420, maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
 }
