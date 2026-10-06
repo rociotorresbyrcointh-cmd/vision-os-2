@@ -10,6 +10,7 @@ import { canSee, ROLE_LABEL, type Role } from '@/lib/auth/role'
 import { vocab } from '@/lib/vocab'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { SupportButton } from '@/components/layout/SupportButton'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio', icon: Home },
@@ -122,6 +123,11 @@ export function Sidebar({ businessName, socialEnabled, role = 'owner', clinical 
 
       {/* Soporte */}
       <SupportButton />
+
+      {/* Día / Noche */}
+      <div style={{ borderTop: '1px solid rgba(var(--ui-rgb),0.06)' }}>
+        <ThemeToggle />
+      </div>
 
       {/* Logout */}
       <form action={logout} style={{ padding: '12px', borderTop: '1px solid rgba(var(--ui-rgb),0.06)' }}>

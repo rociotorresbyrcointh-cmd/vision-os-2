@@ -9,7 +9,6 @@ import { subStatus } from '@/lib/plans'
 import { VocabProvider } from '@/components/vocab/VocabProvider'
 import { ConfirmProvider } from '@/components/ui/ConfirmDialog'
 import { ToastProvider } from '@/components/ui/Toast'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 // Layout compartido por todas las páginas del dashboard.
 // El proxy ya garantiza que hay sesión; acá traemos el nombre del negocio.
@@ -41,7 +40,6 @@ export default async function DashboardLayout({
           {children}
         </main>
         {sub.state === 'expired' && <TrialGate isOwner={role === 'owner'} />}
-        <ThemeToggle />
       </div>
       </ConfirmProvider>
       </ToastProvider>
